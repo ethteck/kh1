@@ -3,5 +3,6 @@
     "python.linting.enabled": true,
     "python.analysis.extraPaths": [
         "./tools/splat"
-    ]
+    ],
+    "editor.formatOnSave": true
 }
