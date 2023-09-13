@@ -107,6 +107,10 @@ class SpimdisasmDisassembler(disassembler.Disassembler):
             opts.disasm_unknown
         )
 
+        if opts.compiler == compiler.GCC and opts.platform == "ps2":
+            spimdisasm.common.GlobalConfig.DISASSEMBLE_UNKNOWN_INSTRUCTIONS = True
+        rabbitizer.config.toolchainTweaks_treatJAsUnconditionalBranch = False
+
     def check_version(self, skip_version_check: bool, splat_version: str):
         if not skip_version_check and spimdisasm.__version_info__ < self.SPIMDISASM_MIN:
             log.error(
