@@ -4,7 +4,9 @@ assets/
 undefined_syms_auto.txt
 undefined_funcs_auto.txt
 
+.splache
 SLPS_251.05*
+
 *.iso
 *.bin
 *.o
