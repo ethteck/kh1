@@ -16,11 +16,20 @@ SPLAT_DIR = TOOLS_DIR / "splat"
 sys.path.append(str(SPLAT_DIR))
 
 import segtypes.common.asm
+import segtypes.common.bin
+import segtypes.common.bss
 import segtypes.common.data
 from segtypes.linker_entry import LinkerEntry
 import split
 
 YAML_FILE = "kh.jp.yaml"
+
+
+def clean():
+    os.remove(".splache")
+    shutil.rmtree("asm", ignore_errors=True)
+    shutil.rmtree("assets", ignore_errors=True)
+    shutil.rmtree("build", ignore_errors=True)
 
 
 def build_stuff(linker_entries: List[LinkerEntry]):
@@ -52,13 +61,18 @@ def build_stuff(linker_entries: List[LinkerEntry]):
     COMMON_INCLUDES = "-Iinclude"
 
     # Rules
-
     cross = "mips-linux-gnu-"
 
     ninja.rule(
         "as",
         description="as $in",
-        command=f"cpp {COMMON_INCLUDES} $in -o  - | {cross}as -EB -march=5900 -Iinclude -o $out",
+        command=f"cpp {COMMON_INCLUDES} $in -o  - | {cross}as -march=5900 -mabi=eabi -Iinclude -o $out",
+    )
+
+    ninja.rule(
+        "bin",
+        description="bin $in",
+        command=f"{cross}ld -r -b binary $in -o $out",
     )
 
     for entry in linker_entries:
@@ -70,6 +84,12 @@ def build_stuff(linker_entries: List[LinkerEntry]):
             and not seg.type[0] == "."
         ):
             build(entry.object_path, entry.src_paths, "as")
+        elif isinstance(seg, segtypes.common.bin.CommonSegBin):
+            build(entry.object_path, entry.src_paths, "bin")
+        elif isinstance(seg, segtypes.common.bss.CommonSegBss):
+            pass
+        else:
+            raise Exception(f"Unsupported segment type {seg.type}")
 
 
 if __name__ == "__main__":
@@ -83,10 +103,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.clean:
-        os.remove(".splache")
-        shutil.rmtree("asm", ignore_errors=True)
-        shutil.rmtree("assets", ignore_errors=True)
-        shutil.rmtree("build", ignore_errors=True)
+        clean()
 
     split.main([YAML_FILE], modes="all", verbose=False)
 

@@ -24,9 +24,33 @@ segments:
     type: code
     start: 0x80
     vram: 0x100000
+    bss_size: 0x1E1500
     subsegments:
     - [0x80, asm, blob]
-    - [0x16F360, data, blob]
+    - [0x14BD50, asm, libc]
+    - [0x154780, asm, libkernl] # todo split further
+    - [0x15D7A0, asm, libgcc] # todo split further
+    - [0x161B18, asm, libgraph] # todo split further
+    - [0x1630C0, asm, libdma]
+    - [0x163B90, asm, libuv0]
+    - [0x1648D8, asm, libdbc]
+    - [0x165338, asm, libpad2]
+    - [0x165B90, asm, libvib]
+    - [0x165D00, asm, libcdvd]
+    - [0x167588, asm, libm]
+    - [0x16D460, asm, libpc]
+    - [0x16D4E8, asm, libmc]
+    - [0x16ED50, asm, libipu] # todo split further
+    - [0x16F360, data]
     - [0x3869D0, rodata, blob]
-  - [0x38DB80, bin]
+    - [0x38B598, rodata, libc]
+    - [0x38BCA8, rodata, libkernl]
+    - [0x38C400, rodata, libgcc]
+    - [0x38C4C0, rodata, libgraph]
+    - [0x38CA20, rodata, libdbc]
+    - [0x38CC18, rodata, libcdvd]
+    - [0x38D3C8, rodata, libm]
+    - [0x38DAD8, rodata, libmc]
+  - [0x38DB80, bin] # .reginfo / segment_1.2
+  - [0x38DB98, bin]
   - [0x39A680]
