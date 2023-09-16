@@ -18,8 +18,9 @@ options:
   extensions_path: tools/splat_ext
   section_order: [".text", ".data", ".rodata", ".bss"]
   auto_all_sections: [".data", ".rodata", ".bss"]
+  subalign: 8
 segments:
-  - [0, bin, elf_header]
+  - [0, databin, elf_header]
   - name: main
     type: code
     start: 0x80
@@ -51,6 +52,6 @@ segments:
     - [0x38CC18, rodata, libcdvd]
     - [0x38D3C8, rodata, libm]
     - [0x38DAD8, rodata, libmc]
-  - [0x38DB80, bin] # .reginfo / segment_1.2
-  - [0x38DB98, bin]
+  - [0x38DB80, databin] # .reginfo / segment_1.2
+  - [0x38DB98, databin]
   - [0x39A680]

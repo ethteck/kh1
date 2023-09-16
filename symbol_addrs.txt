@@ -125,7 +125,7 @@ _read_r                      = 0x00254690 // type:func
 
 
 //=============================
-// libkernl.a                  
+// libkernl.a
 //=============================
 // klib.o
 FullReset                    = 0x00254700 // type:func
@@ -874,7 +874,7 @@ sceMcGetEntSpace             = 0x0026ebb8 // type:func
 
 
 //=============================
-// libipu.a                  
+// libipu.a
 //=============================
 // libipu.o
 setD3_CHCR                   = 0x0026ecd0 // type:func
