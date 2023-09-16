@@ -24,13 +24,16 @@ from segtypes.linker_entry import LinkerEntry
 import split
 
 YAML_FILE = "kh.jp.yaml"
-ELF_PATH = "build/SLPS_251.05"
-LD_PATH = "SLPS_251.05.ld"
-MAP_PATH = "build/SLPS_251.05.map"
+BASENAME = "SLPS_251.05"
+LD_PATH = f"{BASENAME}.ld"
+ELF_PATH = f"build/{BASENAME}"
+MAP_PATH = f"build/{BASENAME}.map"
+PRE_ELF_PATH = f"build/{BASENAME}.elf"
 
 
 def clean():
-    os.remove(".splache")
+    if os.path.exists(".splache"):
+        os.remove(".splache")
     shutil.rmtree("asm", ignore_errors=True)
     shutil.rmtree("assets", ignore_errors=True)
     shutil.rmtree("build", ignore_errors=True)
@@ -74,7 +77,7 @@ def build_stuff(linker_entries: List[LinkerEntry]):
     ninja.rule(
         "as",
         description="as $in",
-        command=f"cpp {COMMON_INCLUDES} $in -o  - | {cross}as -EL -march=5900 -mabi=eabi -Iinclude -o $out",
+        command=f"cpp {COMMON_INCLUDES} $in -o  - | {cross}as -no-pad-sections -EL -march=5900 -mabi=eabi -Iinclude -o $out",
     )
 
     ninja.rule(
@@ -87,6 +90,12 @@ def build_stuff(linker_entries: List[LinkerEntry]):
         "sha1sum",
         description="sha1sum $in",
         command="sha1sum -c $in && touch $out",
+    )
+
+    ninja.rule(
+        "elf",
+        description="elf $out",
+        command=f"{cross}objcopy $in $out -O binary",
     )
 
     for entry in linker_entries:
@@ -110,17 +119,21 @@ def build_stuff(linker_entries: List[LinkerEntry]):
             sys.exit(1)
 
     ninja.build(
-        ELF_PATH,
+        PRE_ELF_PATH,
         "ld",
         LD_PATH,
         implicit=[str(obj) for obj in built_objects],
         variables={"mapfile": MAP_PATH},
     )
 
-    ROM_OK_PATH = ELF_PATH + ".ok"
+    ninja.build(
+        ELF_PATH,
+        "elf",
+        PRE_ELF_PATH,
+    )
 
     ninja.build(
-        ROM_OK_PATH,
+        ELF_PATH + ".ok",
         "sha1sum",
         "checksum.sha1",
         implicit=[ELF_PATH],
