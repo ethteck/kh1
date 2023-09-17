@@ -17,6 +17,7 @@ sys.path.append(str(SPLAT_DIR))
 
 import segtypes.common.asm
 import segtypes.common.bin
+import segtypes.common.c
 import segtypes.common.databin
 import segtypes.common.bss
 import segtypes.common.data
@@ -68,6 +69,7 @@ def build_stuff(linker_entries: List[LinkerEntry]):
     ninja = ninja_syntax.Writer(open(str(ROOT / "build.ninja"), "w"), width=9999)
 
     COMMON_INCLUDES = "-Iinclude"
+    COMPILER_DIR = f"{TOOLS_DIR}/cc/ee-gcc2.96/bin"
 
     # Rules
     cross = "mips-linux-gnu-"
@@ -78,6 +80,12 @@ def build_stuff(linker_entries: List[LinkerEntry]):
         "as",
         description="as $in",
         command=f"cpp {COMMON_INCLUDES} $in -o  - | {cross}as -no-pad-sections -EL -march=5900 -mabi=eabi -Iinclude -o $out",
+    )
+
+    ninja.rule(
+        "cc",
+        description="cc $in",
+        command=f"{COMPILER_DIR}/ee-gcc -c -B {COMPILER_DIR}/ee- {COMMON_INCLUDES} -O2 -G0 -g -c $in -o $out && {cross}strip $out -N dummy-symbol-name",
     )
 
     ninja.rule(
@@ -101,21 +109,22 @@ def build_stuff(linker_entries: List[LinkerEntry]):
     for entry in linker_entries:
         seg = entry.segment
 
+        if seg.type[0] == ".":
+            continue
+
         if entry.object_path is None:
             continue
 
-        if (
-            isinstance(seg, segtypes.common.asm.CommonSegAsm)
-            or isinstance(seg, segtypes.common.data.CommonSegData)
-            and not seg.type[0] == "."
+        if isinstance(seg, segtypes.common.asm.CommonSegAsm) or isinstance(
+            seg, segtypes.common.data.CommonSegData
         ):
             build(entry.object_path, entry.src_paths, "as")
+        elif isinstance(seg, segtypes.common.c.CommonSegC):
+            build(entry.object_path, entry.src_paths, "cc")
         elif isinstance(seg, segtypes.common.databin.CommonSegDatabin):
             build(entry.object_path, entry.src_paths, "as")
-        elif isinstance(seg, segtypes.common.bss.CommonSegBss):
-            pass
         else:
-            print(f"ERROR: Unsupported segment type {seg.type}")
+            print(f"ERROR: Unsupported build segment type {seg.type}")
             sys.exit(1)
 
     ninja.build(

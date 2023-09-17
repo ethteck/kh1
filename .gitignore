@@ -1,3 +1,4 @@
+__pycache__/
 asm/
 assets/
 build/
@@ -13,4 +14,3 @@ SLPS_251.05*
 *.iso
 *.bin
 *.o
-

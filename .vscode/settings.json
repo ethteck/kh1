@@ -4,5 +4,7 @@
     "python.analysis.extraPaths": [
         "./tools/splat"
     ],
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "files.eol": "\n",
+    "files.insertFinalNewline": true,
 }
