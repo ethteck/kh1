@@ -29,7 +29,7 @@ segments:
     bss_size: 0x1E1500
     subsegments:
     - [0x80, asm, blob1]
-    - [0x3B3E8, asm, func_0013B368]
+    - [0x3B3E8, c, func_0013B368]
     - [0x3B500, asm, blob2]
 ###########
 # Library #
