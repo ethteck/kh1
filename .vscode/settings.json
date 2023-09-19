@@ -4,10 +4,12 @@
     "python.analysis.extraPaths": [
         "./tools/splat"
     ],
-    "editor.formatOnSave": true,
     "files.eol": "\n",
     "files.insertFinalNewline": true,
     "files.exclude": {
         "expected/": true
+    },
+    "files.associations": {
+        "common.h": "c"
     },
 }

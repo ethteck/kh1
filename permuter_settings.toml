@@ -1,4 +1,4 @@
-compiler_command = "/home/ethteck/repos/decomp.me/backend/compilers/ps2/ee-gcc2.96/bin/ee-gcc -c -B /home/ethteck/repos/decomp.me/backend/compilers/ps2/ee-gcc2.96/bin/ee- -G0 -O2"
+compiler_command = "/home/ethteck/repos/decomp.me/backend/compilers/ps2/ee-gcc2.96/bin/ee-gcc -c -B /home/ethteck/repos/decomp.me/backend/compilers/ps2/ee-gcc2.96/bin/ee- -G0 -O2 -Iinclude"
 assembler_command = "mips-linux-gnu-as -march=r5900 -mabi=eabi -Iinclude"
 compiler_type = "gcc"
 

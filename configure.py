@@ -3,6 +3,7 @@
 import argparse
 import os
 import shutil
+import subprocess
 import sys
 from pathlib import Path
 from typing import Dict, List, Set, Union
@@ -30,6 +31,12 @@ LD_PATH = f"{BASENAME}.ld"
 ELF_PATH = f"build/{BASENAME}"
 MAP_PATH = f"build/{BASENAME}.map"
 PRE_ELF_PATH = f"build/{BASENAME}.elf"
+
+WIBO_VER = "0.6.0"
+
+def exec_shell(command: List[str]) -> str:
+    ret = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    return ret.stdout
 
 
 def clean():
@@ -85,7 +92,7 @@ def build_stuff(linker_entries: List[LinkerEntry]):
     ninja.rule(
         "cc",
         description="cc $in",
-        command=f"{COMPILER_DIR}/ee-gcc -c -B {COMPILER_DIR}/ee- {COMMON_INCLUDES} -O2 -G0 -g -c $in -o $out && {cross}strip $out -N dummy-symbol-name",
+        command=f"{COMPILER_DIR}/ee-gcc -c -B {COMPILER_DIR}/ee- {COMMON_INCLUDES} -O2 -G0 -g $in -o $out && {cross}strip $out -N dummy-symbol-name",
     )
 
     ninja.rule(
@@ -158,6 +165,14 @@ if __name__ == "__main__":
         action="store_true",
     )
     args = parser.parse_args()
+
+    try:
+        exec_shell(["wibo"])
+    except FileNotFoundError:
+        print("ERROR: wibo does not appear to be accessible")
+        print("To install it, please download it and put it in your PATH:")
+        print(f"  wget https://github.com/decompals/wibo/releases/download/{WIBO_VER}/wibo && chmod +x wibo && sudo mv wibo /usr/bin/")
+        sys.exit(1)
 
     if args.clean:
         clean()
