@@ -32,6 +32,10 @@ ELF_PATH = f"build/{BASENAME}"
 MAP_PATH = f"build/{BASENAME}.map"
 PRE_ELF_PATH = f"build/{BASENAME}.elf"
 
+COMMON_INCLUDES = "-Iinclude"
+COMPILER_DIR = f"{TOOLS_DIR}/cc/ee-gcc2.96/bin"
+COMPILE_CMD = f"{COMPILER_DIR}/ee-gcc -c -B {COMPILER_DIR}/ee- {COMMON_INCLUDES} -O2 -G0 -g"
+
 WIBO_VER = "0.6.0"
 
 def exec_shell(command: List[str]) -> str:
@@ -45,6 +49,18 @@ def clean():
     shutil.rmtree("asm", ignore_errors=True)
     shutil.rmtree("assets", ignore_errors=True)
     shutil.rmtree("build", ignore_errors=True)
+
+def write_permuter_settings():
+    with open("permuter_settings.toml", "w") as f:
+        f.write(f"""compiler_command = "{COMPILE_CMD}"
+assembler_command = "mips-linux-gnu-as -march=r5900 -mabi=eabi -Iinclude"
+compiler_type = "gcc"
+
+[preserve_macros]
+
+[decompme.compilers]
+"tools/build/cc/gcc/gcc" = "ee-gcc2.96"
+""")
 
 
 def build_stuff(linker_entries: List[LinkerEntry]):
@@ -75,8 +91,6 @@ def build_stuff(linker_entries: List[LinkerEntry]):
 
     ninja = ninja_syntax.Writer(open(str(ROOT / "build.ninja"), "w"), width=9999)
 
-    COMMON_INCLUDES = "-Iinclude"
-    COMPILER_DIR = f"{TOOLS_DIR}/cc/ee-gcc2.96/bin"
 
     # Rules
     cross = "mips-linux-gnu-"
@@ -92,7 +106,7 @@ def build_stuff(linker_entries: List[LinkerEntry]):
     ninja.rule(
         "cc",
         description="cc $in",
-        command=f"{COMPILER_DIR}/ee-gcc -c -B {COMPILER_DIR}/ee- {COMMON_INCLUDES} -O2 -G0 -g $in -o $out && {cross}strip $out -N dummy-symbol-name",
+        command=f"{COMPILE_CMD} $in -o $out && {cross}strip $out -N dummy-symbol-name",
     )
 
     ninja.rule(
@@ -182,3 +196,5 @@ if __name__ == "__main__":
     linker_entries = split.linker_writer.entries
 
     build_stuff(linker_entries)
+
+    write_permuter_settings()

@@ -6,7 +6,7 @@
 #define INCLUDE_ASM_INTERNAL(TYPE, BASE_FOLDER, FOLDER, NAME, ARGS...) \
     __asm__(                                                           \
         ".section .text\n"                                             \
-        "\t.align\t2\n"                                                \
+        "\t.align\t3\n"                                                \
         "\t.globl\t" #NAME "\n"                                        \
         "\t.ent\t" #NAME "\n" #NAME ":\n"                              \
         "\t.include \"asm/" BASE_FOLDER "/" FOLDER "/" #NAME ".s\"\n"  \

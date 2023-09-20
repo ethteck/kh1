@@ -10,6 +10,7 @@
         "expected/": true
     },
     "files.associations": {
-        "common.h": "c"
+        "common.h": "c",
+        "vumacros.h": "c"
     },
 }
