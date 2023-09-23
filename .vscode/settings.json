@@ -1,6 +1,4 @@
 {
-    "python.linting.mypyEnabled": true,
-    "python.linting.enabled": true,
     "python.analysis.extraPaths": [
         "./tools/splat"
     ],
@@ -10,7 +8,6 @@
         "expected/": true
     },
     "files.associations": {
-        "common.h": "c",
-        "vumacros.h": "c"
+        "*.h": "c",
     },
 }

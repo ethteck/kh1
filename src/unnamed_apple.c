@@ -1,6 +1,6 @@
 #include "common.h"
 
-#include "ee/libvu0.h"
+#include "sdk/ee/libvu0.h"
 
 typedef struct XAppleStemTip {
     /* 0x00 */ char unk_00[0x48];

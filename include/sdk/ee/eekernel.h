@@ -33,7 +33,7 @@
 #ifndef _eekernel_h_
 #define _eekernel_h_
 
-#include <eetypes.h>
+#include "eetypes.h"
 
 #define	THREAD_ERROR		(-1)
 #define MAX_THREADS		256

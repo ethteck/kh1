@@ -408,6 +408,8 @@ extern void sceGpSetAlphaEnvFunc(sceGpAlphaEnv* p, int func, int fix);
 
 /**************  GetIndex functions  **************/
 
+#define __inline__ inline
+
 /* point */
 static __inline__ unsigned int sceGpIndexXyzfPointFM(unsigned int n)      { return n;        }
 static __inline__ unsigned int sceGpIndexUvPointFMTU(unsigned int n)      { return n*2;      }

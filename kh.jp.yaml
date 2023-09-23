@@ -30,8 +30,10 @@ segments:
     bss_size: 0x1E1500
     subsegments:
     - [0x80, asm, blob1]
+    - [0x1FCD8, c, kingdom]
+    - [0x207F8, asm, blob2]
     - [0x3ABE8, c, unnamed_apple]
-    - [0x3BD28, asm, blob2]
+    - [0x3BD28, asm, blob3]
 ###########
 # Library #
 ###########
@@ -93,12 +95,14 @@ segments:
     # libipu.a
     - [0x16ED50, asm, libipu/libipu]
     - [0x16F0C0, asm, libipu/ipuinit]
+
     - [0x16F360, data]
+
     - [0x3869D0, rodata, blob1]
-   # - [0x387A50]
-   # - [auto, .rodata, func_0013B368]
-    - [0x387A58, rodata]
-    - [0x387A60, rodata, blob2]
+    - [0x386FF0, .rodata, kingdom]
+    - [0x387048, rodata, blob2]
+    - [0x387A50, rodata, unnamed_apple]
+    - [0x387A58, rodata, blob3]
     - [0x38B598, rodata, libc]
     - [0x38BCA8, rodata, libkernl/tty]
     - [0x38BD20, rodata, libkernl/kprintf]

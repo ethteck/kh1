@@ -52,7 +52,7 @@ def clean():
 
 def write_permuter_settings():
     with open("permuter_settings.toml", "w") as f:
-        f.write(f"""compiler_command = "{COMPILE_CMD}"
+        f.write(f"""compiler_command = "{COMPILE_CMD} -D__GNUC__"
 assembler_command = "mips-linux-gnu-as -march=r5900 -mabi=eabi -Iinclude"
 compiler_type = "gcc"
 
