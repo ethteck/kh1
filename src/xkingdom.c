@@ -46,7 +46,7 @@ extern s32 D_004EC940;
 extern s32 D_004EC948;
 extern XCrown D_004EC970[16];
 
-INCLUDE_ASM(const s32, "kingdom", func_0011FC58);
+INCLUDE_ASM(const s32, "xkingdom", func_0011FC58);
 
 void func_0011FD08(void) {
     if (func_001EE068() == 1) {
@@ -92,7 +92,7 @@ void func_0011FE80(XCrown* arg0) {
     arg0->unk_00 = 0;
 }
 
-INCLUDE_ASM(const s32, "kingdom", func_0011FE88);
+INCLUDE_ASM(const s32, "xkingdom", func_0011FE88);
 
 // hash
 s32 func_0011FF40(char* str) {
@@ -106,7 +106,7 @@ s32 func_0011FF40(char* str) {
     return hash;
 }
 
-INCLUDE_ASM(const s32, "kingdom", func_0011FFB8);
+INCLUDE_ASM(const s32, "xkingdom", func_0011FFB8);
 UNK_RET func_0011FFB8(UNK_ARGS);
 
 void* func_0011FFD8(char* arg0) {
@@ -229,7 +229,7 @@ s32 func_001203C8(char* arg0, char* arg1) {
     return D_002C2198;
 }
 
-INCLUDE_ASM(const s32, "kingdom", func_00120438);
+INCLUDE_ASM(const s32, "xkingdom", func_00120438);
 // s32 func_00120438(char* arg0, void* arg1) {
 //     XCrown* temp_2 = func_001202E8(arg0, arg1);
 
@@ -244,11 +244,11 @@ INCLUDE_ASM(const s32, "kingdom", func_00120438);
 //     return D_002C2198;
 // }
 
-INCLUDE_ASM(const s32, "kingdom", func_001204C0);
+INCLUDE_ASM(const s32, "xkingdom", func_001204C0);
 
-INCLUDE_ASM(const s32, "kingdom", func_00120590);
+INCLUDE_ASM(const s32, "xkingdom", func_00120590);
 
-INCLUDE_ASM(const s32, "kingdom", func_00120640);
+INCLUDE_ASM(const s32, "xkingdom", func_00120640);
 
 void func_001206D0(char* arg0) {
     if (sceCdDiskReady(1) == SCECdComplete) {
@@ -260,6 +260,6 @@ void func_001206D0(char* arg0) {
     }
 }
 
-INCLUDE_ASM(const s32, "kingdom", func_00120728);
+INCLUDE_ASM(const s32, "xkingdom", func_00120728);
 
-INCLUDE_ASM(const s32, "kingdom", func_00120750);
+INCLUDE_ASM(const s32, "xkingdom", func_00120750);
