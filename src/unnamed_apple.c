@@ -1,5 +1,7 @@
 #include "common.h"
 
+#include "gcc/stdio.h"
+
 #include "sdk/ee/libvu0.h"
 
 typedef struct XAppleStemTip {
@@ -69,7 +71,6 @@ void func_001778B8(s32);
 f32 func_00177D68(void);
 void func_001C64E0(UNK_PTR, UNK_PTR, UNK_PTR);
 s32 func_001EE090(void);
-s32 sprintf(void*, s32*, s32, s32);
 
 // ???
 extern s32 func_F20000(s32, s32);
@@ -94,7 +95,7 @@ extern s32 D_00301058;
 extern u32 D_00375BC0;
 
 // .rodata
-extern char* D_004879D0; // "%s%s"
+extern char D_004879D0[]; // "%s%s"
 
 // .bss ?
 extern f32 D_005324B4;
@@ -259,9 +260,9 @@ s32 func_0013B368(void) {
     }
     func_00157B90();
     D_00532604 = 3;
-    sprintf(something, &D_004879D0, D_00301010[D_00532600], D_00301050);
+    sprintf(something, D_004879D0, D_00301010[D_00532600], D_00301050);
     func_00120590(something, D_0053260C, NULL, 0);
-    sprintf(something, &D_004879D0, D_00301010[D_00532600], D_00301054);
+    sprintf(something, D_004879D0, D_00301010[D_00532600], D_00301054);
     func_00120590(something, &func_F20000, &func_0013B138, 0);
     func_0011ED30(47000, &func_0013B1D0);
     return 1;
