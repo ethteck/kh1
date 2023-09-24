@@ -7,7 +7,7 @@ from ctypes import c_uint32
 from dataclasses import dataclass
 from io import BytesIO
 from pathlib import Path
-from typing import Optional
+from typing import List, Optional
 
 SCRIPT_DIR = Path(os.path.dirname(os.path.realpath(__file__)))
 ROOT_DIR = SCRIPT_DIR.parent.parent
@@ -23,7 +23,7 @@ class KingdomFile:
     is_compressed: bool
     iso_block: int
     length: bool
-    filename: str = None
+    filename: Optional[str] = None
 
 
 def decompress(src_data):
@@ -128,7 +128,7 @@ def hash_filename(filename: str) -> int:
     return hash.value
 
 
-kingdom_files = []
+kingdom_files: List[KingdomFile] = []
 filenames = get_filenames()
 start = find_file_pos("KINGDOM.IDX;1")
 cnf_start = find_file_pos("SYSTEM.CNF;1")
@@ -136,12 +136,17 @@ end = 0x4CA5A0  # todo don't hard-code
 num = (end - start) // 0x10
 with open(ISO_PATH, "rb") as f:
     f.seek(start)
+    not_found = 0
     for i in range(num):
         (hash, is_compressed, iso_block, length) = struct.unpack("<IIII", f.read(0x10))
         file = KingdomFile(hash, is_compressed, iso_block, length)
         if hash in filenames:
             file.filename = filenames[hash]
+        else:
+            print(f"0x{hash:X}")
+            not_found += 1
         kingdom_files.append(file)
+    print(f"{not_found} filenames unknown")
 
     for entry in kingdom_files:
         f.seek(cnf_start + entry.iso_block * BLOCK_LENGTH)
@@ -153,7 +158,7 @@ with open(ISO_PATH, "rb") as f:
         if entry.filename is None:
             entry.filename = f"unknown/{entry.hash:08x}.bin"
 
-        path = f"out/{entry.filename}"
-        os.makedirs(os.path.dirname(path), exist_ok=True)
+        path = ROOT_DIR / "kingdom" / entry.filename
+        path.parent.mkdir(parents=True, exist_ok=True)
         with open(path, "wb") as out:
             out.write(contents)

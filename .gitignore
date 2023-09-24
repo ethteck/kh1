@@ -2,6 +2,7 @@ __pycache__/
 asm/
 assets/
 build/
+kingdom/
 
 permuter_settings.toml
 undefined_syms_auto.txt
