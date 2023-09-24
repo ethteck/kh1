@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
-from ctypes import c_uint32
-from io import BytesIO
 import os
-from pathlib import Path
 import struct
 import sys
+from ctypes import c_uint32
+from io import BytesIO
+from pathlib import Path
 from typing import Optional
 
 SCRIPT_DIR = Path(os.path.dirname(os.path.realpath(__file__)))
