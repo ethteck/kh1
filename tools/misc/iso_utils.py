@@ -54,10 +54,12 @@ def decompress(src_data):
                 src_index -= 1
                 for i in range(copy_length + 3):
                     if dst_index + copy_index + 1 < len(dst_data):
-                        dst_data[dst_index] = dst_data[dst_index + copy_index + 1]
+                        dst_data[dst_index] = dst_data[dst_index + copy_index]
                     else:
                         dst_data[dst_index] = 0
                     dst_index -= 1
+                    if dst_index < 0:
+                        break
             else:
                 dst_data[dst_index] = data
                 dst_index -= 1
