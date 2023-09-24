@@ -43,6 +43,7 @@ def get_file_offset(data: BytesIO, filename: str) -> Optional[int]:
         data.seek(cur_pos + 1)
     return 0
 
+
 def find_kingdom_pos():
     with open(ISO_PATH, "rb") as f:
         iso_bytes = f.read()
@@ -52,6 +53,7 @@ def find_kingdom_pos():
         print("File not found")
         sys.exit(1)
     return pos * 0x800
+
 
 def get_filenames() -> dict[int, str]:
     ret: dict[int, str] = {}
@@ -63,22 +65,30 @@ def get_filenames() -> dict[int, str]:
         ret[hash_filename(filename)] = filename
     return ret
 
+
 def hash_filename(filename: str) -> int:
     hash = c_uint32(0)
     for c in filename:
-        hash = c_uint32(c_uint32(hash.value * 2).value ^ c_uint32(c_uint32(c_uint32(ord(c)).value << 0x10).value % 69665).value)
+        hash = c_uint32(
+            c_uint32(hash.value * 2).value
+            ^ c_uint32(c_uint32(c_uint32(ord(c)).value << 0x10).value % 69665).value
+        )
     return hash.value
 
 
 filenames = get_filenames()
 start = find_kingdom_pos()
-end = 0x4CA5A0 # todo don't hard-code
-num = (end - start) // 0x10 
+end = 0x4CA5A0  # todo don't hard-code
+num = (end - start) // 0x10
 with open(ISO_PATH, "rb") as f:
     f.seek(start)
     for i in range(num):
         (hash, is_compressed, iso_block, length) = struct.unpack("<IIII", f.read(0x10))
         if hash not in filenames:
-            print(f"!NOT FOUND! {hash:X} {is_compressed} {iso_block:X} {length:X} UNKNOWN")
+            print(
+                f"!NOT FOUND! {hash:X} {is_compressed} {iso_block:X} {length:X} UNKNOWN"
+            )
         else:
-            print(f"{filenames[hash]} {hash:X} {is_compressed} {iso_block:X} {length:X}")
+            print(
+                f"{filenames[hash]} {hash:X} {is_compressed} {iso_block:X} {length:X}"
+            )
