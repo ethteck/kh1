@@ -3575,3 +3575,4 @@ yam_gimmick07.evm
 yam_gimmick08.evm
 yam_gimmick09.evm
 zz.wdt
+tz_003.dpx
