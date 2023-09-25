@@ -2,7 +2,8 @@
 
 #include "gcc/stdio.h"
 
-#include "sdk/ee/libvu0.h"
+#include "eekernel.h"
+#include "libvu0.h"
 
 typedef struct XAppleStemTip {
     /* 0x00 */ char unk_00[0x48];
@@ -206,7 +207,7 @@ void func_0013B138(void) {
     if (D_0053260C[4] - D_0053260C[3] > 0) {
         func_00177908((s32)D_0053260C + D_0053260C[3]);
     }
-    FlushCache(2);
+    FlushCache(INVALIDATE_ICACHE);
     D_00532604 = 4;
 }
 

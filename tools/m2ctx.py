@@ -13,6 +13,8 @@ src_dir = root_dir + "src/"
 # Project-specific
 CPP_FLAGS = [
     "-Iinclude",
+    "-isystem",
+    "include/sdk/ee",
     "-D_LANGUAGE_C",
     "-D__asm__(test...)=",
     "-ffreestanding",
@@ -27,15 +29,20 @@ def import_c_file(in_file) -> str:
     cpp_command2 = ["gcc", "-E", "-P", *CPP_FLAGS, in_file]
 
     with tempfile.NamedTemporaryFile(suffix=".c") as tmp:
-        stock_macros = subprocess.check_output(["gcc", "-E", "-P", "-dM", tmp.name], cwd=root_dir, encoding="utf-8")
+        stock_macros = subprocess.check_output(
+            ["gcc", "-E", "-P", "-dM", tmp.name], cwd=root_dir, encoding="utf-8"
+        )
 
     out_text = ""
     try:
         out_text += subprocess.check_output(cpp_command, cwd=root_dir, encoding="utf-8")
-        out_text += subprocess.check_output(cpp_command2, cwd=root_dir, encoding="utf-8")
+        out_text += subprocess.check_output(
+            cpp_command2, cwd=root_dir, encoding="utf-8"
+        )
     except subprocess.CalledProcessError:
         print(
-            "Failed to preprocess input file, when running command:\n" + cpp_command,
+            "Failed to preprocess input file, when running command:\n"
+            + str(cpp_command),
             file=sys.stderr,
         )
         sys.exit(1)
@@ -50,7 +57,9 @@ def import_c_file(in_file) -> str:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="""Create a context file which can be used for mips_to_c""")
+    parser = argparse.ArgumentParser(
+        description="""Create a context file which can be used for mips_to_c"""
+    )
     parser.add_argument(
         "c_file",
         help="""File from which to create context""",
