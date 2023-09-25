@@ -32,14 +32,19 @@ ELF_PATH = f"build/{BASENAME}"
 MAP_PATH = f"build/{BASENAME}.map"
 PRE_ELF_PATH = f"build/{BASENAME}.elf"
 
-COMMON_INCLUDES = "-Iinclude -Iinclude/gcc"
+COMMON_INCLUDES = "-Iinclude -Iinclude/gcc -isystem include/sdk/ee"
 COMPILER_DIR = f"{TOOLS_DIR}/cc/ee-gcc2.96/bin"
-COMPILE_CMD = f"{COMPILER_DIR}/ee-gcc -c -B {COMPILER_DIR}/ee- {COMMON_INCLUDES} -O2 -G0 -g"
+COMPILE_CMD = (
+    f"{COMPILER_DIR}/ee-gcc -c -B {COMPILER_DIR}/ee- {COMMON_INCLUDES} -O2 -G0 -g"
+)
 
 WIBO_VER = "0.6.0"
 
+
 def exec_shell(command: List[str]) -> str:
-    ret = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    ret = subprocess.run(
+        command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
+    )
     return ret.stdout
 
 
@@ -50,9 +55,11 @@ def clean():
     shutil.rmtree("assets", ignore_errors=True)
     shutil.rmtree("build", ignore_errors=True)
 
+
 def write_permuter_settings():
     with open("permuter_settings.toml", "w") as f:
-        f.write(f"""compiler_command = "{COMPILE_CMD} -D__GNUC__"
+        f.write(
+            f"""compiler_command = "{COMPILE_CMD} -D__GNUC__"
 assembler_command = "mips-linux-gnu-as -march=r5900 -mabi=eabi -Iinclude"
 compiler_type = "gcc"
 
@@ -60,7 +67,8 @@ compiler_type = "gcc"
 
 [decompme.compilers]
 "tools/build/cc/gcc/gcc" = "ee-gcc2.96"
-""")
+"""
+        )
 
 
 def build_stuff(linker_entries: List[LinkerEntry]):
@@ -90,7 +98,6 @@ def build_stuff(linker_entries: List[LinkerEntry]):
             )
 
     ninja = ninja_syntax.Writer(open(str(ROOT / "build.ninja"), "w"), width=9999)
-
 
     # Rules
     cross = "mips-linux-gnu-"
@@ -185,7 +192,9 @@ if __name__ == "__main__":
     except FileNotFoundError:
         print("ERROR: wibo does not appear to be accessible")
         print("To install it, please download it and put it in your PATH:")
-        print(f"  wget https://github.com/decompals/wibo/releases/download/{WIBO_VER}/wibo && chmod +x wibo && sudo mv wibo /usr/bin/")
+        print(
+            f"  wget https://github.com/decompals/wibo/releases/download/{WIBO_VER}/wibo && chmod +x wibo && sudo mv wibo /usr/bin/"
+        )
         sys.exit(1)
 
     if args.clean:

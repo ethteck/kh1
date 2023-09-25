@@ -116,6 +116,7 @@ int sceDmaRestart(sceDmaChan *d, u_int chcr);
 #define INLINE	extern __inline__
 #endif
 
+#define __inline__ inline
 
 #define setADR(v,x)	{if ((v)!=(void *)-1) (v)=(sceDmaTag *)(x);}
 #define setQWC(v,x)	(v)=(x)

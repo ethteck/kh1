@@ -30,6 +30,8 @@ segments:
     bss_size: 0x1E1500
     subsegments:
     - [0x80, asm]
+    - [0x88, asm]
+    - [0x168, c, xbeginning]
     - [0x1260, c, xporcupine]
     - [0x15A8, asm]
     - [0x11FE8, c, xspinach]
@@ -268,7 +270,8 @@ segments:
     - [0x367E60, data, libipu]
     - [0x367EE0, data]
 
-    - [0x3869D0, rodata, "80"]
+    - [0x3869D0, .rodata, xbeginning]
+    - [0x3869F0, rodata, xporcupine]
     - [0x3869F8, rodata, 15A8]
     - [0x386DB0, .rodata, xspinach]
     - [0x386DB8, rodata, 121E8]
