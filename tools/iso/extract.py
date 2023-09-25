@@ -1,38 +1,24 @@
 #!/usr/bin/env python3
 
+import argparse
 import os
 import struct
 import sys
-from ctypes import c_uint32
-from dataclasses import dataclass
 from io import BytesIO
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Tuple
+
+import tqdm
+
+from common import KingdomFile, hash_filename
 
 import rich.pretty
 
 SCRIPT_DIR = Path(os.path.dirname(os.path.realpath(__file__)))
 ROOT_DIR = SCRIPT_DIR.parent.parent
 FILENAMES_PATH = SCRIPT_DIR / "kingdom_filenames.txt"
-ISO_PATH = ROOT_DIR / "kh_jp.iso"
 
 BLOCK_LENGTH = 0x800
-
-
-@dataclass
-class KingdomFile:
-    hash: int
-    is_compressed: bool
-    iso_block: int
-    length: bool
-    filename: Optional[str] = None
-
-    def __rich_repr__(self):
-        yield f"{self.hash:x}"
-        yield "filename", self.filename
-        yield "iso_block", self.iso_block
-        yield "length", self.length
-        yield "is_compressed", self.is_compressed
 
 
 def decompress(src_data):
@@ -107,11 +93,8 @@ def get_file_offset(data: BytesIO, filename: str) -> Optional[int]:
     return 0
 
 
-def find_file_pos(filename: str):
-    with open(ISO_PATH, "rb") as f:
-        iso_bytes = f.read()
-
-    pos = get_file_offset(BytesIO(iso_bytes), filename)
+def get_file_pos(iso_bytes: BytesIO, filename: str):
+    pos = get_file_offset(iso_bytes, filename)
     if not pos:
         print("File not found")
         sys.exit(1)
@@ -129,27 +112,19 @@ def get_filenames() -> dict[int, str]:
     return ret
 
 
-def hash_filename(filename: str) -> int:
-    hash = c_uint32(0)
-    for c in filename:
-        hash = c_uint32(
-            c_uint32(hash.value * 2).value
-            ^ c_uint32(c_uint32(c_uint32(ord(c)).value << 0x10).value % 69665).value
+def get_kingdom_files(
+    iso_bytes: BytesIO, filenames: dict[int, str]
+) -> Tuple[int, List[KingdomFile]]:
+    kingdom_files: List[KingdomFile] = []
+
+    start = get_file_pos(iso_bytes, "KINGDOM.IDX;1")
+
+    iso_bytes.seek(start)
+    num_unknown = 0
+    while True:
+        (hash, is_compressed, iso_block, length) = struct.unpack(
+            "<IIII", iso_bytes.read(0x10)
         )
-    return hash.value
-
-
-kingdom_files: List[KingdomFile] = []
-filenames = get_filenames()
-start = find_file_pos("KINGDOM.IDX;1")
-cnf_start = find_file_pos("SYSTEM.CNF;1")
-end = 0x4CA5A0  # todo don't hard-code
-num = (end - start) // 0x10
-with open(ISO_PATH, "rb") as f:
-    f.seek(start)
-    not_found = 0
-    for i in range(0xE00):
-        (hash, is_compressed, iso_block, length) = struct.unpack("<IIII", f.read(0x10))
         if hash == 0:
             break
         file = KingdomFile(hash, is_compressed, iso_block, length)
@@ -157,25 +132,50 @@ with open(ISO_PATH, "rb") as f:
             file.filename = filenames[hash]
         else:
             print(f"0x{hash:X}")
-            not_found += 1
+            num_unknown += 1
         kingdom_files.append(file)
-    print(f"{not_found} filenames unknown")
+    return num_unknown, kingdom_files
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("iso_path", help="Path to ISO file", type=Path)
+    parser.add_argument("out_dir", help="Path to output directory", type=Path)
+    args = parser.parse_args()
+
+    kingdom_files: List[KingdomFile] = []
+    filenames = get_filenames()
+
+    print("Reading ISO...\r", end="")
+    with open(args.iso_path, "rb") as f:
+        iso_bytes = BytesIO(f.read())
+
+    num_unknown, kingdom_files = get_kingdom_files(iso_bytes, filenames)
+    out_msg = f"Reading ISO... Found {len(kingdom_files)} files"
+    if num_unknown > 0:
+        out_msg += f" ({num_unknown} filenames unknown)"
+    print(out_msg)
 
     kingdom_files.sort(key=lambda x: x.iso_block)
-    for file in kingdom_files:
-        rich.pretty.pprint(file)
+    # for file in kingdom_files:
+    #     rich.pretty.pprint(file)
 
-    for entry in kingdom_files:
-        f.seek(cnf_start + entry.iso_block * BLOCK_LENGTH)
-        contents = f.read(entry.length)
+    cnf_start = get_file_pos(iso_bytes, "SYSTEM.CNF;1")
 
-        if entry.is_compressed:
-            contents = decompress(contents)
+    with tqdm.tqdm(total=len(kingdom_files), unit=" file") as pbar:
+        for entry in kingdom_files:
+            if entry.filename is None:
+                entry.filename = f"unknown/{entry.hash:08X}.bin"
+            path: Path = args.out_dir / entry.filename
+            pbar.set_description("Extracting " + path.name.ljust(14))
+            iso_bytes.seek(cnf_start + entry.iso_block * BLOCK_LENGTH)
+            contents = iso_bytes.read(entry.length)
 
-        if entry.filename is None:
-            entry.filename = f"unknown/{entry.hash:08x}.bin"
+            if entry.is_compressed:
+                contents = decompress(contents)
 
-        path = ROOT_DIR / "kingdom" / entry.filename
-        path.parent.mkdir(parents=True, exist_ok=True)
-        with open(path, "wb") as out:
-            out.write(contents)
+            path.parent.mkdir(parents=True, exist_ok=True)
+            with open(path, "wb") as out:
+                out.write(contents)
+            pbar.update(1)

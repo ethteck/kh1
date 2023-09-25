@@ -1,6 +1,7 @@
 {
     "python.analysis.extraPaths": [
-        "./tools/splat"
+        "./tools/splat",
+        "./tools/iso",
     ],
     "files.eol": "\n",
     "files.insertFinalNewline": true,
@@ -10,4 +11,5 @@
     "files.associations": {
         "*.h": "c",
     },
+    "editor.formatOnSave": true,
 }
