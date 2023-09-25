@@ -158,8 +158,8 @@ if __name__ == "__main__":
     print(out_msg)
 
     kingdom_files.sort(key=lambda x: x.iso_block)
-    # for file in kingdom_files:
-    #     rich.pretty.pprint(file)
+    for file in kingdom_files:
+        rich.pretty.pprint(file)
 
     cnf_start = get_file_pos(iso_bytes, "SYSTEM.CNF;1")
 

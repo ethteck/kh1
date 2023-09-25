@@ -1172,6 +1172,7 @@ gumi/g_tuto3.ev
 gumi/ghelp.bin
 gumi/gumi.aml
 gumi/gumi.amo
+gumi/gumi.bin
 gumi/gumi.tzb
 gumi/gumi_bg.bin
 gumi/gumi_ini.bin
@@ -3484,6 +3485,7 @@ xw_ex_5150.wpn
 xw_ex_5160.se
 xw_ex_5160.wpn
 xw_ex_5170.wpn
+xw_ex_5180.se
 xw_ex_5180.wpn
 xw_ex_5190.se
 xw_ex_5190.wpn
