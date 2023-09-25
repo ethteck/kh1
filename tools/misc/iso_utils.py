@@ -9,6 +9,8 @@ from io import BytesIO
 from pathlib import Path
 from typing import List, Optional
 
+import rich.pretty
+
 SCRIPT_DIR = Path(os.path.dirname(os.path.realpath(__file__)))
 ROOT_DIR = SCRIPT_DIR.parent.parent
 FILENAMES_PATH = SCRIPT_DIR / "kingdom_filenames.txt"
@@ -24,6 +26,13 @@ class KingdomFile:
     iso_block: int
     length: bool
     filename: Optional[str] = None
+
+    def __rich_repr__(self):
+        yield f"{self.hash:x}"
+        yield "filename", self.filename
+        yield "iso_block", self.iso_block
+        yield "length", self.length
+        yield "is_compressed", self.is_compressed
 
 
 def decompress(src_data):
@@ -139,8 +148,10 @@ num = (end - start) // 0x10
 with open(ISO_PATH, "rb") as f:
     f.seek(start)
     not_found = 0
-    for i in range(num):
+    for i in range(0xE00):
         (hash, is_compressed, iso_block, length) = struct.unpack("<IIII", f.read(0x10))
+        if hash == 0:
+            break
         file = KingdomFile(hash, is_compressed, iso_block, length)
         if hash in filenames:
             file.filename = filenames[hash]
@@ -149,6 +160,10 @@ with open(ISO_PATH, "rb") as f:
             not_found += 1
         kingdom_files.append(file)
     print(f"{not_found} filenames unknown")
+
+    kingdom_files.sort(key=lambda x: x.iso_block)
+    for file in kingdom_files:
+        rich.pretty.pprint(file)
 
     for entry in kingdom_files:
         f.seek(cnf_start + entry.iso_block * BLOCK_LENGTH)
