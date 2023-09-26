@@ -1,14 +1,17 @@
 #include "common.h"
+#include "io.h"
 
 #include "sdk/libcdvd.h"
 #include "sdk/ee/eekernel.h"
 #include "sdk/ee/sifdev.h"
 
+#include "gcc/string.h"
+
 typedef struct XCrown {
     /* 0x00 */ u32 unk_00;
     /* 0x04 */ char unk_04[0x20];
-    /* 0x24 */ s32 unk_24; // offset
-    /* 0x28 */ s32 unk_28; // num bytes
+    /* 0x24 */ s32 unk_24; // kingdom file iso block
+    /* 0x28 */ s32 unk_28; // kingdom file length in bytes
     /* 0x2C */ void* unk_2C; // data buffer
     /* 0x30 */ s32 unk_30; // num read bytes
     /* 0x34 */ s32 unk_34;
@@ -24,9 +27,7 @@ s32 func_0011FF40(char* str);
 s32 func_001EE068(void);
 s32 func_00218C88(void);
 void func_00218CA0(s32);
-UNK_RET bsearch(s32, s32*, s32, s32, void*);
-//s32 strlen(char* str);
-s32 strncmp(char*, char*, s32);
+KingdomFile* bsearch(s32, s32*, s32, s32, void*);
 
 extern volatile s8 D_002C1EB8;
 extern s32 D_002C2094;
@@ -109,8 +110,8 @@ s32 func_0011FF40(char* str) {
 INCLUDE_ASM(const s32, "xkingdom", func_0011FFB8);
 UNK_RET func_0011FFB8(UNK_ARGS);
 
-void* func_0011FFD8(char* arg0) {
-    bsearch(func_0011FF40(arg0), &D_004DE140, D_002C2180, 0x10, func_0011FFB8);
+KingdomFile* func_0011FFD8(char* filename) {
+    return bsearch(func_0011FF40(filename), &D_004DE140, D_002C2180, 0x10, func_0011FFB8);
 }
 
 void func_00120018(XCrown* arg0) {
@@ -156,7 +157,7 @@ void func_00120108(XCrown* arg0) {
 
         sceLseek(fd, arg0->unk_24 * 2048, SCE_SEEK_SET);
 
-        for(nbyte = arg0->unk_28; nbyte > 0; nbyte -= numReadBytes) {
+        for (nbyte = arg0->unk_28; nbyte > 0; nbyte -= numReadBytes) {
             numReadBytes = sceRead(fd, arg0->unk_2C, nbyte);
             if (numReadBytes < 0) { // error
                 cond = TRUE;
@@ -193,21 +194,21 @@ void func_00120280(sceCdlFILE* fp, char* name) {
     }
 }
 
-XCrown* func_001202E8(char* arg0, void* arg1) {
+XCrown* func_001202E8(char* filename, void* arg1) {
     XCrown* temp_2;
-    s32* temp_2_2;
+    KingdomFile* kingdomFile;
 
     temp_2 = func_0011FE18();
     temp_2->unk_2C = arg1;
     temp_2->unk_30 = -1;
     
-    temp_2_2 = func_0011FFD8(arg0);
-    if (temp_2_2 == NULL) {
+    kingdomFile = func_0011FFD8(filename);
+    if (kingdomFile == NULL) {
         temp_2->unk_30 = 0;
     } else {
-        temp_2->unk_28 = temp_2_2[3];
-        temp_2->unk_00 = (temp_2->unk_00 & ~2) | ((temp_2_2[1] & 1) * 2);
-        temp_2->unk_24 = temp_2_2[2];
+        temp_2->unk_28 = kingdomFile->length;
+        temp_2->unk_00 = (temp_2->unk_00 & ~2) | ((kingdomFile->isCompressed & 1) * 2);
+        temp_2->unk_24 = kingdomFile->isoBlock;
         if (func_00218C88() == 0) {
             func_0010BF08(func_00120018, temp_2);
         } else {
@@ -250,12 +251,12 @@ INCLUDE_ASM(const s32, "xkingdom", func_00120590);
 
 INCLUDE_ASM(const s32, "xkingdom", func_00120640);
 
-void func_001206D0(char* arg0) {
+void func_001206D0(char* filename) {
     if (sceCdDiskReady(1) == SCECdComplete) {
-        s32* temp = func_0011FFD8(arg0);
+        KingdomFile* kingdomFile = func_0011FFD8(filename);
 
-        if (temp != NULL) {
-            sceCdSeek(temp[2]);
+        if (kingdomFile != NULL) {
+            sceCdSeek(kingdomFile->isoBlock);
         }
     }
 }

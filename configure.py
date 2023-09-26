@@ -32,7 +32,7 @@ ELF_PATH = f"build/{BASENAME}"
 MAP_PATH = f"build/{BASENAME}.map"
 PRE_ELF_PATH = f"build/{BASENAME}.elf"
 
-COMMON_INCLUDES = "-Iinclude -Iinclude/gcc -isystem include/sdk/ee"
+COMMON_INCLUDES = "-Iinclude -isystem include/sdk/ee -isystem include/gcc"
 COMPILER_DIR = f"{TOOLS_DIR}/cc/ee-gcc2.96/bin"
 COMPILE_CMD = (
     f"{COMPILER_DIR}/ee-gcc -c -B {COMPILER_DIR}/ee- {COMMON_INCLUDES} -O2 -G0 -g"

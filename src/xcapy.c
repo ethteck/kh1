@@ -25,7 +25,7 @@ typedef struct XCapy2 {
 void func_00244048(s32, UNK_TYPE*, s32, s32, f32);
 void func_00244130(s32, s32, char*, f32, char*, s32);
 void func_00244200(void*);
-void func_002465E8(s32, s32*);
+void func_002465E8(s32*, s32);
 
 extern UNK_TYPE D_0042BC20[];
 extern s32 D_004610F8;
