@@ -25,7 +25,9 @@ typedef struct XCapy2 {
 void func_00244048(s32, UNK_TYPE*, s32, s32, f32);
 void func_00244130(s32, s32, char*, f32, char*, s32);
 void func_00244200(void*);
+void func_002465E8(s32, s32*);
 
+extern UNK_TYPE D_0042BC20[];
 extern s32 D_004610F8;
 
 extern char D_0048B348[];
@@ -37,7 +39,9 @@ extern char D_0048B370[];
 extern char D_0048B378[];
 
 extern UNK_TYPE D_006632D0;
+extern s32 D_006633A0[8];
 extern s32 D_006633C0[8];
+extern s32 D_006633E0[7];
 
 #ifdef NON_MATCHING
 void func_00244490(XCapy2* arg0) {
@@ -48,7 +52,12 @@ void func_00244490(XCapy2* arg0) {
     s32 y;
 
     unk_24 = arg0->unk_24;
-    x = (arg0->unk_2C != 0) ? (unk_24 + 0x5D) : (unk_24 + 0x67);
+
+    if (arg0->unk_2C != 0) {
+        x = unk_24 + 0x5D;
+    } else {
+        x = unk_24 + 0x67;
+    }
     y = arg0->unk_28;
 
     sp[0] = 0xE5;
@@ -59,25 +68,25 @@ void func_00244490(XCapy2* arg0) {
 
     if (arg0->unk_2C != 0) {
         sprintf(sp10, D_0048B348, arg0->unk_50);
-        func_00244130(0.8f, x, y, sp, sp10, D_004610F8);
+        func_00244130(x, y, sp, 0.8f, sp10, D_004610F8);
         x += 22;
-        func_00244130(0.8f, x, y, sp, D_0048B350, D_004610F8);
+        func_00244130(x, y, sp, 0.8f, D_0048B350, D_004610F8);
         x += 11;
     }
     sprintf(sp10, D_0048B348, arg0->unk_4C);
-    func_00244130(0.8f, x, y, sp, sp10, D_004610F8);
+    func_00244130(x, y, sp, 0.8f, sp10, D_004610F8);
     x += 22;
-    func_00244130(0.8f, x, y, sp, D_0048B358, D_004610F8);
+    func_00244130(x, y, sp, 0.8f,D_0048B358, D_004610F8);
     x += 11;
     sprintf(sp10, D_0048B348, arg0->unk_48);
-    func_00244130(0.8f, x, y, sp, sp10, D_004610F8);
+    func_00244130(x, y, sp, 0.8f, sp10, D_004610F8);
     x += 22;
-    func_00244130(0.8f, x, y, sp, D_0048B358, D_004610F8);
+    func_00244130(x, y, sp, 0.8f,D_0048B358, D_004610F8);
     x += 5;
-    func_00244130(0.8f, x, y, sp, D_0048B358, D_004610F8);
+    func_00244130(x, y, sp, 0.8f,D_0048B358, D_004610F8);
     x += 9;
     sprintf(sp10, D_0048B348, arg0->unk_44);
-    func_00244130(0.8f, x, y, sp, sp10, D_004610F8);
+    func_00244130(x, y, sp, 0.8f, sp10, D_004610F8);
 }
 #else
 void func_00244490(XCapy2*);
@@ -94,11 +103,28 @@ void func_002446B0(XCapy2* arg0) {
     func_00244490(arg0);
 }
 
-INCLUDE_ASM(const s32, "xcapy", func_00244730);
+void func_00244730(XCapy2* arg0) {
+    s32 i;
 
-INCLUDE_ASM(const s32, "xcapy", func_002447B0);
+    for (i = 0; i < ARRAY_COUNT(D_006633A0); i++) {
+        func_00244048(D_006633A0[i], &D_006632D0, arg0->unk_24, arg0->unk_28, 1.0f);
+    }
+    func_00244200(arg0);
+    func_00244490(arg0);
+}
 
-INCLUDE_ASM(const s32, "xcapy", func_00244828);
+void func_002447B0(XCapy2* arg0) {
+    s32 i;
+
+    for (i = 0; i < ARRAY_COUNT(D_006633E0); i++) {
+        func_00244048(D_006633E0[i], &D_006632D0, arg0->unk_24, arg0->unk_28, 1.0f);
+    }
+    func_00244200(arg0);
+}
+
+void func_00244828(s32 arg0) {
+    func_002465E8(&D_0042BC20[arg0 * 1500], 1);
+}
 
 void func_00244858(XCapy* arg0) {
     char str[0x10];
