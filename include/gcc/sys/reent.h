@@ -10,7 +10,7 @@ extern "C" {
 #endif
 #define _SYS_REENT_H_
 
-#include <_ansi.h>
+#include "gcc/_ansi.h"
 #include <time.h>
 
 #ifndef Long
