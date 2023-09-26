@@ -21,68 +21,144 @@ main                         = 0x00100438; // type:func
 //=============================
 // libc.a
 //=============================
+// assert.o
 __assert                     = 0x0024bcd0; // type:func
+
+// bsearch.o
 bsearch                      = 0x0024bd08; // type:func
+
+// exit.o
 exit                         = 0x0024bdd8; // type:func
+
+// fiprintf.o
 fiprintf                     = 0x0024be88; // type:func
+
+// malloc.o
 malloc                       = 0x0024bee0; // type:func
 free                         = 0x0024bf38; // type:func
+
+// malloc_r.o
 malloc_extend_top            = 0x0024bf80; // type:func
 _malloc_r                    = 0x0024c1d8; // type:func
+
+// memcmp.o
 memcmp                       = 0x0024c900; // type:func
+
+// memcpy.o
 memcpy                       = 0x0024c994; // type:func
+
+// memset.o
 memset                       = 0x0024ca44; // type:func
+
+// mlock.o
 __malloc_lock                = 0x0024cb08; // type:func
 __malloc_unlock              = 0x0024cb88; // type:func
+
+// printf.o
 _printf_r                    = 0x0024cbd8; // type:func
 printf                       = 0x0024cc38; // type:func
+
+// puts.o
 _puts_r                      = 0x0024cca8; // type:func
 puts                         = 0x0024cd30; // type:func
+
+// qsort.o
 qsort                        = 0x0024cd50; // type:func
+
+// rand.o
 srand                        = 0x0024d740; // type:func
 rand                         = 0x0024d758; // type:func
+
+// sbrkr.o
 _sbrk_r                      = 0x0024d7c0; // type:func
+
+// sprintf.o
 _sprintf_r                   = 0x0024d818; // type:func
 sprintf                      = 0x0024d8a0; // type:func
+
+// strcat.o
 strcat                       = 0x0024d930; // type:func
+
+// strcmp.o
 strcmp                       = 0x0024da5c; // type:func
+
+// strcpy.o
 strcpy                       = 0x0024dba0; // type:func
+
+// strlen.o
 strlen                       = 0x0024dcb4; // type:func
+
+// strncmp.o
 strncmp                      = 0x0024ddf0; // type:func
+
+// vfiprintf.o
 //__sprint                     = 0x0024dfa8; // type:func
 //__sbprintf                   = 0x0024dff0; // type:func
-vifiprintf                   = 0x0024e0a8; // type:func
+vfiprintf                   = 0x0024e0a8; // type:func
+_vfiprintf_r                 = 0x0024e120; // type:func
+
+// vfprintf.o
 //__sprint                     = 0x0024ed18; // type:func
 //__sbprintf                   = 0x0024ed60; // type:func
 vfprintf                     = 0x0024ee18; // type:func
 _vfprintf_r                  = 0x0024ee90; // type:func
 cvt                          = 0x002504f0; // type:func
 exponent                     = 0x002506b0; // type:func
+
+// vsprintf.o
 vsprintf                     = 0x00250790; // type:func
 vsprintf_r                   = 0x002507e8; // type:func
+
+// wsetup.o
 __swsetup                    = 0x00250840; // type:func
+
+// abort.o
 abort                        = 0x00250950; // type:func
+
+// dtoa.o
 quorem                       = 0x00250968; // type:func
 _dtoa_r                      = 0x00250b98; // type:func
+
+// fflush.o
 fflush                       = 0x00251e00; // type:func
+
+// findfp
 std                          = 0x00251f18; // type:func
 __sfmoreglue                 = 0x00251f78; // type:func
 __sfp                        = 0x00251ff0; // type:func
 _cleanup_r                   = 0x002520e8; // type:func
 _cleanup                     = 0x00252108; // type:func
 __sinit                      = 0x00252128; // type:func
+
+// freer.o
 _free_r                      = 0x002521b8; // type:func
 _malloc_trim_r               = 0x002524b0; // type:func
+
+// fvwrite.o
 __sfvwrite                   = 0x00252620; // type:func
+
+// fwalk.o
 _fwalk                       = 0x00252a00; // type:func
+
+// locale.o
 _setlocale_r                 = 0x00252a98; // type:func
 _localeconv_r                = 0x00252b28; // type:func
 setlocale                    = 0x00252b38; // type:func
 localeconv                   = 0x00252b60; // type:func
+
+// makebuf.o
 __smakebuf                   = 0x00252b80; // type:func
+
+// mbtowc_r.o
 _mbtowc_r                    = 0x00252cd8; // type:func
+
+// memchr.o
 memchr                       = 0x00252d0c; // type:func
+
+// memmove.o
 memmove                      = 0x00252dec; // type:func
+
+// mprec.o
 _Balloc                      = 0x00252ef0; // type:func
 _Bfree                       = 0x00252f98; // type:func
 _multadd                     = 0x00252fc8; // type:func
@@ -100,8 +176,14 @@ _b2d                         = 0x00253aa8; // type:func
 _d2b                         = 0x00253c40; // type:func
 _ratio                       = 0x00253dc8; // type:func
 _mprec_log10                 = 0x00253e98; // type:func
+
+// s_isinf.o
 isinf                        = 0x00253f08; // type:func
+
+// s_isnan.o
 isnan                        = 0x00253f50; // type:func
+
+// signal.o
 _init_signal_r               = 0x00253f90; // type:func
 _signal_r                    = 0x00254000; // type:func
 _raise_r                     = 0x00254080; // type:func
@@ -110,17 +192,33 @@ raise                        = 0x002541f0; // type:func
 signal                       = 0x00254210; // type:func
 _init_signal                 = 0x00254238; // type:func
 __sigtramp                   = 0x00254258; // type:func
+
+// signalr.o
 _kill_r                      = 0x00254278; // type:func
 _getpid_r                    = 0x002542d8; // type:func
+
+// stdio.o
 __sread                      = 0x002542f0; // type:func
 __swrite                     = 0x00254358; // type:func
 __sseek                      = 0x002543d8; // type:func
 __sclose                     = 0x00254440; // type:func
+
+// writer.o
 _write_r                     = 0x00254460; // type:func
+
+// callocr.o
 _calloc_r                    = 0x002544c0; // type:func
+
+// closer.o
 _close_r                     = 0x00254578; // type:func
+
+// fstatr.o
 _fstat_r                     = 0x002545d0; // type:func
+
+// lseekr.o
 _lseek_r                     = 0x00254630; // type:func
+
+// readr.o
 _read_r                      = 0x00254690; // type:func
 
 
@@ -218,13 +316,13 @@ RFU084_ClearEventFlag        = 0x00254c60; // type:func
 RFU085_iPutTLBEntry          = 0x00254c70; // type:func
 RFU086_SetTLBEntry           = 0x00254c80; // type:func
 //GetTLBEntry                  = 0x00254c90; // type:func
-// RFU087_PollEvnetFlag         = 0x00254c90; // type:func
+RFU087_PollEvnetFlag         = 0x00254c90; // type:func
 //iProbeTLBEntry               = 0x00254ca0; // type:func
-// RFU088_iPollEvnetFlag        = 0x00254ca0; // type:func
+RFU088_iPollEvnetFlag        = 0x00254ca0; // type:func
 //ExpandScratchPad             = 0x00254cb0; // type:func
-// RFU089_ReferEventFlagStatus  = 0x00254cb0; // type:func
+RFU089_ReferEventFlagStatus  = 0x00254cb0; // type:func
 RFU090_iReferEventFlagStatus = 0x00254cc0; // type:func
-//RFU091                       = 0x00254cd0; // type:func
+RFU091                       = 0x00254cd0; // type:func
 EnableIntcHandler            = 0x00254ce0; // type:func
 iEnableIntcHandler           = 0x00254cf0; // type:func
 DisableIntcHandler           = 0x00254d00; // type:func
@@ -307,6 +405,8 @@ iEnableIntc                  = 0x002557a0; // type:func
 iDisableIntc                 = 0x002557c0; // type:func
 iEnableDmac                  = 0x002557e0; // type:func
 iDisableDmac                 = 0x00255800; // type:func
+
+// alarm.o
 //SetSyscall                   = 0x00255820; // type:func
 //Copy                         = 0x00255830; // type:func
 //kCopy                        = 0x00255840; // type:func
@@ -517,12 +617,25 @@ _kDebugException             = 0x0025d600; // type:func
 //=============================
 // libgcc.a
 //=============================
+// _muldi3.o
 __muldi3                     = 0x0025d720; // type:func
+
+// _divdi3.o
 __divdi3                     = 0x0025d798; // type:func
+
+// _moddi3.o
 __moddi3                     = 0x0025de30; // type:func
+
+// _udivdi3.o
 __udivdi3                    = 0x0025e4c0; // type:func
+
+// _umoddi3.o
 __umoddi3                    = 0x0025ea40; // type:func
+
+// _fixunsdfdi.o
 __fixunsdfdi                 = 0x0025efa8; // type:func
+
+// _fixunssfdi.o
 __fixunssfdi                 = 0x0025f0c0; // type:func
 
 // main.o
@@ -530,18 +643,36 @@ __do_global_dtors            = 0x0025f1e8; // type:func
 __do_global_ctors            = 0x0025f278; // type:func
 __main                       = 0x0025f338; // type:func
 
-// 
+// _sf_to_df.o
 fptodp                       = 0x0025f370; // type:func
+
+// _addsub_df.o
 _fpadd_parts                 = 0x0025f3b0; // type:func
 dpadd                        = 0x0025f610; // type:func
 dpsub                        = 0x0025f668; // type:func
+
+// _mul_df.o
 dpmul                        = 0x0025f6d0; // type:func
+
+// _div_df.o
 dpdiv                        = 0x0025f980; // type:func
+
+// _compare_df.o
 dpcmp                        = 0x0025faf8; // type:func
+
+// _si_to_df.o
 litodp                       = 0x0025fb48; // type:func
+
+// _df_to_si.o
 dptoli                       = 0x0025fc00; // type:func
+
+// _make_df.o
 __make_dp                    = 0x0025fca0; // type:func
+
+// _df_to_sf.o
 dptofp                       = 0x0025fcd0; // type:func
+
+// _df_to_usi.o
 dptoul                       = 0x0025fd28; // type:func
 
 // frame-dwarf2.o
@@ -565,15 +696,34 @@ decode_stack_op              = 0x00260c30; // type:func
 execute_cfa_insn             = 0x00260d50; // type:func
 __frame_state_for            = 0x00261180; // type:func
 
+// _floatdidf.o
 __floatdidf                  = 0x00261338; // type:func
+
+// _unpack_sf.o
 __unpack_f                   = 0x002613e0; // type:func
+
+// _make_sf.o
 __make_fp                    = 0x00261440; // type:func
+
+// _pack_df.o
 __pack_d                     = 0x00261470; // type:func
+
+// _unpack_df.o
 __unpack_d                   = 0x00261588; // type:func
+
+// _fpcmp_parts_df.o
 __fpcmp_parts_d              = 0x00261638; // type:func
+
+// _pack_sf.o
 __pack_f                     = 0x00261758; // type:func
+
+// atexit.o
 atexit                       = 0x00261828; // type:func
+
+// errno.o
 __errno                      = 0x002618c8; // type:func
+
+// strncpy.o
 strncpy                      = 0x002618d8; // type:func
 
 
@@ -785,49 +935,136 @@ sceCdPowerOff                = 0x00267450; // type:func
 //=============================
 // libm.a
 //=============================
+// s_atan.o
 atan                         = 0x00267508; // type:func
+
+// s_ceil.o
 ceil                         = 0x002679d0; // type:func
+
+// s_cos.o
 cos                          = 0x00267be0; // type:func
+
+// s_fabs.o
 fabs                         = 0x00267d08; // type:func
+
+// s_nan.o
 nan                          = 0x00267d40; // type:func
+
+// s_sin.o
 sin                          = 0x00267d68; // type:func
+
+// sf_cos.o
 cosf                         = 0x00267ea0; // type:func
+
+// sf_sin.o
 sinf                         = 0x00267f78; // type:func
+
+// sf_tan.o
 tanf                         = 0x00268060; // type:func
+
+// w_asin.o
 asin                         = 0x002680d8; // type:func
+
+// w_atan2.o
 atan2                        = 0x002680f0; // type:func
+
+// w_sqrt.o
 sqrt                         = 0x00268108; // type:func
+
+// wf_acos.o
 acosf                        = 0x00268120; // type:func
+
+// wf_asin.o
 asinf                        = 0x00268138; // type:func
+
+// wf_atan2.o
 atan2f                       = 0x00268150; // type:func
+
+// wf_fmod.o
 fmodf                        = 0x00268168; // type:func
+
+// wf_pow.o
 powf                         = 0x00268180; // type:func
+
+// wf_sqrt.o
 sqrtf                        = 0x00268198; // type:func
+
+// e_asin.o
 __ieee754_asin               = 0x002681b0; // type:func
+
+// e_atan2.o
 __ieee754_atan2              = 0x00268808; // type:func
+
+// e_rem_pio2.o
 __ieee754_rem_pio2           = 0x00268b48; // type:func
+
+// e_sqrt.o
 __ieee754_sqrt               = 0x00269100; // type:func
+
+// ef_acos.o
 __ieee754_acosf              = 0x00269420; // type:func
+
+// ef_asin.o
 __ieee754_asinf              = 0x00269860; // type:func
+
+// ef_atan2.o
 __ieee754_atan2f             = 0x00269c18; // type:func
+
+// ef_fmod.o
 __ieee754_fmodf              = 0x00269e00; // type:func
+
+// ef_pow.o
 __ieee754_powf               = 0x00269fd0; // type:func
+
+// ef_rem_pio2.o
 __ieee754_rem_pio2f          = 0x0026a7f0; // type:func
+
+// ef_sqrt.o
 __ieee754_sqrtf              = 0x0026abb8; // type:func
+
+// k_cos.o
 __kernel_cos                 = 0x0026ac90; // type:func
+
+// k_rem_pio2.o
 __kernel_rem_pio2            = 0x0026af68; // type:func
+
+// k_sin.o
 __kernel_sin                 = 0x0026bab8; // type:func
+
+// kf_cos.o
 __kernel_cosf                = 0x0026bcf0; // type:func
+
+// kf_rem_pio2.o
 __kernel_rem_pio2f           = 0x0026be60; // type:func
+
+// kf_sin.o
 __kernel_sinf                = 0x0026c708; // type:func
+
+// kf_tan.o
 __kernel_tanf                = 0x0026c830; // type:func
+
+// s_floor.o
 floor                        = 0x0026cad8; // type:func
+
+// s_scalbn.o
 scalbn                       = 0x0026ccf0; // type:func
+
+// sf_atan.o
 atanf                        = 0x0026ced8; // type:func
+
+// sf_fabs.o
 fabsf                        = 0x0026d178; // type:func
+
+// sf_floor.o
 floorf                       = 0x0026d1a0; // type:func
+
+// sf_scalbn.o
 scalbnf                      = 0x0026d290; // type:func
+
+// s_copysign.o
 copysign                     = 0x0026d358; // type:func
+
+// sf_copysign.o
 copysignf                    = 0x0026d3a0; // type:func
 
 
