@@ -45,7 +45,7 @@ extern "C" {
  * want reent.h to include this file.
  */
 
-#include <sys/reent.h>
+#include "sys/reent.h"
 
 typedef _fpos_t fpos_t;
 

@@ -13,5 +13,5 @@ def apply(config, args):
         "assets",
     ]
     config["make_command"] = ["ninja"]
-    config["objdump_flags"] = ["-Mfpr-names=32"]
+    config["objdump_flags"] = ["-Mreg-names=n32"]
     config["expected_dir"] = f"expected/"
