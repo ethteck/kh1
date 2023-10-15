@@ -139,8 +139,12 @@ s32 func_0011FF40(char* str) {
     return hash;
 }
 
-INCLUDE_ASM(const s32, "xkingdom", func_0011FFB8);
-UNK_RET func_0011FFB8(UNK_ARGS);
+// hash comparer for the binary search
+int func_0011FFB8(const s32* left, const s32* right) {
+    if (left < *right)
+        return -1;
+    return *right < left;
+}
 
 KingdomFile* func_0011FFD8(char* filename) {
     return bsearch(func_0011FF40(filename), &D_004DE140, D_002C2180, 0x10, func_0011FFB8);
