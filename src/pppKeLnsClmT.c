@@ -1,10 +1,10 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "pppKeLnsClmT", func_00194C28);
+INCLUDE_ASM(const s32, "pppKeLnsClmT", pppKeLnsClmTDraw);
 
-INCLUDE_ASM(const s32, "pppKeLnsClmT", func_00194E10);
+INCLUDE_ASM(const s32, "pppKeLnsClmT", pppKeLnsClmTCon);
 
-void func_00194E50(void) {
+void pppKeLnsClmTDes(void) {
 }
 
 INCLUDE_ASM(const s32, "pppKeLnsClmT", func_00194E58);

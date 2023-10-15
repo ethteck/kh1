@@ -1,4 +1,4 @@
 #include "ppp.h"
 
-void func_00191590(void) {
+void pppKeAcmSolidEnd(void) {
 }

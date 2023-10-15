@@ -1,12 +1,12 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "pppDrawMdlLoopZ", func_0018CC88);
+INCLUDE_ASM(const s32, "pppDrawMdlLoopZ", pppDrawMdlLoopZCon);
 
-INCLUDE_ASM(const s32, "pppDrawMdlLoopZ", func_0018CCA0);
+INCLUDE_ASM(const s32, "pppDrawMdlLoopZ", pppDrawMdlLoopZCon2);
 
-void func_0018CCC8(void) {
+void pppDrawMdlLoopZDes(void) {
 }
 
-INCLUDE_ASM(const s32, "pppDrawMdlLoopZ", func_0018CCD0);
+INCLUDE_ASM(const s32, "pppDrawMdlLoopZ", pppDrawMdlLoopZCalc);
 
-INCLUDE_ASM(const s32, "pppDrawMdlLoopZ", func_0018CE28);
+INCLUDE_ASM(const s32, "pppDrawMdlLoopZ", pppDrawMdlLoopZDraw);

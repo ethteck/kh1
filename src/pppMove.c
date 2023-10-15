@@ -1,5 +1,5 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "pppMove", func_00185398);
+INCLUDE_ASM(const s32, "pppMove", pppMoveCalc);
 
-INCLUDE_ASM(const s32, "pppMove", func_00185468);
+INCLUDE_ASM(const s32, "pppMove", pppMoveCon);

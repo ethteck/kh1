@@ -1,9 +1,9 @@
 #include "ppp.h"
 
-void func_00193470(void) {
+void pppKeShpTailLcCalc(void) {
 }
 
-void func_00193478(void) {
+void pppKeShpTailLcDraw(void) {
 }
 
-INCLUDE_ASM(const s32, "pppKeShpTailLc", func_00193480);
+INCLUDE_ASM(const s32, "pppKeShpTailLc", pppKeShpTailLcCon);

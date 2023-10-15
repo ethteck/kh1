@@ -1,10 +1,10 @@
 #include "ppp.h"
 
-void func_001851A0(void) {
+void pppKeThLzCalc(void) {
 }
 
-void func_001851A8(void) {
+void pppKeThLzCon(void) {
 }
 
-void func_001851B0(void) {
+void pppKeThLzDes(void) {
 }

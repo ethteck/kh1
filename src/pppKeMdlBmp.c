@@ -1,10 +1,10 @@
 #include "ppp.h"
 
-void func_00191578(void) {
+void pppKeMdlBmpDraw(void) {
 }
 
-void func_00191580(void) {
+void pppKeMdlBmpCon(void) {
 }
 
-void func_00191588(void) {
+void pppKeMdlBmpCon2(void) {
 }

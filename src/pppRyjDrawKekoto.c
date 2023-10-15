@@ -1,7 +1,7 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "pppRyjDrawKekoto", func_001A3070);
+INCLUDE_ASM(const s32, "pppRyjDrawKekoto", pppRyjDrawKekotoCalc);
 
-INCLUDE_ASM(const s32, "pppRyjDrawKekoto", func_001A30B8);
+INCLUDE_ASM(const s32, "pppRyjDrawKekoto", pppRyjDrawKekotoDraw);
 
-INCLUDE_ASM(const s32, "pppRyjDrawKekoto", func_001A3B80);
+INCLUDE_ASM(const s32, "pppRyjDrawKekoto", pppRyjDrawKekotoCon);

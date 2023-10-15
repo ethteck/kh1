@@ -262,6 +262,7 @@ segments:
     - [0xA3EE8, c, pppRyjDrawMatrixWorldDttFr]
     - [0xA4E38, c, pppRyjMegaBirthFilter]
     - [0xA6870, c, pppRyjMegaBirthModelFilter]
+    - [0xA7078, c, xberry]
     - [0xA8828, c, xpear]
     - [0xA9300, asm]
     - [0xC3728, c, xflamingo]

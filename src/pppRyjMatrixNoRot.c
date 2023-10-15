@@ -1,6 +1,6 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "pppRyjMatrixNoRot", func_0019B1A0);
+INCLUDE_ASM(const s32, "pppRyjMatrixNoRot", pppRyjMatrixNoRotCalc);
 
 INCLUDE_ASM(const s32, "pppRyjMatrixNoRot", func_0019B2A0);
 

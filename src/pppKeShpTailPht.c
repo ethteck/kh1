@@ -1,13 +1,13 @@
 #include "ppp.h"
 
-void func_00193450(void) {
+void pppKeShpTailPhtCalc(void) {
 }
 
-void func_00193458(void) {
+void pppKeShpTailPhtDraw(void) {
 }
 
-void func_00193460(void) {
+void pppKeShpTailPhtCon(void) {
 }
 
-void func_00193468(void) {
+void pppKeShpTailPhtCon2(void) {
 }

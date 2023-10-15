@@ -1,3 +1,3 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "pppKeThRes255x4", func_0018E298);
+INCLUDE_ASM(const s32, "pppKeThRes255x4", pppKeThRes255x4Con);

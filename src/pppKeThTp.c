@@ -1,7 +1,7 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "pppKeThTp", func_0018DD18);
+INCLUDE_ASM(const s32, "pppKeThTp", pppKeThTpCalc);
 
-INCLUDE_ASM(const s32, "pppKeThTp", func_0018DE00);
+INCLUDE_ASM(const s32, "pppKeThTp", pppKeThTpCon);
 
-INCLUDE_ASM(const s32, "pppKeThTp", func_0018DE20);
+INCLUDE_ASM(const s32, "pppKeThTp", pppKeThTp2Con);

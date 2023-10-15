@@ -1,6 +1,6 @@
 #include "ppp.h"
 
-void func_00187720(void) {
+void pppDrawMatrixWoodSta(void) {
 }
 
-INCLUDE_ASM(const s32, "pppDrawMatrixWood", func_00187728);
+INCLUDE_ASM(const s32, "pppDrawMatrixWood", pppDrawMatrixWoodCalc);

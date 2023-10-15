@@ -1,15 +1,15 @@
 #include "ppp.h"
 
-void func_0019D0F8(void) {
+void pppRyjDrawShipolyBoneCalc(void) {
 }
 
 INCLUDE_ASM(const s32, "pppRyjDrawShipolyBone", func_0019D100);
 
-INCLUDE_ASM(const s32, "pppRyjDrawShipolyBone", func_0019D490);
+INCLUDE_ASM(const s32, "pppRyjDrawShipolyBone", pppRyjDrawShipolyBoneDraw);
 
-INCLUDE_ASM(const s32, "pppRyjDrawShipolyBone", func_0019D718);
+INCLUDE_ASM(const s32, "pppRyjDrawShipolyBone", pppRyjDrawShipolyBoneCon);
 
-INCLUDE_ASM(const s32, "pppRyjDrawShipolyBone", func_0019D750);
+INCLUDE_ASM(const s32, "pppRyjDrawShipolyBone", pppRyjDrawShipolyBoneDes);
 
 INCLUDE_ASM(const s32, "pppRyjDrawShipolyBone", func_0019D798);
 

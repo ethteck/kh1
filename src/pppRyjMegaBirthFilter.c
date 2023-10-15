@@ -1,19 +1,19 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "pppRyjMegaBirthFilter", func_001A4DB8);
+INCLUDE_ASM(const s32, "pppRyjMegaBirthFilter", pppRyjMegaBirthFilterCalc);
 
 void func_001A4F70(void) {
 }
 
 INCLUDE_ASM(const s32, "pppRyjMegaBirthFilter", func_001A4F78);
 
-INCLUDE_ASM(const s32, "pppRyjMegaBirthFilter", func_001A50A8);
+INCLUDE_ASM(const s32, "pppRyjMegaBirthFilter", pppRyjMegaBirthFilterDraw);
 
-INCLUDE_ASM(const s32, "pppRyjMegaBirthFilter", func_001A5400);
+INCLUDE_ASM(const s32, "pppRyjMegaBirthFilter", pppRyjMegaBirthFilterSta);
 
-INCLUDE_ASM(const s32, "pppRyjMegaBirthFilter", func_001A5458);
+INCLUDE_ASM(const s32, "pppRyjMegaBirthFilter", pppRyjMegaBirthFilterCon);
 
-INCLUDE_ASM(const s32, "pppRyjMegaBirthFilter", func_001A54A0);
+INCLUDE_ASM(const s32, "pppRyjMegaBirthFilter", pppRyjMegaBirthFilterDes);
 
 INCLUDE_ASM(const s32, "pppRyjMegaBirthFilter", func_001A5500);
 

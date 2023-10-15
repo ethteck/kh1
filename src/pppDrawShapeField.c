@@ -1,10 +1,10 @@
 #include "ppp.h"
 
-void func_0018BF98(void) {
+void pppDrawShapeFieldDraw(void) {
 }
 
-void func_0018BFA0(void) {
+void pppDrawShapeFieldCon(void) {
 }
 
-void func_0018BFA8(void) {
+void pppDrawShapeFieldDes(void) {
 }

@@ -1,8 +1,8 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "pppRyjMegaBirthPrize", func_0019F950);
+INCLUDE_ASM(const s32, "pppRyjMegaBirthPrize", pppRyjMegaBirthPrizeDraw);
 
-INCLUDE_ASM(const s32, "pppRyjMegaBirthPrize", func_0019FCD0);
+INCLUDE_ASM(const s32, "pppRyjMegaBirthPrize", pppRyjMegaBirthPrizeCon);
 
 INCLUDE_ASM(const s32, "pppRyjMegaBirthPrize", func_0019FD18);
 

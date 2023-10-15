@@ -1,7 +1,7 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "pppMoveLoop", func_0018BFC8);
+INCLUDE_ASM(const s32, "pppMoveLoop", pppMoveLoopCon);
 
-INCLUDE_ASM(const s32, "pppMoveLoop", func_0018BFF0);
+INCLUDE_ASM(const s32, "pppMoveLoop", pppMoveLoopCon2);
 
-INCLUDE_ASM(const s32, "pppMoveLoop", func_0018C008);
+INCLUDE_ASM(const s32, "pppMoveLoop", pppMoveLoopCalc);

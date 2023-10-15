@@ -1,8 +1,8 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "pppRyjMegaPlaceLamp", func_001A0DD8);
+INCLUDE_ASM(const s32, "pppRyjMegaPlaceLamp", pppRyjMegaPlaceLampCalc);
 
-INCLUDE_ASM(const s32, "pppRyjMegaPlaceLamp", func_001A0E30);
+INCLUDE_ASM(const s32, "pppRyjMegaPlaceLamp", pppRyjMegaPlaceLampCon);
 
 INCLUDE_ASM(const s32, "pppRyjMegaPlaceLamp", func_001A0E60);
 
