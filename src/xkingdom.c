@@ -127,7 +127,6 @@ s32 func_0011FE88(u8* data, s32 compressedLength) {
     return decompressedLength;
 }
 
-
 // hash
 s32 func_0011FF40(char* str) {
     s32 len = strlen(str);
