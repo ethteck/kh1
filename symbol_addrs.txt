@@ -103,22 +103,18 @@ pppKeGrvTgtCon               = 0x00195730 // type:func
 // pppAccele.c
 pppAcceleCalc                = 0x00185490 // type:func
 pppAcceleCon                 = 0x00185560 // type:func
-pppAcceleCon2                = 0x00185560 // type:func
 
 // pppAngAccele.c
 pppAngAcceleCalc             = 0x00185728 // type:func
 pppAngAcceleCon              = 0x001857F8 // type:func
-pppAngAcceleCon2             = 0x001857F8 // type:func
 
 // pppSclAccele.c
 pppSclAcceleCalc             = 0x001859C8 // type:func
 pppSclAcceleCon              = 0x00185A98 // type:func
-pppSclAcceleCon2             = 0x00185A98 // type:func
 
 // pppColAccele.c
 pppColAcceleCalc             = 0x00185CE8 // type:func
 pppColAcceleCon              = 0x00185DD8 // type:func
-pppColAcceleCon2             = 0x00185DD8 // type:func
 
 // pppEiWfacc.c
 pppEiWfaccCalc               = 0x0018BD80 // type:func
@@ -138,42 +134,34 @@ pppKeHitChkPxBCon            = 0x00195CC0 // type:func
 // pppMove.c
 pppMoveCalc                  = 0x00185398 // type:func
 pppMoveCon                   = 0x00185468 // type:func
-pppMoveCon2                  = 0x00185468 // type:func
 
 // pppAngMove.c
 pppAngMoveCalc               = 0x00185638 // type:func
 pppAngMoveCon                = 0x00185708 // type:func
-pppAngMoveCon2               = 0x00185708 // type:func
 
 // pppSclMove.c
 pppSclMoveCalc               = 0x001858D0 // type:func
 pppSclMoveCon                = 0x001859A0 // type:func
-pppSclMoveCon2               = 0x001859A0 // type:func
 
 // pppColMove.c
 pppColMoveCalc               = 0x00185BD0 // type:func
 pppColMoveCon                = 0x00185CC0 // type:func
-pppColMoveCon2               = 0x00185CC0 // type:func
 
 // pppPoint.c
 pppPointCalc                 = 0x001852E0 // type:func
 pppPointCon                  = 0x00185370 // type:func
-pppPointCon2                 = 0x00185370 // type:func
 
 // pppAngle.c
 pppAngleCalc                 = 0x00185588 // type:func
 pppAngleCon                  = 0x00185618 // type:func
-pppAngleCon2                 = 0x00185618 // type:func
 
 // pppScale.c
 pppScaleCalc                 = 0x00185818 // type:func
 pppScaleCon                  = 0x001858A8 // type:func
-pppScaleCon2                 = 0x001858A8 // type:func
 
 // pppColor.c
 pppColorCalc                 = 0x00185AC0 // type:func
 pppColorCon                  = 0x00185BA8 // type:func
-pppColorCon2                 = 0x00185BA8 // type:func
 
 // pppPObjPoint.c
 pppPObjPointCalc             = 0x00187F48 // type:func
@@ -202,7 +190,6 @@ pppVtMimeDes                 = 0x00186B50 // type:func
 // pppKeTkFade.c
 pppKeTkFadeDraw              = 0x00195EC0 // type:func
 pppKeTkFadeCon               = 0x00196378 // type:func
-pppKeTkFadeCon2              = 0x00196378 // type:func
 
 // pppRandFloat.c
 pppRandFloatCalc             = 0x00188380 // type:func
@@ -452,7 +439,6 @@ pppKeThTp2Con                = 0x0018DE20 // type:func
 // pppKeThSft.c
 pppKeThSftCalc               = 0x0018E4E0 // type:func
 pppKeThSftCon                = 0x0018E7F0 // type:func
-pppKeThSftCon2               = 0x0018E7F0 // type:func
 
 // pppKeTh.c
 pppKeThCalc                  = 0x0018D6C8 // type:func
@@ -474,7 +460,6 @@ pppDrawMdlSemiDraw           = 0x00187948 // type:func
 pppDrawMdlTsCalc             = 0x00187AC0 // type:func
 pppDrawMdlTsDraw             = 0x00187BA0 // type:func
 pppDrawMdlTsCon              = 0x00187A90 // type:func
-pppDrawMdlTsCon2             = 0x00187A90 // type:func
 
 // pppDrawMdl2.c
 pppDrawMdl2Draw              = 0x001967C8 // type:func
@@ -486,7 +471,6 @@ pppDrawMdlSemi2Draw          = 0x00196970 // type:func
 pppDrawMdlTs2Calc            = 0x00196B38 // type:func
 pppDrawMdlTs2Draw            = 0x00196C18 // type:func
 pppDrawMdlTs2Con             = 0x00196B08 // type:func
-pppDrawMdlTs2Con2            = 0x00196B08 // type:func
 
 // pppDrawMdl3.c
 pppDrawMdl3Draw              = 0x00197220 // type:func
@@ -498,7 +482,6 @@ pppDrawMdlSemi3Draw          = 0x00197478 // type:func
 pppDrawMdlTs3Calc            = 0x001976F0 // type:func
 pppDrawMdlTs3Draw            = 0x001977D0 // type:func
 pppDrawMdlTs3Con             = 0x001976C0 // type:func
-pppDrawMdlTs3Con2            = 0x001976C0 // type:func
 
 // pppDrawMdlSea.c
 pppDrawMdlSeaDraw            = 0x0018BFB0 // type:func
@@ -509,13 +492,11 @@ pppDrawMdlSeaDes             = 0x0018BFC0 // type:func
 pppDrawShapeCalc             = 0x00187D48 // type:func
 pppDrawShapeDraw             = 0x00187E40 // type:func
 pppDrawShapeCon              = 0x00187D28 // type:func
-pppDrawShapeCon2             = 0x00187D28 // type:func
 
 // pppDrawShapeX.c
 pppDrawShapeXCalc            = 0x00197FC0 // type:func
 pppDrawShapeXDraw            = 0x001980B8 // type:func
 pppDrawShapeXCon             = 0x00197FA0 // type:func
-pppDrawShapeXCon2            = 0x00197FA0 // type:func
 
 // pppDrawShapeField.c
 pppDrawShapeFieldDraw        = 0x0018BF98 // type:func
@@ -603,7 +584,6 @@ pppKeShpTailLcCon            = 0x00193480 // type:func
 pppKeShpDttCalc              = 0x001934B0 // type:func
 pppKeShpDttDraw              = 0x001934B8 // type:func
 pppKeShpDttCon               = 0x001937D0 // type:func
-pppKeShpDttCon2              = 0x001937D0 // type:func
 
 // pppRyjDrawShipoly.c
 pppRyjDrawShipolyCalc        = 0x0019BEC8 // type:func
@@ -635,12 +615,10 @@ pppFaceApCalc                = 0x001862B8 // type:func
 // pppVertexApLc.c
 pppVertexApLcCalc            = 0x001863A0 // type:func
 pppVertexApLcCon             = 0x001862C0 // type:func
-pppVertexApLcCon2            = 0x001862C0 // type:func
 
 // pppVertexApAt.c
 pppVertexApAtCalc            = 0x001866C0 // type:func
 pppVertexApAtCon             = 0x00186620 // type:func
-pppVertexApAtCon2            = 0x00186620 // type:func
 
 // pppKeBornRnd.c
 pppKeBornRndCalc             = 0x0018E828 // type:func
@@ -681,7 +659,6 @@ pppKeThHitBornCon            = 0x0018E4C8 // type:func
 // pppKeLnsLpSft.c
 pppKeLnsLpSftCalc            = 0x001953F8 // type:func
 pppKeLnsLpSftCon             = 0x001954B8 // type:func
-pppKeLnsLpSftCon2            = 0x001954B8 // type:func
 
 // pppKeLnsLp.c
 pppKeLnsLpDraw               = 0x001937F0 // type:func
