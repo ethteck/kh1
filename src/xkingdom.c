@@ -108,7 +108,7 @@ s32 func_0011FF40(char* str) {
 }
 
 // hash comparer for the binary search
-int func_0011FFB8(const int *left, const int *right) {
+int func_0011FFB8(const s32* left, const s32* right) {
     if (left < *right)
         return -1;
     return *right < left;
