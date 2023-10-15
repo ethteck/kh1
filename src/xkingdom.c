@@ -8,12 +8,12 @@
 #include "gcc/string.h"
 
 typedef struct XCrown {
-    /* 0x00 */ u32 unk_00;
+    /* 0x00 */ u32 flags;
     /* 0x04 */ char unk_04[0x20];
-    /* 0x24 */ s32 unk_24; // kingdom file iso block
-    /* 0x28 */ s32 unk_28; // kingdom file length in bytes
-    /* 0x2C */ void* unk_2C; // data buffer
-    /* 0x30 */ s32 unk_30; // num read bytes
+    /* 0x24 */ s32 nSector; // kingdom file iso block
+    /* 0x28 */ s32 length; // kingdom file length in bytes
+    /* 0x2C */ void* dst; // data buffer
+    /* 0x30 */ s32 bytesRead; // num read bytes
     /* 0x34 */ s32 unk_34;
 } XCrown; // size = 0x38
 
@@ -79,9 +79,9 @@ XCrown* func_0011FE18(void) {
     XCrown* temp = D_004EC970;
 
     for (i = 0; i < ARRAY_COUNT(D_004EC970); i++, temp++) {
-        if (!(temp->unk_00 & 1)) {
-            temp->unk_00 |= 1;
-            temp->unk_30 = -1;
+        if (!(temp->flags & 1)) {
+            temp->flags |= 1;
+            temp->bytesRead = -1;
             temp->unk_34 = D_002C2194++;
             return temp;
         }
@@ -90,7 +90,7 @@ XCrown* func_0011FE18(void) {
 }
 
 void func_0011FE80(XCrown* arg0) {
-    arg0->unk_00 = 0;
+    arg0->flags = 0;
 }
 
 INCLUDE_ASM(const s32, "xkingdom", func_0011FE88);
@@ -108,19 +108,18 @@ s32 func_0011FF40(char* str) {
 }
 
 INCLUDE_ASM(const s32, "xkingdom", func_0011FFB8);
-UNK_RET func_0011FFB8(UNK_ARGS);
 
 KingdomFile* func_0011FFD8(char* filename) {
     return bsearch(func_0011FF40(filename), &D_004DE140, D_002C2180, 0x10, func_0011FFB8);
 }
 
 void func_00120018(XCrown* arg0) {
-    u32 numSectors = (u32) (arg0->unk_28 + 0x7FF) >> 11;
+    u32 numSectors = (u32) (arg0->length + 0x7FF) >> 11;
     s32 var_17;
 
     do {
         while (TRUE) {
-            if (sceCdDiskReady(1) == SCECdComplete && sceCdRead(arg0->unk_24, numSectors, arg0->unk_2C, &D_002C2188) != 0) {
+            if (sceCdDiskReady(1) == SCECdComplete && sceCdRead(arg0->nSector, numSectors, arg0->dst, &D_002C2188) != 0) {
                 break;
             }
             func_0010BEE8();
@@ -131,15 +130,15 @@ void func_00120018(XCrown* arg0) {
         }
     } while (sceCdGetError() != SCECdErNO);
 
-    if ((arg0->unk_00 >> 1) & 1) {
+    if ((arg0->flags >> 1) & 1) {
         FlushCache(WRITEBACK_DCACHE);
-        var_17 = func_0011FE88(arg0->unk_2C, arg0->unk_28);
+        var_17 = func_0011FE88(arg0->dst, arg0->length);
     } else {
-        var_17 = arg0->unk_28;
+        var_17 = arg0->length;
     }
 
     func_0010BF50(func_00120018);
-    arg0->unk_30 = var_17;
+    arg0->bytesRead = var_17;
 }
 
 void func_00120108(XCrown* arg0) {
@@ -155,10 +154,10 @@ void func_00120108(XCrown* arg0) {
     } else {
         s32 numReadBytes = 0;
 
-        sceLseek(fd, arg0->unk_24 * 2048, SCE_SEEK_SET);
+        sceLseek(fd, arg0->nSector * SECTOR_SIZE, SCE_SEEK_SET);
 
-        for (nbyte = arg0->unk_28; nbyte > 0; nbyte -= numReadBytes) {
-            numReadBytes = sceRead(fd, arg0->unk_2C, nbyte);
+        for (nbyte = arg0->length; nbyte > 0; nbyte -= numReadBytes) {
+            numReadBytes = sceRead(fd, arg0->dst, nbyte);
             if (numReadBytes < 0) { // error
                 cond = TRUE;
                 break;
@@ -167,11 +166,11 @@ void func_00120108(XCrown* arg0) {
 
         sceClose(fd);
         if (!cond) {
-            if ((arg0->unk_00 >> 1) & 1) {
+            if ((arg0->flags >> 1) & 1) {
                 FlushCache(WRITEBACK_DCACHE);
-                numReadBytes = func_0011FE88(arg0->unk_2C, arg0->unk_28);
+                numReadBytes = func_0011FE88(arg0->dst, arg0->length);
             }
-            arg0->unk_30 = numReadBytes;
+            arg0->bytesRead = numReadBytes;
         }
     }
         
@@ -182,7 +181,7 @@ void func_00120108(XCrown* arg0) {
             func_0010BEE8();
         } while(((D_002C1EB8 & 0xFF) >> 2) & 1);
         func_00218CA0(0);
-        arg0->unk_24 += D_004EC940;
+        arg0->nSector += D_004EC940;
         func_0010BF08(&func_00120018, arg0);
     }
     func_0010BF50(func_00120108);
@@ -194,29 +193,29 @@ void func_00120280(sceCdlFILE* fp, char* name) {
     }
 }
 
-XCrown* func_001202E8(char* filename, void* arg1) {
-    XCrown* temp_2;
+XCrown* func_001202E8(char* filename, void* dst) {
+    XCrown* task;
     KingdomFile* kingdomFile;
 
-    temp_2 = func_0011FE18();
-    temp_2->unk_2C = arg1;
-    temp_2->unk_30 = -1;
+    task = func_0011FE18();
+    task->dst = dst;
+    task->bytesRead = -1;
     
     kingdomFile = func_0011FFD8(filename);
     if (kingdomFile == NULL) {
-        temp_2->unk_30 = 0;
+        task->bytesRead = 0;
     } else {
-        temp_2->unk_28 = kingdomFile->length;
-        temp_2->unk_00 = (temp_2->unk_00 & ~2) | ((kingdomFile->isCompressed & 1) * 2);
-        temp_2->unk_24 = kingdomFile->isoBlock;
+        task->length = kingdomFile->length;
+        task->flags = (task->flags & ~2) | ((kingdomFile->isCompressed & 1) * 2);
+        task->nSector = kingdomFile->isoBlock;
         if (func_00218C88() == 0) {
-            func_0010BF08(func_00120018, temp_2);
+            func_0010BF08(func_00120018, task);
         } else {
-            temp_2->unk_24 -= D_004EC940;
-            func_0010BF08(func_00120108, temp_2);
+            task->nSector -= D_004EC940;
+            func_0010BF08(func_00120108, task);
         }
     }
-    return temp_2;
+    return task;
 }
 
 s32 func_001203C8(char* arg0, char* arg1) {
@@ -230,6 +229,7 @@ s32 func_001203C8(char* arg0, char* arg1) {
     return D_002C2198;
 }
 
+s32 func_00120438(const char* fileName, void* dst);
 INCLUDE_ASM(const s32, "xkingdom", func_00120438);
 // s32 func_00120438(char* arg0, void* arg1) {
 //     XCrown* temp_2 = func_001202E8(arg0, arg1);

@@ -3,6 +3,8 @@
 
 #include "common.h"
 
+#define SECTOR_SIZE (2048)
+
 typedef struct KingdomFile {
     /* 0x00 */ s32 hash;
     /* 0x04 */ s32 isCompressed;
