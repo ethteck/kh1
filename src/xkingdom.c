@@ -22,7 +22,7 @@ void func_0010BF08(void (*)(XCrown*), XCrown*);
 void func_0010BF50(void (*)(XCrown*));
 void func_0011FB78(void);
 void func_0011FB98(s32 lsn, s32, char*);
-s32 func_0011FE88(void*, s32);
+s32 func_0011FE88(u8 *data, s32 compressedLength);
 s32 func_0011FF40(char* str);
 s32 func_001EE068(void);
 s32 func_00218C88(void);
@@ -93,7 +93,39 @@ void func_0011FE80(XCrown* arg0) {
     arg0->flags = 0;
 }
 
-INCLUDE_ASM(const s32, "xkingdom", func_0011FE88);
+// in-place decompression algorithm
+s32 func_0011FE88(u8* data, s32 compressedLength) {
+    s32 copyLength;
+    s32 decompressedLength;
+    s32 i;
+    u8 key;
+    u8* srcPtr;
+    u8* dstPtr;
+    u8 copyIndex;
+    u8 ch;
+
+    srcPtr = &data[compressedLength];
+    key = *--srcPtr;
+    decompressedLength = *--srcPtr | (*--srcPtr << 8) | (*--srcPtr << 0x10);
+    dstPtr = &data[decompressedLength];
+    while (data < srcPtr) {
+        ch = *--srcPtr;
+        if (ch == key) {
+            copyIndex = *--srcPtr;
+            if (copyIndex == 0) {
+                *--dstPtr = ch;
+            } else {
+                copyLength = *--srcPtr + 3;
+                for (i = 0; i < copyLength; i++) {
+                    *--dstPtr = dstPtr[copyIndex];
+                }
+            }
+        } else {
+            *--dstPtr = ch;
+        }
+    }
+    return decompressedLength;
+}
 
 // hash
 s32 func_0011FF40(char* str) {
@@ -107,7 +139,11 @@ s32 func_0011FF40(char* str) {
     return hash;
 }
 
-INCLUDE_ASM(const s32, "xkingdom", func_0011FFB8);
+int func_0011FFB8(const s32* left, const s32* right) {
+    if (left < *right)
+        return -1;
+    return *right < left;
+}
 
 KingdomFile* func_0011FFD8(char* filename) {
     return bsearch(func_0011FF40(filename), &D_004DE140, D_002C2180, 0x10, func_0011FFB8);
