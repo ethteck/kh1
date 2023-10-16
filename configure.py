@@ -38,7 +38,7 @@ COMPILE_CMD = (
     f"{COMPILER_DIR}/ee-gcc -c -B {COMPILER_DIR}/ee- {COMMON_INCLUDES} -O2 -G0 -g"
 )
 
-WIBO_VER = "0.6.0"
+WIBO_VER = "0.6.4"
 
 
 def exec_shell(command: List[str]) -> str:
