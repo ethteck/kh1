@@ -36,23 +36,23 @@ s32 func_0024A558(void) {
     return sceDevctl(D_0048B4F0, 0x4807, 0, 0, 0, 0);
 }
 
-INCLUDE_ASM(const s32, "xsomething", func_0024A588);
-s32 func_0024A588(s32*, s32);
+s32 func_0024A588(char* devname, s32 arg1) {
+    s32 sp0;
 
-// s32 func_0024A588(char* devname, s32 arg1) {
-//     s32 sp0;
+    sceDevctl(devname, 0x4802, NULL, 0, 0, 0);
+    D_004642F4 = 60;
+    sp0 = 0;
 
-//     sceDevctl(devname, 0x4802, NULL, 0, 0, 0);
-//     D_004642F4 = 60;
-//     sp0 = 0;
+    if (sceDevctl(devname, 0x480A, NULL, 0, &sp0, 4) != 0) {
+        return FALSE;
+    }
 
-//     if (sceDevctl(devname, 0x480A, NULL, 0, &sp0, 4) != 0) {
-//         return 0;
-//     }
-
-//     D_004642F4 = 70;
-//     return ((s32)((u32) sp0 >> 0x12) < arg1) <= 0;
-// }
+    D_004642F4 = 70;
+    if ((s32)((u32) sp0 >> 0x12) < arg1) {
+        return FALSE;
+    }
+    return TRUE;
+}
 
 s32 func_0024A620(void) {
     return D_00464354;
