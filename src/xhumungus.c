@@ -1,5 +1,7 @@
 #include "xhumungus.h"
 
+typedef void (*XHumungusFunc)(UNK_TYPE);
+
 extern u32 D_002A2740;
 extern u32 D_002B834C;
 extern u32 D_002B9338;
@@ -7,11 +9,12 @@ extern u32 D_002B9660;
 extern u32 D_002C1EA8;
 extern u16 D_002C1EAA;
 
-// Sora/Riku score on Destiny Island
-extern s32 D_003C10B8;
-
 extern u32 D_00375BC0;
 extern u32 D_00388860;
+
+// Sora/Riku score on Destiny Island
+extern s32 D_003C10B8[];
+extern XHumungusFunc D_003D4A20[];
 
 extern void* D_00624550;
 extern void* D_00624554;
@@ -205,6 +208,28 @@ INCLUDE_ASM(const s32, "xhumungus", func_001CE758);
 
 // Handle score against Riku on Destiny Island
 INCLUDE_ASM(const s32, "xhumungus", func_001CE858);
+
+// typedef struct GoofGoob {
+//     /* 0x000 */ char unk_00[0x4];
+//     /* 0x004 */ s32* unk_04;
+//     /* 0x008 */ char unk_08[0x174];
+//     /* 0x17C */ s32 unk_17C;
+//     /* 0x180 */ s32 unk_180;
+// } GoofGoob;
+
+// s32 func_001CE858(GoofGoob* arg0) {
+//     GoofGoob* temp_7;
+//     s32* blah;
+//     s32 temp;
+
+//     blah = &arg0->unk_04;
+
+//     temp_7 = &blah[arg0->unk_180];
+//     temp = temp_7->unk_180;
+//     D_003C10B8[temp_7->unk_17C] = temp;
+//     arg0->unk_180 -= 2;
+//     return 2;
+// }
 
 INCLUDE_ASM(const s32, "xhumungus", func_001CE898);
 
@@ -1642,7 +1667,9 @@ INCLUDE_ASM(const s32, "xhumungus", func_001DDB58);
 
 INCLUDE_ASM(const s32, "xhumungus", func_001DDC08);
 
-INCLUDE_ASM(const s32, "xhumungus", func_001DDCB8);
+void func_001DDCB8(UNK_TYPE arg0, s32 idx) {
+    D_003D4A20[idx](arg0);
+}
 
 INCLUDE_ASM(const s32, "xhumungus", func_001DDCE8);
 
