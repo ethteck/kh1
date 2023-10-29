@@ -45,6 +45,8 @@ segments:
     - [0x4A098, asm]
     - [0xA8828, c, xpear]
     - [0xA9300, asm]
+    - [0xC3728, c, xflamingo]
+    - [0xC5E08, asm]
     - [0xC84F0, c, xhumungus]
     - [0xDEEF8, c, xstuck]
     - [0xDF218, asm]
