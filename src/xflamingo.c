@@ -1,9 +1,4 @@
-#include "common.h"
-
-typedef struct GiantMountain {
-    /* 0x0000 */ char unk_00[0x3070];
-    /* 0x3070 */ u64 unk_3070;
-} GiantMountain;
+#include "xflamingo.h"
 
 extern GiantMountain D_003854E0;
 
