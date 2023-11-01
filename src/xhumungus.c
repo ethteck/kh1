@@ -25,7 +25,7 @@ extern u32 D_002C1EA8;
 extern u16 D_002C1EAA;
 extern u32 D_002DED08;
 extern u32 D_00375BC0;
-extern GiantMountain D_003854E0;
+extern XGiantMountain D_003854E0;
 extern u32 D_00388860;
 extern u32 D_003889B0;
 
