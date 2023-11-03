@@ -1,16 +1,61 @@
 #include "common.h"
+#include "eekernel.h"
 #include "sifrpc.h"
 
 s32 D_003DE5B8;
 sceSifClientData D_003DE5C0;
 
-char D_0048A578[]; // "sound:cue buff over\n";
-
-s32 D_00639880;
 void* D_0062D980;
-void* D_0062D984;
-void* D_0062D988;
-void* D_0062D98C;
+s32 D_00639588;
+s32 D_00639880;
+
+void func_001ED878(s32 arg0) {
+    D_003DE5B8 = arg0;
+}
+
+INCLUDE_ASM(const s32, "xquack", func_001ED888);
+
+void* func_001EDA60() {
+    sceSifCallRpc(&D_003DE5C0, 31, 0, &D_0062D980, 0x2000, &D_0062D980, 0x2000, NULL, NULL);
+    return D_0062D980;
+}
+
+void* func_001EDAB8() {
+    sceSifCallRpc(&D_003DE5C0, 32, 0, &D_0062D980, 0x2000, &D_0062D980, 0x2000, NULL, NULL);
+    return D_0062D980;
+}
+
+void* func_001EDB10() {
+    sceSifCallRpc(&D_003DE5C0, 33, 0, &D_0062D980, 0x2000, &D_0062D980, 0x2000, NULL, NULL);
+    return D_0062D980;
+}
+
+void* func_001EDB68() {
+    sceSifCallRpc(&D_003DE5C0, 34, 0, &D_0062D980, 0x2000, &D_0062D980, 0x2000, NULL, NULL);
+    return D_0062D980;
+}
+
+INCLUDE_ASM(const s32, "xquack", func_001EDBC0);
+
+INCLUDE_ASM(const s32, "xquack", func_001EDD20);
+
+INCLUDE_ASM(const s32, "xquack", func_001EDDC0);
+
+INCLUDE_ASM(const s32, "xquack", func_001EDF28);
+
+INCLUDE_ASM(const s32, "xquack", func_001EDF88);
+
+INCLUDE_ASM(const s32, "xquack", func_001EDFF8);
+
+s32 func_001EE068() {
+    FlushCache(WRITEBACK_DCACHE);
+    return D_00639588;
+}
+
+s32 func_001EE090() {
+    FlushCache(WRITEBACK_DCACHE);
+    return D_00639880;
+}
 
 INCLUDE_ASM(const s32, "xquack", func_001EE0B8);
 

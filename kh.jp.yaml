@@ -50,7 +50,7 @@ segments:
     - [0xC84F0, c, xhumungus]
     - [0xDEEF8, c, xstuck]
     - [0xDF218, asm]
-    - [0xEE138, c, xquack]
+    - [0xED8F8, c, xquack]
     - [0xEED88, asm]
     - [0xEF290, c, xtango]
     - [0xF0CB0, c, xbiscuit]
@@ -247,6 +247,8 @@ segments:
     - [0x16F0C0, asm, libipu/ipuinit]
 
     - [0x16F360, data]
+    - [0x2DE638, data, xquack]
+    - [0x2DE670, data]
     - [0x364430, data, libc/impure]
     - [0x364728, data, libc/malloc_r]
     - [0x364B80, data, libc/mlock]
