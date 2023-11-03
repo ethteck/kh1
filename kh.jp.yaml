@@ -50,6 +50,8 @@ segments:
     - [0xC84F0, c, xhumungus]
     - [0xDEEF8, c, xstuck]
     - [0xDF218, asm]
+    - [0xEE138, c, xquack]
+    - [0xEED88, asm]
     - [0xEF290, c, xtango]
     - [0xF0CB0, c, xbiscuit]
     - [0xF3AA0, c, xmeowp]
