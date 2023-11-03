@@ -14,8 +14,8 @@ typedef struct {
     /* 0x1C */ u32 unk_1C;
 } XWhiskey;
 
-u16 D_003DE5F0[];
-u32 D_003DE630[];
+u16 D_003DE5F0[12];
+u32 D_003DE630[10];
 XWhiskey* D_003ED718;
 
 INCLUDE_ASM(const s32, "xtango", func_001EF210);
@@ -57,7 +57,7 @@ INCLUDE_ASM(const s32, "xtango", func_001EF668);
 INCLUDE_ASM(const s32, "xtango", func_001EF708);
 
 void func_001EF810() {
-    D_003ED718 = func_0022F768(5);
+    D_003ED718 = (XWhiskey*)func_0022F768(5);
 }
 
 // Nonmatch: Regswap
@@ -73,8 +73,8 @@ INCLUDE_ASM(const s32, "xtango", func_001EF840);
 void func_001EF878() {
     func_00230068();
     func_002304D8();
-    func_001F0D88();
-    func_001F3738();
+    func_001F0D88(); // in xbiscuit
+    func_001F3738(); // in xbiscuit
     func_001F0C28();
     func_0020D538();
     func_00229DC8();
@@ -99,12 +99,12 @@ INCLUDE_ASM(const s32, "xtango", func_001EF960);
 INCLUDE_ASM(const s32, "xtango", func_001EF998);
 
 XWhiskey* func_001EF9C8(s32 arg0) {
-    return func_00147A88(arg0);
+    return (XWhiskey*)func_00147A88(arg0);
 }
 
 u32 func_001EF9E0(s32 arg0) {
     if (arg0 != 0) {
-        XWhiskey* obj = func_00147A88(arg0);
+        XWhiskey* obj = (XWhiskey*)func_00147A88(arg0);
         return func_00147A50(obj->unk_00);
     }
     return func_001F0EF0(160);
@@ -112,44 +112,44 @@ u32 func_001EF9E0(s32 arg0) {
 
 u32 func_001EFA18(s32 arg0) {
     if (arg0 != 0) {
-        XWhiskey* obj = func_00147A88(arg0);
+        XWhiskey* obj = (XWhiskey*)func_00147A88(arg0);
         return obj->unk_0C;
     }
     return 0;
 }
 
 u16 func_001EFA48(s32 arg0) {
-    XWhiskey* obj = func_00147A88(arg0);
+    XWhiskey* obj = (XWhiskey*)func_00147A88(arg0);
     return obj->unk_08;
 }
 
 u16 func_001EFA68(s32 arg0) {
-    XWhiskey* obj = func_00147A88(arg0);
+    XWhiskey* obj = (XWhiskey*)func_00147A88(arg0);
     return obj->unk_0A;
 }
 
 s16 func_001EFA88(s32 arg0) {
-    XWhiskey* obj = func_00147A88(arg0);
+    XWhiskey* obj = (XWhiskey*)func_00147A88(arg0);
     return obj->unk_06;
 }
 
 u8 func_001EFAA8(s32 arg0) {
-    XWhiskey* obj = func_00147A88(arg0);
+    XWhiskey* obj = (XWhiskey*)func_00147A88(arg0);
     return obj->unk_02;
 }
 
 u8 func_001EFAC8(s32 arg0) {
-    XWhiskey* obj = func_00147A88(arg0);
+    XWhiskey* obj = (XWhiskey*)func_00147A88(arg0);
     return obj->unk_03;
 }
 
 u16 func_001EFAE8(s32 arg0) {
-    XWhiskey* obj = func_00147A88(arg0);
+    XWhiskey* obj = (XWhiskey*)func_00147A88(arg0);
     return obj->unk_10;
 }
 
 u16 func_001EFB08(s32 arg0) {
-    XWhiskey* obj = func_00147A88(arg0);
+    XWhiskey* obj = (XWhiskey*)func_00147A88(arg0);
     return obj->unk_04 & 1;
 }
 
@@ -175,7 +175,7 @@ s32 func_001EFDA0(s32 arg0) {
     XWhiskey* obj;
 
     if (arg0 != 0) {
-        obj = func_00147A88(arg0);
+        obj = (XWhiskey*)func_00147A88(arg0);
         if (obj->unk_02 == 0) {
             return TRUE;
         }
