@@ -75,7 +75,7 @@ INCLUDE_ASM(const s32, "xquack", func_001EE228);
 INCLUDE_ASM(const s32, "xquack", func_001EE280);
 
 void* func_001EE2D8(void* arg0, void* arg1, void* arg2) {
-    D_00639880 += 1;
+    D_00639880++;
     func_001EE0B8(4, arg0, arg1, arg2, 0, 0, 0, 0);
     return D_0062D980;
 }
@@ -99,7 +99,7 @@ void* func_001EE478(void* arg0, void* arg1, void* arg2, s32 arg3, s32 arg4) {
 INCLUDE_ASM(const s32, "xquack", func_001EE4C8);
 
 void* func_001EE518(void* arg0, void* arg1, void* arg2) {
-    D_00639880 += 1;
+    D_00639880++;
     func_001EE0B8(11, arg0, arg1, arg2, 0, 0, 0, 0);
     return D_0062D980;
 }
@@ -126,7 +126,7 @@ void* func_001EE6B8(void* arg0) {
 }
 
 void* func_001EE710(void* arg0, void* arg1, void* arg2) {
-    D_00639880 += 1;
+    D_00639880++;
     func_001EE0B8(3, arg0, arg1, arg2, 0, 0, 0, 0);
     return D_0062D980;
 }
@@ -141,7 +141,7 @@ INCLUDE_ASM(const s32, "xquack", func_001EE7A8);
 INCLUDE_ASM(const s32, "xquack", func_001EE7F0);
 
 void* func_001EE838(void* arg0, void* arg1, void* arg2) {
-    D_00639880 += 1;
+    D_00639880++;
     func_001EE0B8(40, arg0, arg1, arg2, 0, 0, 0, 0);
     return D_0062D980;
 }

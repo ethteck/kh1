@@ -2,9 +2,9 @@
 #include "libdma.h"
 
 typedef struct {
-    /* 0x00 */ u8 unk_00[0x84];
+    /* 0x00 */ char unk_00[0x84];
     /* 0x84 */ s32 unk_84;
-    /* 0x88 */ u8 unk_88[0x60];
+    /* 0x88 */ char unk_88[0x60];
 } XCookie;
 
 extern s32 D_003DEF90;

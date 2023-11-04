@@ -10,7 +10,7 @@ typedef struct {
     /* 0x0A */ u16 unk_0A;
     /* 0x0C */ u32 unk_0C;
     /* 0x10 */ u16 unk_10;
-    /* 0x12 */ u8 unk_12[10];
+    /* 0x12 */ char unk_12[10];
     /* 0x1C */ u32 unk_1C;
 } XWhiskey;
 
@@ -19,31 +19,32 @@ u32 D_003DE630[10];
 XWhiskey* D_003ED718;
 
 INCLUDE_ASM(const s32, "xtango", func_001EF210);
+u32 func_001EF210(); // temporary for following functions, changes signature to unsigned
 
 u32 func_001EF298() {
-    return func_001EF210() / 216000u;
+    return func_001EF210() / 216000;
 }
 
 u32 func_001EF2D0() {
-    return func_001EF210() / 3600u;
+    return func_001EF210() / 3600;
 }
 
 u32 func_001EF300() {
-    return func_001EF210() / 60u;
+    return func_001EF210() / 60;
 }
 
 INCLUDE_ASM(const s32, "xtango", func_001EF330);
 
 u32 func_001EF3D0() {
-    return func_001EF210() / 216000u;
+    return func_001EF210() / 216000;
 }
 
 u32 func_001EF408() {
-    return (func_001EF210() / 3600u) % 60;
+    return (func_001EF210() / 3600) % 60;
 }
 
 u32 func_001EF448() {
-    return (func_001EF210() / 60u) % 60;
+    return (func_001EF210() / 60) % 60;
 }
 
 INCLUDE_ASM(const s32, "xtango", func_001EF488);
