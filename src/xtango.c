@@ -11,7 +11,7 @@ typedef struct {
     /* 0x0C */ u32 unk_0C;
     /* 0x10 */ u16 unk_10;
     /* 0x12 */ char unk_12[10];
-    /* 0x1C */ u32 unk_1C;
+    /* 0x1C */ u32 munny;
 } XWhiskey;
 
 u16 D_003DE5F0[12];
@@ -66,7 +66,7 @@ INCLUDE_ASM(const s32, "xtango", func_001EF840);
 // void func_001EF840() {
 //     func_0022F888();
 //     func_00218A10();
-//     D_003ED718->unk_1C = 0;
+//     D_003ED718->munny = 0;
 //     func_00215A88();
 //     func_0021D2B0();
 // }
@@ -299,36 +299,36 @@ INCLUDE_ASM(const s32, "xtango", func_001F0960);
 INCLUDE_ASM(const s32, "xtango", func_001F0A00);
 
 void func_001F0A58(u32 arg0) {
-    D_003ED718->unk_1C = arg0 <= 99999 ? arg0 : 99999;
+    D_003ED718->munny = arg0 <= 99999 ? arg0 : 99999;
 }
 
 s32 func_001F0A80() {
-    return D_003ED718->unk_1C;
+    return D_003ED718->munny;
 }
 
 void func_001F0A90(s32 arg0) {
-    s32 val = D_003ED718->unk_1C + arg0;
+    s32 val = D_003ED718->munny + arg0;
 
-    D_003ED718->unk_1C = val;
+    D_003ED718->munny = val;
     if (val < 0) {
-        D_003ED718->unk_1C = 0;
+        D_003ED718->munny = 0;
         return;
     }
     if (val > 99999u) {
-        D_003ED718->unk_1C = 99999;
+        D_003ED718->munny = 99999;
     }
 }
 
 void func_001F0AD0(s32 arg0) {
-    s32 val = D_003ED718->unk_1C - arg0;
+    s32 val = D_003ED718->munny - arg0;
 
-    D_003ED718->unk_1C = val;
+    D_003ED718->munny = val;
     if (val < 0) {
-        D_003ED718->unk_1C = 0;
+        D_003ED718->munny = 0;
         return;
     }
     if (val > 99999u) {
-        D_003ED718->unk_1C = 99999;
+        D_003ED718->munny = 99999;
     }
 }
 
