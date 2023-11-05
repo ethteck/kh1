@@ -56,6 +56,7 @@ segments:
     - [0xF0CB0, c, xbiscuit]
     - [0xF3AA0, c, xmeowp]
     - [0xF4910, asm]
+    - [0x115B08, c, xpotato]
     - [0x119868, c, xrodent]
     - [0x11A450, asm]
     - [0x144510, c, xcapy]
