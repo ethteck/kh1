@@ -297,7 +297,7 @@ segments:
     - [0x38A720, rodata, F4910]
     - [0x38AB30, .rodata, xrodent]
     - [0x38AB50, rodata, 11A450]
-    # - [0x38B3D0, .rodata, xcapy]
+    - [0x38B3C8, .rodata, xcapy]
     - [0x38B400, rodata, 144BF0]
     - [0x38B450, .rodata, xmonitor]
     - [0x38B468, rodata, 1477F8]

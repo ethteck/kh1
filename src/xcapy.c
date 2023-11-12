@@ -30,68 +30,52 @@ void func_002465E8(s32*, s32);
 extern UNK_TYPE D_0042BC20[];
 extern s32 D_004610F8;
 
-extern char D_0048B348[];
-extern char D_0048B350[];
-extern char D_0048B358[];
-extern char D_0048B360[];
-extern char D_0048B368[];
-extern char D_0048B370[];
-extern char D_0048B378[];
-
-extern UNK_TYPE D_006632D0;
+UNK_TYPE D_006632D0;
 extern s32 D_006633A0[8];
 extern s32 D_006633C0[8];
 extern s32 D_006633E0[7];
 
-#ifdef NON_MATCHING
 void func_00244490(XCapy2* arg0) {
     char sp[3];
     char sp10[0x10];
-    s32 unk_24;
-    s32 x;
+
+    s32 x = arg0->unk_24;
     s32 y;
 
-    unk_24 = arg0->unk_24;
-
     if (arg0->unk_2C != 0) {
-        x = unk_24 + 0x5D;
+        x += 0x67;
     } else {
-        x = unk_24 + 0x67;
+        x += 0x5D;
     }
-    y = arg0->unk_28;
+
+    y = arg0->unk_28 + 0x2B;
 
     sp[0] = 0xE5;
     sp[1] = 0x4E;
     sp[2] = 0x19;
 
-    y += 0x2B;
-
     if (arg0->unk_2C != 0) {
-        sprintf(sp10, D_0048B348, arg0->unk_50);
-        func_00244130(x, y, sp, 0.8f, sp10, D_004610F8);
+        sprintf(sp10, "%02d", arg0->unk_50);
+        func_00244130(x, y, sp, 0.80000005f, sp10, D_004610F8);
         x += 22;
-        func_00244130(x, y, sp, 0.8f, D_0048B350, D_004610F8);
+        func_00244130(x, y, sp, 0.80000005f, ":", D_004610F8);
         x += 11;
     }
-    sprintf(sp10, D_0048B348, arg0->unk_4C);
-    func_00244130(x, y, sp, 0.8f, sp10, D_004610F8);
+    sprintf(sp10, "%02d", arg0->unk_4C);
+    func_00244130(x, y, sp, 0.80000005f, sp10, D_004610F8);
     x += 22;
-    func_00244130(x, y, sp, 0.8f,D_0048B358, D_004610F8);
+    func_00244130(x, y, sp, 0.80000005f, "\'", D_004610F8);
     x += 11;
-    sprintf(sp10, D_0048B348, arg0->unk_48);
-    func_00244130(x, y, sp, 0.8f, sp10, D_004610F8);
+    sprintf(sp10, "%02d", arg0->unk_48);
+    func_00244130(x, y, sp, 0.80000005f, sp10, D_004610F8);
     x += 22;
-    func_00244130(x, y, sp, 0.8f,D_0048B358, D_004610F8);
+    func_00244130(x, y, sp, 0.80000005f, "\'", D_004610F8);
     x += 5;
-    func_00244130(x, y, sp, 0.8f,D_0048B358, D_004610F8);
+    func_00244130(x, y, sp, 0.80000005f, "\'", D_004610F8);
     x += 9;
-    sprintf(sp10, D_0048B348, arg0->unk_44);
-    func_00244130(x, y, sp, 0.8f, sp10, D_004610F8);
+    sprintf(sp10, "%02d", arg0->unk_44);
+    func_00244130(x, y, sp, 0.80000005f, sp10, D_004610F8);
 }
-#else
-void func_00244490(XCapy2*);
-INCLUDE_ASM(const s32, "xcapy", func_00244490);
-#endif
 
 void func_002446B0(XCapy2* arg0) {
     s32 i;
@@ -136,42 +120,42 @@ void func_00244858(XCapy* arg0) {
 
     switch (arg0->unk_0C) {
         case 1:
-            sprintf(str, D_0048B360, arg0->unk_10);
+            sprintf(str, "%01d", arg0->unk_10);
             func_00244130(69, 22, rgb, 1.0f, str, D_004610F8);
             if (arg0->unk_08 != 0) {
-                sprintf(str, D_0048B368);
+                sprintf(str, "/");
                 func_00244130(84, 22, rgb, 1.0f, str, D_004610F8);
-                sprintf(str, D_0048B360, arg0->unk_14);
+                sprintf(str, "%01d", arg0->unk_14);
                 func_00244130(97, 22, rgb, 1.0f, str, D_004610F8);
             }
             break;
         case 2:
-            sprintf(str, D_0048B348, arg0->unk_10);
+            sprintf(str, "%02d", arg0->unk_10);
             func_00244130(69, 22, rgb, 1.0f, str, D_004610F8);
             if (arg0->unk_08 != 0) {
-                sprintf(str, D_0048B368);
+                sprintf(str, "/");
                 func_00244130(97, 22, rgb, 1.0f, str, D_004610F8);
-                sprintf(str, D_0048B348, arg0->unk_14);
+                sprintf(str, "%02d", arg0->unk_14);
                 func_00244130(110, 22, rgb, 1.0f, str, D_004610F8);
             }
             break;
         case 3:
-            sprintf(str, D_0048B370, arg0->unk_10);
+            sprintf(str, "%03d", arg0->unk_10);
             func_00244130(69, 22, rgb, 1.0f, str, D_004610F8);
             if (arg0->unk_08 != 0) {
-                sprintf(str, D_0048B368);
+                sprintf(str, "/");
                 func_00244130(110, 22, rgb, 1.0f, str, D_004610F8);
-                sprintf(str, D_0048B370, arg0->unk_14);
+                sprintf(str, "%03d", arg0->unk_14);
                 func_00244130(123, 22, rgb, 1.0f, str, D_004610F8);
             }
             break;
         case 4:
-            sprintf(str, D_0048B378, arg0->unk_10);
+            sprintf(str, "%04d", arg0->unk_10);
             func_00244130(69, 22, rgb, 1.0f, str, D_004610F8);
             if (arg0->unk_08 != 0) {
-                sprintf(str, D_0048B368);
+                sprintf(str, "/");
                 func_00244130(123, 22, rgb, 1.0f, str, D_004610F8);
-                sprintf(str, D_0048B378, arg0->unk_14);
+                sprintf(str, "%04d", arg0->unk_14);
                 func_00244130(136, 22, rgb, 1.0f, str, D_004610F8);
             }
             break;
