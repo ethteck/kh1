@@ -8,8 +8,8 @@ typedef struct {
 } XCookie;
 
 extern s32 D_003DEF90;
-extern s32* D_003E0810;
-extern s32* D_003E2BE0;
+extern s32 D_003E0810;
+extern s32 D_003E2BE0;
 extern s32 D_003E3080;
 extern s32 D_003E3084;
 extern s32* D_003E30A8;
@@ -20,16 +20,16 @@ extern s32 D_003E38C0;
 extern s32 D_003EB8C0;
 
 extern s32 D_00639A80;
-extern s32 D_00639A84;
-extern s32 D_00639A88;
+extern s32* D_00639A84;
+extern s32* D_00639A88;
 extern s32 D_00639A8C;
 XCookie D_00639A90[24];
 extern void* D_0063B050;
 
-// temporary early declarations
-void* func_001F19F0(s32,s32,s32,s32,s32,s32,s32,s32);
-void* func_001F1FA8(s32,s32,s32,s32,s32,s32,s32,s32); 
-void* func_001F2670(s32,s32,s32,s32,s32,s32,s32); 
+void func_001F0DF8(s32*, s32*);
+void* func_001F1960(s32, s32, s32, s32, s32, s32, s32, s32);
+void* func_001F19F0(s32, s32, s32, s32, s32, s32, s32, s32);
+void* func_001F1FA8(s32, s32, s32, s32, s32, s32, s32, s32);
 
 INCLUDE_ASM(const s32, "xbiscuit", func_001F0C30);
 
@@ -48,7 +48,7 @@ void func_001F0DD0() {
     func_001F0DF8(&D_003E0810, &D_003E2BE0);
 }
 
-void func_001F0DF8(s32 arg0, s32 arg1) {
+void func_001F0DF8(s32* arg0, s32* arg1) {
     D_00639A84 = arg0;
     D_00639A88 = arg1;
 }
@@ -199,6 +199,7 @@ INCLUDE_ASM(const s32, "xbiscuit", func_001F1FA8);
 
 INCLUDE_ASM(const s32, "xbiscuit", func_001F2378);
 
+void* func_001F2670(s32,s32,s32,s32,s32,s32,s32);
 INCLUDE_ASM(const s32, "xbiscuit", func_001F2670);
 
 void* func_001F2888(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
@@ -252,7 +253,7 @@ INCLUDE_ASM(const s32, "xbiscuit", func_001F34E0);
 
 INCLUDE_ASM(const s32, "xbiscuit", func_001F35E8);
 
-void func_001F3718(s32* arg0, s32* arg1) {
+void func_001F3718(s32** arg0, s32** arg1) {
     *arg0 = &D_003E38C0;
     *arg1 = &D_003EB8C0;
 }

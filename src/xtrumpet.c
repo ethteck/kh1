@@ -1,4 +1,5 @@
 #include "common.h"
+#include "xhumungus.h"
 
 typedef struct XTrumpet {
     /* 0x000 */ u8 unk_00[16];

@@ -139,9 +139,11 @@ s32 func_0011FF40(char* str) {
     return hash;
 }
 
-int func_0011FFB8(const s32* left, const s32* right) {
-    if (left < *right)
+// why is left a u32 and right a u32*?
+int func_0011FFB8(const u32 left, const u32* right) {
+    if (left < *right) {
         return -1;
+    }
     return *right < left;
 }
 
