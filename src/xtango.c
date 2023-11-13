@@ -15,6 +15,8 @@ typedef struct {
 u16 D_003DE5F0[12];
 u32 D_003DE630[10];
 
+void func_001F0C28(void);
+
 INCLUDE_ASM(const s32, "xtango", func_001EF210);
 u32 func_001EF210(); // temporary for following functions, changes signature to unsigned
 
@@ -275,7 +277,7 @@ INCLUDE_ASM(const s32, "xtango", func_001F0730);
 
 INCLUDE_ASM(const s32, "xtango", func_001F07A0);
 
-void* func_001F0808(s32 arg0) {
+s32 func_001F0808(s32 arg0) {
     return func_00147AE8(arg0);
 }
 
