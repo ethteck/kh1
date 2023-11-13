@@ -1,3 +1,3 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "pppSRandDownHCV", pppSRandDownHCVCalc);
+INCLUDE_ASM(const s32, "ppp/pppSRandDownHCV", pppSRandDownHCVCalc);

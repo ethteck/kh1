@@ -1,3 +1,3 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "pppDrawMatrix", pppDrawMatrixCalc);
+INCLUDE_ASM(const s32, "ppp/pppDrawMatrix", pppDrawMatrixCalc);

@@ -1,5 +1,5 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "pppRandUpHCV", pppRandUpHCVCalc);
+INCLUDE_ASM(const s32, "ppp/pppRandUpHCV", pppRandUpHCVCalc);
 
-INCLUDE_ASM(const s32, "pppRandUpHCV", func_0018A858);
+INCLUDE_ASM(const s32, "ppp/pppRandUpHCV", func_0018A858);

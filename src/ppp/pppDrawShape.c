@@ -1,7 +1,7 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "pppDrawShape", pppDrawShapeCon);
+INCLUDE_ASM(const s32, "ppp/pppDrawShape", pppDrawShapeCon);
 
-INCLUDE_ASM(const s32, "pppDrawShape", pppDrawShapeCalc);
+INCLUDE_ASM(const s32, "ppp/pppDrawShape", pppDrawShapeCalc);
 
-INCLUDE_ASM(const s32, "pppDrawShape", pppDrawShapeDraw);
+INCLUDE_ASM(const s32, "ppp/pppDrawShape", pppDrawShapeDraw);

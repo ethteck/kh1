@@ -1,3 +1,3 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "pppRandUpChar", pppRandUpCharCalc);
+INCLUDE_ASM(const s32, "ppp/pppRandUpChar", pppRandUpCharCalc);

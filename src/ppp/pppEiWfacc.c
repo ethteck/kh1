@@ -1,3 +1,3 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "pppEiWfacc", pppEiWfaccCalc);
+INCLUDE_ASM(const s32, "ppp/pppEiWfacc", pppEiWfaccCalc);

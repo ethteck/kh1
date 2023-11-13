@@ -1,3 +1,3 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "pppChrSclYMatrix", pppChrSclYMatrixCalc);
+INCLUDE_ASM(const s32, "ppp/pppChrSclYMatrix", pppChrSclYMatrixCalc);

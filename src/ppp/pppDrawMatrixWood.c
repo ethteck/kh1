@@ -3,4 +3,4 @@
 void pppDrawMatrixWoodSta(void) {
 }
 
-INCLUDE_ASM(const s32, "pppDrawMatrixWood", pppDrawMatrixWoodCalc);
+INCLUDE_ASM(const s32, "ppp/pppDrawMatrixWood", pppDrawMatrixWoodCalc);

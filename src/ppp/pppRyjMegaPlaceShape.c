@@ -1,5 +1,5 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "pppRyjMegaPlaceShape", pppRyjMegaPlaceShapeCalc);
+INCLUDE_ASM(const s32, "ppp/pppRyjMegaPlaceShape", pppRyjMegaPlaceShapeCalc);
 
-INCLUDE_ASM(const s32, "pppRyjMegaPlaceShape", pppRyjMegaPlaceShapeCon);
+INCLUDE_ASM(const s32, "ppp/pppRyjMegaPlaceShape", pppRyjMegaPlaceShapeCon);

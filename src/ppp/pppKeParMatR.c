@@ -1,3 +1,3 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "pppKeParMatR", pppKeParMatRCalc);
+INCLUDE_ASM(const s32, "ppp/pppKeParMatR", pppKeParMatRCalc);

@@ -1,5 +1,5 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "pppAngle", pppAngleCalc);
+INCLUDE_ASM(const s32, "ppp/pppAngle", pppAngleCalc);
 
-INCLUDE_ASM(const s32, "pppAngle", pppAngleCon);
+INCLUDE_ASM(const s32, "ppp/pppAngle", pppAngleCon);

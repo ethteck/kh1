@@ -297,9 +297,6 @@ pppSMatrixCalc               = 0x001877D0; // type:func
 pppKeMatSNCalc               = 0x00195D48; // type:func
 pppKeMatSNCon                = 0x00195E00; // type:func
 
-// pppMatrix.c
-pppMatrixCalc                = 0x00186B98; // type:func
-
 // pppMatrixXYZ.c
 pppMatrixXYZCalc             = 0x00186B98; // type:func
 
@@ -331,10 +328,6 @@ pppRyjMatrixNoRotCalc        = 0x0019B1A0; // type:func
 
 // pppKeMatPht.c
 pppKeMatPhtCalc              = 0x001964D8; // type:func
-
-// pppRyjMatrixWorld.c
-pppRyjMatrixWorldCalc        = 0x0019A720; // type:func
-pppRyjMatrixWorldCon         = 0x0019A6C0; // type:func
 
 // pppRyjMatrixWorldXYZ.c
 pppRyjMatrixWorldXYZCalc     = 0x0019A720; // type:func
@@ -431,9 +424,6 @@ pppKeZCrctShpCalc            = 0x00196FF8; // type:func
 // pppKeThTp.c
 pppKeThTpCalc                = 0x0018DD18; // type:func
 pppKeThTpCon                 = 0x0018DE00; // type:func
-
-// pppKeThTp2.c
-pppKeThTp2Calc               = 0x0018DD18; // type:func
 pppKeThTp2Con                = 0x0018DE20; // type:func
 
 // pppKeThSft.c
@@ -446,9 +436,6 @@ pppKeThDraw                  = 0x0018DBE8; // type:func
 pppKeThCon                   = 0x0018DC78; // type:func
 pppKeThCon2                  = 0x0018DCD8; // type:func
 pppKeThDes                   = 0x0018DD10; // type:func
-
-// pppDrawMdlBS.c
-pppDrawMdlBSDraw             = 0x001877F0; // type:func
 
 // pppDrawMdl.c
 pppDrawMdlDraw               = 0x001877F0; // type:func

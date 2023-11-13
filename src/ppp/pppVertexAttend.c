@@ -1,3 +1,3 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "pppVertexAttend", pppVertexAttendCalc);
+INCLUDE_ASM(const s32, "ppp/pppVertexAttend", pppVertexAttendCalc);

@@ -1,3 +1,3 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "pppKeMvYpEff", pppKeMvYpEffCalc);
+INCLUDE_ASM(const s32, "ppp/pppKeMvYpEff", pppKeMvYpEffCalc);
