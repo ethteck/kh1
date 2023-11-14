@@ -10,6 +10,10 @@ typedef struct {
 } pppCDT;
 
 typedef struct {
+    short x, y, z;
+} pppSVECTOR; // size = 0x6
+
+typedef struct {
     float x, y, z;
 } pppFVECTOR; // size = 0xC
 
@@ -40,7 +44,7 @@ typedef struct {
     /* 0x0C */ s32 * useVal;
 } pppCtrlTable; // size = 0x10
 
-typedef struct {
+typedef struct _pppPData {
     /* 0x00 */ struct _pppPData * next;
     /* 0x04 */ long long * cvoff;
     /* 0x0C */ u32 flag;
@@ -71,8 +75,8 @@ typedef struct _pppPObject {
     /* 0x0C */ s32 time;
     /* 0x10 */ FMATRIX cmat;
     /* 0x50 */ FMATRIX dmat;
-    /* 0x90 */ struct pppSVECTOR * lpvert;
-    /* 0x94 */ struct pppSVECTOR * lpnorm;
+    /* 0x90 */ pppSVECTOR * lpvert;
+    /* 0x94 */ pppSVECTOR * lpnorm;
     /* 0x98 */ pppCtrlData * * lpcdt;
     /* 0x9C */ u8 appearf;
     /* 0x9D */ u8 loop_in;
