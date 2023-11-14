@@ -2,18 +2,22 @@
 #define PPP
 
 #include "common.h"
+#include "pppfunc.h"
 
 typedef struct {
-    /* 0x00 */ const char* progName;
-    /* 0x04 */ void* calcFunc;
-    /* 0x08 */ void* dektFunc;
-    /* 0x0C */ void* drawFunc;
-    /* 0x10 */ void* iniFunc;
-    /* 0x14 */ void* staFunc;
-    /* 0x18 */ void* endFunc;
-    /* 0x1C */ void* conFunc;
-    /* 0x20 */ void* con2Func;
-    /* 0x24 */ void* desFunc;
-} pppProg; // size = 0x28
+    /* 0x00 */ u8 unk[0xB0];
+    /* 0xB8 */ u8 unkB8;
+    /* 0xB9 */ u8 unkB9;
+    /* 0xBA */ u8 unkBA;
+    /* 0xBB */ u8 unkBB;
+    /* 0xBC */ u8 unkBC;
+    /* 0xBD */ u8 unkBD;
+    /* 0xBE */ u8 unkBE;
+    /* 0xBF */ u8 unkBF;
+    /* 0xC0 */ long unkC0;
+} ppvmng; // size=?
+
+extern s32 ppvUserStopPartF;
+extern ppvmng* ppvMng;
 
 #endif /* PPP_H */

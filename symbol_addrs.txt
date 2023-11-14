@@ -132,7 +132,7 @@ pppKeHitChkPxBCalc           = 0x00195A98; // type:func
 pppKeHitChkPxBCon            = 0x00195CC0; // type:func
 
 // pppMove.c
-pppMoveCalc                  = 0x00185398; // type:func
+pppMove                      = 0x00185398; // type:func
 pppMoveCon                   = 0x00185468; // type:func
 
 // pppAngMove.c
@@ -148,7 +148,7 @@ pppColMoveCalc               = 0x00185BD0; // type:func
 pppColMoveCon                = 0x00185CC0; // type:func
 
 // pppPoint.c
-pppPointCalc                 = 0x001852E0; // type:func
+pppPoint                     = 0x001852E0; // type:func
 pppPointCon                  = 0x00185370; // type:func
 
 // pppAngle.c
@@ -1968,3 +1968,10 @@ sceIpuInit                   = 0x0026f0a8; // type:func
 // hacks for now
 D_0048BAB8 = 0x0048BAB8; // type:s32
 D_004885C0 = 0x004885C0; // type:s32
+
+
+//=============================
+// ppp lib
+//=============================
+ppvMng                       = 0x006105A0;
+ppvUserStopPartF             = 0x0061095C; // type:s32
