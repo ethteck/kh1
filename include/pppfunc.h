@@ -35,17 +35,16 @@ typedef struct {
     /* 0x04 */ char dt[0];
 } pppCtrlData; // size = 4 + ?
 
-
 typedef struct {
-    /* 0x00 */ struct pppProg * prog;
+    /* 0x00 */ struct pppProg* prog;
     /* 0x04 */ u16 dtbytes;
     /* 0x06 */ u16 ctrldtn;
-    /* 0x08 */ pppCtrlData * ctrldt;
+    /* 0x08 */ pppCtrlData* ctrldt;
     /* 0x0C */ s32* useVal;
 } pppCtrlTable; // size = 0x10
 
 typedef struct _pppPData {
-    /* 0x00 */ struct _pppPData * next;
+    /* 0x00 */ struct _pppPData* next;
     /* 0x04 */ u64* cvoff;
     /* 0x0C */ u32 flag;
     /* 0x10 */ u32 status;
@@ -60,8 +59,8 @@ typedef struct _pppPData {
 } pppPData; // size = 0x30 + ?
 
 typedef struct {
-    /* 0x00 */ pppPData * pdt;
-    /* 0x04 */ struct _pppPObject * pobj;
+    /* 0x00 */ pppPData* pdt;
+    /* 0x04 */ struct _pppPObject* pobj;
     /* 0x08 */ s32 startFrame;
     /* 0x0C */ u16 pobjn;
     /* 0x0E */ u8 pdtno;
@@ -69,15 +68,15 @@ typedef struct {
 } pppPDataVal;
 
 typedef struct _pppPObject {
-    /* 0x00 */ struct _pppPObject * next;
-    /* 0x04 */ struct _pppPObject * ppobj;
-    /* 0x08 */ pppPDataVal * pdtval;
+    /* 0x00 */ struct _pppPObject* next;
+    /* 0x04 */ struct _pppPObject* ppobj;
+    /* 0x08 */ pppPDataVal* pdtval;
     /* 0x0C */ s32 time;
     /* 0x10 */ FMATRIX cmat;
     /* 0x50 */ FMATRIX dmat;
-    /* 0x90 */ pppSVECTOR * lpvert;
-    /* 0x94 */ pppSVECTOR * lpnorm;
-    /* 0x98 */ pppCtrlData * * lpcdt;
+    /* 0x90 */ pppSVECTOR* lpvert;
+    /* 0x94 */ pppSVECTOR* lpnorm;
+    /* 0x98 */ pppCtrlData** lpcdt;
     /* 0x9C */ u8 appearf;
     /* 0x9D */ u8 loop_in;
     /* 0x9E */ u8 loop_start0;
