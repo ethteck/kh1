@@ -9,9 +9,9 @@ typedef struct {
     pppFVECTOR vec;
 } VMove;
 
-void pppMove(pppPObject * pobj, PMove * p, pppCtrlTable * ctbl) {
-    VMove *v;
-    pppFVECTOR *move;
+void pppMove(pppPObject* pobj, PMove* p, pppCtrlTable* ctbl) {
+    VMove* v;
+    pppFVECTOR* move;
 
     v = (VMove*)&pobj->val[ctbl->useVal[0]];
     move = (pppFVECTOR*)&pobj->val[ctbl->useVal[1]];
@@ -19,7 +19,7 @@ void pppMove(pppPObject * pobj, PMove * p, pppCtrlTable * ctbl) {
         return;
     }
 
-    if (ppvMng->unkB9 || ppvMng->unkBC) {
+    if (ppvMng->unk_B9 || ppvMng->unk_BC) {
         return;
     }
 
@@ -33,9 +33,9 @@ void pppMove(pppPObject * pobj, PMove * p, pppCtrlTable * ctbl) {
     v->vec.z = v->vec.z + move->z;
 }
 
-void pppMoveCon(pppPObject * pobj, pppCtrlTable * ctbl) {
-    float val = 0.0f;
-    VMove *v = (VMove*)&pobj->val[ctbl->useVal[1]];
-    
+void pppMoveCon(pppPObject* pobj, pppCtrlTable* ctbl) {
+    f32 val = 0.0f;
+    VMove* v = (VMove*)&pobj->val[ctbl->useVal[1]];
+
     v->vec.x = v->vec.y = v->vec.z = val;
 }

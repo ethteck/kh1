@@ -10,11 +10,11 @@ typedef struct {
 } pppCDT;
 
 typedef struct {
-    short x, y, z;
+    s16 x, y, z;
 } pppSVECTOR; // size = 0x6
 
 typedef struct {
-    float x, y, z;
+    f32 x, y, z;
 } pppFVECTOR; // size = 0xC
 
 typedef struct {
@@ -41,12 +41,12 @@ typedef struct {
     /* 0x04 */ u16 dtbytes;
     /* 0x06 */ u16 ctrldtn;
     /* 0x08 */ pppCtrlData * ctrldt;
-    /* 0x0C */ s32 * useVal;
+    /* 0x0C */ s32* useVal;
 } pppCtrlTable; // size = 0x10
 
 typedef struct _pppPData {
     /* 0x00 */ struct _pppPData * next;
-    /* 0x04 */ long long * cvoff;
+    /* 0x04 */ u64* cvoff;
     /* 0x0C */ u32 flag;
     /* 0x10 */ u32 status;
     /* 0x14 */ s32 startFrameInit;
