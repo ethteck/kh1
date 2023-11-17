@@ -18,3 +18,5 @@ SLPS_251.05*
 *.o
 ctx.c
 ctx.c.m2c
+
+*.sym
