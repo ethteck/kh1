@@ -15,11 +15,11 @@ void pppMove(pppPObject* pobj, PMove* p, pppCtrlTable* ctbl) {
 
     v = (VMove*)&pobj->val[ctbl->useVal[0]];
     move = (pppFVECTOR*)&pobj->val[ctbl->useVal[1]];
-    if (ppvUserStopPartF) {
+    if (ppvUserStopPartF != 0) {
         return;
     }
 
-    if (ppvMng->unk_B9 || ppvMng->unk_BC) {
+    if (ppvMng->unk_B9 != 0 || ppvMng->unk_BC != 0) {
         return;
     }
 

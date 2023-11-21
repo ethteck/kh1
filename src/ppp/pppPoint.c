@@ -12,11 +12,11 @@ typedef struct {
 void pppPoint(pppPObject* pobj, PPoint* p, pppCtrlTable* ctbl) {
     VPoint* v;
 
-    if (ppvUserStopPartF) {
+    if (ppvUserStopPartF != 0) {
         return;
     }
 
-    if (ppvMng->unk_B9 || ppvMng->unk_BC) {
+    if (ppvMng->unk_B9 != 0 || ppvMng->unk_BC != 0) {
         return;
     }
 
