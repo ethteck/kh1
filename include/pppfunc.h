@@ -18,6 +18,10 @@ typedef struct {
 } pppFVECTOR; // size = 0xC
 
 typedef struct {
+    s32 x, y, z;
+} pppIVECTOR; // size = 0xC
+
+typedef struct {
     /* 0x00 */ const char* progName;
     /* 0x04 */ void* calcFunc;
     /* 0x08 */ void* dektFunc;
