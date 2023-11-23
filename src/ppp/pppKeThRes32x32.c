@@ -1,3 +1,5 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "ppp/pppKeThRes32x32", pppKeThRes32x32Con);
+void pppKeThRes32x32Con(pppPObject* pobj, pppCtrlTable* ctbl) {
+    func_001AA960(&pobj->val[ctbl->useVal[0]], 32, 32);
+}
