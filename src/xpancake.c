@@ -19,7 +19,7 @@ extern u16 D_002B8C70;
 f32 D_0048E508;
 
 s32 func_001061D8() {
-    if (((D_002B85C0[0] == 0) || (D_002B860C == 128)) & 0xFFFFu) {
+    if (((D_002B85C0[0] == 0) || (D_002B860C == 128)) & 0xFFFF) {
         return 1;
     }
     return 0;
@@ -40,16 +40,10 @@ void func_001064E8() {
 s32 func_001064F8(XFlapjack* arg0) {
     arg0->unk_10 += D_002B8340[1];
     if (arg0->unk_18 <= arg0->unk_10) {
-        D_002B85C0[3] = 128;
-        D_002B85C0[2] = 128;
-        D_002B85C0[1] = 128;
-        D_002B85C0[0] = 128;
+        D_002B85C0[0] = D_002B85C0[1] = D_002B85C0[2] = D_002B85C0[3] = 128;
         return 4;
     }
-    D_002B85C0[3] = arg0->unk_14 * arg0->unk_10;
-    D_002B85C0[2] = arg0->unk_14 * arg0->unk_10;
-    D_002B85C0[1] = arg0->unk_14 * arg0->unk_10;
-    D_002B85C0[0] = arg0->unk_14 * arg0->unk_10;
+    D_002B85C0[0] = D_002B85C0[1] = D_002B85C0[2] = D_002B85C0[3] = arg0->unk_14 * arg0->unk_10;
     return 0;
 }
 
@@ -74,16 +68,10 @@ void func_00106578(s32 arg0) {
 s32 func_00106610(XFlapjack* arg0) {
     arg0->unk_10 -= D_002B8340[1];
     if (arg0->unk_10 <= 0) {
-        D_002B85C0[3] = 0;
-        D_002B85C0[2] = 0;
-        D_002B85C0[1] = 0;
-        D_002B85C0[0] = 0;
+        D_002B85C0[0] = D_002B85C0[1] = D_002B85C0[2] = D_002B85C0[3] = 0;
         return 4;
     }
-    D_002B85C0[3] = arg0->unk_14 * arg0->unk_10;
-    D_002B85C0[2] = arg0->unk_14 * arg0->unk_10;
-    D_002B85C0[1] = arg0->unk_14 * arg0->unk_10;
-    D_002B85C0[0] = arg0->unk_14 * arg0->unk_10;
+    D_002B85C0[0] = D_002B85C0[1] = D_002B85C0[2] = D_002B85C0[3] = arg0->unk_14 * arg0->unk_10;
     return 0;
 }
 
