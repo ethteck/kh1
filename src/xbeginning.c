@@ -10,6 +10,10 @@ typedef struct XInchWorm {
     /* 0x48 */ char unk_48[0x38];
 } XInchWorm;
 
+typedef struct {
+    /* 0x00 */ s32 data[8];
+} XArg1;
+
 extern UNK_TYPE D_00297740;
 extern UNK_TYPE D_00297790;
 extern UNK_TYPE D_002977D0;
@@ -47,15 +51,15 @@ extern s32 D_00375BC0;
 extern s32 D_0046BE90[3][4];
 extern s32 D_00486430[8][4];
 
-extern UNK_TYPE D_0048DC50;
-extern UNK_TYPE D_0048DC90;
-extern UNK_TYPE D_0048DCD0;
-extern UNK_TYPE D_0048DD10;
-extern UNK_TYPE D_0048DD50;
+extern XArg1 D_0048DC50;
+extern XArg1 D_0048DC90;
+extern XArg1 D_0048DCD0;
+extern XArg1 D_0048DD10;
+extern XArg1 D_0048DD50;
 extern XInchWorm D_0048DDA0[];
 
 s32 func_00100328(void);
-void func_00100460(s32, s32*);
+void func_00100460(s32, XArg1*);
 void func_001004F0(void);
 void func_001006C8(void);
 void func_001006F8(void);
@@ -205,20 +209,19 @@ void main() {
     } while (TRUE);
 }
 
-void func_00100460(s32 arg0, s32* arg1) {
-    s32 iVar1 = 0;
-    do {
-        iVar1 += 1;
-        arg1[0] = D_00486430[arg0][0];
-        arg1[1] = D_00486430[arg0][1];
-        arg1[2] = D_00486430[arg0][2];
-        arg1[3] = D_00486430[arg0][3];
-        arg1[4] = D_0046BE90[0][0];
-        arg1[5] = D_0046BE90[0][1];
-        arg1[6] = D_0046BE90[0][2];
-        arg1[7] = D_0046BE90[0][3];
-        arg1 += 8;
-    } while (iVar1 <= 1);
+void func_00100460(s32 arg0, XArg1* arg1) {
+    s32 i;
+
+    for (i = 0; i < 2; i++) {
+        arg1[i].data[0] = D_00486430[arg0][0];
+        arg1[i].data[1] = D_00486430[arg0][1];
+        arg1[i].data[2] = D_00486430[arg0][2];
+        arg1[i].data[3] = D_00486430[arg0][3];
+        arg1[i].data[4] = D_0046BE90[0][0];
+        arg1[i].data[5] = D_0046BE90[0][1];
+        arg1[i].data[6] = D_0046BE90[0][2];
+        arg1[i].data[7] = D_0046BE90[0][3];
+    }
 }
 
 void func_001004F0() {
@@ -265,7 +268,7 @@ void func_001007E0(void) {
 }
 
 void func_00100880(void) {
-    u32 val;
+    s32 val = FALSE;
 
     D_002978C0 = 0;
     func_00106CB0(0x2724);
@@ -276,7 +279,7 @@ void func_00100880(void) {
         func_00107B68(0x2724, 1);
     }
     if (D_002978CC != 0) {
-        val = 1;
+        val = TRUE;
         if (((D_002B85F8 >> 4) & 1) == val) {
             func_00100550(6, 0x2724);
         } else {
