@@ -10,8 +10,19 @@ typedef struct XInchWorm {
     /* 0x48 */ char unk_48[0x38];
 } XInchWorm;
 
+typedef struct {
+    /* 0x00 */ s32 data[8];
+} XArg1;
+
 extern UNK_TYPE D_00297740;
+extern UNK_TYPE D_00297790;
+extern UNK_TYPE D_002977D0;
+extern UNK_TYPE D_00297830;
 extern XInchWorm D_00297850;
+extern s32 D_002978C0;
+extern s32 D_002978C4;
+extern s32 D_002978CC;
+extern s32 D_002A0500;
 extern s32 D_002A0514;
 extern s32 D_002A2740;
 extern f32 D_002A274C;
@@ -37,15 +48,18 @@ extern s32 D_002BD854;
 
 extern s32 D_00375BC0;
 
-extern UNK_TYPE D_0048DC50;
-extern UNK_TYPE D_0048DC90;
-extern UNK_TYPE D_0048DCD0;
-extern UNK_TYPE D_0048DD10;
-extern UNK_TYPE D_0048DD50;
+extern s32 D_0046BE90[3][4];
+extern s32 D_00486430[8][4];
+
+extern XArg1 D_0048DC50;
+extern XArg1 D_0048DC90;
+extern XArg1 D_0048DCD0;
+extern XArg1 D_0048DD10;
+extern XArg1 D_0048DD50;
 extern XInchWorm D_0048DDA0[];
 
 s32 func_00100328(void);
-void func_00100460(s32, UNK_TYPE*); // in-file, maybe handwritten
+void func_00100460(s32, XArg1*);
 void func_001004F0(void);
 void func_001006C8(void);
 void func_001006F8(void);
@@ -188,7 +202,27 @@ s32 func_00100328(void) {
     return 0;
 }
 
-INCLUDE_ASM(const s32, "xbeginning", main);
+void main() {
+    func_001090D8();
+    do {
+        func_00109580();
+    } while (TRUE);
+}
+
+void func_00100460(s32 arg0, XArg1* arg1) {
+    s32 i;
+
+    for (i = 0; i < 2; i++) {
+        arg1[i].data[0] = D_00486430[arg0][0];
+        arg1[i].data[1] = D_00486430[arg0][1];
+        arg1[i].data[2] = D_00486430[arg0][2];
+        arg1[i].data[3] = D_00486430[arg0][3];
+        arg1[i].data[4] = D_0046BE90[0][0];
+        arg1[i].data[5] = D_0046BE90[0][1];
+        arg1[i].data[6] = D_0046BE90[0][2];
+        arg1[i].data[7] = D_0046BE90[0][3];
+    }
+}
 
 void func_001004F0() {
     func_00100460(0, &D_0048DC50);
@@ -233,8 +267,36 @@ void func_001007E0(void) {
     }
 }
 
-void func_00100880(void);
-INCLUDE_ASM(const s32, "xbeginning", func_00100880);
+void func_00100880(void) {
+    s32 val = FALSE;
+
+    D_002978C0 = 0;
+    func_00106CB0(0x2724);
+    func_00106A08(&D_00297790, 0x2724);
+    func_00107360(&D_00297850, D_002A0500);
+    if (D_002978C4 != 0) {
+        func_00100550(1, 0x2724);
+        func_00107B68(0x2724, 1);
+    }
+    if (D_002978CC != 0) {
+        val = TRUE;
+        if (((D_002B85F8 >> 4) & 1) == val) {
+            func_00100550(6, 0x2724);
+        } else {
+            func_00100550(0, 0x2724);
+        }
+        func_00107B68(0x2724, 0);
+    }
+    func_00106A08(&D_002977D0, 50000);
+    func_00106CB0(50000);
+    D_002978C0 = func_00107A78(D_002A0500);
+    if (D_002978C0 != 0) {
+        func_00100550(3, 50000);
+        func_00107B68(50000, 3);
+    }
+    func_00108548();
+    func_00106A08(&D_00297830, 50100);
+}
 
 void func_001009A8(void) {
     D_002B85F8 |= 1;
