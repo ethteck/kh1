@@ -25,7 +25,7 @@ s32 func_0024A630(s32);
 s32 func_0024A780(char*, char*);
 s32 func_0024A850(s32*);
 
-extern volatile s8 D_002C1EB8;
+extern volatile u8 D_002C1EB8;
 
 extern s32 D_004642E8; // file length
 extern s32 D_004642EC;
@@ -71,7 +71,7 @@ void func_0024A188(s32 arg0) {
 
     do {
         WaitSema(arg0);
-        D_002C1EB8 = D_002C1EB8 & 0xE7U | 0x10;
+        D_002C1EB8 = D_002C1EB8 & 0xE7 | 0x10;
         iVar1 = func_0024A010();
         if (iVar1 != 0) {
             sceDevctl("pfs:", PDIOC_CLOSEALL, NULL, 0, NULL, 0);
@@ -82,13 +82,13 @@ void func_0024A188(s32 arg0) {
         while (sceCdPowerOff(stat) == 0) {
             func_0024A140(100000);
         }
-        D_002C1EB8 |= 0x18;
-        D_004642F0 += 1;
+        D_002C1EB8 |= 0x10 | 0x8;
+        D_004642F0++;
     } while (TRUE);
 }
 
 void func_0024A278(s32 arg0) {
-    D_002C1EB8 = D_002C1EB8 & 0xE7U | 8;
+    D_002C1EB8 = D_002C1EB8 & ~(0x10 | 0x8) | 0x8;
     if (func_0024A010() != 0) {
         iSignalSema(arg0);
     }
@@ -168,27 +168,27 @@ s32 func_0024A458() {
 
 s32 func_0024A4A8() {
     char* filename;
-    int fd;
+    s32 fd;
     u64 offset;
-    s32 val;
+    s32 ret;
 
     D_004642F4 = 90;
     filename = func_0024A3A8();
-    fd = sceOpen(filename, 1);
+    fd = sceOpen(filename, SCE_RDONLY);
     D_004642F4 = 100;
-    val = 1;
+    ret = TRUE;
     if (fd >= 0) {
         offset = sceLseek64(fd, 0, 2);
         D_004642F4 = 110;
         sceClose(fd);
         D_004642F4 = 120;
-        val = D_004642E8; // seems fake?
-        val = 1;
+        ret = D_004642E8; // seems fake?
+        ret = TRUE;
         if ((u32)D_004642E8 == offset) {
-            val = 0;
+            ret = FALSE;
         }
     }
-    return val;
+    return ret;
 }
 
 s32 func_0024A558(void) {

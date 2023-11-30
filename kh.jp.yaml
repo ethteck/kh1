@@ -286,10 +286,13 @@ segments:
     - [0x146BD0, c, xmonitor]
     - [0x1477F8, asm]
     - [0x14A090, c, xsomething]
-    - [0x14AB28, asm]
 ###########
 # Library #
 ###########
+    # ??? - the following 3 have 0x10 file alignment and 0x4 (no) function alignment within files
+    - [0x14AB28, asm]
+    - [0x14B880, asm]
+    - [0x14BA00, asm]
     # libc.a
     - [0x14BD50, asm, libc/assert]
     - [0x14BD88, asm, libc/bsearch]
@@ -521,7 +524,7 @@ segments:
     - [0x38B400, rodata, 144BF0]
     - [0x38B450, .rodata, xmonitor]
     - [0x38B468, rodata, 1477F8]
-    - [0x38B548, .rodata, xsomething]
+    - [0x38B518, .rodata, xsomething]
     - [0x38B598, rodata, libc/assert]
     - [0x38B5C8, rodata, libc/ctype_]
     - [0x38B6D0, rodata, libc/impure]
