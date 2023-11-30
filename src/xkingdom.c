@@ -184,7 +184,7 @@ void func_00120108(XCrown* arg0) {
     s32 fd;
     s32 nbyte;
 
-    fd = sceOpen("pfs0:kingdom.img", 1);
+    fd = sceOpen("pfs0:kingdom.img", SCE_RDONLY);
     cond = FALSE;
     
     if (fd < 0 || D_002C2094 & 0x2000) {
