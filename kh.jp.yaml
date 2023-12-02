@@ -36,6 +36,8 @@ segments:
     - [0x15A8, asm]
     - [0x6258, c, xpancake]
     - [0x69C8, asm]
+    - [0x9158, c, xarcade]
+    - [0xA278, asm]
     - [0x11120, c, xtrumpet]
     - [0x11FC0, c, xspinach]
     - [0x121E8, asm]
@@ -285,7 +287,7 @@ segments:
     - [0x144BF0, asm]
     - [0x146BD0, c, xmonitor]
     - [0x1477F8, asm]
-    - [0x14A090, c, xsomething]
+    - [0x14A090, c, disk]
 ###########
 # Library #
 ###########
@@ -524,7 +526,7 @@ segments:
     - [0x38B400, rodata, 144BF0]
     - [0x38B450, .rodata, xmonitor]
     - [0x38B468, rodata, 1477F8]
-    - [0x38B518, .rodata, xsomething]
+    - [0x38B518, .rodata, disk]
     - [0x38B598, rodata, libc/assert]
     - [0x38B5C8, rodata, libc/ctype_]
     - [0x38B6D0, rodata, libc/impure]
