@@ -1,5 +1,6 @@
 #include "common.h"
 #include "eekernel.h"
+#include <sifdev.h>
 
 s32 _fs_init;
 s32 _fs_semid;
@@ -55,6 +56,12 @@ INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceFsInit);
 
 INCLUDE_ASM(const s32, "lib/libkernl/filestub", _fs_version);
 
+/**
+ * @brief Invalidate file service bind information. 
+ * This function should always be called after the IOP is reset,
+ * since the file service RPC BIND information will be invalid.
+ * @return Always returns 0
+ */
 s32 sceFsReset() {
     _fs_init = 0;
     memset(_fsversion, 0, 4);
@@ -77,20 +84,33 @@ INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceIoctl2);
 
 INCLUDE_ASM(const s32, "lib/libkernl/filestub", _sceCallCode);
 
-// INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceRemove);
+/**
+ * @brief Delete file
+ * @param filename File pathname (includes device name and ':')
+ * @return 0 on success, -1 * error code on failure 
+ */
 s32 sceRemove(const char* filename) {
     return _sceCallCode(filename, 6);
 }
 
 INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceMkdir);
 
-INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceRmdir);
+/**
+ * @brief Delete directory
+ * @param dirname Directory pathname (includes device name and ':')
+ * @return 0 on success, -1 * error code on failure
+ */
+s32 sceRmdir(const char* dirname) {
+    return _sceCallCode(dirname, 8);
+}
 
 INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceFormat);
 
 INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceAddDrv);
 
-INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceDelDrv);
+s32 sceDelDrv(const char* name) {
+    return _sceCallCode(name, 16);
+}
 
 INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceDopen);
 
@@ -104,13 +124,27 @@ INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceChstat);
 
 INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceRename);
 
-INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceChdir);
+/**
+ * @brief Change current directory
+ * @param name filepath name
+ * @return 0 on success, -1 * error code on failure
+ */
+s32 sceChdir(const char* name) {
+    return _sceCallCode(name, 18);
+}
 
 INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceSync);
 
 INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceMount);
 
-INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceUmount);
+/**
+ * @brief Unmount filesystem
+ * @param name string specifying mounted filesystem device name and unit number
+ * @return 0 on success, -1 * error code on failure
+ */
+s32 sceUmount(const char* name) {
+    return _sceCallCode(name, 21);
+}
 
 INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceLseek64);
 
