@@ -29,7 +29,7 @@ s32 func_00218C88(void);
 void func_00218CA0(s32);
 KingdomFile* bsearch(s32, s32*, s32, s32, void*);
 
-extern volatile s8 D_002C1EB8;
+extern vs8 D_002C1EB8;
 extern s32 D_002C2094;
 extern s32 D_002C2180;
 extern sceCdRMode D_002C2188;

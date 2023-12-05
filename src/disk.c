@@ -1,56 +1,45 @@
-#include "common.h"
+#include "disk.h"
 #include "io.h"
 #include "sifdev.h"
 #include "sdk/libcdvd.h"
 #include "eekernel.h"
 
-typedef char* (*XWhat)(void);
-typedef s32 (*XHuh)(s32);
-
-typedef struct XThingy {
-    /* 0x00 */ XWhat unk_00;
-    /* 0x04 */ XWhat unk_04;
-    /* 0x04 */ XWhat unk_08;
-    /* 0x04 */ XWhat unk_0C;
-    /* 0x10 */ s32 bIsMounted;
-} XThingy;
-
 s32 func_0024A010(void);
-char* func_0024A3A8(void);
-s32 func_0024A3B8(void);
-s32 func_0024A458(void);
+char* disk_GetImgName(void);
+s32 disk_Mount(void);
+s32 disk_Unmount(void);
 s32 func_0024A4A8(void);
-s32 func_0024A558(void);
+s32 disk_GetStatus(void);
 s32 func_0024A630(s32);
-s32 func_0024A780(char*, char*);
-s32 func_0024A850(s32*);
+s32 disk_Seek(char*, char*);
+s32 disk_SetBlock(s32*);
 
-extern volatile u8 D_002C1EB8;
+extern vu8 D_002C1EB8;
 
-extern s32 D_004642E8; // file length
-extern s32 D_004642EC;
-extern s32 D_004642F0;
-extern s32 D_004642F4;
-extern s32 D_004642F8;
-extern char D_00464300[];
-extern char D_00464308[];
-extern char D_00464320[];
-extern char D_00464330[];
-extern char D_00464340[];
-extern s32 D_00464354;
-extern s32 D_00464358;
+s32 disk_BlockSize; // file length
+
+s32 D_004642EC;
+s32 D_004642F0;
+s32 D_004642F4;
+s32 D_004642F8;
+char D_00464300[];
+char D_00464308[];
+char D_00464320[];
+char D_00464330[];
+char D_00464340[];
+s32 D_00464354;
+s32 D_00464358;
 extern s32 D_0046435C;
-extern XThingy D_00464360;
-extern s32 D_00464384;
+s32 D_00464384;
 extern s32 D_0048DB00; // gp0 value
 
-extern char D_00663A90[0x1000];
+char D_00663A90[0x1000];
 
 s32 func_0024A010() {
     return D_004642EC;
 }
 
-INCLUDE_ASM(const s32, "xsomething", func_0024A020);
+INCLUDE_ASM(const s32, "disk", func_0024A020);
 
 void func_0024A140(s32 arg0) {
     if (0 < arg0) {
@@ -65,12 +54,12 @@ s32 func_0024A178() {
     return D_004642F8;
 }
 
-void func_0024A188(s32 arg0) {
+void func_0024A188(void* sema) {
     int iVar1;
     int stat[4];
 
     do {
-        WaitSema(arg0);
+        WaitSema(sema);
         D_002C1EB8 = D_002C1EB8 & 0xE7 | 0x10;
         iVar1 = func_0024A010();
         if (iVar1 != 0) {
@@ -87,14 +76,14 @@ void func_0024A188(s32 arg0) {
     } while (TRUE);
 }
 
-void func_0024A278(s32 arg0) {
+void func_0024A278(void* sema) {
     D_002C1EB8 = D_002C1EB8 & ~(0x10 | 0x8) | 0x8;
     if (func_0024A010() != 0) {
-        iSignalSema(arg0);
+        iSignalSema(sema);
     }
 }
 
-s32* func_0024A2D0() {
+s32* disk_StartThread() {
     struct ThreadParam threadParam;
     void* sema;
     struct SemaParam semaParam;
@@ -119,7 +108,7 @@ char* func_0024A368() {
     return D_00464300;
 }
 
-char* func_0024A378(void) {
+char* disk_GetGamecode(void) {
     // return "PP.SLPS-25105.0.KINGDOM";
     return D_00464308;
 }
@@ -130,50 +119,50 @@ char* func_0024A388(void) {
 }
 
 char* func_0024A398(void) {
-    //     return "mangan01";
+    // return "mangan01";
     return D_00464330;
 }
 
-char* func_0024A3A8() {
+char* disk_GetImgName() {
     // return "pfs0:kingdom.img";
     return D_00464340;
 }
 
-s32 func_0024A3B8() {
+b32 disk_Mount() {
     char* pcVar1;
     char* pcVar2;
     char blkdevname[128];
 
-    if (D_00464360.bIsMounted == FALSE) {
-        pcVar1 = D_00464360.unk_04();
-        pcVar2 = D_00464360.unk_08();
+    if (disk_Mgr.isMounted == FALSE) {
+        pcVar1 = disk_Mgr.unk_04();
+        pcVar2 = disk_Mgr.unk_08();
         sprintf(blkdevname, "hdd0:%s,%s", pcVar1, pcVar2);
         if (sceMount("pfs0:", blkdevname, SCE_MT_RDWR, NULL, 0) < 0) {
             return TRUE;
         }
-        D_00464360.bIsMounted = TRUE;
+        disk_Mgr.isMounted = TRUE;
     }
     return FALSE;
 }
 
-s32 func_0024A458() {
-    if (D_00464360.bIsMounted != FALSE) {
+b32 disk_Unmount() {
+    if (disk_Mgr.isMounted != FALSE) {
         if (sceUmount("pfs0:") == 0) {
-            D_00464360.bIsMounted = FALSE;
+            disk_Mgr.isMounted = FALSE;
             return FALSE;
         }
     }
     return TRUE;
 }
 
-s32 func_0024A4A8() {
+b32 func_0024A4A8() {
     char* filename;
     s32 fd;
     u64 offset;
     s32 ret;
 
     D_004642F4 = 90;
-    filename = func_0024A3A8();
+    filename = disk_GetImgName();
     fd = sceOpen(filename, SCE_RDONLY);
     D_004642F4 = 100;
     ret = TRUE;
@@ -182,23 +171,23 @@ s32 func_0024A4A8() {
         D_004642F4 = 110;
         sceClose(fd);
         D_004642F4 = 120;
-        ret = D_004642E8; // seems fake?
+        ret = disk_BlockSize; // seems fake?
         ret = TRUE;
-        if ((u32)D_004642E8 == offset) {
+        if ((u32)disk_BlockSize == offset) {
             ret = FALSE;
         }
     }
     return ret;
 }
 
-s32 func_0024A558(void) {
+s32 disk_GetStatus(void) {
     return sceDevctl("hdd0:", HDIOC_STATUS, NULL, 0, NULL, 0);
 }
 
-s32 func_0024A588(char* devname, s32 arg1) {
+b32 func_0024A588(char* devname, s32 arg1) {
     s32 bufp;
 
-    sceDevctl(devname, HDIOC_TOTALSECTOR, NULL, 0, 0, 0);
+    sceDevctl(devname, HDIOC_TOTALSECTOR, NULL, 0, NULL, 0);
     D_004642F4 = 60;
     bufp = NULL;
 
@@ -223,14 +212,14 @@ s32 func_0024A630(s32 arg0) {
     int val;
 
     s32 temp = 0;
-    s32 mounted = D_00464360.bIsMounted;
+    s32 mounted = disk_Mgr.isMounted;
 
     D_00464354 = 0;
     if (mounted != FALSE) {
-        func_0024A458();
+        disk_Unmount();
     }
     D_004642F4 = 40;
-    sprintf(filename, "hdd0:%s,,%s", D_00464360.unk_04(), &D_00464330);
+    sprintf(filename, "hdd0:%s,,%s", disk_Mgr.unk_04(), &D_00464330);
     fd = sceOpen(filename, SCE_RDONLY);
     if (fd >= 0) {
         temp = sceIoctl2(fd, HIOCNSUB, NULL, 0, NULL, 0);
@@ -246,48 +235,48 @@ s32 func_0024A630(s32 arg0) {
         D_00464354 = -1;
     }
     if (mounted != FALSE) {
-        func_0024A3B8();
+        disk_Mount();
     }
     D_004642F4 = 80;
     return D_00464354;
 }
 
-s32 func_0024A780(char* dirname, char* arg1) {
+b32 disk_Seek(char* dirname, char* query) {
     struct sce_dirent sp;
     s32 fd;
-    s32 var_17;
-    s32 var_18;
-
-    var_18 = 0;
+    s32 buflen;
+    s32 bFoundQuery = FALSE;
 
     fd = sceDopen(dirname);
     if (fd < 0) {
-        return 0;
+        return FALSE;
     }
 
-    var_17 = 0;
+    buflen = 0;
     while (sceDread(fd, &sp) > 0) {
-        var_17 += 1;
+        buflen += 1;
     }
     sceDclose(fd);
 
-    if (var_17 == 0) {
-        return 0;
+    if (buflen == 0) {
+        return FALSE;
     }
 
     fd = sceDopen(dirname);
     if (fd < 0) {
-        return 0;
+        return FALSE;
     }
 
     while (sceDread(fd, &sp) > 0) {
-        var_18 = (strcmp(sp.d_name, arg1) == 0) ? 1 : var_18;
+        if (strcmp(sp.d_name, query) == 0) {
+            bFoundQuery = TRUE;
+        }
     }
     sceDclose(fd);
-    return var_18;
+    return bFoundQuery;
 }
 
-s32 func_0024A850(s32* isoBlock) {
+s32 disk_SetBlock(s32* isoBlock) {
     s32 length = 0;
     KingdomFile* kingdomFile;
 
@@ -307,7 +296,7 @@ s32 func_0024A850(s32* isoBlock) {
 
 s32 func_0024A8B0(void) {
     s32 cond;
-    s32 var_2;
+    s32 diskStatus;
 
     D_004642F4 = 0;
     D_00464358 = D_0046435C = 0;
@@ -317,22 +306,22 @@ s32 func_0024A8B0(void) {
     }
 
     D_004642F4 = 10;
-    func_0024A458();
-    if (func_0024A780("hdd0:", D_00464308) != 0) {
+    disk_Unmount();
+    if (disk_Seek("hdd0:", D_00464308) != 0) {
         cond = TRUE;
         D_00464384 = 1;
     } else {
         cond = FALSE;
         D_00464384 = 0;
     }
-    D_004642E8 = func_0024A850(NULL);
+    disk_BlockSize = disk_SetBlock(NULL);
     D_004642F4 = 20;
-    var_2 = func_0024A558();
+    diskStatus = disk_GetStatus();
     D_004642F4 = 30;
-    switch (abs(var_2) & 0xF) {
+    switch (abs(diskStatus) & 0xF) {
         case 0:
-            func_0024A630(D_004642E8);
-            if (func_0024A3B8() != 0) {
+            func_0024A630(disk_BlockSize);
+            if (disk_Mount() != 0) {
                 D_00464358 = 1;
                 if (cond) {
                     D_00464358 = 3;
@@ -340,7 +329,7 @@ s32 func_0024A8B0(void) {
                 }
             } else if (func_0024A4A8() != 0) {
                 D_00464358 = 3;
-                func_0024A458();
+                disk_Unmount();
                 D_0046435C = 2;
             } else {
                 D_00464358 = 2;

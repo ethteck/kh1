@@ -857,6 +857,18 @@ pppMatrixLoopZXYCalc         = 0x0018D4C8; // type:func
 // pppMatrixLoopZYX.c
 pppMatrixLoopZYXCalc         = 0x0018D5C8; // type:func
 
+//=============================
+// disk.c
+//=============================
+func_0024A278                = 0x0024A278; // type:func
+disk_StartThread             = 0x0024A2D0; // type:func
+disk_GetGamecode             = 0x0024A378; // type:func
+disk_GetImgName              = 0x0024A3A8; // type:func
+disk_Mount                   = 0x0024A3B8; // type:func
+disk_Unmount                 = 0x0024A458; // type:func
+disk_GetStatus               = 0x0024A558; // type:func
+disk_Seek                    = 0x0024A780; // type:func
+disk_SetBlock                = 0x0024A850; // type:func
 
 
 //=============================
@@ -1966,10 +1978,14 @@ sceIpuSync                   = 0x0026efd8; // type:func
 sceIpuInit                   = 0x0026f0a8; // type:func
 
 // hacks for now
-func_0024A278 = 0x0024A278; //type:func
 D_0048BAB8 = 0x0048BAB8; // type:s32
 D_004885C0 = 0x004885C0; // type:s32
 
+//=============================
+// disk.c
+//=============================
+disk_BlockSize               = 0x004642E8; // type:s32
+disk_Mgr                     = 0x00464360;
 
 //=============================
 // ppp lib
