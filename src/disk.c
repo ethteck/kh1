@@ -14,26 +14,26 @@ s32 func_0024A630(s32);
 s32 disk_Seek(char*, char*);
 s32 disk_SetBlock(s32*);
 
-extern volatile u8 D_002C1EB8;
+extern vu8 D_002C1EB8;
 
-s32 diskBlockSize; // file length
-extern s32 D_004642EC;
-extern s32 D_004642F0;
-extern s32 D_004642F4;
-extern s32 D_004642F8;
-extern char D_00464300[];
-extern char D_00464308[];
-extern char D_00464320[];
-extern char D_00464330[];
-extern char D_00464340[];
-extern s32 D_00464354;
-extern s32 D_00464358;
+s32 disk_BlockSize; // file length
+
+s32 D_004642EC;
+s32 D_004642F0;
+s32 D_004642F4;
+s32 D_004642F8;
+char D_00464300[];
+char D_00464308[];
+char D_00464320[];
+char D_00464330[];
+char D_00464340[];
+s32 D_00464354;
+s32 D_00464358;
 extern s32 D_0046435C;
-DiskManager diskMgr;
-extern s32 D_00464384;
+s32 D_00464384;
 extern s32 D_0048DB00; // gp0 value
 
-extern char D_00663A90[0x1000];
+char D_00663A90[0x1000];
 
 s32 func_0024A010() {
     return D_004642EC;
@@ -54,12 +54,12 @@ s32 func_0024A178() {
     return D_004642F8;
 }
 
-void func_0024A188(s32 arg0) {
+void func_0024A188(void* sema) {
     int iVar1;
     int stat[4];
 
     do {
-        WaitSema(arg0);
+        WaitSema(sema);
         D_002C1EB8 = D_002C1EB8 & 0xE7 | 0x10;
         iVar1 = func_0024A010();
         if (iVar1 != 0) {
@@ -76,10 +76,10 @@ void func_0024A188(s32 arg0) {
     } while (TRUE);
 }
 
-void func_0024A278(s32 arg0) {
+void func_0024A278(void* sema) {
     D_002C1EB8 = D_002C1EB8 & ~(0x10 | 0x8) | 0x8;
     if (func_0024A010() != 0) {
-        iSignalSema(arg0);
+        iSignalSema(sema);
     }
 }
 
@@ -128,34 +128,34 @@ char* disk_GetImgName() {
     return D_00464340;
 }
 
-s32 disk_Mount() {
+b32 disk_Mount() {
     char* pcVar1;
     char* pcVar2;
     char blkdevname[128];
 
-    if (diskMgr.bIsMounted == FALSE) {
-        pcVar1 = diskMgr.unk_04();
-        pcVar2 = diskMgr.unk_08();
+    if (disk_Mgr.isMounted == FALSE) {
+        pcVar1 = disk_Mgr.unk_04();
+        pcVar2 = disk_Mgr.unk_08();
         sprintf(blkdevname, "hdd0:%s,%s", pcVar1, pcVar2);
         if (sceMount("pfs0:", blkdevname, SCE_MT_RDWR, NULL, 0) < 0) {
             return TRUE;
         }
-        diskMgr.bIsMounted = TRUE;
+        disk_Mgr.isMounted = TRUE;
     }
     return FALSE;
 }
 
-s32 disk_Unmount() {
-    if (diskMgr.bIsMounted != FALSE) {
+b32 disk_Unmount() {
+    if (disk_Mgr.isMounted != FALSE) {
         if (sceUmount("pfs0:") == 0) {
-            diskMgr.bIsMounted = FALSE;
+            disk_Mgr.isMounted = FALSE;
             return FALSE;
         }
     }
     return TRUE;
 }
 
-s32 func_0024A4A8() {
+b32 func_0024A4A8() {
     char* filename;
     s32 fd;
     u64 offset;
@@ -171,9 +171,9 @@ s32 func_0024A4A8() {
         D_004642F4 = 110;
         sceClose(fd);
         D_004642F4 = 120;
-        ret = diskBlockSize; // seems fake?
+        ret = disk_BlockSize; // seems fake?
         ret = TRUE;
-        if ((u32)diskBlockSize == offset) {
+        if ((u32)disk_BlockSize == offset) {
             ret = FALSE;
         }
     }
@@ -184,7 +184,7 @@ s32 disk_GetStatus(void) {
     return sceDevctl("hdd0:", HDIOC_STATUS, NULL, 0, NULL, 0);
 }
 
-s32 func_0024A588(char* devname, s32 arg1) {
+b32 func_0024A588(char* devname, s32 arg1) {
     s32 bufp;
 
     sceDevctl(devname, HDIOC_TOTALSECTOR, NULL, 0, NULL, 0);
@@ -212,14 +212,14 @@ s32 func_0024A630(s32 arg0) {
     int val;
 
     s32 temp = 0;
-    s32 mounted = diskMgr.bIsMounted;
+    s32 mounted = disk_Mgr.isMounted;
 
     D_00464354 = 0;
     if (mounted != FALSE) {
         disk_Unmount();
     }
     D_004642F4 = 40;
-    sprintf(filename, "hdd0:%s,,%s", diskMgr.unk_04(), &D_00464330);
+    sprintf(filename, "hdd0:%s,,%s", disk_Mgr.unk_04(), &D_00464330);
     fd = sceOpen(filename, SCE_RDONLY);
     if (fd >= 0) {
         temp = sceIoctl2(fd, HIOCNSUB, NULL, 0, NULL, 0);
@@ -241,7 +241,7 @@ s32 func_0024A630(s32 arg0) {
     return D_00464354;
 }
 
-s32 disk_Seek(char* dirname, char* query) {
+b32 disk_Seek(char* dirname, char* query) {
     struct sce_dirent sp;
     s32 fd;
     s32 buflen;
@@ -314,13 +314,13 @@ s32 func_0024A8B0(void) {
         cond = FALSE;
         D_00464384 = 0;
     }
-    diskBlockSize = disk_SetBlock(NULL);
+    disk_BlockSize = disk_SetBlock(NULL);
     D_004642F4 = 20;
     diskStatus = disk_GetStatus();
     D_004642F4 = 30;
     switch (abs(diskStatus) & 0xF) {
         case 0:
-            func_0024A630(diskBlockSize);
+            func_0024A630(disk_BlockSize);
             if (disk_Mount() != 0) {
                 D_00464358 = 1;
                 if (cond) {

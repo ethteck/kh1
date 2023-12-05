@@ -57,11 +57,11 @@ void func_001090D8() {
 
     file = func_0011FFD8(D_004869F8);
     if (file != NULL) {
-        diskMgr.unk_18(file->length);
+        disk_Mgr.unk_18(file->length);
     } else {
-        diskMgr.unk_18(0);
+        disk_Mgr.unk_18(0);
     }
-    D_002B29C8 = diskMgr.unk_1C();
+    D_002B29C8 = disk_Mgr.unk_1C();
     func_00110230(0);
     D_002B8C8C = 0;
     func_001ED888(NULL);

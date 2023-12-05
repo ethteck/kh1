@@ -160,15 +160,15 @@ s32 func_0013AB68(u16* arg0) {
 
         if (func_00177D68() < 0.5f) {
             if (D_005324B4 < 0.0f) {
-                D_005324B4 += 6.2831855f;
+                D_005324B4 += 2 * PI;
             } else {
-                D_005324B4 -= 6.2831855f;
+                D_005324B4 -= 2 * PI;
             }
         }
         if (func_00177D68() < 0.5f) {
-            D_005324B4 += 0.5235988f;
+            D_005324B4 += PI / 6;
         } else {
-            D_005324B4 -= 0.5235988f;
+            D_005324B4 -= PI / 6;
         }
         D_00532500 = 40.0f;
     }
@@ -179,7 +179,7 @@ s32 func_0013AB68(u16* arg0) {
         var_f21 = 0.0f;
     }
 
-    var_f21 = (cosf(var_f21 * 3.1415928f) + 1.0f) * 0.5f;
+    var_f21 = (cosf(var_f21 * PI) + 1.0f) * 0.5f;
     sceVu0InterVector(sp10, D_00301040, D_005324E0, var_f21);
     ry = func_00120AC8(D_005324B4 * var_f21);
     sceVu0RotMatrixY(sp20, D_002C1E20, ry);
