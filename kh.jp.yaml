@@ -352,7 +352,7 @@ segments:
     - [0x1559E0, asm, libkernl/tty]
     - [0x155F00, asm, libkernl/kprintf]
     - [0x156878, asm, libkernl/sifrpc]
-    - [0x1577D8, asm, libkernl/filestub]
+    - [0x1577D8, c, lib/libkernl/filestub]
     - [0x15AE70, asm, libkernl/eeloadfile]
     - [0x15BBD0, asm, libkernl/iopreset]
     - [0x15BE80, asm, libkernl/diei]
