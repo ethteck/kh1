@@ -475,6 +475,8 @@ segments:
     - [0x16F360, data]
     - [0x2DE638, data, xquack]
     - [0x2DE670, data]
+    - [0x364368, .data, disk]
+    - [0x364408, data]
     - [0x364430, data, libc/impure]
     - [0x364728, data, libc/malloc_r]
     - [0x364B80, data, libc/mlock]

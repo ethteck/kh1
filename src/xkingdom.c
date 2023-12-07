@@ -1,6 +1,6 @@
 #include "common.h"
 #include "io.h"
-
+#include "disk.h"
 #include "sdk/libcdvd.h"
 #include "sdk/ee/eekernel.h"
 #include "sdk/ee/sifdev.h"
@@ -213,7 +213,7 @@ void func_00120108(XCrown* arg0) {
     }
         
     if (cond) {
-        D_00464380(4);
+        disk_Mgr.unk_20(4);
         D_002C1EB8 |= 4;
         do {
             func_0010BEE8();

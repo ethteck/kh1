@@ -1,3 +1,6 @@
+#ifndef DISK_H
+#define DISK_H
+
 #include "common.h"
 
 typedef char* (*XWhat)(void);
@@ -12,7 +15,18 @@ typedef struct DiskManager {
     /* 0x14 */ XWhat unk_14;
     /* 0x18 */ XHuh unk_18;
     /* 0x1C */ XWhat unk_1C;
-    /* 0x20 */ XWhat unk_20;
+    /* 0x20 */ XHuh unk_20;
 } DiskManager;
 
-DiskManager disk_Mgr;
+extern struct DiskManager disk_Mgr;
+
+char* func_0024A368(void);
+char* disk_GetGamecode(void);
+char* func_0024A388(void);
+char* func_0024A398(void);
+char* disk_GetImgName(void);
+s32 func_0024A8B0(void);
+s32 func_0024AA88();
+void func_0024AA98(s32);
+
+#endif // DISK_H

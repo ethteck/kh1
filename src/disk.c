@@ -16,21 +16,34 @@ s32 disk_SetBlock(s32*);
 
 extern vu8 D_002C1EB8;
 
-s32 disk_BlockSize; // file length
+s32 disk_BlockSize = 0; // file length
 
-s32 D_004642EC;
-s32 D_004642F0;
-s32 D_004642F4;
-s32 D_004642F8;
-char D_00464300[];
-char D_00464308[];
-char D_00464320[];
-char D_00464330[];
-char D_00464340[];
-s32 D_00464354;
-s32 D_00464358;
-extern s32 D_0046435C;
-s32 D_00464384;
+s32 D_004642EC = 0;
+s32 D_004642F0 = 0;
+s32 D_004642F4 = 0;
+s32 D_004642F8 = 0;
+char D_00464300[] = "128M";
+char D_00464308[] = "PP.SLPS-25105.0.KINGDOM";
+char D_00464320[] = "haneman0";
+char D_00464330[] = "mangan01";
+char D_00464340[] = "pfs0:kingdom.img";
+s32 D_00464354 = 0;
+s32 D_00464358 = 0;
+s32 D_0046435C = 0;
+
+struct DiskManager disk_Mgr = {
+    .unk_00 = func_0024A368,
+    .unk_04 = disk_GetGamecode,
+    .unk_08 = func_0024A388,
+    .unk_0C = func_0024A398,
+    .isMounted = FALSE,
+    .unk_14 = disk_GetImgName,
+    .unk_18 = func_0024A8B0,
+    .unk_1C = func_0024AA88,
+    .unk_20 = func_0024AA98,
+};
+
+s32 D_00464384 = 0;
 extern s32 D_0048DB00; // gp0 value
 
 char D_00663A90[0x1000];
