@@ -16,9 +16,9 @@ typedef struct DiskManager {
     /* 0x18 */ XHuh unk_18;
     /* 0x1C */ XWhat unk_1C;
     /* 0x20 */ XHuh unk_20;
-} DiskManager;
+} DiskManager; // size = 0x24
 
-extern struct DiskManager disk_Mgr;
+extern DiskManager disk_Mgr;
 
 char* func_0024A368(void);
 char* disk_GetGamecode(void);
