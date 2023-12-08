@@ -72,7 +72,7 @@ void func_0024A188(void* sema) {
     int stat[4];
 
     do {
-        WaitSema(sema);
+        WaitSema((s32)sema);
         D_002C1EB8 = D_002C1EB8 & 0xE7 | 0x10;
         iVar1 = func_0024A010();
         if (iVar1 != 0) {
@@ -92,13 +92,13 @@ void func_0024A188(void* sema) {
 void func_0024A278(void* sema) {
     D_002C1EB8 = D_002C1EB8 & ~(0x10 | 0x8) | 0x8;
     if (func_0024A010() != 0) {
-        iSignalSema(sema);
+        iSignalSema((s32)sema);
     }
 }
 
 s32* disk_StartThread() {
     struct ThreadParam threadParam;
-    void* sema;
+    s32 sema;
     struct SemaParam semaParam;
     int thread;
 
@@ -112,8 +112,8 @@ s32* disk_StartThread() {
     threadParam.entry = func_0024A188;
     threadParam.stack = D_00663A90;
     thread = CreateThread(&threadParam);
-    StartThread(thread, sema);
-    return sceCdPOffCallback(func_0024A278, sema);
+    StartThread(thread, (void*)sema);
+    return sceCdPOffCallback(func_0024A278, (void*)sema);
 }
 
 char* func_0024A368() {
@@ -307,7 +307,7 @@ s32 disk_SetBlock(s32* isoBlock) {
     return length;
 }
 
-s32 func_0024A8B0(void) {
+s32 func_0024A8B0(s32 arg0) {
     s32 cond;
     s32 diskStatus;
 

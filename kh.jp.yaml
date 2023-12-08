@@ -47,6 +47,9 @@ segments:
     - [0x3BD28, asm]
     - [0x49D68, c, xsquash]
     - [0x4A098, asm]
+    ####################
+    # Particle Effects #
+    ####################
     - [0x85220, c, ppp/pppKeThLz]
     - [0x85238, c, ppp/pppKeThCp]
     - [0x85250, c, ppp/pppKeThCpSft]

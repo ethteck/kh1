@@ -7,38 +7,40 @@ typedef struct {
     /* 0x04 */ f32 unk_04;
 } XArcade;
 
-char D_002B29B0[]; // "host:./kingdom.cnf"
-char* D_002B29C8;
-s32 D_002B2CB0;
-s32 D_002B2CC0;
-s32 D_002B2CC4;
-u_long128* D_002B2CC8;
-u_long128* D_002B2CCC;
-s32 D_002B8690;
-s32 D_002B8694;
-s32 D_002B85C0[4];
-sceGsLoadImage D_002B8700;
-s32 D_002B8870;
-s32 D_002B8C70;
-s32 D_002B8C8C;
-s32* D_002DEC60;
-s32* D_002DECA0;
+extern char D_002B29B0[]; // "host:./kingdom.cnf"
+extern char* D_002B29C8;
+extern s32 D_002B2CB0;
+extern s32 D_002B2CC0;
+extern s32 D_002B2CC4;
+extern u_long128* D_002B2CC8;
+extern u_long128* D_002B2CCC;
+extern s32** D_002B8690;
+extern s32** D_002B8694;
+extern s32 D_002B85C0[4];
+extern sceGsLoadImage D_002B8700;
+extern s32 D_002B8870;
+extern s32 D_002B8C70;
+extern s32 D_002B8C8C;
+extern s32* D_002DEC60;
+extern s32* D_002DECA0;
 
-s32 D_00358BE0;
+extern s32 D_00358BE0;
 
-char D_004869E0[]; // "host:./kingdom.log"
-char D_004869F8[]; // "kingdom.img"
-s32 D_0048EBE0;
-f32 D_0048EBE4;
-f32 D_0048EBFC;
-XArcade D_0048EC00;
-s32 D_0048EC08;
+extern char D_004869E0[]; // "host:./kingdom.log"
+extern char D_004869F8[]; // "kingdom.img"
+extern s32 D_0048EBE0;
+extern f32 D_0048EBE4;
+extern f32 D_0048EBFC;
+extern XArcade D_0048EC00;
+extern s32 D_0048EC08;
 
 extern void func_F20000(s32, s32);
 extern void func_00100240(); // in xbeginning
 extern void func_00110230(s32);
 extern void func_0011EDD0(s32*, s32*, s32, s32);
+extern u_long128* func_00121C98(s32, u_long128**);
 extern void func_00122518();
+extern s32* func_00155ED8(s32, s32);
 extern void func_001600B8();
 extern void func_001C20B8();
 extern void func_00233968();

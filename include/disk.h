@@ -5,6 +5,7 @@
 
 typedef char* (*XWhat)(void);
 typedef s32 (*XHuh)(s32);
+typedef void (*XWho)(s32);
 
 typedef struct DiskManager {
     /* 0x00 */ XWhat unk_00;
@@ -15,7 +16,7 @@ typedef struct DiskManager {
     /* 0x14 */ XWhat unk_14;
     /* 0x18 */ XHuh unk_18;
     /* 0x1C */ XWhat unk_1C;
-    /* 0x20 */ XHuh unk_20;
+    /* 0x20 */ XWho unk_20;
 } DiskManager; // size = 0x24
 
 extern DiskManager disk_Mgr;
@@ -25,7 +26,7 @@ char* disk_GetGamecode(void);
 char* func_0024A388(void);
 char* func_0024A398(void);
 char* disk_GetImgName(void);
-s32 func_0024A8B0(void);
+s32 func_0024A8B0(s32);
 s32 func_0024AA88();
 void func_0024AA98(s32);
 
