@@ -29,8 +29,7 @@ segments:
     vram: 0x100000
     bss_size: 0x1E1500
     subsegments:
-    - [0x80, asm]
-    - [0x88, asm]
+    - [0x80, asm, crt0]
     - [0x168, c, xbeginning]
     - [0x1260, c, xporcupine]
     - [0x15A8, asm]
