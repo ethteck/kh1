@@ -5,7 +5,6 @@
 #include "eekernel.h"
 
 s32 func_0024A010(void);
-char* disk_GetImgName(void);
 s32 disk_Mount(void);
 s32 disk_Unmount(void);
 s32 func_0024A4A8(void);
@@ -21,23 +20,23 @@ s32 disk_BlockSize = 0; // file length
 s32 D_004642EC = 0;
 s32 D_004642F0 = 0;
 s32 D_004642F4 = 0;
-s32 D_004642F8 = 0;
-char D_00464300[] = "128M";
-char D_00464308[] = "PP.SLPS-25105.0.KINGDOM";
+s32 disk_Timer = 0;
+char disk_SectorSize[] = "128M";
+char disk_Gamecode[] = "PP.SLPS-25105.0.KINGDOM";
 char D_00464320[] = "haneman0";
 char D_00464330[] = "mangan01";
-char D_00464340[] = "pfs0:kingdom.img";
+char disk_ImgName[] = "pfs0:kingdom.img";
 s32 D_00464354 = 0;
 s32 D_00464358 = 0;
 s32 D_0046435C = 0;
 
 struct DiskManager disk_Mgr = {
     .unk_00 = func_0024A368,
-    .unk_04 = disk_GetGamecode,
+    .getGamecode = disk_GetGamecode,
     .unk_08 = func_0024A388,
     .unk_0C = func_0024A398,
     .isMounted = FALSE,
-    .unk_14 = disk_GetImgName,
+    .getImgName = disk_GetImgName,
     .unk_18 = func_0024A8B0,
     .unk_1C = func_0024AA88,
     .unk_20 = func_0024AA98,
@@ -46,7 +45,7 @@ struct DiskManager disk_Mgr = {
 s32 D_00464384 = 0;
 extern s32 D_0048DB00; // gp0 value
 
-char D_00663A90[0x1000];
+char disk_ThreadStack[0x1000];
 
 s32 func_0024A010() {
     return D_004642EC;
@@ -54,17 +53,17 @@ s32 func_0024A010() {
 
 INCLUDE_ASM(const s32, "disk", func_0024A020);
 
-void func_0024A140(s32 arg0) {
-    if (0 < arg0) {
+void disk_Timeout(s32 time) {
+    if (0 < time) {
         do {
-            D_004642F8++;
-            arg0--;
-        } while (arg0 != 0);
+            disk_Timer++;
+            time--;
+        } while (time != 0);
     }
 }
 
-s32 func_0024A178() {
-    return D_004642F8;
+s32 disk_GetTimer() {
+    return disk_Timer;
 }
 
 void func_0024A188(void* sema) {
@@ -76,13 +75,14 @@ void func_0024A188(void* sema) {
         D_002C1EB8 = D_002C1EB8 & 0xE7 | 0x10;
         iVar1 = func_0024A010();
         if (iVar1 != 0) {
+            /* close all files */
             sceDevctl("pfs:", PDIOC_CLOSEALL, NULL, 0, NULL, 0);
         }
         while (sceDevctl("hdd:", HDIOC_DEV9OFF, NULL, 0, NULL, 0) < 0) {
-            func_0024A140(100000);
+            disk_Timeout(100000);
         }
         while (sceCdPowerOff(stat) == 0) {
-            func_0024A140(100000);
+            disk_Timeout(100000);
         }
         D_002C1EB8 |= 0x10 | 0x8;
         D_004642F0++;
@@ -107,49 +107,40 @@ s32* disk_StartThread() {
     semaParam.option = 0;
     sema = CreateSema(&semaParam);
     threadParam.initPriority = 1;
-    threadParam.stackSize = sizeof(D_00663A90);
+    threadParam.stackSize = sizeof(disk_ThreadStack);
     threadParam.gpReg = &D_0048DB00;
     threadParam.entry = func_0024A188;
-    threadParam.stack = D_00663A90;
+    threadParam.stack = disk_ThreadStack;
     thread = CreateThread(&threadParam);
     StartThread(thread, (void*)sema);
     return sceCdPOffCallback(func_0024A278, (void*)sema);
 }
 
 char* func_0024A368() {
-    // return "128M";
-    return D_00464300;
+    return disk_SectorSize;
 }
 
 char* disk_GetGamecode(void) {
-    // return "PP.SLPS-25105.0.KINGDOM";
-    return D_00464308;
+    return disk_Gamecode;
 }
 
 char* func_0024A388(void) {
-    // return "haneman0";
     return D_00464320;
 }
 
 char* func_0024A398(void) {
-    // return "mangan01";
     return D_00464330;
 }
 
 char* disk_GetImgName() {
-    // return "pfs0:kingdom.img";
-    return D_00464340;
+    return disk_ImgName;
 }
 
 b32 disk_Mount() {
-    char* pcVar1;
-    char* pcVar2;
     char blkdevname[128];
 
     if (disk_Mgr.isMounted == FALSE) {
-        pcVar1 = disk_Mgr.unk_04();
-        pcVar2 = disk_Mgr.unk_08();
-        sprintf(blkdevname, "hdd0:%s,%s", pcVar1, pcVar2);
+        sprintf(blkdevname, "hdd0:%s,%s", disk_Mgr.getGamecode(), disk_Mgr.unk_08());
         if (sceMount("pfs0:", blkdevname, SCE_MT_RDWR, NULL, 0) < 0) {
             return TRUE;
         }
@@ -197,19 +188,22 @@ s32 disk_GetStatus(void) {
     return sceDevctl("hdd0:", HDIOC_STATUS, NULL, 0, NULL, 0);
 }
 
-b32 func_0024A588(char* devname, s32 arg1) {
-    s32 bufp;
+b32 disk_IsSpaceAvailable(char* devname, s32 filesize) {
+    u32 bufp; // installable size, in number of 256kB sectors
 
+    // get total number of sectors on the disk
     sceDevctl(devname, HDIOC_TOTALSECTOR, NULL, 0, NULL, 0);
+
     D_004642F4 = 60;
     bufp = NULL;
 
+    // return installable size into bufp if space is available
     if (sceDevctl(devname, HDIOC_FREESECTOR, NULL, 0, &bufp, 4) != 0) {
         return FALSE;
     }
 
     D_004642F4 = 70;
-    if ((s32)((u32)bufp >> 0x12) < arg1) {
+    if ((s32)((u32)bufp >> 0x12) < filesize) {
         return FALSE;
     }
     return TRUE;
@@ -219,7 +213,7 @@ s32 func_0024A620(void) {
     return D_00464354;
 }
 
-s32 func_0024A630(s32 arg0) {
+s32 func_0024A630(s32 blocksize) {
     char filename[0x40];
     s32 fd;
     int val;
@@ -232,7 +226,7 @@ s32 func_0024A630(s32 arg0) {
         disk_Unmount();
     }
     D_004642F4 = 40;
-    sprintf(filename, "hdd0:%s,,%s", disk_Mgr.unk_04(), &D_00464330);
+    sprintf(filename, "hdd0:%s,,%s", disk_Mgr.getGamecode(), &D_00464330);
     fd = sceOpen(filename, SCE_RDONLY);
     if (fd >= 0) {
         temp = sceIoctl2(fd, HIOCNSUB, NULL, 0, NULL, 0);
@@ -243,8 +237,8 @@ s32 func_0024A630(s32 arg0) {
         sceDclose(fd);
     }
     D_004642F4 = 50;
-    val = (((((u32)(arg0 + 0xFFFFF)) >> 20) + 0x7F) >> 7) + 1;
-    if (func_0024A588("hdd0:", val - temp) == 0) {
+    val = (((((u32)(blocksize + 0xFFFFF)) >> 20) + 0x7F) >> 7) + 1;
+    if (disk_IsSpaceAvailable("hdd0:", val - temp) == FALSE) {
         D_00464354 = -1;
     }
     if (mounted != FALSE) {
@@ -320,7 +314,7 @@ s32 func_0024A8B0(s32 arg0) {
 
     D_004642F4 = 10;
     disk_Unmount();
-    if (disk_Seek("hdd0:", D_00464308) != 0) {
+    if (disk_Seek("hdd0:", disk_Gamecode)) {
         cond = TRUE;
         D_00464384 = 1;
     } else {

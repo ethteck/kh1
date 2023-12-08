@@ -860,7 +860,10 @@ pppMatrixLoopZYXCalc         = 0x0018D5C8; // type:func
 //=============================
 // disk.c
 //=============================
+disk_Timeout                 = 0x0024A140; // type:func
+disk_GetTimer                = 0x0024A178; // type:func
 func_0024A278                = 0x0024A278; // type:func
+disk_IsSpaceAvailable        = 0x0024A588; // type:func
 disk_StartThread             = 0x0024A2D0; // type:func
 disk_GetGamecode             = 0x0024A378; // type:func
 disk_GetImgName              = 0x0024A3A8; // type:func
@@ -1985,6 +1988,10 @@ D_004885C0 = 0x004885C0; // type:s32
 // disk.c
 //=============================
 disk_BlockSize               = 0x004642E8; // type:s32
+disk_Timer                   = 0x004642F8; // type:s32
+disk_SectorSize              = 0x00464300; // type:char
+disk_Gamecode                = 0x00464308; // type:char
+disk_ImgName                 = 0x00464340; // type:char
 disk_Mgr                     = 0x00464360; // size:0x24
 
 //=============================
@@ -1992,3 +1999,8 @@ disk_Mgr                     = 0x00464360; // size:0x24
 //=============================
 ppvMng                       = 0x006105A0;
 ppvUserStopPartF             = 0x0061095C; // type:s32
+
+//=============================
+// disk.c
+//=============================
+disk_ThreadStack             = 0x00663A90; //size:0x1000
