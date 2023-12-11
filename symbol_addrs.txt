@@ -1995,6 +1995,14 @@ disk_ImgName                 = 0x00464340; // type:char
 disk_Mgr                     = 0x00464360; // size:0x24
 
 //=============================
+// lib/libkernl/filestub.c
+//=============================
+_fs_init                     = 0x00465360; //type:s32
+_fs_semid                    = 0x00465364; //type:s32
+_fs_iob_semid                = 0x00465368; //type:s32
+_fs_fsq_semid                = 0x0046536C; //type:s32
+
+//=============================
 // ppp lib
 //=============================
 ppvMng                       = 0x006105A0;
@@ -2004,3 +2012,8 @@ ppvUserStopPartF             = 0x0061095C; // type:s32
 // disk.c
 //=============================
 disk_ThreadStack             = 0x00663A90; //size:0x1000
+
+// lib/libkernl/filestub.c
+//=============================
+_fsversion                   = 0x00667A68;
+//=============================
