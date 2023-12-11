@@ -33,9 +33,16 @@ MAP_PATH = f"build/{BASENAME}.map"
 PRE_ELF_PATH = f"build/{BASENAME}.elf"
 
 COMMON_INCLUDES = "-Iinclude -isystem include/sdk/ee -isystem include/gcc"
-COMPILER_DIR = f"{TOOLS_DIR}/cc/ee-gcc2.96/bin"
-COMPILE_CMD = (
-    f"{COMPILER_DIR}/ee-gcc -c -B {COMPILER_DIR}/ee- {COMMON_INCLUDES} -O2 -G0 -g"
+
+GAME_CC_DIR = f"{TOOLS_DIR}/cc/ee-gcc2.96/bin"
+LIB_CC_DIR = f"{TOOLS_DIR}/cc/ee-gcc2.9-990721/bin"
+
+GAME_COMPILE_CMD = (
+    f"{GAME_CC_DIR}/ee-gcc -c -B {GAME_CC_DIR}/ee- {COMMON_INCLUDES} -O2 -G0 -g"
+)
+
+LIB_COMPILE_CMD = (
+    f"{LIB_CC_DIR}/ee-gcc -c -B {LIB_CC_DIR}/ee- {COMMON_INCLUDES} -O2 -G0 -g"
 )
 
 WIBO_VER = "0.6.4"
@@ -59,7 +66,7 @@ def clean():
 def write_permuter_settings():
     with open("permuter_settings.toml", "w") as f:
         f.write(
-            f"""compiler_command = "{COMPILE_CMD} -D__GNUC__"
+            f"""compiler_command = "{GAME_COMPILE_CMD} -D__GNUC__"
 assembler_command = "mips-linux-gnu-as -march=r5900 -mabi=eabi -Iinclude"
 compiler_type = "gcc"
 
@@ -113,7 +120,13 @@ def build_stuff(linker_entries: List[LinkerEntry]):
     ninja.rule(
         "cc",
         description="cc $in",
-        command=f"{COMPILE_CMD} $in -o $out && {cross}strip $out -N dummy-symbol-name",
+        command=f"{GAME_COMPILE_CMD} $in -o $out && {cross}strip $out -N dummy-symbol-name",
+    )
+
+    ninja.rule(
+        "libcc",
+        description="cc $in",
+        command=f"{LIB_COMPILE_CMD} $in -o $out && {cross}strip $out -N dummy-symbol-name",
     )
 
     ninja.rule(
@@ -148,7 +161,10 @@ def build_stuff(linker_entries: List[LinkerEntry]):
         ):
             build(entry.object_path, entry.src_paths, "as")
         elif isinstance(seg, segtypes.common.c.CommonSegC):
-            build(entry.object_path, entry.src_paths, "cc")
+            if any(str(src_path).startswith('src/lib/') for src_path in entry.src_paths):
+                build(entry.object_path, entry.src_paths, "libcc")
+            else:
+                build(entry.object_path, entry.src_paths, "cc")
         elif isinstance(seg, segtypes.common.databin.CommonSegDatabin):
             build(entry.object_path, entry.src_paths, "as")
         else:
