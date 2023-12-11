@@ -202,7 +202,7 @@ s32 func_00100328(void) {
     return 0;
 }
 
-void main() {
+int main() {
     func_001090D8();
     do {
         func_00109580();

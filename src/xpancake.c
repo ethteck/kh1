@@ -18,6 +18,10 @@ extern u16 D_002B8C70;
 
 f32 D_0048E508;
 
+void func_00106718(void);
+void func_00106728(void);
+XFlapjack* func_0011EEB8(u16*, s32, s32 (*)(XFlapjack*));
+
 s32 func_001061D8() {
     if (((D_002B85C0[0] == 0) || (D_002B860C == 128)) & 0xFFFF) {
         return 1;
@@ -124,12 +128,8 @@ void func_00106790(s32 arg0) {
 }
 
 s32 func_00106828(XFlapjack* arg0) {
-    f32 new_var = 0.0f;
-
     arg0->unk_10 -= D_002B8340[1];
-    if (new_var >= arg0->unk_10) {
-        if (((arg0->unk_14 == 0) && (!(new_var = arg0->unk_14))) && (new_var == 0)) {
-        }
+    if (arg0->unk_10 <= 0.0f) {
         D_002B860C = 0;
         return 4;
     }
@@ -142,7 +142,7 @@ void func_00106880(s32 arg0) {
     f32 f0;
     s32 val;
 
-    if ((D_002B29CC == 1) || (D_002B29D0 == 1)) {
+    if (D_002B29CC == 1 || D_002B29D0 == 1) {
         func_00106578(arg0);
         func_00106718();
         func_00106728();
