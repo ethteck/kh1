@@ -1,7 +1,5 @@
 #include "common.h"
-
 #include "gcc/stdio.h"
-
 #include "eekernel.h"
 #include "libvu0.h"
 
@@ -12,8 +10,18 @@ typedef struct XAppleStemTip {
 
 typedef struct XAppleStem {
     /* 0x00 */ s32 unk_00[0x6C / 4];
-    /* 0x6C */ XAppleStemTip *unk_6C;
+    /* 0x6C */ XAppleStemTip* unk_6C;
 } XAppleStem;
+
+typedef struct AppleWormInner {
+    /* 0x00 */ u8 unk_00;
+    /* 0x01 */ char unk_01[0x7];
+} AppleWormInner;
+
+typedef struct AppleWorm {
+    /* 0x00 */ char unk_00[0x98];
+    /* 0x98 */ AppleWormInner unk_98[2];
+} AppleWorm;
 
 typedef struct XApple4 {
     /* 0x00 */ s32 unk_00[4];
@@ -41,8 +49,32 @@ typedef struct XAppleBlemish {
     /* 0x444 */ s32 unk_444;
 } XAppleBlemish;
 
+typedef struct LargeApple {
+    /* 0x00 */ char unk_00[0x30];
+    /* 0x30 */ f32 unk_30[3];
+    /* 0x3C */ f32 unk_3C;
+} LargeApple;
+
+typedef struct OtherApple {
+    /* 0x00 */ u16 unk_00;
+    /* 0x02 */ char unk_02[0xE];
+    /* 0x10 */ f32 unk_10;
+} OtherApple;
+
+typedef struct AppleCore {
+    /* 0x00 */ f32 unk_00;
+    /* 0x04 */ s32 (*unk_04)();
+} AppleCore;
+
+s32 func_001009A8();
+void* func_00122AF8(s32, s32, s32);
+s32 func_00122B70(void*);
+extern f32 D_002B8340[];
+extern LargeApple* D_00532504;
+
 // funcs
 s32 func_0011ED30(s32, s32 (*func)(void));
+s32 func_0011EDD0(s32*, s32*, s32, s32);
 s32 func_0011EF58(s32*, s32);
 s32 func_00120590(char*, void*, void*, void*);
 f32 func_00120A38(sceVu0FVECTOR);
@@ -60,10 +92,17 @@ s32 func_00132160(s32, s32, s32);
 void func_001372F8(f32, XAppleBlemish*);
 void func_00137348(XAppleBlemish*);
 void func_0013A790(void);
+s32 func_0013AFE8(void);
+s32 func_0013B368(void);
+s32 func_0013B6E0(void);
+s32 func_0013B890(void);
 s32 func_0013B1D0(void);
 void func_0013B578(void);
-s32 func_0013BD88(s32*, s32*, s32);
+s32 func_0013BD88(s32*, AppleCore*, s32);
 s32 func_0013BDA0(s32*);
+s32 func_00141668(XAppleBlemish*, s32);
+XApple4* func_00155ED8(s32, s32);
+void func_00157AD8(s32);
 s32 func_00157B90(void);
 void func_00163638(sceVu0FMATRIX, sceVu0FMATRIX);
 void func_00177828(s32);
@@ -86,17 +125,31 @@ extern XAppleStem* D_002DEC00;
 extern sceVu0FVECTOR D_002DECE0;
 extern sceVu0FVECTOR D_002DECF0;
 extern u32 D_002DED20;
-extern sceVu0FVECTOR D_00301030;
-extern sceVu0FVECTOR D_00301040;
+
+char* D_00301010[8] = {
+    "xs_dumbo", "xs_bambi", "xs_genie", "xs_tink", "xs_mushu", "xs_simba",
+};
+sceVu0FVECTOR D_00301030 = {0.0f, -120.0f, -70.0f, 1.0f};
+sceVu0FVECTOR D_00301040 = {0.0f, -100.0f, -20.0f, 1.0f};
+char* D_00301050 = ".dbt";
+char* D_00301054 = ".x";
+AppleCore D_00301058[4] = {
+    {60.0f, func_0013AFE8},
+    {30.0f, func_0013B368},
+    {60.0f, func_0013B6E0},
+    {0.0f, func_0013B890},
+};
+char* D_00301078; // = ".dat";
+
+extern s32 D_00301080;
 extern s32 D_00301088;
-extern s32 D_00301010[];
-extern s32 D_00301050;
-extern s32 D_00301054;
-extern s32 D_00301058;
+extern f32 D_0030108C;
+extern f32 D_00301090;
+extern s32 D_00301094;
+extern AppleWorm* D_003051EC;
 extern u32 D_00375BC0;
 
 // .rodata
-extern char D_004879D0[]; // "%s%s"
 
 // .bss ?
 extern f32 D_005324B4;
@@ -109,6 +162,7 @@ extern sceVu0FVECTOR D_005324F0;
 extern f32 D_00532500;
 extern s32 D_00532508;
 extern s32 D_00532518;
+extern s32 D_00532528;
 extern XAppleBlemish* D_005325E8;
 extern XAppleBlemish* D_005325EC;
 extern sceVu0FVECTOR D_005325F0;
@@ -248,7 +302,8 @@ INCLUDE_ASM(const s32, "xapple", func_0013B1D0);
 //     D_002C1EA8 |= 0x4000;
 //     if (((s32)((D_002C1EC8 >> 8) % 4) < 2) && (D_00532608[1].unk_00[1] != D_00532608[1].unk_00[0])) {
 //         func_001313A8(D_005325E8, (s32)D_00532608 + D_00532608->unk_00[3]);
-//         func_001C64E0((s32)D_00532608 + D_00532608[1].unk_00[0], (s32)D_00532608 + D_00532608[1].unk_00[1], (s32)D_00532608 + D_00532608[1].unk_00[2]);
+//         func_001C64E0((s32)D_00532608 + D_00532608[1].unk_00[0], (s32)D_00532608 + D_00532608[1].unk_00[1],
+//         (s32)D_00532608 + D_00532608[1].unk_00[2]);
 //     }
 //     return 4;
 // }
@@ -261,40 +316,18 @@ s32 func_0013B368(void) {
     }
     func_00157B90();
     D_00532604 = 3;
-    sprintf(something, D_004879D0, D_00301010[D_00532600], D_00301050);
+    sprintf(something, "%s%s", D_00301010[D_00532600], D_00301050);
     func_00120590(something, D_0053260C, NULL, 0);
-    sprintf(something, D_004879D0, D_00301010[D_00532600], D_00301054);
+    sprintf(something, "%s%s", D_00301010[D_00532600], D_00301054);
     func_00120590(something, &func_F20000, &func_0013B138, 0);
     func_0011ED30(47000, &func_0013B1D0);
     return 1;
 }
 
 INCLUDE_ASM(const s32, "xapple", func_0013B480);
-
-// typedef struct LargeApple {
-//     /* 0x00 */ char unk_00[0x30];
-//     /* 0x30 */ f32 unk_30[3];
-//     /* 0x3C */ f32 unk_3C;
-// } LargeApple;
-
-// typedef struct OtherApple {
-//     /* 0x00 */ u16 unk_00;
-//     /* 0x02 */ char unk_02[0xE];
-//     /* 0x10 */ f32 unk_10;
-// } OtherApple;
-
-// s32 func_001009A8();
-// void* func_00122AF8(s32, s32, s32);
-// s32 func_00122B70(void*);
-// extern f32 D_002B8340[];
-// extern LargeApple* D_00532504;
-
 // s32 func_0013B480(OtherApple* arg0) {
 //     f32 temp_f2;
-
 //     if (arg0->unk_00 & 0x10) {
-//         LargeApple* a;
-
 //         D_00532504 = func_00122AF8(1, 9, 0);
 //         D_00532504->unk_30[0] = D_00532504->unk_30[1] = D_00532504->unk_30[2] = 0.0f;
 //         D_00532504->unk_3C = 1.0f;
@@ -302,7 +335,6 @@ INCLUDE_ASM(const s32, "xapple", func_0013B480);
 //         arg0->unk_10 = 60.0f;
 //     }
 //     arg0->unk_10 -= D_002B8340[1];
-
 //     temp_f2 = arg0->unk_10 / 60.0f;
 //     if (arg0->unk_10 / 60.0f <= 0.0f) {
 //         func_00122B70(D_00532504);
@@ -332,7 +364,8 @@ INCLUDE_ASM(const s32, "xapple", func_0013B578);
 //     var_16 = func_001234A0(NULL);
 //     if (var_16 != NULL) {
 //         do {
-//             if (!((var_16->unk_370 >> 0x21) & 1) && (var_16 != D_002DEC00->unk_00[1]) && (var_16 != D_002DEC00->unk_00[2])) {
+//             if (!((var_16->unk_370 >> 0x21) & 1) && (var_16 != D_002DEC00->unk_00[1]) && (var_16 !=
+//             D_002DEC00->unk_00[2])) {
 //                 func_00123858(var_16);
 //             }
 //             var_16 = func_001234A0(var_16);
@@ -383,7 +416,7 @@ INCLUDE_ASM(const s32, "xapple", func_0013B6E0);
 //         }
 //         D_005325EC->unk_444 = 0;
 //     }
-//     if ((((u32) D_002C1EC8 >> 8) % 4) != 1) {
+//     if ((((u32)D_002C1EC8 >> 8) % 4) != 1) {
 //         if (D_0053260C[3] - D_0053260C[2] > 0) {
 //             func_001313A8(D_005325E8, (s32)D_0053260C + D_0053260C[2]);
 //             func_00130248(D_005325E8, 0.0f, 0);
@@ -422,63 +455,75 @@ void func_0013B968(s32 arg0) {
         ((D_00532608->unk_00[3] - D_00532608->unk_00[2]) <= 0) ? 0 : ((s32)D_00532608->unk_00 + D_00532608->unk_00[2])
     );
 }
+
 void func_0013B9A8(void) {
     D_00532604 = 2;
 }
 
 INCLUDE_ASM(const s32, "xapple", func_0013B9B8);
+s32 func_0013B9B8();
+// s32 func_0013B9B8(s32 arg0, s32 arg1, s32 arg2) {
+//     int iVar1;
+//     int iVar2;
+
+//     iVar2 = *(int*)(arg2 + 8);
+//     if (iVar2 - *(int*)(arg2 + 4) < 1) {
+//         iVar1 = *(int*)(arg2 + 0xc);
+//     } else {
+//         func_00156058(arg2 + *(int*)(arg2 + 4));
+//         iVar2 = *(int*)(arg2 + 8);
+//         iVar1 = *(int*)(arg2 + 0xc);
+//     }
+//     if (iVar1 - iVar2 < 1) {
+//         iVar2 = *(int*)(arg2 + 0x10);
+//     } else {
+//         func_001560C8(arg2 + iVar2);
+//         iVar1 = *(int*)(arg2 + 0xc);
+//         iVar2 = *(int*)(arg2 + 0x10);
+//     }
+//     if (iVar2 - iVar1 < 1) {
+//         iVar2 = *(int*)(arg2 + 0x18);
+//     } else {
+//         func_001560C8(arg2 + iVar1);
+//         iVar2 = *(int*)(arg2 + 0x18);
+//     }
+//     if (0 < iVar2 - *(int*)(arg2 + 0x14)) {
+//         func_00177908(arg2 + *(int*)(arg2 + 0x14));
+//     }
+//     D_00532604 = 1;
+//     if (*(int*)(arg2 + 0x20) - *(int*)(arg2 + 0x1c) < 1) {
+//         D_00532604 = 2;
+//     } else {
+//         func_00146BC8(-7);
+//         func_00146D08(arg2 + *(int*)(arg2 + 0x1c), -7, func_0013B9A8, 0);
+//     }
+//     D_0053260C = (s32*)(arg2 + arg0 + 0x7fU & 0xffffff80);
+// }
 
 f32 func_0013BAC0(void) {
     return (D_002DEC00->unk_6C->unk_48 + ((s32)(D_002DED20 >> 0xA) & 7)) * 3000;
 }
 
-// s32 func_0011EDD0(s32*, s32*, s32, s32);
-// s32 func_00141668(XAppleBlemish*, s32);
-// XApple4* func_00155ED8(s32, s32);
-// void func_00157AD8(s32);
+void* func_0013BB00(s32 arg0, s32 arg1) {
+    char something[0x20];
 
-// typedef struct AppleWormInner {
-//     /* 0x00 */ u8 unk_00;
-//     /* 0x01 */ char unk_01[0x7];
-// } AppleWormInner;
+    D_002C1EA8 |= 0x102000;
+    D_00301088 = (D_00301088 & (~7)) | (arg1 & 7) | 8;
+    D_00301080 = &D_003051EC->unk_98[arg1].unk_00;
+    D_00301094 |= 1 << arg1;
+    D_0030108C = D_00301090 = func_0013BAC0();
+    func_00141668(arg0, -*(&D_003051EC->unk_98[arg1].unk_00));
+    D_005325E8 = arg0;
+    D_00532600 = arg1;
+    func_00157AD8(1);
+    func_00157AD8(2);
+    func_00157AD8(3);
+    D_00532604 = 0;
+    D_00532608 = func_00155ED8(0x34, 0xC);
+    sprintf(something, "%s%s", D_00301010[arg1], D_00301078);
+    func_00120590(something, D_00532608, func_0013B9B8, 0);
+    func_0011EDD0(&D_00532518, &D_00532528, 0x18, 8);
+    return func_0011ED30(52000, func_0013B8F8);
+}
 
-// typedef struct AppleWorm {
-//     /* 0x00 */ char unk_00[0x98];
-//     /* 0x98 */ AppleWormInner unk_98[2];
-// } AppleWorm;
-
-// extern s32 D_00301078;
-// extern s32 D_00301080;
-// extern f32 D_0030108C;
-// extern f32 D_00301090;
-// extern s32 D_00301094;
-// extern AppleWorm* D_003051EC;
-
-// extern s32 D_00532528;
-
-// extern s32 func_0013B9B8;
-
-// void func_0013BB00(s32 arg0, s32 arg1) {
-//     char something[0x30];
-
-//     D_002C1EA8 |= 0x102000;
-//     D_00301080 = &D_003051EC.unk_98[arg1].unk_00;
-//     D_00301088 = (D_00301088 & ~7) | (arg1 & 7) | 8;
-//     D_00301094 |= 1 << arg1;
-//     D_0030108C = func_0013BAC0();
-//     D_00301090 = D_0030108C;
-//     func_00141668(arg0, -D_003051EC.unk_98[arg1].unk_00);
-//     D_005325E8 = arg0;
-//     D_00532600 = arg1;
-//     func_00157AD8(1);
-//     func_00157AD8(2);
-//     func_00157AD8(3);
-//     D_00532604 = 0;
-//     D_00532608 = func_00155ED8(0x34, 0xC);
-//     sprintf(something, &D_004879D0, D_00301010[arg1], D_00301078);
-//     func_00120590(something, D_00532608, &func_0013B9B8, 0);
-//     func_0011EDD0(&D_00532518, &D_00532528, 0x18, 8);
-//     func_0011ED30(52000, &func_0013B8F8);
-// }
-
-INCLUDE_ASM(const s32, "xapple", func_0013BB00);
+INCLUDE_ASM(const s32, "xapple", func_0013BCA8);

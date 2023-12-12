@@ -43,7 +43,7 @@ segments:
     - [0x1FCD8, c, xkingdom]
     - [0x207F8, asm]
     - [0x3ABE8, c, xapple]
-    - [0x3BD28, asm]
+    - [0x3BE08, asm]
     - [0x49D68, c, xsquash]
     - [0x4A098, asm]
     ####################
@@ -475,6 +475,8 @@ segments:
     - [0x16F0C0, asm, libipu/ipuinit]
 
     - [0x16F360, data]
+    - [0x201090, .data, xapple]
+    - [0x2010F8, data] # todo: xapple owns D_00301078
     - [0x2DE638, data, xquack]
     - [0x2DE670, data]
     - [0x364368, .data, disk]
@@ -517,8 +519,8 @@ segments:
     - [0x386DB8, rodata, 121E8]
     - [0x386FF0, .rodata, xkingdom]
     - [0x387048, rodata, 207F8]
-    - [0x387A50, rodata, xapple]
-    - [0x387A58, rodata, blob3]
+    - [0x3879E8, .rodata, xapple]
+    - [0x387A58, rodata, blob3] # todo: part of xapple
     - [0x387A60, rodata, 3BD28]
     - [0x3881C0, rodata, 4A098]
     - [0x389BC0, rodata, DF218]
