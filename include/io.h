@@ -12,6 +12,6 @@ typedef struct KingdomFile {
     /* 0x0C */ s32 length;
 } KingdomFile; // size = 0x10
 
-KingdomFile* func_0011FFD8(char* filename);
+KingdomFile* cdvd_FindFile(char* filename);
 
 #endif /* IO_H */

@@ -56,7 +56,7 @@ void func_001090D8() {
     func_0022F578(-1);
     func_0011EAF8(D_002B29B0, D_004869E0);
 
-    file = func_0011FFD8(D_004869F8);
+    file = cdvd_FindFile(D_004869F8);
     if (file != NULL) {
         disk_Mgr.unk_18(file->length);
     } else {

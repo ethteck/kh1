@@ -18,6 +18,17 @@ _exit                        = 0x001000b8; // type:func
 main                         = 0x00100438; // type:func
 
 //=============================
+// cdvd.c
+//=============================
+cdvd_GetFileDescriptor       = 0x0011FB68; // type:func
+cdvd_Decompress              = 0x0011FE88; // type:func
+cdvd_Hash                    = 0x0011FF40; // type:func
+cdvd_Compare                 = 0x0011FFB8; // type:func
+cdvd_FindFile                = 0x0011FFD8; // type:func
+cdvd_WaitForDisc             = 0x00120280; // type:func
+cdvd_Seek                    = 0x001206D0; // type:func
+cdvd_GetFileName             = 0x00120778; // type:func
+
 // ppp lib
 //=============================
 // pppKeThRes.c
@@ -2001,6 +2012,11 @@ _fs_init                     = 0x00465360; //type:s32
 _fs_semid                    = 0x00465364; //type:s32
 _fs_iob_semid                = 0x00465368; //type:s32
 _fs_fsq_semid                = 0x0046536C; //type:s32
+
+//=============================
+// cdvd.c
+//=============================
+cdvd_Descriptor              = 0x004EC948; // type:char
 
 //=============================
 // ppp lib

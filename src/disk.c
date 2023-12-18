@@ -291,7 +291,7 @@ s32 disk_SetBlock(s32* isoBlock) {
         *isoBlock = 0;
     }
 
-    kingdomFile = func_0011FFD8("kingdom.img");
+    kingdomFile = cdvd_FindFile("kingdom.img");
     if (kingdomFile != NULL) {
         length = kingdomFile->length;
         if (isoBlock != NULL) {

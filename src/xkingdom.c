@@ -5,14 +5,15 @@
 #include "sdk/ee/eekernel.h"
 #include "sdk/ee/sifdev.h"
 
+#include "gcc/stdlib.h"
 #include "gcc/string.h"
 
 typedef struct XCrown {
     /* 0x00 */ u32 flags;
     /* 0x04 */ char unk_04[0x20];
-    /* 0x24 */ s32 nSector; // kingdom file iso block
-    /* 0x28 */ s32 length; // kingdom file length in bytes
-    /* 0x2C */ void* dst; // data buffer
+    /* 0x24 */ s32 nSector;   // kingdom file iso block
+    /* 0x28 */ s32 length;    // kingdom file length in bytes
+    /* 0x2C */ void* dst;     // data buffer
     /* 0x30 */ s32 bytesRead; // num read bytes
     /* 0x34 */ s32 unk_34;
 } XCrown; // size = 0x38
@@ -21,13 +22,11 @@ void func_0010BEE8(void);
 void func_0010BF08(void (*)(XCrown*), XCrown*);
 void func_0010BF50(void (*)(XCrown*));
 void func_0011FB78(void);
-void func_0011FB98(s32 lsn, s32, char*);
-s32 func_0011FE88(u8 *data, s32 compressedLength);
-s32 func_0011FF40(char* str);
+s32 cdvd_Decompress(u8* data, s32 compressedLength);
+s32 cdvd_Hash(char* str);
 s32 func_001EE068(void);
 s32 func_00218C88(void);
 void func_00218CA0(s32);
-KingdomFile* bsearch(s32, s32*, s32, s32, void*);
 
 extern vs8 D_002C1EB8;
 extern s32 D_002C2094;
@@ -40,12 +39,44 @@ extern s32 D_002C2198; // fp.size
 
 extern char D_0034E340[];
 
-extern void (*D_00464380)(s32);
-extern s32 D_004DE140;
-extern char D_004EC140[];
-extern s32 D_004EC940;
-extern s32 D_004EC948;
+extern s32 D_00486FD8;
+extern char D_00486FF0[];
+
+char* D_004DDC40;
+char D_004DDC48;
+char D_0048B549[];
+
+// .bss
+s32 D_004DE128;
+s32 D_004DE140;
+char D_004EC140[];
+s32 D_004EC940;
+sceCdlFILE cdvd_Descriptor;
 extern XCrown D_004EC970[16];
+extern s32 D_004ECCF0;
+extern s32 D_004DDC60;
+extern s32 D_004DDC68;
+
+sceCdlFILE* cdvd_GetFileDescriptor() {
+    return &cdvd_Descriptor;
+}
+
+void func_0011FB78() {
+    func_001224B8();
+    func_001102C0();
+}
+
+void func_0011FB98(u32 lbn, u32 sectors, char* buf) {
+    do {
+        while (sceCdDiskReady(1) != SCECdComplete || sceCdRead(lbn, sectors, buf, &D_002C2188) == SCECdErNO) {
+            func_0011FB78();
+        }
+        // Command is not complete
+        while (sceCdSync(1) != 0) {
+            func_0011FB78();
+        }
+    } while (sceCdGetError() != 0);
+}
 
 INCLUDE_ASM(const s32, "xkingdom", func_0011FC58);
 
@@ -62,7 +93,7 @@ void func_0011FD08(void) {
                 D_002C2190 -= 1;
                 return;
             } else {
-                func_0011FB98(D_004EC948, 1, D_0034E340);
+                func_0011FB98(cdvd_Descriptor.lsn, 1, D_0034E340);
                 if (strncmp(D_0034E340, D_004EC140, 0x800) != 0) {
                     D_002C2190 = 60;
                     return;
@@ -94,7 +125,7 @@ void func_0011FE80(XCrown* arg0) {
 }
 
 // in-place decompression algorithm
-s32 func_0011FE88(u8* data, s32 compressedLength) {
+s32 cdvd_Decompress(u8* data, s32 compressedLength) {
     s32 copyLength;
     s32 decompressedLength;
     s32 i;
@@ -128,7 +159,7 @@ s32 func_0011FE88(u8* data, s32 compressedLength) {
 }
 
 // hash
-s32 func_0011FF40(char* str) {
+s32 cdvd_Hash(char* str) {
     s32 len = strlen(str);
     s32 hash = 0;
     s32 i;
@@ -139,30 +170,30 @@ s32 func_0011FF40(char* str) {
     return hash;
 }
 
-// why is left a u32 and right a u32*?
-int func_0011FFB8(const u32 left, const u32* right) {
+s32 cdvd_Compare(const u32* left, const u32* right) {
     if (left < *right) {
         return -1;
     }
     return *right < left;
 }
 
-KingdomFile* func_0011FFD8(char* filename) {
-    return bsearch(func_0011FF40(filename), &D_004DE140, D_002C2180, 0x10, func_0011FFB8);
+KingdomFile* cdvd_FindFile(char* filename) {
+    return bsearch(cdvd_Hash(filename), &D_004DE140, D_002C2180, 0x10, cdvd_Compare);
 }
 
 void func_00120018(XCrown* arg0) {
-    u32 numSectors = (u32) (arg0->length + 0x7FF) >> 11;
-    s32 var_17;
+    u32 numSectors = (u32)(arg0->length + 0x7FF) >> 11;
+    s32 length;
 
     do {
         while (TRUE) {
-            if (sceCdDiskReady(1) == SCECdComplete && sceCdRead(arg0->nSector, numSectors, arg0->dst, &D_002C2188) != 0) {
+            if (sceCdDiskReady(1) == SCECdComplete && sceCdRead(arg0->nSector, numSectors, arg0->dst, &D_002C2188) != 0)
+            {
                 break;
             }
             func_0010BEE8();
         }
-        
+
         while (sceCdSync(1) != 0) {
             func_0010BEE8();
         }
@@ -170,13 +201,13 @@ void func_00120018(XCrown* arg0) {
 
     if ((arg0->flags >> 1) & 1) {
         FlushCache(WRITEBACK_DCACHE);
-        var_17 = func_0011FE88(arg0->dst, arg0->length);
+        length = cdvd_Decompress(arg0->dst, arg0->length);
     } else {
-        var_17 = arg0->length;
+        length = arg0->length;
     }
 
     func_0010BF50(func_00120018);
-    arg0->bytesRead = var_17;
+    arg0->bytesRead = length;
 }
 
 void func_00120108(XCrown* arg0) {
@@ -186,7 +217,7 @@ void func_00120108(XCrown* arg0) {
 
     fd = sceOpen("pfs0:kingdom.img", SCE_RDONLY);
     cond = FALSE;
-    
+
     if (fd < 0 || D_002C2094 & 0x2000) {
         cond = TRUE;
     } else {
@@ -206,18 +237,18 @@ void func_00120108(XCrown* arg0) {
         if (!cond) {
             if ((arg0->flags >> 1) & 1) {
                 FlushCache(WRITEBACK_DCACHE);
-                numReadBytes = func_0011FE88(arg0->dst, arg0->length);
+                numReadBytes = cdvd_Decompress(arg0->dst, arg0->length);
             }
             arg0->bytesRead = numReadBytes;
         }
     }
-        
+
     if (cond) {
         disk_Mgr.unk_20(4);
         D_002C1EB8 |= 4;
         do {
             func_0010BEE8();
-        } while(((D_002C1EB8 & 0xFF) >> 2) & 1);
+        } while (((D_002C1EB8 & 0xFF) >> 2) & 1);
         func_00218CA0(0);
         arg0->nSector += D_004EC940;
         func_0010BF08(&func_00120018, arg0);
@@ -225,7 +256,8 @@ void func_00120108(XCrown* arg0) {
     func_0010BF50(func_00120108);
 }
 
-void func_00120280(sceCdlFILE* fp, char* name) {
+void cdvd_WaitForDisc(sceCdlFILE* fp, char* name) {
+    // DVD-ROM is not ready or file was not found
     while (sceCdDiskReady(1) != SCECdComplete || sceCdSearchFile(fp, name) == 0) {
         func_0011FB78();
     }
@@ -238,8 +270,8 @@ XCrown* func_001202E8(char* filename, void* dst) {
     task = func_0011FE18();
     task->dst = dst;
     task->bytesRead = -1;
-    
-    kingdomFile = func_0011FFD8(filename);
+
+    kingdomFile = cdvd_FindFile(filename);
     if (kingdomFile == NULL) {
         task->bytesRead = 0;
     } else {
@@ -256,11 +288,11 @@ XCrown* func_001202E8(char* filename, void* dst) {
     return task;
 }
 
-s32 func_001203C8(char* arg0, char* arg1) {
+s32 func_001203C8(char* name, char* buf) {
     sceCdlFILE fp;
 
-    func_00120280(&fp, arg0);
-    func_0011FB98(fp.lsn, (fp.size + 0x7FF) >> 11, arg1);
+    cdvd_WaitForDisc(&fp, name);
+    func_0011FB98(fp.lsn, (fp.size + 0x7FF) >> 11, buf);
     D_002C2198 = fp.size;
     FlushCache(WRITEBACK_DCACHE);
     FlushCache(INVALIDATE_ICACHE);
@@ -275,7 +307,7 @@ INCLUDE_ASM(const s32, "xkingdom", func_00120438);
 //     while (temp_2->unk_30 < 0) {
 //         func_0011FB78();
 //     }
-    
+
 //     D_002C2198 = temp_2->unk_30;
 //     func_0011FE80(temp_2);
 //     FlushCache(WRITEBACK_DCACHE);
@@ -289,11 +321,12 @@ INCLUDE_ASM(const s32, "xkingdom", func_00120590);
 
 INCLUDE_ASM(const s32, "xkingdom", func_00120640);
 
-void func_001206D0(char* filename) {
+void cdvd_Seek(char* filename) {
+    // Confirm disk status allows commands to be sent
     if (sceCdDiskReady(1) == SCECdComplete) {
-        KingdomFile* kingdomFile = func_0011FFD8(filename);
-
+        KingdomFile* kingdomFile = cdvd_FindFile(filename);
         if (kingdomFile != NULL) {
+            // Seek DVD-ROM head to specified block then pause
             sceCdSeek(kingdomFile->isoBlock);
         }
     }
@@ -301,4 +334,95 @@ void func_001206D0(char* filename) {
 
 INCLUDE_ASM(const s32, "xkingdom", func_00120728);
 
-INCLUDE_ASM(const s32, "xkingdom", func_00120750);
+s32 func_00120750() {
+    func_0011EF58(&D_004DE128, 0);
+    return 0;
+}
+
+// INCLUDE_ASM(const s32, "xkingdom", cdvd_GetFileName);
+char* cdvd_GetFileName(char* arg0) {
+    size_t len;
+    char cVar1;
+    char* pcVar2;
+    long lVar3;
+
+    D_004DDC48 = 0;
+    D_004DDC40 = "cdrom0:\\";
+    strcat(D_004DDC40, arg0);
+    len = strlen(&D_004DDC40);
+    lVar3 = 8;
+    if (8 < len) {
+        do {
+            pcVar2 = (char*)((int)&D_004DDC40 + (int)lVar3);
+            lVar3 = (long)((int)lVar3 + 1);
+            cVar1 = *pcVar2;
+            if (((D_0048B549)[cVar1] & 2) != 0) {
+                cVar1 = cVar1 + -0x20;
+            }
+            *pcVar2 = cVar1;
+        } while (lVar3 < (long)len);
+    }
+    return &D_004DDC40;
+}
+
+void func_00120820(char* file) {
+    s32 val;
+
+    char* filename = cdvd_GetFileName(file);
+    do {
+        val = sceSifLoadModule(filename, 0, NULL);
+    } while (val < 0);
+}
+
+s32 func_00120868(char* file, s32 args, char* argp, s32* result) {
+    char* filename = cdvd_GetFileName(file);
+    return sceSifLoadStartModule(filename, args, argp, result);
+}
+
+void func_001208B8() {
+    s32 val = func_0011ED30(0x2D2A8, func_00120750);
+    *(s16*)(val + 2) = -1;
+}
+
+void func_001208E8() {
+    XCrown* crown;
+    s32 i;
+
+    func_0011EDD0(&D_004DE128, &D_004DDC68, 0x4c, 0x10);
+    crown = D_004EC970;
+    D_004DDC60 = 0;
+
+    for (i = 15; i >= 0; i--) {
+        func_0011FE80(crown);
+        crown++;
+    }
+}
+
+s32 func_00120958() {
+    s32 val;
+
+    sceSifInitRpc(0);
+    sceFsReset();
+    sceCdInit(0);
+    sceCdMmode(2);
+
+    do {
+        val = sceSifRebootIop("cdrom0:\\IOPRP243.IMG");
+    } while (val == 0);
+    do {
+        val = sceSifSyncIop();
+    } while (val == 0);
+
+    sceSifInitRpc(0);
+    sceCdInit(0);
+    sceCdMmode(2);
+    return sceCdInitEeCB(0, &D_004ECCF0, 0x1000);
+}
+
+void func_001209E0() {
+    sceCdDiskReady(0);
+    cdvd_WaitForDisc(&cdvd_Descriptor, "\\SYSTEM.CNF;1");
+    func_0011FB98(cdvd_Descriptor.lsn, 1, &D_004EC140);
+    sceCdSync(0);
+    func_0011FC58();
+}
