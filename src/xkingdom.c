@@ -18,9 +18,20 @@ typedef struct XCrown {
     /* 0x34 */ s32 unk_34;
 } XCrown; // size = 0x38
 
+typedef struct XOtherCrown {
+    /* 0x00 */ char unk_00[0x10];
+    /* 0x10 */ char unk_10[0x28];
+    /* 0x38 */ s32 unk_38;
+    /* 0x3C */ s32 unk_3C;
+    /* 0x40 */ s32 unk_40;
+    /* 0x44 */ s32 unk_44;
+    /* 0x48 */ char unk_48[0x4];
+} XOtherCrown; // size = 0x4C
+
 void func_0010BEE8(void);
 void func_0010BF08(void (*)(XCrown*), XCrown*);
 void func_0010BF50(void (*)(XCrown*));
+XOtherCrown* func_0011EEB8(s32*, s32, s32);
 void func_0011FB78(void);
 s32 cdvd_Decompress(u8* data, s32 compressedLength);
 s32 cdvd_Hash(char* str);
@@ -37,25 +48,20 @@ extern s32 D_002C2190;
 extern s32 D_002C2194;
 extern s32 D_002C2198; // fp.size
 
-extern char D_0034E340[];
-
-extern s32 D_00486FD8;
-extern char D_00486FF0[];
-
-char* D_004DDC40;
-char D_004DDC48;
-char D_0048B549[];
+extern char D_0034E340[0x800];
+extern char D_0048B549[];
 
 // .bss
+
 s32 D_004DE128;
 s32 D_004DE140;
-char D_004EC140[];
+char D_004EC140[0x800];
 s32 D_004EC940;
 sceCdlFILE cdvd_Descriptor;
 extern XCrown D_004EC970[16];
 extern s32 D_004ECCF0;
 extern s32 D_004DDC60;
-extern s32 D_004DDC68;
+extern XOtherCrown D_004DDC68[16];
 
 sceCdlFILE* cdvd_GetFileDescriptor() {
     return &cdvd_Descriptor;
@@ -170,7 +176,7 @@ s32 cdvd_Hash(char* str) {
     return hash;
 }
 
-s32 cdvd_Compare(const u32* left, const u32* right) {
+s32 cdvd_Compare(const u32 left, const u32* right) {
     if (left < *right) {
         return -1;
     }
@@ -187,8 +193,7 @@ void func_00120018(XCrown* arg0) {
 
     do {
         while (TRUE) {
-            if (sceCdDiskReady(1) == SCECdComplete && sceCdRead(arg0->nSector, numSectors, arg0->dst, &D_002C2188) != 0)
-            {
+            if (sceCdDiskReady(1) == SCECdComplete && sceCdRead(arg0->nSector, numSectors, arg0->dst, &D_002C2188) != 0) {
                 break;
             }
             func_0010BEE8();
@@ -215,7 +220,7 @@ void func_00120108(XCrown* arg0) {
     s32 fd;
     s32 nbyte;
 
-    fd = sceOpen("pfs0:kingdom.img", SCE_RDONLY);
+    fd = sceOpen("pfs0:kingdom.img\0\0\0\0", SCE_RDONLY);
     cond = FALSE;
 
     if (fd < 0 || D_002C2094 & 0x2000) {
@@ -301,25 +306,50 @@ s32 func_001203C8(char* name, char* buf) {
 
 s32 func_00120438(const char* fileName, void* dst);
 INCLUDE_ASM(const s32, "xkingdom", func_00120438);
-// s32 func_00120438(char* arg0, void* arg1) {
-//     XCrown* temp_2 = func_001202E8(arg0, arg1);
+// s32 func_00120438(char* filename, void* arg1) {
+//     XCrown* temp_2 = func_001202E8(filename, arg1);
 
-//     while (temp_2->unk_30 < 0) {
+//     while (temp_2->bytesRead < 0) {
 //         func_0011FB78();
 //     }
 
-//     D_002C2198 = temp_2->unk_30;
+//     D_002C2198 = temp_2->bytesRead;
 //     func_0011FE80(temp_2);
 //     FlushCache(WRITEBACK_DCACHE);
 //     FlushCache(INVALIDATE_ICACHE);
 //     return D_002C2198;
 // }
 
+void func_001204C0(void);
 INCLUDE_ASM(const s32, "xkingdom", func_001204C0);
 
-INCLUDE_ASM(const s32, "xkingdom", func_00120590);
+s32 func_00120590(char* arg0, s32 arg1, s32 arg2, s32 arg3) {
+    XOtherCrown* temp_2 = func_0011EEB8(&D_004DE128, 0, func_001204C0);
+    s32* new_var2 = &D_004DDC60; // TODO fake match
+    s32* new_var;
+    
+    temp_2->unk_44 = D_004DDC60++;
+    temp_2->unk_40 = arg3;
+    strcpy(temp_2->unk_10, arg0);
+    temp_2->unk_38 = arg1;
+    temp_2->unk_3C = arg2;
+    D_004DDC60 = (u16) *new_var2;
+    
+    new_var = &temp_2->unk_44; // TODO fake match
+    return *new_var;
+}
 
-INCLUDE_ASM(const s32, "xkingdom", func_00120640);
+s32 func_00120640(s32 arg0) {
+    XOtherCrown* it = &D_004DDC68[0];
+    s32 i;
+    
+    for (i = 0; i < 0x10; i++, it++) {
+        if (func_0011F0F8(it) != 0 && (arg0 == -1 || arg0 == it->unk_44)) {
+            return 1;
+        }
+    }
+    return 0;
+}
 
 void cdvd_Seek(char* filename) {
     // Confirm disk status allows commands to be sent
@@ -332,37 +362,39 @@ void cdvd_Seek(char* filename) {
     }
 }
 
-INCLUDE_ASM(const s32, "xkingdom", func_00120728);
+void func_00120728(s32 arg0) {
+    func_0011EEB8(&D_004DE128, 0, arg0);
+}
 
 s32 func_00120750() {
     func_0011EF58(&D_004DE128, 0);
     return 0;
 }
 
-// INCLUDE_ASM(const s32, "xkingdom", cdvd_GetFileName);
 char* cdvd_GetFileName(char* arg0) {
-    size_t len;
-    char cVar1;
-    char* pcVar2;
-    long lVar3;
+    static char D_0048DB00[0x50140]; // TODO REMOVE THIS
+    
+    static char D_004DDC40[0x100];
 
-    D_004DDC48 = 0;
-    D_004DDC40 = "cdrom0:\\";
+    s32 len;
+    s32 i;
+    char* new_var5;
+    s32 blah;
+    
+    strcpy(D_004DDC40, "cdrom0:\\");
     strcat(D_004DDC40, arg0);
-    len = strlen(&D_004DDC40);
-    lVar3 = 8;
-    if (8 < len) {
-        do {
-            pcVar2 = (char*)((int)&D_004DDC40 + (int)lVar3);
-            lVar3 = (long)((int)lVar3 + 1);
-            cVar1 = *pcVar2;
-            if (((D_0048B549)[cVar1] & 2) != 0) {
-                cVar1 = cVar1 + -0x20;
-            }
-            *pcVar2 = cVar1;
-        } while (lVar3 < (long)len);
+    len = strlen(D_004DDC40);
+
+    for (i = 8; i < len; i++) {
+        blah = D_004DDC40[i];
+
+        if ((new_var5 = D_0048B549)[blah] & 2) {
+            blah -= 0x20;
+        }
+
+        D_004DDC40[i] = blah;
     }
-    return &D_004DDC40;
+    return D_004DDC40;
 }
 
 void func_00120820(char* file) {
@@ -380,7 +412,7 @@ s32 func_00120868(char* file, s32 args, char* argp, s32* result) {
 }
 
 void func_001208B8() {
-    s32 val = func_0011ED30(0x2D2A8, func_00120750);
+    s32 val = func_0011ED30(185000, func_00120750);
     *(s16*)(val + 2) = -1;
 }
 
@@ -388,11 +420,11 @@ void func_001208E8() {
     XCrown* crown;
     s32 i;
 
-    func_0011EDD0(&D_004DE128, &D_004DDC68, 0x4c, 0x10);
+    func_0011EDD0(&D_004DE128, &D_004DDC68, 0x4C, 0x10);
     crown = D_004EC970;
     D_004DDC60 = 0;
 
-    for (i = 15; i >= 0; i--) {
+    for (i = 0; i < ARRAY_COUNT(D_004EC970); i++) {
         func_0011FE80(crown);
         crown++;
     }
@@ -422,7 +454,7 @@ s32 func_00120958() {
 void func_001209E0() {
     sceCdDiskReady(0);
     cdvd_WaitForDisc(&cdvd_Descriptor, "\\SYSTEM.CNF;1");
-    func_0011FB98(cdvd_Descriptor.lsn, 1, &D_004EC140);
+    func_0011FB98(cdvd_Descriptor.lsn, 1, D_004EC140);
     sceCdSync(0);
     func_0011FC58();
 }
