@@ -44,4 +44,6 @@ typedef float f32;
 f32 cosf(f32);
 f32 atan2f(f32, f32);
 
+#define BSS __attribute__ ((section (".bss")))
+
 #endif /* COMMON_H */

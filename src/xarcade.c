@@ -115,7 +115,7 @@ s32 func_00109AA0() {
     sceGsSetDefStoreImage(&img, 0x1A00, 8, 1, 0, 0, 0x200, 0x180);
     FlushCache(WRITEBACK_DCACHE);
     sceGsSyncPath(0, 0);
-    sceGsExecStoreImage(&img, func_F20000);
+    sceGsExecStoreImage(&img, func_F20000); // TODO look into - F20000 is probably an overlay location
     return 4;
 }
 

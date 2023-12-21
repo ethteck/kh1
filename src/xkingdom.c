@@ -100,7 +100,7 @@ void func_0011FD08(void) {
                 return;
             } else {
                 func_0011FB98(cdvd_Descriptor.lsn, 1, D_0034E340);
-                if (strncmp(D_0034E340, D_004EC140, 0x800) != 0) {
+                if (strncmp(D_0034E340, D_004EC140, ARRAY_COUNT(D_0034E340)) != 0) {
                     D_002C2190 = 60;
                     return;
                 }
