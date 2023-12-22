@@ -8,7 +8,7 @@
 #include "gcc/stdlib.h"
 #include "gcc/string.h"
 
-typedef struct XCrown {
+typedef struct IOReadTask {
     /* 0x00 */ u32 flags;
     /* 0x04 */ char unk_04[0x20];
     /* 0x24 */ s32 nSector;   // kingdom file iso block
@@ -16,7 +16,7 @@ typedef struct XCrown {
     /* 0x2C */ void* dst;     // data buffer
     /* 0x30 */ s32 bytesRead; // num read bytes
     /* 0x34 */ s32 unk_34;
-} XCrown; // size = 0x38
+} IOReadTask; // size = 0x38
 
 typedef struct XOtherCrown {
     /* 0x00 */ char unk_00[0x10];
@@ -29,8 +29,8 @@ typedef struct XOtherCrown {
 } XOtherCrown; // size = 0x4C
 
 void func_0010BEE8(void);
-void func_0010BF08(void (*)(XCrown*), XCrown*);
-void func_0010BF50(void (*)(XCrown*));
+void func_0010BF08(void (*)(IOReadTask*), IOReadTask*);
+void func_0010BF50(void (*)(IOReadTask*));
 XOtherCrown* func_0011EEB8(s32*, s32, s32);
 void func_0011FB78(void);
 s32 cdvd_Decompress(u8* data, s32 compressedLength);
@@ -58,8 +58,8 @@ s32 D_004DE140;
 char D_004EC140[0x800];
 s32 D_004EC940;
 sceCdlFILE cdvd_Descriptor;
-extern XCrown D_004EC970[16];
-extern s32 D_004ECCF0;
+extern IOReadTask D_004EC970[16];
+char cdvd_CbThreadStack[0x1000];
 extern s32 D_004DDC60;
 extern XOtherCrown D_004DDC68[16];
 
@@ -111,23 +111,23 @@ void func_0011FD08(void) {
     }
 }
 
-XCrown* func_0011FE18(void) {
+IOReadTask* cdvd_FindFreeTask(void) {
     s32 i = 0;
-    XCrown* temp = D_004EC970;
+    IOReadTask* task = D_004EC970;
 
-    for (i = 0; i < ARRAY_COUNT(D_004EC970); i++, temp++) {
-        if (!(temp->flags & 1)) {
-            temp->flags |= 1;
-            temp->bytesRead = -1;
-            temp->unk_34 = D_002C2194++;
-            return temp;
+    for (i = 0; i < ARRAY_COUNT(D_004EC970); i++, task++) {
+        if (!(task->flags & 1)) {
+            task->flags |= 1;
+            task->bytesRead = -1;
+            task->unk_34 = D_002C2194++;
+            return task;
         }
     }
     return NULL;
 }
 
-void func_0011FE80(XCrown* arg0) {
-    arg0->flags = 0;
+void cdvd_FreeTask(IOReadTask* task) {
+    task->flags = 0;
 }
 
 // in-place decompression algorithm
@@ -187,13 +187,13 @@ KingdomFile* cdvd_FindFile(char* filename) {
     return bsearch(cdvd_Hash(filename), &D_004DE140, D_002C2180, 0x10, cdvd_Compare);
 }
 
-void func_00120018(XCrown* arg0) {
-    u32 numSectors = (u32)(arg0->length + 0x7FF) >> 11;
+void func_00120018(IOReadTask* task) {
+    u32 numSectors = (u32)(task->length + 0x7FF) >> 11;
     s32 length;
 
     do {
         while (TRUE) {
-            if (sceCdDiskReady(1) == SCECdComplete && sceCdRead(arg0->nSector, numSectors, arg0->dst, &D_002C2188) != 0) {
+            if (sceCdDiskReady(1) == SCECdComplete && sceCdRead(task->nSector, numSectors, task->dst, &D_002C2188) != 0) {
                 break;
             }
             func_0010BEE8();
@@ -204,18 +204,18 @@ void func_00120018(XCrown* arg0) {
         }
     } while (sceCdGetError() != SCECdErNO);
 
-    if ((arg0->flags >> 1) & 1) {
+    if ((task->flags >> 1) & 1) {
         FlushCache(WRITEBACK_DCACHE);
-        length = cdvd_Decompress(arg0->dst, arg0->length);
+        length = cdvd_Decompress(task->dst, task->length);
     } else {
-        length = arg0->length;
+        length = task->length;
     }
 
     func_0010BF50(func_00120018);
-    arg0->bytesRead = length;
+    task->bytesRead = length;
 }
 
-void func_00120108(XCrown* arg0) {
+void cdvd_ReadImgFile(IOReadTask* task) {
     s32 cond;
     s32 fd;
     s32 nbyte;
@@ -228,10 +228,10 @@ void func_00120108(XCrown* arg0) {
     } else {
         s32 numReadBytes = 0;
 
-        sceLseek(fd, arg0->nSector * SECTOR_SIZE, SCE_SEEK_SET);
+        sceLseek(fd, task->nSector * SECTOR_SIZE, SCE_SEEK_SET);
 
-        for (nbyte = arg0->length; nbyte > 0; nbyte -= numReadBytes) {
-            numReadBytes = sceRead(fd, arg0->dst, nbyte);
+        for (nbyte = task->length; nbyte > 0; nbyte -= numReadBytes) {
+            numReadBytes = sceRead(fd, task->dst, nbyte);
             if (numReadBytes < 0) { // error
                 cond = TRUE;
                 break;
@@ -240,11 +240,11 @@ void func_00120108(XCrown* arg0) {
 
         sceClose(fd);
         if (!cond) {
-            if ((arg0->flags >> 1) & 1) {
+            if ((task->flags >> 1) & 1) {
                 FlushCache(WRITEBACK_DCACHE);
-                numReadBytes = cdvd_Decompress(arg0->dst, arg0->length);
+                numReadBytes = cdvd_Decompress(task->dst, task->length);
             }
-            arg0->bytesRead = numReadBytes;
+            task->bytesRead = numReadBytes;
         }
     }
 
@@ -255,24 +255,24 @@ void func_00120108(XCrown* arg0) {
             func_0010BEE8();
         } while (((D_002C1EB8 & 0xFF) >> 2) & 1);
         func_00218CA0(0);
-        arg0->nSector += D_004EC940;
-        func_0010BF08(&func_00120018, arg0);
+        task->nSector += D_004EC940;
+        func_0010BF08(&func_00120018, task);
     }
-    func_0010BF50(func_00120108);
+    func_0010BF50(cdvd_ReadImgFile);
 }
 
-void cdvd_WaitForDisc(sceCdlFILE* fp, char* name) {
+void cdvd_TryLoadFile(sceCdlFILE* fp, char* name) {
     // DVD-ROM is not ready or file was not found
     while (sceCdDiskReady(1) != SCECdComplete || sceCdSearchFile(fp, name) == 0) {
         func_0011FB78();
     }
 }
 
-XCrown* func_001202E8(char* filename, void* dst) {
-    XCrown* task;
+IOReadTask* func_001202E8(char* filename, void* dst) {
+    IOReadTask* task;
     KingdomFile* kingdomFile;
 
-    task = func_0011FE18();
+    task = cdvd_FindFreeTask();
     task->dst = dst;
     task->bytesRead = -1;
 
@@ -287,7 +287,7 @@ XCrown* func_001202E8(char* filename, void* dst) {
             func_0010BF08(func_00120018, task);
         } else {
             task->nSector -= D_004EC940;
-            func_0010BF08(func_00120108, task);
+            func_0010BF08(cdvd_ReadImgFile, task);
         }
     }
     return task;
@@ -296,7 +296,7 @@ XCrown* func_001202E8(char* filename, void* dst) {
 s32 func_001203C8(char* name, char* buf) {
     sceCdlFILE fp;
 
-    cdvd_WaitForDisc(&fp, name);
+    cdvd_TryLoadFile(&fp, name);
     func_0011FB98(fp.lsn, (fp.size + 0x7FF) >> 11, buf);
     D_002C2198 = fp.size;
     FlushCache(WRITEBACK_DCACHE);
@@ -307,14 +307,14 @@ s32 func_001203C8(char* name, char* buf) {
 s32 func_00120438(const char* fileName, void* dst);
 INCLUDE_ASM(const s32, "xkingdom", func_00120438);
 // s32 func_00120438(char* filename, void* arg1) {
-//     XCrown* temp_2 = func_001202E8(filename, arg1);
+//     IOReadTask* temp_2 = func_001202E8(filename, arg1);
 
 //     while (temp_2->bytesRead < 0) {
 //         func_0011FB78();
 //     }
 
 //     D_002C2198 = temp_2->bytesRead;
-//     func_0011FE80(temp_2);
+//     cdvd_FreeTask(temp_2);
 //     FlushCache(WRITEBACK_DCACHE);
 //     FlushCache(INVALIDATE_ICACHE);
 //     return D_002C2198;
@@ -397,18 +397,20 @@ char* cdvd_GetFileName(char* arg0) {
     return D_004DDC40;
 }
 
-void func_00120820(char* file) {
-    s32 val;
+void cdvd_TryLoadModule(char* file) {
+    s32 loadStatus;
 
-    char* filename = cdvd_GetFileName(file);
+    char* module = cdvd_GetFileName(file);
+    // Retry until module is loaded
     do {
-        val = sceSifLoadModule(filename, 0, NULL);
-    } while (val < 0);
+        loadStatus = sceSifLoadModule(module, 0, NULL);
+    } while (loadStatus < 0);
 }
 
-s32 func_00120868(char* file, s32 args, char* argp, s32* result) {
-    char* filename = cdvd_GetFileName(file);
-    return sceSifLoadStartModule(filename, args, argp, result);
+s32 cdvd_StartModule(char* file, s32 args, char* argp, s32* result) {
+    char* module = cdvd_GetFileName(file);
+    // Load and execute module in IOP memory
+    return sceSifLoadStartModule(module, args, argp, result);
 }
 
 void func_001208B8() {
@@ -417,43 +419,49 @@ void func_001208B8() {
 }
 
 void func_001208E8() {
-    XCrown* crown;
+    IOReadTask* task;
     s32 i;
 
     func_0011EDD0(&D_004DE128, &D_004DDC68, 0x4C, 0x10);
-    crown = D_004EC970;
+    task = D_004EC970;
     D_004DDC60 = 0;
 
     for (i = 0; i < ARRAY_COUNT(D_004EC970); i++) {
-        func_0011FE80(crown);
-        crown++;
+        cdvd_FreeTask(task);
+        task++;
     }
 }
 
-s32 func_00120958() {
+s32 cdvd_Initialize() {
     s32 val;
 
+    // Initialize SIF RPC API
     sceSifInitRpc(0);
     sceFsReset();
+    // Initialize the DVD-ROM subsystem
     sceCdInit(0);
     sceCdMmode(2);
 
+    // Attempt to reboot IOP system until successful
     do {
         val = sceSifRebootIop("cdrom0:\\IOPRP243.IMG");
     } while (val == 0);
+    // Attempt to confirm IOP was rebooted until successful
     do {
         val = sceSifSyncIop();
     } while (val == 0);
 
+    // Initialize SIF RPC API
     sceSifInitRpc(0);
     sceCdInit(0);
     sceCdMmode(2);
-    return sceCdInitEeCB(0, &D_004ECCF0, 0x1000);
+    // Initialize callback thread
+    return sceCdInitEeCB(0, &cdvd_CbThreadStack, 0x1000);
 }
 
 void func_001209E0() {
     sceCdDiskReady(0);
-    cdvd_WaitForDisc(&cdvd_Descriptor, "\\SYSTEM.CNF;1");
+    cdvd_TryLoadFile(&cdvd_Descriptor, "\\SYSTEM.CNF;1");
     func_0011FB98(cdvd_Descriptor.lsn, 1, D_004EC140);
     sceCdSync(0);
     func_0011FC58();

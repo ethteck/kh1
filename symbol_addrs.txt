@@ -21,13 +21,19 @@ main                         = 0x00100438; // type:func
 // cdvd.c
 //=============================
 cdvd_GetFileDescriptor       = 0x0011FB68; // type:func
+cdvd_FindFreeTask            = 0x0011FE18; // type:func
+cdvd_FreeTask                = 0x0011FE80; // type:func
 cdvd_Decompress              = 0x0011FE88; // type:func
 cdvd_Hash                    = 0x0011FF40; // type:func
 cdvd_Compare                 = 0x0011FFB8; // type:func
 cdvd_FindFile                = 0x0011FFD8; // type:func
-cdvd_WaitForDisc             = 0x00120280; // type:func
+cdvd_ReadImgFile             = 0x00120108; // type:func
+cdvd_TryLoadFile             = 0x00120280; // type:func
 cdvd_Seek                    = 0x001206D0; // type:func
 cdvd_GetFileName             = 0x00120778; // type:func
+cdvd_TryLoadModule           = 0x00120820; // type:func
+cdvd_StartModule             = 0x00120868; // type:func
+cdvd_Initialize              = 0x00120958; // type:func
 
 // ppp lib
 //=============================
@@ -2017,6 +2023,7 @@ _fs_fsq_semid                = 0x0046536C; //type:s32
 // cdvd.c
 //=============================
 cdvd_Descriptor              = 0x004EC948; // type:char
+cdvd_CbThreadStack           = 0x004ECCF0; // size:0x1000
 
 //=============================
 // ppp lib
