@@ -1,3 +1,5 @@
+#include "common_funcs.h"
+
 #include "disk.h"
 #include "io.h"
 #include "libgraph.h"
@@ -37,7 +39,6 @@ extern s32 D_0048EC08;
 extern void func_F20000(s32, s32);
 extern void func_00100240(); // in xbeginning
 extern void func_00110230(s32);
-extern void func_0011EDD0(s32*, s32*, s32, s32);
 extern u_long128* func_00121C98(s32, u_long128**);
 extern void func_00122518();
 extern s32* func_00155ED8(s32, s32);
@@ -82,7 +83,7 @@ s32 func_00109340() {
     func_00176E98();
     D_00358BE0 = 1;
     func_0011EDD0(&D_002B8C70, &D_002B8870, 0x20, 0x20);
-    return func_0011ED30(0x2E662, func_001091B0);
+    return func_0011ED30(190050, func_001091B0);
 }
 
 INCLUDE_ASM(const s32, "xarcade", func_001093A8);

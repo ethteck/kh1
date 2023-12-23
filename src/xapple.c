@@ -1,4 +1,5 @@
 #include "common.h"
+#include "common_funcs.h"
 
 #include "gcc/stdio.h"
 
@@ -42,7 +43,6 @@ typedef struct XAppleBlemish {
 } XAppleBlemish;
 
 // funcs
-s32 func_0011ED30(s32, s32 (*func)(void));
 s32 func_0011EF58(s32*, s32);
 s32 func_00120590(char*, void*, void*, void*);
 f32 func_00120A38(sceVu0FVECTOR);
