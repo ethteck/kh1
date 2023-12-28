@@ -1,6 +1,5 @@
 {
     "python.analysis.extraPaths": [
-        "./tools/splat",
         "./tools/iso",
     ],
     "files.eol": "\n",
