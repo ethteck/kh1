@@ -9,21 +9,12 @@ from pathlib import Path
 from typing import Dict, List, Set, Union
 
 import ninja_syntax
+import splat
+import splat.scripts.split as split
+from splat.segtypes.linker_entry import LinkerEntry
 
 ROOT = Path(__file__).parent.resolve()
 TOOLS_DIR = ROOT / "tools"
-SPLAT_DIR = TOOLS_DIR / "splat"
-
-sys.path.append(str(SPLAT_DIR))
-
-import segtypes.common.asm
-import segtypes.common.bin
-import segtypes.common.c
-import segtypes.common.databin
-import segtypes.common.bss
-import segtypes.common.data
-from segtypes.linker_entry import LinkerEntry
-import split
 
 YAML_FILE = "kh.jp.yaml"
 BASENAME = "SLPS_251.05"
@@ -156,16 +147,18 @@ def build_stuff(linker_entries: List[LinkerEntry]):
         if entry.object_path is None:
             continue
 
-        if isinstance(seg, segtypes.common.asm.CommonSegAsm) or isinstance(
-            seg, segtypes.common.data.CommonSegData
+        if isinstance(seg, splat.segtypes.common.asm.CommonSegAsm) or isinstance(
+            seg, splat.segtypes.common.data.CommonSegData
         ):
             build(entry.object_path, entry.src_paths, "as")
-        elif isinstance(seg, segtypes.common.c.CommonSegC):
-            if any(str(src_path).startswith('src/lib/') for src_path in entry.src_paths):
+        elif isinstance(seg, splat.segtypes.common.c.CommonSegC):
+            if any(
+                str(src_path).startswith("src/lib/") for src_path in entry.src_paths
+            ):
                 build(entry.object_path, entry.src_paths, "libcc")
             else:
                 build(entry.object_path, entry.src_paths, "cc")
-        elif isinstance(seg, segtypes.common.databin.CommonSegDatabin):
+        elif isinstance(seg, splat.segtypes.common.databin.CommonSegDatabin):
             build(entry.object_path, entry.src_paths, "as")
         else:
             print(f"ERROR: Unsupported build segment type {seg.type}")

@@ -1,4 +1,4 @@
-# A simple tool that reads the symbol_addrs.txt file produced by Splat
+# A simple tool that reads the symbol_addrs.txt file produced by splat
 # and generates a .sym file for use with the PCSX2 emulator's debugger.
 
 # NOTE: The generated .sym file MUST be in the EXACT same directory and have
@@ -36,7 +36,7 @@ def generate_sym_file(input_file, output_file):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Convert Splat's symbol_addrs.txt file into a PCSX2-compatible symbol table"
+        description="Convert splat's symbol_addrs.txt file into a PCSX2-compatible symbol table"
     )
     parser.add_argument(
         "output_file",
