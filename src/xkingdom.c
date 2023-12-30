@@ -11,7 +11,7 @@
 void func_0010BEE8(void);
 void func_0010BF08(void (*)(IOReadTask*), IOReadTask*);
 void func_0010BF50(void (*)(IOReadTask*));
-XOtherCrown* func_0011EEB8(s32*, s32, s32);
+XOtherCrown* func_0011EEB8(s32*, s32, s32(*)(XOtherCrown*));
 void func_0011FB78(void);
 s32 cdvd_Decompress(u8* data, s32 compressedLength);
 s32 cdvd_Hash(char* str);

@@ -77,7 +77,7 @@ s32 func_001091B0() {
 
 INCLUDE_ASM(const s32, "xarcade", func_001091D8);
 
-s32 func_00109340() {
+void* func_00109340() {
     func_00110190();
     func_00176E30();
     func_00176E98();
@@ -120,14 +120,14 @@ s32 func_00109AA0() {
     return 4;
 }
 
-s32 func_00109B00() {
+void* func_00109B00() {
     return func_0011ED30(190000, func_00109AA0);
 }
 
 INCLUDE_ASM(const s32, "xarcade", func_00109B28);
-void func_00109B28();
+s32 func_00109B28();
 
-s32 func_00109C50(s32 arg0) {
+void* func_00109C50(s32 arg0) {
     D_0048EC00.unk_04 = arg0 << 1;
     D_0048EC08 = 0;
     return func_0011ED30(190000, func_00109B28);
@@ -146,7 +146,7 @@ s32 func_00109D68() {
     return 4;
 }
 
-s32 func_00109DE8() {
+void* func_00109DE8() {
     D_002B2CC4 = 1;
     if (D_002B85C0[0] != 0x80) {
         func_001037C8(1);
@@ -155,12 +155,12 @@ s32 func_00109DE8() {
 }
 
 INCLUDE_ASM(const s32, "xarcade", func_00109E30);
-void func_00109E30();
+s32 func_00109E30();
 
 INCLUDE_ASM(const s32, "xarcade", func_00109F60);
 s32 func_00109F60();
 
-s32 func_0010A040() {
+void* func_0010A040() {
     D_0048EC00.unk_00 = 0;
     if (D_002B2CC0 != 0) {
         return func_0011ED30(190000, func_00109F60);

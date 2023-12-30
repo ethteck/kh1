@@ -54,7 +54,7 @@ void func_0011EBE8(void) {
     D_002C1EA0 = 0;
     D_002C1EA8 = 0;
     D_002C1EBC = 0;
-    func_0011EDD0(&D_004DD188, &D_004DD198, 0x10, 0x80);
+    func_0011EDD0(&D_004DD188, D_004DD198, 0x10, 0x80);
     func_00122110();
     func_00121AE8();
     func_00122410();
