@@ -28,7 +28,7 @@ extern sceVu0FMATRIX D_002C1E60;
 extern s32 D_002C1EA0;
 extern s32 D_002C1EBC;
 extern f32 D_002C1EC0;
-extern u32 D_002C1EE0;
+extern u32 D_002C1EE0[30][2];
 extern scePad2SocketParam D_002C1FD8;
 
 extern UNK_TYPE D_004DD188;
@@ -127,9 +127,9 @@ s32 func_0011EF58(XGoblin* arg0, s32 arg1) {
                 pXVar2 = next;
             }
 
-            sVar5 += 1;
+            sVar5++;
 
-            if ((uVar3 & 8) != 0) {
+            if ((uVar3 & 8)) {
                 pXVar2 = next;
                 break;
             }
@@ -177,15 +177,12 @@ INCLUDE_ASM(const s32, "xgoblin", func_0011F388);
 
 u32 func_0011F478(u32 arg0) {
     u32 i;
-
-    u32* puVar1 = &D_002C1EE0;
     u32 uVar3 = 0;
 
-    for (i = 0; i < 30; i++) {
-        if ((arg0 & *puVar1) == *puVar1) {
-            uVar3 |= puVar1[1];
+    for (i = 0; i < ARRAY_COUNT(D_002C1EE0); i++) {
+        if ((arg0 & D_002C1EE0[i][0]) == D_002C1EE0[i][0]) {
+            uVar3 |= D_002C1EE0[i][1];
         }
-        puVar1 += 2;
     }
 
     return uVar3;
