@@ -239,7 +239,7 @@ extern int *scePowerOffHandler(void (*func)(void *),void *addr);
 #define SCE_STM_WOTH		00002
 #define SCE_STM_XOTH		00001
 
-// #define SCE_STM_ALLUGO	\
+// #define SCE_STM_ALLUGO
 // 	(SCE_STM_SUID|SCE_STM_SGID|SCE_STM_SVTX|SCE_STM_RWXUGO)
 #define SCE_STM_RWXUGO		(SCE_STM_RWXU|SCE_STM_RWXG|SCE_STM_RWXO)
 #define SCE_STM_RUGO		(SCE_STM_RUSR|SCE_STM_RGRP|SCE_STM_ROTH)

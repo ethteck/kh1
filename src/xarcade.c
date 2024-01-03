@@ -1,3 +1,5 @@
+#include "common_funcs.h"
+
 #include "disk.h"
 #include "io.h"
 #include "libgraph.h"
@@ -37,7 +39,6 @@ extern s32 D_0048EC08;
 extern void func_F20000(s32, s32);
 extern void func_00100240(); // in xbeginning
 extern void func_00110230(s32);
-extern void func_0011EDD0(s32*, s32*, s32, s32);
 extern u_long128* func_00121C98(s32, u_long128**);
 extern void func_00122518();
 extern s32* func_00155ED8(s32, s32);
@@ -56,7 +57,7 @@ void func_001090D8() {
     func_0022F578(-1);
     func_0011EAF8(D_002B29B0, D_004869E0);
 
-    file = func_0011FFD8(D_004869F8);
+    file = cdvd_FindFile(D_004869F8);
     if (file != NULL) {
         disk_Mgr.unk_18(file->length);
     } else {
@@ -76,13 +77,13 @@ s32 func_001091B0() {
 
 INCLUDE_ASM(const s32, "xarcade", func_001091D8);
 
-s32 func_00109340() {
+void* func_00109340() {
     func_00110190();
     func_00176E30();
     func_00176E98();
     D_00358BE0 = 1;
     func_0011EDD0(&D_002B8C70, &D_002B8870, 0x20, 0x20);
-    return func_0011ED30(0x2E662, func_001091B0);
+    return func_0011ED30(190050, func_001091B0);
 }
 
 INCLUDE_ASM(const s32, "xarcade", func_001093A8);
@@ -115,18 +116,18 @@ s32 func_00109AA0() {
     sceGsSetDefStoreImage(&img, 0x1A00, 8, 1, 0, 0, 0x200, 0x180);
     FlushCache(WRITEBACK_DCACHE);
     sceGsSyncPath(0, 0);
-    sceGsExecStoreImage(&img, func_F20000);
+    sceGsExecStoreImage(&img, func_F20000); // TODO look into - F20000 is probably an overlay location
     return 4;
 }
 
-s32 func_00109B00() {
+void* func_00109B00() {
     return func_0011ED30(190000, func_00109AA0);
 }
 
 INCLUDE_ASM(const s32, "xarcade", func_00109B28);
-void func_00109B28();
+s32 func_00109B28();
 
-s32 func_00109C50(s32 arg0) {
+void* func_00109C50(s32 arg0) {
     D_0048EC00.unk_04 = arg0 << 1;
     D_0048EC08 = 0;
     return func_0011ED30(190000, func_00109B28);
@@ -145,7 +146,7 @@ s32 func_00109D68() {
     return 4;
 }
 
-s32 func_00109DE8() {
+void* func_00109DE8() {
     D_002B2CC4 = 1;
     if (D_002B85C0[0] != 0x80) {
         func_001037C8(1);
@@ -154,12 +155,12 @@ s32 func_00109DE8() {
 }
 
 INCLUDE_ASM(const s32, "xarcade", func_00109E30);
-void func_00109E30();
+s32 func_00109E30();
 
 INCLUDE_ASM(const s32, "xarcade", func_00109F60);
 s32 func_00109F60();
 
-s32 func_0010A040() {
+void* func_0010A040() {
     D_0048EC00.unk_00 = 0;
     if (D_002B2CC0 != 0) {
         return func_0011ED30(190000, func_00109F60);

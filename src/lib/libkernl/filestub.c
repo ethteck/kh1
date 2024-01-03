@@ -2,11 +2,15 @@
 #include "eekernel.h"
 #include <sifdev.h>
 
-s32 _fs_init;
-s32 _fs_semid;
-s32 _fs_iob_semid;
-s32 _fs_fsq_semid;
+s32 D_004652E0[32] = {
+    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
+};
+s32 _fs_init = 0;
+s32 _fs_semid = -1;
+s32 _fs_iob_semid = -1;
+s32 _fs_fsq_semid = -1;
 
+// BSS
 char _fsversion[24];
 
 void _sceFsIobSemaMK() {
@@ -54,7 +58,22 @@ INCLUDE_ASM(const s32, "lib/libkernl/filestub", _sceFs_Poff_Intr);
 
 INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceFsInit);
 
-INCLUDE_ASM(const s32, "lib/libkernl/filestub", _fs_version);
+char* D_00465370 = "....";
+s32 D_00465374 = -1;
+char* D_00465378 = "....\0"; // TODO remove \0 or move this string to another file. the compiler is de-duplicating it.
+
+extern char* D_00464B18;
+
+s32 _fs_version(void) {
+    s32 ret = FALSE;
+
+    if (D_00464B18) {} // TODO fake match
+
+    if (memcmp(&_fsversion, &D_00464B18, 4) != 0 && memcmp(&_fsversion, D_00465370, 4) != 0) {
+        ret = memcmp(&D_00464B18, D_00465370, 4) != 0;
+    }
+    return ret;
+}
 
 /**
  * @brief Invalidate file service bind information. 

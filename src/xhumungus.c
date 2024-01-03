@@ -1,3 +1,5 @@
+#include "common_data.h"
+
 #include "xhumungus.h"
 #include "xflamingo.h"
 
@@ -21,7 +23,6 @@ extern u32 D_002B9660;
 extern s32 D_002C2104;
 extern s32 D_002C2108;
 extern s32 D_002C2024;
-extern u32 D_002C1EA8;
 extern u16 D_002C1EAA;
 extern u32 D_002DED08;
 extern u32 D_00375BC0;
@@ -1908,7 +1909,7 @@ void func_001DB5D0(); // temp for next function
 INCLUDE_ASM(const s32, "xhumungus", func_001DB5D0);
 
 s32 func_001DB618() {
-    func_0011ED30(0xC352, func_001DB5D0);
+    func_0011ED30(50002, func_001DB5D0);
     D_003854E0.unk_3078 |= 4;
     return 2;
 }

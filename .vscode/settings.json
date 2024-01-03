@@ -10,9 +10,6 @@
     "files.associations": {
         "*.h": "c",
     },
-    "rust-analyzer.linkedProjects": [
-        "tools/xmaker/Cargo.toml",
-    ],
     "[python]": {
         "editor.formatOnSave": true,
         "editor.defaultFormatter": "ms-python.black-formatter",
@@ -20,4 +17,5 @@
     "[rust]": {
         "editor.formatOnSave": true,
     },
+    "search.useIgnoreFiles": false
 }
