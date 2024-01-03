@@ -105,7 +105,7 @@ s32 func_0011EF58(XGoblin* arg0, s32 arg1) {
     u32 uVar3;
 
     s32 sVar5 = 0;
-    XGoblin* pXVar2 = 0;
+    XGoblin* pXVar2 = NULL;
     XGoblin* next = arg0->unk_08;
 
     while (next != 0) {
@@ -113,7 +113,7 @@ s32 func_0011EF58(XGoblin* arg0, s32 arg1) {
             uVar3 = next->unk_0C(next);
             next->unk_00 &= 0xFFEF;
 
-            if ((uVar3 & 4) != 0) {
+            if (uVar3 & 4) {
                 if (pXVar2 != 0) {
                     if (pXVar2->unk_08 != next) {
                         pXVar2 = func_0011EE80(arg0, next);
@@ -129,7 +129,7 @@ s32 func_0011EF58(XGoblin* arg0, s32 arg1) {
 
             sVar5++;
 
-            if ((uVar3 & 8)) {
+            if (uVar3 & 8) {
                 pXVar2 = next;
                 break;
             }
