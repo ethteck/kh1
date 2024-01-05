@@ -36,6 +36,9 @@ extern UNK_TYPE D_004DD198[];
 extern u_long128 D_004DDA00;
 extern s32 D_004DDC00;
 
+// Loads several modules
+INCLUDE_ASM(const s32, "xgoblin", func_0011EAF8);
+
 s32 func_0011EBC8(void) {
     func_00122250();
     return 0;
