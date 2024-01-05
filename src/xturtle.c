@@ -362,5 +362,3 @@ void* func_0011E9A8(s32 arg0, s32 arg1, s32 arg2, void* arg3) {
 }
 
 INCLUDE_ASM(const s32, "xturtle", func_0011EA28);
-
-INCLUDE_ASM(const s32, "xturtle", func_0011EAF8);
