@@ -40,6 +40,7 @@ segments:
     - [0x11120, c, xtrumpet]
     - [0x11FC0, c, xspinach]
     - [0x121E8, asm]
+    - [0x1C658, c, xturtle]
     - [0x1EC48, c, xgoblin]
     - [0x1FBE8, c, xkingdom]
     - [0x20AB8, asm]
