@@ -250,7 +250,7 @@ void func_0011D978(s32* arg0, s32* arg1) {
         *arg0 = 0x3FFF;
         val = *arg1;
     }
-    if (0x3FFF < val) {
+    if (val > 0x3FFF) {
         *arg1 = 0x3FFF;
     }
 }

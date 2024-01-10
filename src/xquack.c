@@ -57,7 +57,7 @@ INCLUDE_ASM(const s32, "xquack", func_001EDD20);
 INCLUDE_ASM(const s32, "xquack", func_001EDDC0);
 
 void* func_001EDF28(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    if ((D_003DE5B8 & 8) == 0) {
+    if (!(D_003DE5B8 & 8)) {
         func_001EE0B8(41, arg0, arg1, arg2, arg3, 0, 0, 0);
         return D_0062D980;
     }
@@ -71,7 +71,7 @@ s32 func_001EDF88(s32 arg0) {
     FlushCache(WRITEBACK_DCACHE);
     p0 = D_00639180;
 
-    for (i = 0; i <= 3; i++, p0++) {
+    for (i = 0; i <= ARRAY_COUNT(D_00639180); i++, p0++) {
         if (p0->unk_04 != 0 && p0->unk_10 == arg0) {
             return p0->unk_18;
         }
@@ -125,7 +125,7 @@ void* func_001EE2D8(s32 arg0, s32 arg1, s32 arg2) {
 }
 
 void* func_001EE330(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
-    if ((D_003DE5B8 & 2) == 0) {
+    if (!(D_003DE5B8 & 2)) {
         func_001EE0B8(5, arg0, arg1, arg2, arg3, arg4, 0, 0);
         return D_0062D980;
     }
@@ -164,7 +164,7 @@ void* func_001EE518(s32 arg0, s32 arg1, s32 arg2) {
 }
 
 void* func_001EE570(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
-    if ((D_003DE5B8 & 1) == 0) {
+    if (!(D_003DE5B8 & 1)) {
         func_001EE0B8(12, arg0, arg1, arg2, arg3, arg4, arg5, 0);
         return D_0062D980;
     }
