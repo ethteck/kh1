@@ -2042,6 +2042,7 @@ ppvWorldMatrix               = 0x00610700; // size:0x40
 ppvWorldMatrixWood           = 0x00610740; // size:0x40
 ppvScreenMatrix              = 0x00610780; // size:0x40
 ppvSWMatrix                  = 0x006107C0; // size:0x40
+ppvlpCMatrix                 = 0x00610954;
 ppvUserStopPartF             = 0x0061095C; // type:s32
 ppvHookFuncTbl               = 0x00610960;
 ppvEmptyLoop                 = 0x00610974; // type:s32

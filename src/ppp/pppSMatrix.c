@@ -1,3 +1,11 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "ppp/pppSMatrix", pppSMatrixCalc);
+typedef struct {
+    /* 0x0 */ void* m;
+} PSMatrix;
+
+PSMatrix* ppvlpCMatrix;
+
+void pppSMatrixCalc(pppPObject* pobj, PSMatrix* p, pppCtrlTable* ctbl) {
+    ppvlpCMatrix = (PSMatrix*)&pobj->val[ctbl->useVal[0]];
+}

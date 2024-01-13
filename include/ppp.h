@@ -7,10 +7,10 @@
 #include "sdk/ee/libvu0.h"
 
 typedef struct {
-    /* 0x00 */ u8 unk_00[0x40];
-    /* 0x40 */ f32 unk_40;
-    /* 0x44 */ f32 unk_44;
-    /* 0x48 */ u8 unk_48[104];
+    /* 0x00 */ char unk_00[0x40];
+    /* 0x40 */ f32 scaleX;
+    /* 0x44 */ f32 scaleY;
+    /* 0x48 */ char unk_48[104];
     /* 0xB0 */ u8 unk_B0;
     /* 0xB1 */ u8 unk_B1;
     /* 0xB2 */ u8 unk_B2;

@@ -11,14 +11,14 @@ void pppChrSclXYZMatrixCalc(pppPObject* pobj, PChrSclXYZMatrix* p) {
 
     sceVu0UnitMatrix(m);
 
-    m[0][0] = ppvMng->unk_40 + (ppvMng->unk_40 * p->sclr);
+    m[0][0] = ppvMng->scaleX + (ppvMng->scaleX * p->sclr);
     if (m[0][0] > p->maxscl) {
         m[0][0] = p->maxscl;
     }
 
     m[2][2] = m[0][0];
 
-    m[1][1] = ppvMng->unk_44 + (ppvMng->unk_44 * p->sclr);
+    m[1][1] = ppvMng->scaleY + (ppvMng->scaleY * p->sclr);
     if (m[1][1] > p->maxscl) {
         m[1][1] = p->maxscl;
     }
