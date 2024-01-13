@@ -1,3 +1,8 @@
 #include "ppp.h"
+#include "libvu0.h"
 
-INCLUDE_ASM(const s32, "ppp/pppDrawMatrix", pppDrawMatrixCalc);
+FMATRIX ppvSWMatrix;
+
+void pppDrawMatrixCalc() {
+    sceVu0MulMatrix(ppvPObj.next->dmat, ppvSWMatrix, ppvPObj.next->cmat);
+}

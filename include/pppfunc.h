@@ -85,7 +85,7 @@ typedef struct _pppPObject {
     /* 0x9D */ u8 loop_in;
     /* 0x9E */ u8 loop_start0;
     /* 0x9F */ u8 dummy[1];
-    /* 0x90 */ char val[0];
+    /* 0xA0 */ char val[0];
 } pppPObject; // size = 0xA0
 
 #endif

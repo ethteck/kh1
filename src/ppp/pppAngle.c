@@ -16,7 +16,7 @@ void pppAngleCalc(pppPObject* pobj, PAngle* p, pppCtrlTable* ctbl) {
         return;
     }
 
-    if (ppvMng->unk_B9 != 0 || ppvMng->unk_BC != 0) {
+    if (ppvMng->unk_B1 != 0 || ppvMng->unk_B4 != 0) {
         return;
     }
 
@@ -31,8 +31,7 @@ void pppAngleCalc(pppPObject* pobj, PAngle* p, pppCtrlTable* ctbl) {
 }
 
 void pppAngleCon(pppPObject* pobj, pppCtrlTable* ctbl) {
-    s32 val = 0;
     VAngle* v = (VAngle*)&pobj->val[ctbl->useVal[0]];
 
-    v->angle.x = v->angle.y = v->angle.z = val;
+    v->angle.x = v->angle.y = v->angle.z = 0;
 }
