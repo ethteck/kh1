@@ -32,7 +32,7 @@ void pppPointLoopCon2(pppPObject* pobj, pppCtrlTable* ctbl) {
 void pppPointLoopCalc(pppPObject* pobj, PPointLoop* p, pppCtrlTable* ctbl) {
     VPointLoop* ac = (VPointLoop*)&pobj->val[ctbl->useVal[0]];
 
-    if (ppvUserStopPartF != 0 || ppvMng->unk_B1 != 0 || ppvMng->unk_B4 != 0) {
+    if (ppvUserStopPartF != 0 || ppvMng->stop || ppvMng->unk_B4 != 0) {
         return;
     }
 

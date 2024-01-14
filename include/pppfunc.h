@@ -22,6 +22,14 @@ typedef struct {
 } pppIVECTOR; // size = 0xC
 
 typedef struct {
+    s16 r, g, b, a;
+} pppHCVECTOR; // size = 0x8
+
+typedef struct {
+    u8 r, g, b, a;
+} pppCVECTOR; // size = 0x4
+
+typedef struct {
     /* 0x00 */ const char* progName;
     /* 0x04 */ void* calcFunc;
     /* 0x08 */ void* dektFunc;
@@ -87,5 +95,10 @@ typedef struct _pppPObject {
     /* 0x9F */ u8 dummy[1];
     /* 0xA0 */ char val[0];
 } pppPObject; // size = 0xA0
+
+typedef struct {
+    /* 0x0 */ s32 pdtn;
+    /* 0x4 */ s32 valoff;
+} pppParamPObj; // size = 0x8
 
 #endif

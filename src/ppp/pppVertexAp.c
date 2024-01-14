@@ -1,6 +1,16 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "ppp/pppVertexAp", pppVertexApCon);
+typedef struct {
+    /* 0x0 */ s16 ict;
+    /* 0x2 */ u16 aptct;
+} VVertexAp;
+
+void pppVertexApCon(pppPObject* pobj, pppCtrlTable* ctbl) {
+    VVertexAp* v = (VVertexAp*)&pobj->val[ctbl->useVal[0]];
+    
+    v->ict = 0;
+    v->aptct = 0;
+}
 
 INCLUDE_ASM(const s32, "ppp/pppVertexAp", func_00185F30);
 

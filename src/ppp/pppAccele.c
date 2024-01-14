@@ -13,7 +13,7 @@ void pppAcceleCalc(pppPObject* pobj, PAccele* p, pppCtrlTable* ctbl) {
     VAccele* ac0 = (VAccele*)&pobj->val[ctbl->useVal[0]];
     VAccele* ac1 = (VAccele*)&pobj->val[ctbl->useVal[1]];
 
-    if (ppvUserStopPartF != 0 || ppvMng->unk_B1 != 0 || ppvMng->unk_B4 != 0) {
+    if (ppvUserStopPartF != 0 || ppvMng->stop || ppvMng->unk_B4 != 0) {
         return;
     }
 

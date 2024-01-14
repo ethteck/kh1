@@ -53,7 +53,7 @@ void pppDrawMdlLoopZCalc(pppPObject* pobj, PDrawMdlLoopZ* p, pppCtrlTable* ctbl)
         func_0018CC58(p, vmdl);
     }
 
-    if (ppvUserStopPartF != 0 || ppvMng->unk_B1 != 0 || ppvMng->unk_B4 != 0) {
+    if (ppvUserStopPartF != 0 || ppvMng->stop || ppvMng->unk_B4 != 0) {
         return;
     }
 

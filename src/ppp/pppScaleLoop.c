@@ -32,7 +32,7 @@ void pppScaleLoopCon2(pppPObject* pobj, pppCtrlTable* ctbl) {
 void pppScaleLoopCalc(pppPObject* pobj, PScaleLoop* p, pppCtrlTable* ctbl) {
     VScaleLoop* ac = (VScaleLoop*)&pobj->val[ctbl->useVal[0]];
 
-    if (ppvUserStopPartF != 0 || ppvMng->unk_B1 != 0 || ppvMng->unk_B4 != 0) {
+    if (ppvUserStopPartF != 0 || ppvMng->stop || ppvMng->unk_B4 != 0) {
         return;
     }
 

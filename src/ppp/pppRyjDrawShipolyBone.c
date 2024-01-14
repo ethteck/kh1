@@ -33,7 +33,7 @@ void pppRyjDrawShipolyBoneDes(pppPObject* pobj, pppCtrlTable* ctbl) {
     VRyjDrawShipolyBone* p = (VRyjDrawShipolyBone*)&pobj->val[ctbl->useVal[1]];
 
     if (p->pvecSmp != NULL) {
-        pppFree(D_006105A4, p->pvecSmp);
+        pppFree(ppvEnv, p->pvecSmp);
         p->pvecSmp = NULL;
     }
 }

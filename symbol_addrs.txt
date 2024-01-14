@@ -877,6 +877,9 @@ pppRyjMegaBirthModelFilterDes = 0x001A6F98; // type:func
 
 KeThResHd_Init               = 0x001AA960; // type:func
 
+KeLnsFls_Draw                = 0x001A84F0; // type:func
+KeLnsFls_Init                = 0x001A8758; // type:func
+
 //=============================
 // disk.c
 //=============================
@@ -2037,15 +2040,22 @@ cdvd_CbThreadStack           = 0x004ECCF0; // size:0x1000
 // ppp lib
 //=============================
 ppvMng                       = 0x006105A0;
+ppvEnv                       = 0x006105A4;
 ppvPObj                      = 0x006105A8;
+ppvEye                       = 0x006106B0;
+ppvAt                        = 0x006106C0;
 ppvWorldMatrix               = 0x00610700; // size:0x40
 ppvWorldMatrixWood           = 0x00610740; // size:0x40
 ppvScreenMatrix              = 0x00610780; // size:0x40
 ppvSWMatrix                  = 0x006107C0; // size:0x40
+ppvSWMatrixWood              = 0x00610800; // size:0x40
 ppvlpCMatrix                 = 0x00610954;
 ppvUserStopPartF             = 0x0061095C; // type:s32
 ppvHookFuncTbl               = 0x00610960;
 ppvEmptyLoop                 = 0x00610974; // type:s32
+g_matUnit                    = 0x00618A10; // size:0x40
+g_vecCamDir                  = 0x00618E60; // size:0x10
+g_vecCamDirM                 = 0x00618E70; // size:0x10
 KeDMat                       = 0x00618EC0; // size:0x40
 KeMatPht                     = 0x00618F00; // size:0x40
 

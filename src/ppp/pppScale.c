@@ -16,7 +16,7 @@ void pppScaleCalc(pppPObject* pobj, PScale* p, pppCtrlTable* ctbl) {
         return;
     }
 
-    if (ppvMng->unk_B1 != 0 || ppvMng->unk_B4 != 0) {
+    if (ppvMng->stop || ppvMng->unk_B4 != 0) {
         return;
     }
 

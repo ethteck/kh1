@@ -13,7 +13,7 @@ void pppAngMoveCalc(pppPObject* pobj, PAngMove* p, pppCtrlTable* ctbl) {
     VAngMove* ac0 = (VAngMove*)&pobj->val[ctbl->useVal[0]];
     VAngMove* ac1 = (VAngMove*)&pobj->val[ctbl->useVal[1]];
 
-    if (ppvUserStopPartF != 0 || ppvMng->unk_B1 != 0 || ppvMng->unk_B4 != 0) {
+    if (ppvUserStopPartF != 0 || ppvMng->stop || ppvMng->unk_B4 != 0) {
         return;
     }
 
