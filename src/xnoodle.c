@@ -143,7 +143,7 @@ INCLUDE_ASM(const s32, "xnoodle", func_0010C1A8);
 s32 func_0010C1D0(s16 arg0, u_long128* arg1) {
     sceGsSetDefLoadImage(&D_002B8700, arg0, 1, 0, 0, 0, 8, 2);
     sceGsSyncPath(0, 0);
-    FlushCache(0);
+    FlushCache(WRITEBACK_DCACHE);
     return sceGsExecLoadImage(&D_002B8700, arg1);
 }
 

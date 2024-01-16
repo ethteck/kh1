@@ -71,7 +71,7 @@ void func_0024A188(void* sema) {
 
     do {
         WaitSema((s32)sema);
-        D_002C1EB8.u8 = D_002C1EB8.u8 & 0xE7 | 0x10;
+        D_002C1EB8.u8 = D_002C1EB8.u8 & ~0x18 | 0x10;
         iVar1 = func_0024A010();
         if (iVar1 != 0) {
             /* close all files */

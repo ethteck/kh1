@@ -91,7 +91,7 @@ void func_0010F4A8(u32 arg0) {
         } else {
             sceGsSyncPath(0, 0);
             func_001102C0();
-            if ((arg0 & 4) != 0) {
+            if (arg0 & 4) {
                 func_0010F3D0();
                 func_00106948(&D_002B8210);
                 if (D_004CF58C == 0) {
@@ -109,7 +109,7 @@ void func_0010F4A8(u32 arg0) {
                 func_0010F448();
                 return;
             }
-            if ((arg0 & 2) != 0) {
+            if (arg0 & 2) {
                 func_0010F3D0();
                 func_00106948(&D_002B8210);
                 func_001FD4C0(104, 30);
@@ -120,7 +120,7 @@ void func_0010F4A8(u32 arg0) {
                 func_0010F448();
                 return;
             }
-            if ((arg0 & 1) != 0) {
+            if (arg0 & 1) {
                 func_0010F3D0();
                 func_00106948(&D_002B8210);
                 func_001FD4C0(84, 30);
@@ -192,7 +192,7 @@ void func_0010FD40(s16 w, s16 h) {
     D_004D284C = 0;
     sceGsSetDefDispEnv(&D_004D2610, 1, w, h, 0, 0);
     D_004D2610.dispfb.FBP &= 0xFFFFFE00;
-    FlushCache(0);
+    FlushCache(WRITEBACK_DCACHE);
     sceGsSyncPath(0, 0);
     sceGsPutDispEnv(&D_004D2610);
 }
