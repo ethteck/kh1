@@ -1,6 +1,9 @@
 #include "common.h"
+#include "common_data.h"
 #include "io.h"
 #include "disk.h"
+#include "xnoodle.h"
+
 #include "sdk/libcdvd.h"
 #include "sdk/ee/eekernel.h"
 #include "sdk/ee/sifdev.h"
@@ -9,8 +12,6 @@
 #include "gcc/string.h"
 
 void func_0010BEE8(void);
-void func_0010BF08(void (*)(IOReadTask*), IOReadTask*);
-void func_0010BF50(void (*)(IOReadTask*));
 XOtherCrown* func_0011EEB8(s32*, s32, s32(*)(XOtherCrown*));
 void func_0011FB78(void);
 s32 cdvd_Decompress(u8* data, s32 compressedLength);
@@ -19,7 +20,6 @@ s32 func_001EE068(void);
 s32 func_00218C88(void);
 void func_00218CA0(s32);
 
-extern vs8 D_002C1EB8;
 extern s32 D_002C2094;
 extern s32 D_002C2180;
 extern sceCdRMode D_002C2188;
@@ -69,12 +69,12 @@ INCLUDE_ASM(const s32, "xkingdom", func_0011FC58);
 void func_0011FD08(void) {
     if (func_001EE068() == 1) {
         if (D_002C218C > 30) {
-            D_002C1EB8 |= 2;
+            D_002C1EB8.s8 |= 2;
         } else {
             D_002C218C++;
         }
     } else {
-        if (((D_002C1EB8 & 0xFF) >> 1) & 1) {
+        if (((D_002C1EB8.s8 & 0xFF) >> 1) & 1) {
             if (D_002C2190 > 0) {
                 D_002C2190 -= 1;
                 return;
@@ -87,7 +87,7 @@ void func_0011FD08(void) {
             }
         }
         D_002C218C = 0;
-        D_002C1EB8 &= ~0x2;
+        D_002C1EB8.s8 &= ~0x2;
     }
 }
 
@@ -230,10 +230,10 @@ void cdvd_ReadImgFile(IOReadTask* task) {
 
     if (cond) {
         disk_Mgr.unk_20(4);
-        D_002C1EB8 |= 4;
+        D_002C1EB8.s8 |= 4;
         do {
             func_0010BEE8();
-        } while (((D_002C1EB8 & 0xFF) >> 2) & 1);
+        } while (((D_002C1EB8.s8 & 0xFF) >> 2) & 1);
         func_00218CA0(0);
         task->nSector += D_004EC940;
         func_0010BF08(&func_00120018, task);
