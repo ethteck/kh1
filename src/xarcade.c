@@ -1,5 +1,7 @@
 #include "common_funcs.h"
-
+#include "xblade.h"
+#include "xnoodle.h"
+#include "xtailor.h"
 #include "disk.h"
 #include "io.h"
 #include "libgraph.h"
@@ -11,14 +13,16 @@ typedef struct {
 
 extern char D_002B29B0[]; // "host:./kingdom.cnf"
 extern char* D_002B29C8;
+extern s64 D_002B2BB8;
+extern s32 D_002B2C00;
 extern s32 D_002B2CB0;
 extern s32 D_002B2CC0;
 extern s32 D_002B2CC4;
 extern u_long128* D_002B2CC8;
 extern u_long128* D_002B2CCC;
+extern s32 D_002B85C0[4];
 extern s32** D_002B8690;
 extern s32** D_002B8694;
-extern s32 D_002B85C0[4];
 extern sceGsLoadImage D_002B8700;
 extern s32 D_002B8870;
 extern s32 D_002B8C70;
@@ -30,18 +34,14 @@ extern s32 D_00358BE0;
 
 extern char D_004869E0[]; // "host:./kingdom.log"
 extern char D_004869F8[]; // "kingdom.img"
-extern s32 D_0048EBE0;
-extern f32 D_0048EBE4;
-extern f32 D_0048EBFC;
 extern XArcade D_0048EC00;
 extern s32 D_0048EC08;
 
 extern void func_F20000(s32, s32);
 extern void func_00100240(); // in xbeginning
-extern void func_00110230(s32);
+extern void func_00109C98();
 extern u_long128* func_00121C98(s32, u_long128**);
 extern void func_00122518();
-extern s32* func_00155ED8(s32, s32);
 extern void func_001600B8();
 extern void func_001C20B8();
 extern void func_00233968();
@@ -76,6 +76,7 @@ s32 func_001091B0() {
 }
 
 INCLUDE_ASM(const s32, "xarcade", func_001091D8);
+void func_001091D8();
 
 void* func_00109340() {
     func_00110190();
@@ -105,6 +106,7 @@ void func_00109440() {
 }
 
 INCLUDE_ASM(const s32, "xarcade", func_00109468);
+s32 func_00109468();
 
 INCLUDE_ASM(const s32, "xarcade", func_00109580);
 
@@ -168,10 +170,14 @@ void* func_0010A040() {
     return func_0011ED30(190000, func_00109E30);
 }
 
-INCLUDE_ASM(const s32, "xarcade", func_0010A098);
-void func_0010A098();
+s32 func_0010A098() {
+    func_00109C98();
+    D_002B2BB8 = 0x180808080;
+    func_00106948(&D_002B2C00);
+    return 0;
+}
 
-s32 func_0010A0E0() {
+void* func_0010A0E0() {
     return func_0011ED30(190000, func_0010A098);
 }
 

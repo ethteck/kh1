@@ -1,4 +1,6 @@
 #include "common.h"
+#include "xblade.h"
+#include "xnoodle.h"
 
 #include "eekernel.h"
 #include "libdma.h"
@@ -80,15 +82,11 @@ void func_00106A08(UNK_TYPE*, s32);
 void func_00106AA8(void);
 void func_00107CF8(XInchWorm*);
 void func_00108D68(s32, s32, XInchWorm*);
-void func_0010BE10(void);
 void func_0010E700(void);
 void func_001116A8(void);
 int func_00111910(void);
 void func_001139F8(void);
 void func_00113CA8(void);
-void func_00114440(void);
-void func_00114800(void);
-void func_00114A50(void);
 s32 func_0011C6C8(s32);
 void func_0011E350(void);
 void func_0011E360(void);
@@ -140,7 +138,6 @@ void func_00100168(void) {
 
 #ifdef NON_MATCHING
 extern s32 func_00103928;
-extern s32 func_00112690;
 extern s32 func_00119E18;
 
 void func_00100240(void) {
