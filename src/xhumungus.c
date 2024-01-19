@@ -1,6 +1,8 @@
 #include "common_data.h"
 
 #include "xhumungus.h"
+#include "xtailor.h"
+#include "xarcade.h"
 #include "xflamingo.h"
 
 extern u32 D_002A2740;

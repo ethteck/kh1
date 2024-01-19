@@ -1,3 +1,4 @@
+#include "common_data.h"
 #include "disk.h"
 #include "io.h"
 #include "sifdev.h"
@@ -12,8 +13,6 @@ s32 disk_GetStatus(void);
 s32 func_0024A630(s32);
 s32 disk_Seek(char*, char*);
 s32 disk_SetBlock(s32*);
-
-extern vu8 D_002C1EB8;
 
 s32 disk_BlockSize = 0; // file length
 
@@ -72,7 +71,7 @@ void func_0024A188(void* sema) {
 
     do {
         WaitSema((s32)sema);
-        D_002C1EB8 = D_002C1EB8 & 0xE7 | 0x10;
+        D_002C1EB8.u8 = D_002C1EB8.u8 & ~0x18 | 0x10;
         iVar1 = func_0024A010();
         if (iVar1 != 0) {
             /* close all files */
@@ -84,13 +83,13 @@ void func_0024A188(void* sema) {
         while (sceCdPowerOff(stat) == 0) {
             disk_Timeout(100000);
         }
-        D_002C1EB8 |= 0x10 | 0x8;
+        D_002C1EB8.u8 |= 0x10 | 0x8;
         D_004642F0++;
     } while (TRUE);
 }
 
 void func_0024A278(void* sema) {
-    D_002C1EB8 = D_002C1EB8 & ~(0x10 | 0x8) | 0x8;
+    D_002C1EB8.s8 = D_002C1EB8.s8 & ~(0x10 | 0x8) | 0x8;
     if (func_0024A010() != 0) {
         iSignalSema((s32)sema);
     }

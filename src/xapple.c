@@ -101,7 +101,6 @@ void func_0013B578(void);
 s32 func_0013BD88(s32*, AppleCore*, s32);
 s32 func_0013BDA0(s32*);
 s32 func_00141668(XAppleBlemish*, s32);
-XApple4* func_00155ED8(s32, s32);
 void func_00157AD8(s32);
 s32 func_00157B90(void);
 void func_00163638(sceVu0FMATRIX, sceVu0FMATRIX);
