@@ -1,6 +1,9 @@
 #include "common.h"
+#include "common_funcs.h"
+
 #include "xblade.h"
 #include "xnoodle.h"
+#include "xturtle.h"
 
 #include "eekernel.h"
 #include "libdma.h"
@@ -87,11 +90,6 @@ void func_001116A8(void);
 int func_00111910(void);
 void func_001139F8(void);
 void func_00113CA8(void);
-s32 func_0011C6C8(s32);
-void func_0011E350(void);
-void func_0011E360(void);
-s32 func_0011E418(void);
-s32 func_0011ED30(s32, UNK_FUN_PTR(arg1));
 void func_00177708(void);
 void func_00177748(void);
 void func_00177768(void);
@@ -351,8 +349,8 @@ void func_00100DF8(u_long128* srcaddr, s16 dbp) {
 INCLUDE_ASM(const s32, "xbeginning", func_00100E70);
 
 INCLUDE_ASM(const s32, "xbeginning", func_00100F48);
-extern void func_00100F48();
+extern s32 func_00100F48();
 
 void func_001011B8(void) {
-    func_0011ED30(190000, &func_00100F48);
+    func_0011ED30(190000, func_00100F48);
 }

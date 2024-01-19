@@ -1,6 +1,7 @@
 #include "common.h"
 #include "common_funcs.h"
 #include "xquack.h"
+#include "xturtle.h"
 
 typedef struct XTurtle {
     /* 0x00 */ char unk_00[0x14];
@@ -25,8 +26,8 @@ void* func_0011C5D8() {
     return func_001EE570();
 }
 
-s32 func_0011C5F0() {
-    return func_001EE618();
+s32 func_0011C5F0(s32 arg0, s32 arg1, s32 arg2) {
+    return func_001EE618(arg0, arg1, arg2);
 }
 
 void* func_0011C608(s32 arg0) {
