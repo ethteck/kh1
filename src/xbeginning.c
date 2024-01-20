@@ -349,7 +349,7 @@ void func_00100DF8(u_long128* srcaddr, s16 dbp) {
 INCLUDE_ASM(const s32, "xbeginning", func_00100E70);
 
 INCLUDE_ASM(const s32, "xbeginning", func_00100F48);
-extern s32 func_00100F48();
+s32 func_00100F48();
 
 void func_001011B8(void) {
     func_0011ED30(190000, func_00100F48);
