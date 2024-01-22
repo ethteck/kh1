@@ -1,5 +1,5 @@
 #include "ppp.h"
 
 void pppKeThRes16x4Con(pppPObject* pobj, pppCtrlTable* ctbl) {
-    func_001AA960(&pobj->val[ctbl->useVal[0]], 4, 16);
+    KeThResHd_Init(&pobj->val[ctbl->useVal[0]], 4, 16);
 }

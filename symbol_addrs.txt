@@ -38,167 +38,99 @@ cdvd_TryLoadModule           = 0x00120820; // type:func
 cdvd_StartModule             = 0x00120868; // type:func
 cdvd_Initialize              = 0x00120958; // type:func
 
+//=============================
 // ppp lib
 //=============================
-// pppKeThRes.c
-pppKeThResCon                = 0x0018DE48; // type:func
+pppFree                      = 0x00185128; // type:func
 
-// pppKeThRes8.c
-pppKeThRes8Con               = 0x0018DE78; // type:func
+// pppKeThLz.c
+pppKeThLzCalc                = 0x001851A0; // type:func
+pppKeThLzCon                 = 0x001851A8; // type:func
+pppKeThLzDes                 = 0x001851B0; // type:func
 
-// pppKeThRes8x4.c
-pppKeThRes8x4Con             = 0x0018DEA8; // type:func
+// pppKeThCp.c
+pppKeThCpCalc                = 0x001851B8; // type:func
+pppKeThCpCon                 = 0x001851C0; // type:func
+pppKeThCpDes                 = 0x001851C8; // type:func
 
-// pppKeThRes8x128.c
-pppKeThRes8x128Con           = 0x0018DED8; // type:func
+// pppKeThCpSft.c
+pppKeThCpSftCalc             = 0x001851D0; // type:func
 
-// pppKeThRes16.c
-pppKeThRes16Con              = 0x0018DF08; // type:func
+// pppKeAccSpdSv.c
+pppKeAccSpdSvCalc            = 0x001851D8; // type:func
+pppKeAccSpdSvCon             = 0x001851E0; // type:func
 
-// pppKeThRes16x4.c
-pppKeThRes16x4Con            = 0x0018DF38; // type:func
-
-// pppKeThRes16x64.c
-pppKeThRes16x64Con           = 0x0018DF68; // type:func
-
-// pppKeThRes24.c
-pppKeThRes24Con              = 0x0018DF98; // type:func
-
-// pppKeThRes24x4.c
-pppKeThRes24x4Con            = 0x0018DFC8; // type:func
-
-// pppKeThRes32.c
-pppKeThRes32Con              = 0x0018DFF8; // type:func
-
-// pppKeThRes32x4.c
-pppKeThRes32x4Con            = 0x0018E028; // type:func
-
-// pppKeThRes32x32.c
-pppKeThRes32x32Con           = 0x0018E058; // type:func
-
-// pppKeThRes40.c
-pppKeThRes40Con              = 0x0018E088; // type:func
-
-// pppKeThRes40x4.c
-pppKeThRes40x4Con            = 0x0018E0B8; // type:func
-
-// pppKeThRes48.c
-pppKeThRes48Con              = 0x0018E0E8; // type:func
-
-// pppKeThRes48x4.c
-pppKeThRes48x4Con            = 0x0018E118; // type:func
-
-// pppKeThRes64.c
-pppKeThRes64Con              = 0x0018E148; // type:func
-
-// pppKeThRes64x4.c
-pppKeThRes64x4Con            = 0x0018E178; // type:func
-
-// pppKeThRes64x16.c
-pppKeThRes64x16Con           = 0x0018E1A8; // type:func
-
-// pppKeThRes128.c
-pppKeThRes128Con             = 0x0018E1D8; // type:func
-
-// pppKeThRes128x4.c
-pppKeThRes128x4Con           = 0x0018E208; // type:func
-
-// pppKeThRes128x8.c
-pppKeThRes128x8Con           = 0x0018E238; // type:func
-
-// pppKeThRes255.c
-pppKeThRes255Con             = 0x0018E268; // type:func
-
-// pppKeThRes255x4.c
-pppKeThRes255x4Con           = 0x0018E298; // type:func
-
-// pppKeHitBall.c
-pppKeHitBallCalc             = 0x001958D0; // type:func
-pppKeHitBallCon              = 0x00195918; // type:func
-
-// pppKeGrvTgt.c
-pppKeGrvTgtCalc              = 0x001956E0; // type:func
-pppKeGrvTgtCon               = 0x00195730; // type:func
-
-// pppAccele.c
-pppAcceleCalc                = 0x00185490; // type:func
-pppAcceleCon                 = 0x00185560; // type:func
-
-// pppAngAccele.c
-pppAngAcceleCalc             = 0x00185728; // type:func
-pppAngAcceleCon              = 0x001857F8; // type:func
-
-// pppSclAccele.c
-pppSclAcceleCalc             = 0x001859C8; // type:func
-pppSclAcceleCon              = 0x00185A98; // type:func
-
-// pppColAccele.c
-pppColAcceleCalc             = 0x00185CE8; // type:func
-pppColAcceleCon              = 0x00185DD8; // type:func
-
-// pppEiWfacc.c
-pppEiWfaccCalc               = 0x0018BD80; // type:func
-
-// pppKeHmgEff.c
-pppKeHmgEffCalc              = 0x001954D8; // type:func
-pppKeHmgEffCon               = 0x001956D8; // type:func
-
-// pppKeGrvEff.c
-pppKeGrvEffCalc              = 0x00195748; // type:func
-pppKeGrvEffCon               = 0x001958C8; // type:func
-
-// pppKeHitChkPxB.c
-pppKeHitChkPxBCalc           = 0x00195A98; // type:func
-pppKeHitChkPxBCon            = 0x00195CC0; // type:func
-
-// pppMove.c
-pppMove                      = 0x00185398; // type:func
-pppMoveCon                   = 0x00185468; // type:func
-
-// pppAngMove.c
-pppAngMoveCalc               = 0x00185638; // type:func
-pppAngMoveCon                = 0x00185708; // type:func
-
-// pppSclMove.c
-pppSclMoveCalc               = 0x001858D0; // type:func
-pppSclMoveCon                = 0x001859A0; // type:func
-
-// pppColMove.c
-pppColMoveCalc               = 0x00185BD0; // type:func
-pppColMoveCon                = 0x00185CC0; // type:func
+// pppDrawHook.c
+pppDrawHookDraw              = 0x00185278; // type:func
 
 // pppPoint.c
 pppPoint                     = 0x001852E0; // type:func
 pppPointCon                  = 0x00185370; // type:func
 
+// pppMove.c
+pppMove                      = 0x00185398; // type:func
+pppMoveCon                   = 0x00185468; // type:func
+
+// pppAccele.c
+pppAcceleCalc                = 0x00185490; // type:func
+pppAcceleCon                 = 0x00185560; // type:func
+
 // pppAngle.c
 pppAngleCalc                 = 0x00185588; // type:func
 pppAngleCon                  = 0x00185618; // type:func
+
+// pppAngMove.c
+pppAngMoveCalc               = 0x00185638; // type:func
+pppAngMoveCon                = 0x00185708; // type:func
+
+// pppAngAccele.c
+pppAngAcceleCalc             = 0x00185728; // type:func
+pppAngAcceleCon              = 0x001857F8; // type:func
 
 // pppScale.c
 pppScaleCalc                 = 0x00185818; // type:func
 pppScaleCon                  = 0x001858A8; // type:func
 
+// pppSclMove.c
+pppSclMoveCalc               = 0x001858D0; // type:func
+pppSclMoveCon                = 0x001859A0; // type:func
+
+// pppSclAccele.c
+pppSclAcceleCalc             = 0x001859C8; // type:func
+pppSclAcceleCon              = 0x00185A98; // type:func
+
 // pppColor.c
 pppColorCalc                 = 0x00185AC0; // type:func
 pppColorCon                  = 0x00185BA8; // type:func
 
-// pppPObjPoint.c
-pppPObjPointCalc             = 0x00187F48; // type:func
+// pppColMove.c
+pppColMoveCalc               = 0x00185BD0; // type:func
+pppColMoveCon                = 0x00185CC0; // type:func
+
+// pppColAccele.c
+pppColAcceleCalc             = 0x00185CE8; // type:func
+pppColAcceleCon              = 0x00185DD8; // type:func
 
 // pppVertexAttend.c
 pppVertexAttendCalc          = 0x00185E00; // type:func
 
-// pppEiWindFun.c
-pppEiWindFunCalc             = 0x0018BC48; // type:func
-pppEiWindFunCon              = 0x0018BC18; // type:func
+// pppVertexAp.c
+pppVertexApCon               = 0x00185F10; // type:func
+pppVertexApCalc              = 0x00186030; // type:func
 
-// pppKeMvYpEff.c
-pppKeMvYpEffCalc             = 0x0018FFB8; // type:func
+// pppSegmentAp.c
+pppSegmentApCalc             = 0x001862B0; // type:func
 
-// pppKeDrct.c
-pppKeDrctCalc                = 0x00195CE8; // type:func
-pppKeDrctCon                 = 0x00195D28; // type:func
+// pppFaceAp.c
+pppFaceApCalc                = 0x001862B8; // type:func
+
+// pppVertexApLc.c
+pppVertexApLcCon             = 0x001862C0; // type:func
+pppVertexApLcCalc            = 0x001863A0; // type:func
+
+// pppVertexApAt.c
+pppVertexApAtCon             = 0x00186620; // type:func
+pppVertexApAtCalc            = 0x001866C0; // type:func
 
 // pppVtMime.c
 pppVtMimeCalc                = 0x00186898; // type:func
@@ -207,9 +139,90 @@ pppVtMimeCon                 = 0x00186B00; // type:func
 pppVtMimeCon2                = 0x00186B28; // type:func
 pppVtMimeDes                 = 0x00186B50; // type:func
 
-// pppKeTkFade.c
-pppKeTkFadeDraw              = 0x00195EC0; // type:func
-pppKeTkFadeCon               = 0x00196378; // type:func
+// pppMatrixXYZ.c
+pppMatrixXYZCalc             = 0x00186B98; // type:func
+
+// pppMatrixXZY.c
+pppMatrixXZYCalc             = 0x00186C98; // type:func
+
+// pppMatrixYZX.c
+pppMatrixYZXCalc             = 0x00186D98; // type:func
+
+// pppMatrixYXZ.c
+pppMatrixYXZCalc             = 0x00186E98; // type:func
+
+// pppMatrixZXY.c
+pppMatrixZXYCalc             = 0x00186F98; // type:func
+
+// pppMatrixZYX.c
+pppMatrixZYXCalc             = 0x00187098; // type:func
+
+// pppMatrixLoc.c
+pppMatrixLocCalc             = 0x00187198; // type:func
+
+// pppMatrixScl.c
+pppMatrixSclCalc             = 0x00187208; // type:func
+
+// pppParMatrix.c
+pppParMatrixCalc             = 0x001872B0; // type:func
+
+// pppChrSclXYZMatrix.c
+pppChrSclXYZMatrixCalc       = 0x001872E0; // type:func
+
+// pppChrSclXZMatrix.c
+pppChrSclXZMatrixCalc        = 0x00187378; // type:func
+
+// pppChrSclYMatrix.c
+pppChrSclYMatrixCalc         = 0x001873F0; // type:func
+
+// pppChrYSclXYZMatrix.c
+pppChrYSclXYZMatrixCalc      = 0x00187460; // type:func
+
+// pppChrXSclXYZMatrix.c
+pppChrXSclXYZMatrixCalc      = 0x001874E0; // type:func
+
+// pppDrawMatrix.c
+pppDrawMatrixCalc            = 0x00187560; // type:func
+
+// pppDrawMatrixFront.c
+pppDrawMatrixFrontCalc       = 0x00187590; // type:func
+
+// pppDrawMatrixNoRot.c
+pppDrawMatrixNoRotCalc       = 0x00187630; // type:func
+
+// pppDrawMatrixWood.c
+pppDrawMatrixWoodSta         = 0x00187720; // type:func
+pppDrawMatrixWoodCalc        = 0x00187728; // type:func
+
+// pppSMatrix.c
+pppSMatrixCalc               = 0x001877D0; // type:func
+
+// pppDrawMdl.c
+pppDrawMdlDraw               = 0x001877F0; // type:func
+
+// pppDrawMdlSemi.c
+pppDrawMdlSemiDraw           = 0x00187948; // type:func
+
+// pppDrawMdlTs.c
+pppDrawMdlTsCon              = 0x00187A90; // type:func
+pppDrawMdlTsCalc             = 0x00187AC0; // type:func
+pppDrawMdlTsDraw             = 0x00187BA0; // type:func
+
+// pppDrawShape.c
+pppDrawShapeCon              = 0x00187D28; // type:func
+pppDrawShapeCalc             = 0x00187D48; // type:func
+pppDrawShapeDraw             = 0x00187E40; // type:func
+
+// pppPObjPoint.c
+pppPObjPointCalc             = 0x00187F48; // type:func
+
+// pppPointAp.c
+pppPointApCon                = 0x00187FF8; // type:func
+pppPointApCalc               = 0x00188010; // type:func
+
+// pppPointRAp.c
+pppPointRApCon               = 0x00188110; // type:func
+pppPointRApCalc              = 0x00188128; // type:func
 
 // pppRandFloat.c
 pppRandFloatCalc             = 0x00188380; // type:func
@@ -310,145 +323,90 @@ pppSRandUpHCVCalc            = 0x0018B8D0; // type:func
 // pppSRandDownHCV.c
 pppSRandDownHCVCalc          = 0x0018BAE0; // type:func
 
-// pppSMatrix.c
-pppSMatrixCalc               = 0x001877D0; // type:func
+// pppEiWindFun.c
+pppEiWindFunCalc             = 0x0018BC48; // type:func
+pppEiWindFunCon              = 0x0018BC18; // type:func
 
-// pppKeMatSN.c
-pppKeMatSNCalc               = 0x00195D48; // type:func
-pppKeMatSNCon                = 0x00195E00; // type:func
+// pppEiWfacc.c
+pppEiWfaccCalc               = 0x0018BD80; // type:func
 
-// pppMatrixXYZ.c
-pppMatrixXYZCalc             = 0x00186B98; // type:func
+// pppDrawShapeField.c
+pppDrawShapeFieldDraw        = 0x0018BF98; // type:func
+pppDrawShapeFieldCon         = 0x0018BFA0; // type:func
+pppDrawShapeFieldDes         = 0x0018BFA8; // type:func
 
-// pppMatrixXZY.c
-pppMatrixXZYCalc             = 0x00186C98; // type:func
+// pppDrawMdlSea.c
+pppDrawMdlSeaDraw            = 0x0018BFB0; // type:func
+pppDrawMdlSeaCon             = 0x0018BFB8; // type:func
+pppDrawMdlSeaDes             = 0x0018BFC0; // type:func
 
-// pppMatrixYZX.c
-pppMatrixYZXCalc             = 0x00186D98; // type:func
+// pppMoveLoop.c
+pppMoveLoopCon               = 0x0018BFC8; // type:func
+pppMoveLoopCon2              = 0x0018BFF0; // type:func
+pppMoveLoopCalc              = 0x0018C008; // type:func
 
-// pppMatrixYXZ.c
-pppMatrixYXZCalc             = 0x00186E98; // type:func
+// pppAngMoveLoop.c
+pppAngMoveLoopCon            = 0x0018C0E0; // type:func
+pppAngMoveLoopCon2           = 0x0018C100; // type:func
+pppAngMoveLoopCalc           = 0x0018C118; // type:func
 
-// pppMatrixZXY.c
-pppMatrixZXYCalc             = 0x00186F98; // type:func
+// pppSclMoveLoop.c
+pppSclMoveLoopCon            = 0x0018C1F8; // type:func
+pppSclMoveLoopCon2           = 0x0018C220; // type:func
+pppSclMoveLoopCalc           = 0x0018C238; // type:func
 
-// pppMatrixZYX.c
-pppMatrixZYXCalc             = 0x00187098; // type:func
+// pppMatrixLoop.c
+pppMatrixLoopCalc            = 0x0018C310; // type:func
 
-// pppMatrixLoc.c
-pppMatrixLocCalc             = 0x00187198; // type:func
+// pppPointLoop.c
+pppPointLoopCon              = 0x0018C428; // type:func
+pppPointLoopCon2             = 0x0018C440; // type:func
+pppPointLoopCalc             = 0x0018C488; // type:func
 
-// pppMatrixScl.c
-pppMatrixSclCalc             = 0x00187208; // type:func
+// pppAngleLoop.c
+pppAngleLoopCon              = 0x0018C570; // type:func
+pppAngleLoopCon2             = 0x0018C588; // type:func
+pppAngleLoopCalc             = 0x0018C5D0; // type:func
 
-// pppMatrixFront.c
+// pppScaleLoop.c
+pppScaleLoopCon              = 0x0018C6B8; // type:func
+pppScaleLoopCon2             = 0x0018C6D0; // type:func
+pppScaleLoopCalc             = 0x0018C718; // type:func
 
-// pppRyjMatrixNoRot.c
-pppRyjMatrixNoRotCalc        = 0x0019B1A0; // type:func
+// pppDrawMatrixLoop.c
+pppDrawMatrixLoopCalc        = 0x0018C7E8; // type:func
 
-// pppKeMatPht.c
-pppKeMatPhtCalc              = 0x001964D8; // type:func
+// pppDrawMdlLoop.c
+pppDrawMdlLoopCon            = 0x0018C848; // type:func
+pppDrawMdlLoopCon2           = 0x0018C860; // type:func
+pppDrawMdlLoopDes            = 0x0018C888; // type:func
+pppDrawMdlLoopCalc           = 0x0018C890; // type:func
+pppDrawMdlLoopDraw           = 0x0018C9E8; // type:func
 
-// pppRyjMatrixWorldXYZ.c
-pppRyjMatrixWorldXYZCalc     = 0x0019A720; // type:func
-pppRyjMatrixWorldXYZCon      = 0x0019A6C0; // type:func
+// pppDrawMdlLoopZ.c
+pppDrawMdlLoopZCon           = 0x0018CC88; // type:func
+pppDrawMdlLoopZCon2          = 0x0018CCA0; // type:func
+pppDrawMdlLoopZDes           = 0x0018CCC8; // type:func
+pppDrawMdlLoopZCalc          = 0x0018CCD0; // type:func
+pppDrawMdlLoopZDraw          = 0x0018CE28; // type:func
 
-// pppRyjMatrixWorldXZY.c
-pppRyjMatrixWorldXZYCalc     = 0x0019A8F0; // type:func
-pppRyjMatrixWorldXZYCon      = 0x0019A890; // type:func
+// pppMatrixLoopXYZ.c
+pppMatrixLoopXYZCalc         = 0x0018D0C8; // type:func
 
-// pppRyjMatrixWorldYXZ.c
-pppRyjMatrixWorldYXZCalc     = 0x0019AAC0; // type:func
-pppRyjMatrixWorldYXZCon      = 0x0019AA60; // type:func
+// pppMatrixLoopXZY.c
+pppMatrixLoopXZYCalc         = 0x0018D1C8; // type:func
 
-// pppRyjMatrixWorldYZX.c
-pppRyjMatrixWorldYZXCalc     = 0x0019AC90; // type:func
-pppRyjMatrixWorldYZXCon      = 0x0019AC30; // type:func
+// pppMatrixLoopYXZ.c
+pppMatrixLoopYXZCalc         = 0x0018D2C8; // type:func
 
-// pppRyjMatrixWorldZXY.c
-pppRyjMatrixWorldZXYCalc     = 0x0019AE60; // type:func
-pppRyjMatrixWorldZXYCon      = 0x0019AE00; // type:func
+// pppMatrixLoopYZX.c
+pppMatrixLoopYZXCalc         = 0x0018D3C8; // type:func
 
-// pppRyjMatrixWorldZYX.c
-pppRyjMatrixWorldZYXCalc     = 0x0019B030; // type:func
-pppRyjMatrixWorldZYXCon      = 0x0019AFD0; // type:func
+// pppMatrixLoopZXY.c
+pppMatrixLoopZXYCalc         = 0x0018D4C8; // type:func
 
-// pppParMatrix.c
-pppParMatrixCalc             = 0x001872B0; // type:func
-
-// pppKeParMatR.c
-pppKeParMatRCalc             = 0x00195E20; // type:func
-
-// pppChrSclXYZMatrix.c
-pppChrSclXYZMatrixCalc       = 0x001872E0; // type:func
-
-// pppChrSclXZMatrix.c
-pppChrSclXZMatrixCalc        = 0x00187378; // type:func
-
-// pppChrSclYMatrix.c
-pppChrSclYMatrixCalc         = 0x001873F0; // type:func
-
-// pppChrYSclXYZMatrix.c
-pppChrYSclXYZMatrixCalc      = 0x00187460; // type:func
-
-// pppChrXSclXYZMatrix.c
-pppChrXSclXYZMatrixCalc      = 0x001874E0; // type:func
-
-// pppDrawMatrix.c
-pppDrawMatrixCalc            = 0x00187560; // type:func
-
-// pppDrawMatrixFront.c
-pppDrawMatrixFrontCalc       = 0x00187590; // type:func
-
-// pppDrawMatrixNoRot.c
-pppDrawMatrixNoRotCalc       = 0x00187630; // type:func
-
-// pppDrawMatrixWood.c
-pppDrawMatrixWoodCalc        = 0x00187728; // type:func
-pppDrawMatrixWoodSta         = 0x00187720; // type:func
-
-// pppKeDMat.c
-pppKeDMatCalc                = 0x00196398; // type:func
-
-// pppKeDMatFr.c
-pppKeDMatFrCalc              = 0x00196410; // type:func
-
-// pppKeDMatPht.c
-pppKeDMatPhtCalc             = 0x00196608; // type:func
-
-// pppKeDMatPhtFr.c
-pppKeDMatPhtFrCalc           = 0x001966C8; // type:func
-
-// pppRyjDrawMatrixWorld.c
-pppRyjDrawMatrixWorldCalc    = 0x0019A1A8; // type:func
-pppRyjDrawMatrixWorldCon     = 0x0019A178; // type:func
-
-// pppRyjDrawMatrixWorldFront.c
-pppRyjDrawMatrixWorldFrontCalc = 0x0019A260; // type:func
-pppRyjDrawMatrixWorldFrontCon = 0x0019A218; // type:func
-
-// pppRyjDrawMatrixWorldNoRot.c
-pppRyjDrawMatrixWorldNoRotCalc = 0x0019A380; // type:func
-pppRyjDrawMatrixWorldNoRotCon = 0x0019A338; // type:func
-
-// pppRyjDrawMatrixWorldWood.c
-pppRyjDrawMatrixWorldWoodCalc = 0x0019A5C8; // type:func
-pppRyjDrawMatrixWorldWoodCon = 0x0019A4A0; // type:func
-
-// pppKeZCrct.c
-pppKeZCrctCalc               = 0x00196DE8; // type:func
-
-// pppKeZCrctShp.c
-pppKeZCrctShpCalc            = 0x00196FF8; // type:func
-
-// pppKeThTp.c
-pppKeThTpCalc                = 0x0018DD18; // type:func
-pppKeThTpCon                 = 0x0018DE00; // type:func
-pppKeThTp2Con                = 0x0018DE20; // type:func
-
-// pppKeThSft.c
-pppKeThSftCalc               = 0x0018E4E0; // type:func
-pppKeThSftCon                = 0x0018E7F0; // type:func
+// pppMatrixLoopZYX.c
+pppMatrixLoopZYXCalc         = 0x0018D5C8; // type:func
 
 // pppKeTh.c
 pppKeThCalc                  = 0x0018D6C8; // type:func
@@ -457,175 +415,90 @@ pppKeThCon                   = 0x0018DC78; // type:func
 pppKeThCon2                  = 0x0018DCD8; // type:func
 pppKeThDes                   = 0x0018DD10; // type:func
 
-// pppDrawMdl.c
-pppDrawMdlDraw               = 0x001877F0; // type:func
+// pppKeThTp.c
+pppKeThTpCalc                = 0x0018DD18; // type:func
+pppKeThTpCon                 = 0x0018DE00; // type:func
+pppKeThTp2Con                = 0x0018DE20; // type:func
 
-// pppDrawMdlSemi.c
-pppDrawMdlSemiDraw           = 0x00187948; // type:func
+// pppKeThRes.c
+pppKeThResCon                = 0x0018DE48; // type:func
 
-// pppDrawMdlTs.c
-pppDrawMdlTsCalc             = 0x00187AC0; // type:func
-pppDrawMdlTsDraw             = 0x00187BA0; // type:func
-pppDrawMdlTsCon              = 0x00187A90; // type:func
+// pppKeThRes8.c
+pppKeThRes8Con               = 0x0018DE78; // type:func
 
-// pppDrawMdl2.c
-pppDrawMdl2Draw              = 0x001967C8; // type:func
+// pppKeThRes8x4.c
+pppKeThRes8x4Con             = 0x0018DEA8; // type:func
 
-// pppDrawMdlSemi2.c
-pppDrawMdlSemi2Draw          = 0x00196970; // type:func
+// pppKeThRes8x128.c
+pppKeThRes8x128Con           = 0x0018DED8; // type:func
 
-// pppDrawMdlTs2.c
-pppDrawMdlTs2Calc            = 0x00196B38; // type:func
-pppDrawMdlTs2Draw            = 0x00196C18; // type:func
-pppDrawMdlTs2Con             = 0x00196B08; // type:func
+// pppKeThRes16.c
+pppKeThRes16Con              = 0x0018DF08; // type:func
 
-// pppDrawMdl3.c
-pppDrawMdl3Draw              = 0x00197220; // type:func
+// pppKeThRes16x4.c
+pppKeThRes16x4Con            = 0x0018DF38; // type:func
 
-// pppDrawMdlSemi3.c
-pppDrawMdlSemi3Draw          = 0x00197478; // type:func
+// pppKeThRes16x64.c
+pppKeThRes16x64Con           = 0x0018DF68; // type:func
 
-// pppDrawMdlTs3.c
-pppDrawMdlTs3Calc            = 0x001976F0; // type:func
-pppDrawMdlTs3Draw            = 0x001977D0; // type:func
-pppDrawMdlTs3Con             = 0x001976C0; // type:func
+// pppKeThRes24.c
+pppKeThRes24Con              = 0x0018DF98; // type:func
 
-// pppDrawMdlSea.c
-pppDrawMdlSeaDraw            = 0x0018BFB0; // type:func
-pppDrawMdlSeaCon             = 0x0018BFB8; // type:func
-pppDrawMdlSeaDes             = 0x0018BFC0; // type:func
+// pppKeThRes24x4.c
+pppKeThRes24x4Con            = 0x0018DFC8; // type:func
 
-// pppDrawShape.c
-pppDrawShapeCalc             = 0x00187D48; // type:func
-pppDrawShapeDraw             = 0x00187E40; // type:func
-pppDrawShapeCon              = 0x00187D28; // type:func
+// pppKeThRes32.c
+pppKeThRes32Con              = 0x0018DFF8; // type:func
 
-// pppDrawShapeX.c
-pppDrawShapeXCalc            = 0x00197FC0; // type:func
-pppDrawShapeXDraw            = 0x001980B8; // type:func
-pppDrawShapeXCon             = 0x00197FA0; // type:func
+// pppKeThRes32x4.c
+pppKeThRes32x4Con            = 0x0018E028; // type:func
 
-// pppDrawShapeField.c
-pppDrawShapeFieldDraw        = 0x0018BF98; // type:func
-pppDrawShapeFieldCon         = 0x0018BFA0; // type:func
-pppDrawShapeFieldDes         = 0x0018BFA8; // type:func
+// pppKeThRes32x32.c
+pppKeThRes32x32Con           = 0x0018E058; // type:func
 
-// pppKeMdlBmp.c
-pppKeMdlBmpDraw              = 0x00191578; // type:func
-pppKeMdlBmpCon               = 0x00191580; // type:func
-pppKeMdlBmpCon2              = 0x00191588; // type:func
+// pppKeThRes40.c
+pppKeThRes40Con              = 0x0018E088; // type:func
 
-// pppKeMdlDtt.c
-pppKeMdlDttDraw              = 0x00190B08; // type:func
-pppKeMdlDttCon               = 0x00191538; // type:func
-pppKeMdlDttCon2              = 0x00191558; // type:func
+// pppKeThRes40x4.c
+pppKeThRes40x4Con            = 0x0018E0B8; // type:func
 
-// pppKeMdlTfd.c
-pppKeMdlTfdDraw              = 0x00190128; // type:func
-pppKeMdlTfdCon               = 0x00190328; // type:func
+// pppKeThRes48.c
+pppKeThRes48Con              = 0x0018E0E8; // type:func
 
-// pppKeMdlTfdUv.c
-pppKeMdlTfdUvDraw            = 0x00190348; // type:func
-pppKeMdlTfdUvCon             = 0x001905D8; // type:func
+// pppKeThRes48x4.c
+pppKeThRes48x4Con            = 0x0018E118; // type:func
 
-// pppKeMdlTfd2.c
-pppKeMdlTfd2Draw             = 0x00190618; // type:func
-pppKeMdlTfd2Con              = 0x00190818; // type:func
+// pppKeThRes64.c
+pppKeThRes64Con              = 0x0018E148; // type:func
 
-// pppKeMdlTfdUv2.c
-pppKeMdlTfdUv2Draw           = 0x00190838; // type:func
-pppKeMdlTfdUv2Con            = 0x00190AC8; // type:func
+// pppKeThRes64x4.c
+pppKeThRes64x4Con            = 0x0018E178; // type:func
 
-// pppKeMdlTfd3.c
-pppKeMdlTfd3Draw             = 0x00197A60; // type:func
-pppKeMdlTfd3Con              = 0x00197C88; // type:func
+// pppKeThRes64x16.c
+pppKeThRes64x16Con           = 0x0018E1A8; // type:func
 
-// pppKeMdlTfdUv3.c
-pppKeMdlTfdUv3Draw           = 0x00197CA8; // type:func
-pppKeMdlTfdUv3Con            = 0x00197F60; // type:func
+// pppKeThRes128.c
+pppKeThRes128Con             = 0x0018E1D8; // type:func
 
-// pppKeShpTail.c
-pppKeShpTailCalc             = 0x00191598; // type:func
-pppKeShpTailDraw             = 0x001917C8; // type:func
-pppKeShpTailCon              = 0x00191EB8; // type:func
+// pppKeThRes128x4.c
+pppKeThRes128x4Con           = 0x0018E208; // type:func
 
-// pppKeShpTailX.c
-pppKeShpTailXCalc            = 0x00198208; // type:func
-pppKeShpTailXDraw            = 0x00198440; // type:func
-pppKeShpTailXCon             = 0x00198B58; // type:func
+// pppKeThRes128x8.c
+pppKeThRes128x8Con           = 0x0018E238; // type:func
 
-// pppKeShpTail2.c
-pppKeShpTail2Calc            = 0x00191EE8; // type:func
-pppKeShpTail2Draw            = 0x00192120; // type:func
-pppKeShpTail2Con             = 0x00192780; // type:func
+// pppKeThRes255.c
+pppKeThRes255Con             = 0x0018E268; // type:func
 
-// pppKeShpTail2X.c
-pppKeShpTail2XCalc           = 0x00198B88; // type:func
-pppKeShpTail2XDraw           = 0x00198DC0; // type:func
-pppKeShpTail2XCon            = 0x00199468; // type:func
+// pppKeThRes255x4.c
+pppKeThRes255x4Con           = 0x0018E298; // type:func
 
-// pppKeShpTail3.c
-pppKeShpTail3Calc            = 0x001927B0; // type:func
-pppKeShpTail3Draw            = 0x00192B98; // type:func
-pppKeShpTail3Con             = 0x001933C8; // type:func
-pppKeShpTail3Con2            = 0x00193420; // type:func
+// pppKeThHitBorn.c
+pppKeThHitBornCalc           = 0x0018E2C8; // type:func
+pppKeThHitBornCon            = 0x0018E4C8; // type:func
 
-// pppKeShpTail3X.c
-pppKeShpTail3XCalc           = 0x00199498; // type:func
-pppKeShpTail3XDraw           = 0x00199880; // type:func
-pppKeShpTail3XCon            = 0x0019A0F0; // type:func
-pppKeShpTail3XCon2           = 0x0019A148; // type:func
-
-// pppKeShpTailPht.c
-pppKeShpTailPhtCalc          = 0x00193450; // type:func
-pppKeShpTailPhtDraw          = 0x00193458; // type:func
-pppKeShpTailPhtCon           = 0x00193460; // type:func
-pppKeShpTailPhtCon2          = 0x00193468; // type:func
-
-// pppKeShpTailLc.c
-pppKeShpTailLcCalc           = 0x00193470; // type:func
-pppKeShpTailLcDraw           = 0x00193478; // type:func
-pppKeShpTailLcCon            = 0x00193480; // type:func
-
-// pppKeShpDtt.c
-pppKeShpDttCalc              = 0x001934B0; // type:func
-pppKeShpDttDraw              = 0x001934B8; // type:func
-pppKeShpDttCon               = 0x001937D0; // type:func
-
-// pppRyjDrawShipoly.c
-pppRyjDrawShipolyCalc        = 0x0019BEC8; // type:func
-pppRyjDrawShipolyDraw        = 0x0019C168; // type:func
-pppRyjDrawShipolyCon         = 0x0019C3F0; // type:func
-pppRyjDrawShipolyDes         = 0x0019C418; // type:func
-
-// pppDrawHook.c
-pppDrawHookDraw              = 0x00185278; // type:func
-
-// pppPointAp.c
-pppPointApCalc               = 0x00188010; // type:func
-pppPointApCon                = 0x00187FF8; // type:func
-
-// pppPointRAp.c
-pppPointRApCalc              = 0x00188128; // type:func
-pppPointRApCon               = 0x00188110; // type:func
-
-// pppVertexAp.c
-pppVertexApCalc              = 0x00186030; // type:func
-pppVertexApCon               = 0x00185F10; // type:func
-
-// pppSegmentAp.c
-pppSegmentApCalc             = 0x001862B0; // type:func
-
-// pppFaceAp.c
-pppFaceApCalc                = 0x001862B8; // type:func
-
-// pppVertexApLc.c
-pppVertexApLcCalc            = 0x001863A0; // type:func
-pppVertexApLcCon             = 0x001862C0; // type:func
-
-// pppVertexApAt.c
-pppVertexApAtCalc            = 0x001866C0; // type:func
-pppVertexApAtCon             = 0x00186620; // type:func
+// pppKeThSft.c
+pppKeThSftCalc               = 0x0018E4E0; // type:func
+pppKeThSftCon                = 0x0018E7F0; // type:func
 
 // pppKeBornRnd.c
 pppKeBornRndCalc             = 0x0018E828; // type:func
@@ -655,17 +528,69 @@ pppKeBornRnd6Con             = 0x0018FB90; // type:func
 pppKeBornPtCmplCalc          = 0x0018FDA0; // type:func
 pppKeBornPtCmplCon           = 0x0018FE10; // type:func
 
-// pppKeHitBorn.c
-pppKeHitBornCalc             = 0x00195920; // type:func
-pppKeHitBornCon              = 0x00195A80; // type:func
+// pppKeMvYpEff.c
+pppKeMvYpEffCalc             = 0x0018FFB8; // type:func
 
-// pppKeThHitBorn.c
-pppKeThHitBornCalc           = 0x0018E2C8; // type:func
-pppKeThHitBornCon            = 0x0018E4C8; // type:func
+// pppKeMdlTfd.c
+pppKeMdlTfdDraw              = 0x00190128; // type:func
+pppKeMdlTfdCon               = 0x00190328; // type:func
 
-// pppKeLnsLpSft.c
-pppKeLnsLpSftCalc            = 0x001953F8; // type:func
-pppKeLnsLpSftCon             = 0x001954B8; // type:func
+// pppKeMdlTfdUv.c
+pppKeMdlTfdUvDraw            = 0x00190348; // type:func
+pppKeMdlTfdUvCon             = 0x001905D8; // type:func
+
+// pppKeMdlTfd2.c
+pppKeMdlTfd2Draw             = 0x00190618; // type:func
+pppKeMdlTfd2Con              = 0x00190818; // type:func
+
+// pppKeMdlTfdUv2.c
+pppKeMdlTfdUv2Draw           = 0x00190838; // type:func
+pppKeMdlTfdUv2Con            = 0x00190AC8; // type:func
+
+// pppKeMdlDtt.c
+pppKeMdlDttDraw              = 0x00190B08; // type:func
+pppKeMdlDttCon               = 0x00191538; // type:func
+pppKeMdlDttCon2              = 0x00191558; // type:func
+
+// pppKeMdlBmp.c
+pppKeMdlBmpDraw              = 0x00191578; // type:func
+pppKeMdlBmpCon               = 0x00191580; // type:func
+pppKeMdlBmpCon2              = 0x00191588; // type:func
+
+// pppKeAcmSolid.c
+pppKeAcmSolidEnd             = 0x00191590; // type:func
+
+// pppKeShpTail.c
+pppKeShpTailCalc             = 0x00191598; // type:func
+pppKeShpTailDraw             = 0x001917C8; // type:func
+pppKeShpTailCon              = 0x00191EB8; // type:func
+
+// pppKeShpTail2.c
+pppKeShpTail2Calc            = 0x00191EE8; // type:func
+pppKeShpTail2Draw            = 0x00192120; // type:func
+pppKeShpTail2Con             = 0x00192780; // type:func
+
+// pppKeShpTail3.c
+pppKeShpTail3Calc            = 0x001927B0; // type:func
+pppKeShpTail3Draw            = 0x00192B98; // type:func
+pppKeShpTail3Con             = 0x001933C8; // type:func
+pppKeShpTail3Con2            = 0x00193420; // type:func
+
+// pppKeShpTailPht.c
+pppKeShpTailPhtCalc          = 0x00193450; // type:func
+pppKeShpTailPhtDraw          = 0x00193458; // type:func
+pppKeShpTailPhtCon           = 0x00193460; // type:func
+pppKeShpTailPhtCon2          = 0x00193468; // type:func
+
+// pppKeShpTailLc.c
+pppKeShpTailLcCalc           = 0x00193470; // type:func
+pppKeShpTailLcDraw           = 0x00193478; // type:func
+pppKeShpTailLcCon            = 0x00193480; // type:func
+
+// pppKeShpDtt.c
+pppKeShpDttCalc              = 0x001934B0; // type:func
+pppKeShpDttDraw              = 0x001934B8; // type:func
+pppKeShpDttCon               = 0x001937D0; // type:func
 
 // pppKeLnsLp.c
 pppKeLnsLpDraw               = 0x001937F0; // type:func
@@ -688,25 +613,195 @@ pppKeLnsCrnCon               = 0x001940C8; // type:func
 pppKeLnsFlsDraw              = 0x00194170; // type:func
 pppKeLnsFlsCon               = 0x00194328; // type:func
 
-// pppKeAcmSolid.c
-pppKeAcmSolidEnd             = 0x00191590; // type:func
+// pppKeLnsLpT.c
+pppKeLnsLpTDraw              = 0x00194810; // type:func
+pppKeLnsLpTCon               = 0x001948F0; // type:func
+pppKeLnsLpTCon2              = 0x00194958; // type:func
+pppKeLnsLpTDes               = 0x00194978; // type:func
 
-// pppKeThLz.c
-pppKeThLzCalc                = 0x001851A0; // type:func
-pppKeThLzCon                 = 0x001851A8; // type:func
-pppKeThLzDes                 = 0x001851B0; // type:func
+// pppKeLnsArndT.c
+pppKeLnsArndTDraw            = 0x001949D0; // type:func
+pppKeLnsArndTCon             = 0x00194BA0; // type:func
+pppKeLnsArndTDes             = 0x00194BC8; // type:func
 
-// pppKeThCp.c
-pppKeThCpCalc                = 0x001851B8; // type:func
-pppKeThCpCon                 = 0x001851C0; // type:func
-pppKeThCpDes                 = 0x001851C8; // type:func
+// pppKeLnsClmT.c
+pppKeLnsClmTDraw             = 0x00194C28; // type:func
+pppKeLnsClmTCon              = 0x00194E10; // type:func
+pppKeLnsClmTDes              = 0x00194E50; // type:func
 
-// pppKeThCpSft.c
-pppKeThCpSftCalc             = 0x001851D0; // type:func
+// pppKeLnsCrnT.c
+pppKeLnsCrnTDraw             = 0x00194F20; // type:func
+pppKeLnsCrnTCon              = 0x00195118; // type:func
+pppKeLnsCrnTDes              = 0x00195140; // type:func
 
-// pppKeAccSpdSv.c
-pppKeAccSpdSvCalc            = 0x001851D8; // type:func
-pppKeAccSpdSvCon             = 0x001851E0; // type:func
+// pppKeLnsFlsT.c
+pppKeLnsFlsTDraw             = 0x001951D8; // type:func
+pppKeLnsFlsTCon              = 0x001953C8; // type:func
+pppKeLnsFlsTDes              = 0x001953F0; // type:func
+
+// pppKeLnsLpSft.c
+pppKeLnsLpSftCalc            = 0x001953F8; // type:func
+pppKeLnsLpSftCon             = 0x001954B8; // type:func
+
+// pppKeHmgEff.c
+pppKeHmgEffCalc              = 0x001954D8; // type:func
+pppKeHmgEffCon               = 0x001956D8; // type:func
+
+// pppKeGrvTgt.c
+pppKeGrvTgtCalc              = 0x001956E0; // type:func
+pppKeGrvTgtCon               = 0x00195730; // type:func
+
+// pppKeGrvEff.c
+pppKeGrvEffCalc              = 0x00195748; // type:func
+pppKeGrvEffCon               = 0x001958C8; // type:func
+
+// pppKeHitBall.c
+pppKeHitBallCalc             = 0x001958D0; // type:func
+pppKeHitBallCon              = 0x00195918; // type:func
+
+// pppKeHitBorn.c
+pppKeHitBornCalc             = 0x00195920; // type:func
+pppKeHitBornCon              = 0x00195A80; // type:func
+
+// pppKeHitChkPxB.c
+pppKeHitChkPxBCalc           = 0x00195A98; // type:func
+pppKeHitChkPxBCon            = 0x00195CC0; // type:func
+
+// pppKeDrct.c
+pppKeDrctCalc                = 0x00195CE8; // type:func
+pppKeDrctCon                 = 0x00195D28; // type:func
+
+// pppKeMatSN.c
+pppKeMatSNCalc               = 0x00195D48; // type:func
+pppKeMatSNCon                = 0x00195E00; // type:func
+
+// pppKeParMatR.c
+pppKeParMatRCalc             = 0x00195E20; // type:func
+
+// pppKeTkFade.c
+pppKeTkFadeDraw              = 0x00195EC0; // type:func
+pppKeTkFadeCon               = 0x00196378; // type:func
+
+// pppKeDMat.c
+pppKeDMatCalc                = 0x00196398; // type:func
+
+// pppKeDMatFr.c
+pppKeDMatFrCalc              = 0x00196410; // type:func
+
+// pppKeMatPht.c
+pppKeMatPhtCalc              = 0x001964D8; // type:func
+
+// pppKeDMatPht.c
+pppKeDMatPhtCalc             = 0x00196608; // type:func
+
+// pppKeDMatPhtFr.c
+pppKeDMatPhtFrCalc           = 0x001966C8; // type:func
+
+// pppDrawMdl2.c
+pppDrawMdl2Draw              = 0x001967C8; // type:func
+
+// pppDrawMdlSemi2.c
+pppDrawMdlSemi2Draw          = 0x00196970; // type:func
+
+// pppDrawMdlTs2.c
+pppDrawMdlTs2Con             = 0x00196B08; // type:func
+pppDrawMdlTs2Calc            = 0x00196B38; // type:func
+pppDrawMdlTs2Draw            = 0x00196C18; // type:func
+
+// pppKeZCrct.c
+pppKeZCrctCalc               = 0x00196DE8; // type:func
+
+// pppKeZCrctShp.c
+pppKeZCrctShpCalc            = 0x00196FF8; // type:func
+
+// pppDrawMdl3.c
+pppDrawMdl3Draw              = 0x00197220; // type:func
+
+// pppDrawMdlSemi3.c
+pppDrawMdlSemi3Draw          = 0x00197478; // type:func
+
+// pppDrawMdlTs3.c
+pppDrawMdlTs3Con             = 0x001976C0; // type:func
+pppDrawMdlTs3Calc            = 0x001976F0; // type:func
+pppDrawMdlTs3Draw            = 0x001977D0; // type:func
+
+// pppKeMdlTfd3.c
+pppKeMdlTfd3Draw             = 0x00197A60; // type:func
+pppKeMdlTfd3Con              = 0x00197C88; // type:func
+
+// pppKeMdlTfdUv3.c
+pppKeMdlTfdUv3Draw           = 0x00197CA8; // type:func
+pppKeMdlTfdUv3Con            = 0x00197F60; // type:func
+
+// pppDrawShapeX.c
+pppDrawShapeXCon             = 0x00197FA0; // type:func
+pppDrawShapeXCalc            = 0x00197FC0; // type:func
+pppDrawShapeXDraw            = 0x001980B8; // type:func
+
+// pppKeShpTailX.c
+pppKeShpTailXCalc            = 0x00198208; // type:func
+pppKeShpTailXDraw            = 0x00198440; // type:func
+pppKeShpTailXCon             = 0x00198B58; // type:func
+
+// pppKeShpTail2X.c
+pppKeShpTail2XCalc           = 0x00198B88; // type:func
+pppKeShpTail2XDraw           = 0x00198DC0; // type:func
+pppKeShpTail2XCon            = 0x00199468; // type:func
+
+// pppKeShpTail3X.c
+pppKeShpTail3XCalc           = 0x00199498; // type:func
+pppKeShpTail3XDraw           = 0x00199880; // type:func
+pppKeShpTail3XCon            = 0x0019A0F0; // type:func
+pppKeShpTail3XCon2           = 0x0019A148; // type:func
+
+// pppRyjDrawMatrixWorld.c
+pppRyjDrawMatrixWorldCalc    = 0x0019A1A8; // type:func
+pppRyjDrawMatrixWorldCon     = 0x0019A178; // type:func
+
+// pppRyjDrawMatrixWorldFront.c
+pppRyjDrawMatrixWorldFrontCalc = 0x0019A260; // type:func
+pppRyjDrawMatrixWorldFrontCon = 0x0019A218; // type:func
+
+// pppRyjDrawMatrixWorldNoRot.c
+pppRyjDrawMatrixWorldNoRotCalc = 0x0019A380; // type:func
+pppRyjDrawMatrixWorldNoRotCon = 0x0019A338; // type:func
+
+// pppRyjDrawMatrixWorldWood.c
+pppRyjDrawMatrixWorldWoodCalc = 0x0019A5C8; // type:func
+pppRyjDrawMatrixWorldWoodCon = 0x0019A4A0; // type:func
+
+// pppRyjMatrixWorldXYZ.c
+pppRyjMatrixWorldXYZCon      = 0x0019A6C0; // type:func
+pppRyjMatrixWorldXYZCalc     = 0x0019A720; // type:func
+
+// pppRyjMatrixWorldXZY.c
+pppRyjMatrixWorldXZYCon      = 0x0019A890; // type:func
+pppRyjMatrixWorldXZYCalc     = 0x0019A8F0; // type:func
+
+// pppRyjMatrixWorldYXZ.c
+pppRyjMatrixWorldYXZCon      = 0x0019AA60; // type:func
+pppRyjMatrixWorldYXZCalc     = 0x0019AAC0; // type:func
+
+// pppRyjMatrixWorldYZX.c
+pppRyjMatrixWorldYZXCon      = 0x0019AC30; // type:func
+pppRyjMatrixWorldYZXCalc     = 0x0019AC90; // type:func
+
+// pppRyjMatrixWorldZXY.c
+pppRyjMatrixWorldZXYCon      = 0x0019AE00; // type:func
+pppRyjMatrixWorldZXYCalc     = 0x0019AE60; // type:func
+
+// pppRyjMatrixWorldZYX.c
+pppRyjMatrixWorldZYXCon      = 0x0019AFD0; // type:func
+pppRyjMatrixWorldZYXCalc     = 0x0019B030; // type:func
+
+// pppRyjMatrixNoRot.c
+pppRyjMatrixNoRotCalc        = 0x0019B1A0; // type:func
+
+// pppRyjDrawShipoly.c
+pppRyjDrawShipolyCalc        = 0x0019BEC8; // type:func
+pppRyjDrawShipolyDraw        = 0x0019C168; // type:func
+pppRyjDrawShipolyCon         = 0x0019C3F0; // type:func
+pppRyjDrawShipolyDes         = 0x0019C418; // type:func
 
 // pppRyjDrawShipolyBone.c
 pppRyjDrawShipolyBoneCalc    = 0x0019D0F8; // type:func
@@ -756,86 +851,10 @@ pppRyjDrawKekotoCalc         = 0x001A3070; // type:func
 pppRyjDrawKekotoDraw         = 0x001A30B8; // type:func
 pppRyjDrawKekotoCon          = 0x001A3B80; // type:func
 
-// pppMoveLoop.c
-pppMoveLoopCalc              = 0x0018C008; // type:func
-pppMoveLoopCon               = 0x0018BFC8; // type:func
-pppMoveLoopCon2              = 0x0018BFF0; // type:func
-
-// pppAngMoveLoop.c
-pppAngMoveLoopCalc           = 0x0018C118; // type:func
-pppAngMoveLoopCon            = 0x0018C0E0; // type:func
-pppAngMoveLoopCon2           = 0x0018C100; // type:func
-
-// pppSclMoveLoop.c
-pppSclMoveLoopCalc           = 0x0018C238; // type:func
-pppSclMoveLoopCon            = 0x0018C1F8; // type:func
-pppSclMoveLoopCon2           = 0x0018C220; // type:func
-
-// pppPointLoop.c
-pppPointLoopCalc             = 0x0018C488; // type:func
-pppPointLoopCon              = 0x0018C428; // type:func
-pppPointLoopCon2             = 0x0018C440; // type:func
-
-// pppAngleLoop.c
-pppAngleLoopCalc             = 0x0018C5D0; // type:func
-pppAngleLoopCon              = 0x0018C570; // type:func
-pppAngleLoopCon2             = 0x0018C588; // type:func
-
-// pppScaleLoop.c
-pppScaleLoopCalc             = 0x0018C718; // type:func
-pppScaleLoopCon              = 0x0018C6B8; // type:func
-pppScaleLoopCon2             = 0x0018C6D0; // type:func
-
-// pppMatrixLoop.c
-pppMatrixLoopCalc            = 0x0018C310; // type:func
-
-// pppDrawMatrixLoop.c
-pppDrawMatrixLoopCalc        = 0x0018C7E8; // type:func
-
-// pppDrawMdlLoop.c
-pppDrawMdlLoopCalc           = 0x0018C890; // type:func
-pppDrawMdlLoopDraw           = 0x0018C9E8; // type:func
-pppDrawMdlLoopCon            = 0x0018C848; // type:func
-pppDrawMdlLoopCon2           = 0x0018C860; // type:func
-pppDrawMdlLoopDes            = 0x0018C888; // type:func
-
-// pppDrawMdlLoopZ.c
-pppDrawMdlLoopZCalc          = 0x0018CCD0; // type:func
-pppDrawMdlLoopZDraw          = 0x0018CE28; // type:func
-pppDrawMdlLoopZCon           = 0x0018CC88; // type:func
-pppDrawMdlLoopZCon2          = 0x0018CCA0; // type:func
-pppDrawMdlLoopZDes           = 0x0018CCC8; // type:func
-
 // pppRyjLight.c
 pppRyjLightCalc              = 0x001A3BC0; // type:func
 pppRyjLightCon               = 0x001A3D48; // type:func
 pppRyjLightDes               = 0x001A3D60; // type:func
-
-// pppKeLnsLpT.c
-pppKeLnsLpTDraw              = 0x00194810; // type:func
-pppKeLnsLpTCon               = 0x001948F0; // type:func
-pppKeLnsLpTCon2              = 0x00194958; // type:func
-pppKeLnsLpTDes               = 0x00194978; // type:func
-
-// pppKeLnsArndT.c
-pppKeLnsArndTDraw            = 0x001949D0; // type:func
-pppKeLnsArndTCon             = 0x00194BA0; // type:func
-pppKeLnsArndTDes             = 0x00194BC8; // type:func
-
-// pppKeLnsClmT.c
-pppKeLnsClmTDraw             = 0x00194C28; // type:func
-pppKeLnsClmTCon              = 0x00194E10; // type:func
-pppKeLnsClmTDes              = 0x00194E50; // type:func
-
-// pppKeLnsCrnT.c
-pppKeLnsCrnTDraw             = 0x00194F20; // type:func
-pppKeLnsCrnTCon              = 0x00195118; // type:func
-pppKeLnsCrnTDes              = 0x00195140; // type:func
-
-// pppKeLnsFlsT.c
-pppKeLnsFlsTDraw             = 0x001951D8; // type:func
-pppKeLnsFlsTCon              = 0x001953C8; // type:func
-pppKeLnsFlsTDes              = 0x001953F0; // type:func
 
 // pppRyjDrawMatrixWorldDtt.c
 pppRyjDrawMatrixWorldDttCalc = 0x001A3DD8; // type:func
@@ -859,23 +878,10 @@ pppRyjMegaBirthModelFilterSta = 0x001A6EF8; // type:func
 pppRyjMegaBirthModelFilterCon = 0x001A6F50; // type:func
 pppRyjMegaBirthModelFilterDes = 0x001A6F98; // type:func
 
-// pppMatrixLoopXYZ.c
-pppMatrixLoopXYZCalc         = 0x0018D0C8; // type:func
+KeThResHd_Init               = 0x001AA960; // type:func
 
-// pppMatrixLoopXZY.c
-pppMatrixLoopXZYCalc         = 0x0018D1C8; // type:func
-
-// pppMatrixLoopYXZ.c
-pppMatrixLoopYXZCalc         = 0x0018D2C8; // type:func
-
-// pppMatrixLoopYZX.c
-pppMatrixLoopYZXCalc         = 0x0018D3C8; // type:func
-
-// pppMatrixLoopZXY.c
-pppMatrixLoopZXYCalc         = 0x0018D4C8; // type:func
-
-// pppMatrixLoopZYX.c
-pppMatrixLoopZYXCalc         = 0x0018D5C8; // type:func
+KeLnsFls_Draw                = 0x001A84F0; // type:func
+KeLnsFls_Init                = 0x001A8758; // type:func
 
 //=============================
 // disk.c
@@ -2006,6 +2012,11 @@ D_004885C0 = 0x004885C0; // type:s32
 D_00486F20 = 0x00486F20; // force_migration:True
 
 //=============================
+// ppp lib
+//=============================
+ppvParScl                    = 0x0036C6C0; // size 0x10
+
+//=============================
 // disk.c
 //=============================
 disk_BlockSize               = 0x004642E8; // type:s32
@@ -2033,7 +2044,24 @@ cdvd_CbThreadStack           = 0x004ECCF0; // size:0x1000
 // ppp lib
 //=============================
 ppvMng                       = 0x006105A0;
+ppvEnv                       = 0x006105A4;
+ppvPObj                      = 0x006105A8;
+ppvEye                       = 0x006106B0;
+ppvAt                        = 0x006106C0;
+ppvWorldMatrix               = 0x00610700; // size:0x40
+ppvWorldMatrixWood           = 0x00610740; // size:0x40
+ppvScreenMatrix              = 0x00610780; // size:0x40
+ppvSWMatrix                  = 0x006107C0; // size:0x40
+ppvSWMatrixWood              = 0x00610800; // size:0x40
+ppvlpCMatrix                 = 0x00610954;
 ppvUserStopPartF             = 0x0061095C; // type:s32
+ppvHookFuncTbl               = 0x00610960;
+ppvEmptyLoop                 = 0x00610974; // type:s32
+g_matUnit                    = 0x00618A10; // size:0x40
+g_vecCamDir                  = 0x00618E60; // size:0x10
+g_vecCamDirM                 = 0x00618E70; // size:0x10
+KeDMat                       = 0x00618EC0; // size:0x40
+KeMatPht                     = 0x00618F00; // size:0x40
 
 //=============================
 // disk.c

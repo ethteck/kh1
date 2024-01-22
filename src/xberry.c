@@ -44,8 +44,8 @@ INCLUDE_ASM(const s32, "xberry", func_001A84B8);
 
 INCLUDE_ASM(const s32, "xberry", func_001A84D8);
 
-INCLUDE_ASM(const s32, "xberry", func_001A84F0);
+INCLUDE_ASM(const s32, "xberry", KeLnsFls_Draw);
 
-INCLUDE_ASM(const s32, "xberry", func_001A8758);
+INCLUDE_ASM(const s32, "xberry", KeLnsFls_Init);
 
 INCLUDE_ASM(const s32, "xberry", func_001A8770);

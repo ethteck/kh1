@@ -1,3 +1,22 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "ppp/pppChrSclXZMatrix", pppChrSclXZMatrixCalc);
+typedef struct {
+    /* 0x0 */ pppCDT cdt;
+    /* 0x4 */ f32 sclr;
+    /* 0x8 */ f32 maxscl;
+} PChrSclXZMatrix;
+
+void pppChrSclXZMatrixCalc(pppPObject* pobj, PChrSclXZMatrix* p) {
+    sceVu0FMATRIX m;
+
+    sceVu0UnitMatrix(m);
+
+    m[0][0] = ppvMng->scaleX + (ppvMng->scaleX * p->sclr);
+    if (m[0][0] > p->maxscl) {
+        m[0][0] = p->maxscl;
+    }
+
+    m[2][2] = m[0][0];
+
+    sceVu0MulMatrix(ppvPObj.next->cmat, m, ppvPObj.next->cmat);
+}

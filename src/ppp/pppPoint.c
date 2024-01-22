@@ -16,7 +16,7 @@ void pppPoint(pppPObject* pobj, PPoint* p, pppCtrlTable* ctbl) {
         return;
     }
 
-    if (ppvMng->unk_B9 != 0 || ppvMng->unk_BC != 0) {
+    if (ppvMng->stop || ppvMng->unk_B4 != 0) {
         return;
     }
 
