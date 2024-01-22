@@ -74,12 +74,13 @@ void func_0010F420() {
     sceGsSyncPath(0, 0);
 }
 
-// Todo: Replace magic numbers with defined macro values
+#define DISPWIDTH 640
+
 void func_0010F448() {
     sceGsSyncPath(0, 0);
-    DPUT_GS_PMODE(0xFF03);
-    DPUT_GS_DISPFB1(0x11B0);
-    DPUT_GS_DISPLAY1(0x7F9FF020D227C);
+    DPUT_GS_PMODE(SCE_GS_SET_PMODE(1, 1, 0, 0, 0, 0, 0xFF));
+    DPUT_GS_DISPFB1(SCE_GS_SET_DISPFB1(0xD8000 / 2048, 512 / 64, SCE_GS_PSMCT32, 0, 0));
+    DPUT_GS_DISPLAY1(SCE_GS_SET_DISPLAY1(0, 160, 4, 0, (DISPWIDTH * 4) - 1, 128 - 1));
 }
 
 void func_0010F4A8(u32 arg0) {
