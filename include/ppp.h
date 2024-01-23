@@ -28,6 +28,10 @@ typedef struct {
 
 extern sceVu0FVECTOR ppvParScl;
 
+// todo: find what this is, maybe KeLnsLp, but used extensively for non-KeLns stuff
+// symbol name is possibly a debug thing from 2.5 proto and will need renamed here
+extern UNK_TYPE ppvDbgTemp; 
+
 extern ppvmng* ppvMng;
 extern void* ppvEnv;
 extern pppPObject ppvPObj;

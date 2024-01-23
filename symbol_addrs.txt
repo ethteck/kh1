@@ -59,6 +59,7 @@ pppKeThCpSftCalc             = 0x001851D0; // type:func
 // pppKeAccSpdSv.c
 pppKeAccSpdSvCalc            = 0x001851D8; // type:func
 pppKeAccSpdSvCon             = 0x001851E0; // type:func
+pppGetRotMatrixXYZ           = 0x001851E8; // type:func
 
 // pppDrawHook.c
 pppDrawHookDraw              = 0x00185278; // type:func
@@ -878,10 +879,23 @@ pppRyjMegaBirthModelFilterSta = 0x001A6EF8; // type:func
 pppRyjMegaBirthModelFilterCon = 0x001A6F50; // type:func
 pppRyjMegaBirthModelFilterDes = 0x001A6F98; // type:func
 
-KeThResHd_Init               = 0x001AA960; // type:func
-
+/// xberry.c
+pppGetRotMatrixX             = 0x001A6FF8; // type:func
+pppGetRotMatrixY             = 0x001A7078; // type:func
+pppGetRotMatrixZ             = 0x001A70F8; // type:func
+pppGetRotMatrixXZY           = 0x001A7178; // type:func
+pppGetRotMatrixYZX           = 0x001A7208; // type:func
+pppGetRotMatrixYXZ           = 0x001A7298; // type:func
+pppGetRotMatrixZXY           = 0x001A7328; // type:func
+pppGetRotMatrixZYX           = 0x001A73B8; // type:func
+KeBornRnd2                   = 0x001A7448; // type:func
+KeLnsLp_Init                 = 0x001A7BF8; // type:func
+KeLnsClm_Init                = 0x001A8048; // type:func
+KeLnsArnd_Init               = 0x001A8230; // type:func
+KeLnsCrn_Init                = 0x001A84D8; // type:func
 KeLnsFls_Draw                = 0x001A84F0; // type:func
 KeLnsFls_Init                = 0x001A8758; // type:func
+KeThResHd_Init               = 0x001AA960; // type:func
 
 //=============================
 // disk.c
@@ -2043,6 +2057,7 @@ cdvd_CbThreadStack           = 0x004ECCF0; // size:0x1000
 //=============================
 // ppp lib
 //=============================
+ppvDbgTemp                   = 0x00570140;
 ppvMng                       = 0x006105A0;
 ppvEnv                       = 0x006105A4;
 ppvPObj                      = 0x006105A8;
