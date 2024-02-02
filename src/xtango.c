@@ -1,4 +1,8 @@
+#include "common.h"
+#include "common_data.h"
+
 #include "xtango.h"
+#include "xpotato.h"
 
 typedef struct {
     /* 0x00 */ u16 unk_00;
@@ -12,10 +16,22 @@ typedef struct {
     /* 0x10 */ u32 unk_10;
 } XScotch;
 
+typedef struct {
+    /* 0x0 */ u8 unk_00;
+    /* 0x2 */ u16 unk_02;
+    /* 0x4 */ u32 unk_04;
+    /* 0x8 */ u32 unk_08;
+} XBravo;
+
 u16 D_003DE5F0[12];
 u32 D_003DE630[10];
+s32 D_003DE690[3];
+s32 D_003DE6A0;
 
+extern XBravo* func_00147AE8(s32);
 void func_001F0C28(void);
+extern void func_0021D2B0();
+extern void func_0022F888();
 
 INCLUDE_ASM(const s32, "xtango", func_001EF210);
 u32 func_001EF210(); // temporary for following functions, changes signature to unsigned
@@ -60,15 +76,13 @@ void func_001EF810() {
     D_003ED718 = (XWhiskey*)func_0022F768(5);
 }
 
-// Nonmatch: Regswap
-INCLUDE_ASM(const s32, "xtango", func_001EF840);
-// void func_001EF840() {
-//     func_0022F888();
-//     func_00218A10();
-//     D_003ED718->munny = 0;
-//     func_00215A88();
-//     func_0021D2B0();
-// }
+void func_001EF840() {
+    func_0022F888();
+    func_00218A10();
+    D_003ED718->munny = 0;
+    func_00215A88();
+    func_0021D2B0();
+}
 
 void func_001EF878() {
     func_00230068();
@@ -94,7 +108,9 @@ s32 func_001EF938(s32 arg0) {
     return func_001F0EF0(D_003DE5F0[arg0]);
 }
 
-INCLUDE_ASM(const s32, "xtango", func_001EF960);
+s32 func_001EF960(s32 arg0) {
+    return func_001F0EF0(D_003DE5F0[D_003010F8->unk_48E[arg0]]);
+}
 
 INCLUDE_ASM(const s32, "xtango", func_001EF998);
 
@@ -155,7 +171,26 @@ u16 func_001EFB08(s32 arg0) {
 
 INCLUDE_ASM(const s32, "xtango", func_001EFB30);
 
-INCLUDE_ASM(const s32, "xtango", func_001EFBB0);
+s8 func_001EFBB0(s32 arg0, s32 arg1) {
+    s8 bVar1;
+    int iVar3;
+
+    if (func_001EFB08(arg0) != 0) {
+        arg1 = 0;
+        iVar3 = D_003DE6A0;
+    } else {
+        iVar3 = 1;
+    }
+
+    do {
+        if (func_001495C8(arg0, (u32)D_003010F8->unk_48E[arg1]) != 0) {
+            return 1;
+        }
+        iVar3--;
+        arg1++;
+    } while (iVar3 != 0);
+    return 0;
+}
 
 INCLUDE_ASM(const s32, "xtango", func_001EFC40);
 
@@ -191,7 +226,24 @@ s32 func_001EFDE8(s32 arg0) {
     return func_001BC370(arg0);
 }
 
-INCLUDE_ASM(const s32, "xtango", func_001EFE00);
+s32 func_001EFE00() {
+    s32 sVar1 = func_001BC578();
+    s32 iVar2 = 0;
+    s32 iVar3 = 0;
+    s32 iVar4 = 0;
+    s32 iVar5;
+
+    if (0 < sVar1) {
+        do {
+            iVar5 = iVar2 + 1;
+            iVar2 = func_001BC590(iVar2);
+            iVar4 += iVar2;
+            iVar2 = iVar5;
+            iVar3 = iVar4;
+        } while (iVar5 < sVar1);
+    }
+    return iVar4;
+}
 
 s32 func_001EFE68(s32 arg0) {
     if (arg0 != 0) {
@@ -260,7 +312,16 @@ s32 func_001F0550(s32 arg0, s32 idx) {
 
 INCLUDE_ASM(const s32, "xtango", func_001F05A0);
 
-INCLUDE_ASM(const s32, "xtango", func_001F0600);
+s32 func_001F0600() {
+    s32 i;
+
+    for (i = 3; i >= 0; i--) {
+        if (D_003010F8->unk_036 == D_003DE690[i]) {
+            return 0;
+        }
+    }
+    return 1;
+}
 
 s32 func_001F0650(s32 arg0) {
     if (arg0 != 0) {
@@ -277,17 +338,37 @@ INCLUDE_ASM(const s32, "xtango", func_001F0730);
 
 INCLUDE_ASM(const s32, "xtango", func_001F07A0);
 
-s32 func_001F0808(s32 arg0) {
+XBravo* func_001F0808(s32 arg0) {
     return func_00147AE8(arg0);
 }
 
-INCLUDE_ASM(const s32, "xtango", func_001F0820);
+u32 func_001F0820(s32 arg0) {
+    if (arg0 != 0) {
+        return func_00147AE8(arg0 & ~0x80)->unk_04;
+    }
+    return func_001F0EF0(189);
+}
 
-INCLUDE_ASM(const s32, "xtango", func_001F0860);
+u32 func_001F0860(s32 arg0) {
+    if (arg0 != 0) {
+        return func_00147AE8(arg0 & ~0x80)->unk_08;
+    }
+    return func_001F0EF0(189);
+}
 
-INCLUDE_ASM(const s32, "xtango", func_001F08A0);
+u8 func_001F08A0(s32 arg0) {
+    if (arg0 != 0) {
+        return func_00147AE8(arg0 & ~0x80)->unk_00;
+    }
+    return 0;
+}
 
-INCLUDE_ASM(const s32, "xtango", func_001F08D8);
+u16 func_001F08D8(s32 arg0) {
+    if (arg0 != 0) {
+        return func_00147AE8(arg0 & ~0x80)->unk_02;
+    }
+    return 0;
+}
 
 INCLUDE_ASM(const s32, "xtango", func_001F0910);
 
@@ -333,7 +414,13 @@ void func_001F0AD0(s32 arg0) {
 
 INCLUDE_ASM(const s32, "xtango", func_001F0B10);
 
-INCLUDE_ASM(const s32, "xtango", func_001F0BD8);
+s32 func_001F0BD8(s32 arg0) {
+    s32 val = func_0013DA88(D_003010F8->unk_48E[arg0]);
+    if (val == 0 || func_001233F8(val) == 0) {
+        return 0;
+    }
+    return val;
+}
 
 void func_001F0C28(void) {
 }

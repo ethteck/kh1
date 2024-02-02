@@ -1006,7 +1006,10 @@ s32 func_001D4FF8(Script* arg0) {
 
 INCLUDE_ASM(const s32, "xhumungus", func_001D5068);
 
-INCLUDE_ASM(const s32, "xhumungus", func_001D5128);
+s32 func_001D5128(Script* arg0) {
+    arg0->unk_174[arg0->unk_174[3] + 4] = D_003010F8->unk_492[arg0->unk_174[arg0->unk_174[3] + 4] + 7];
+    return 2;
+}
 
 INCLUDE_ASM(const s32, "xhumungus", func_001D5158);
 
@@ -1074,7 +1077,13 @@ INCLUDE_ASM(const s32, "xhumungus", func_001D5730);
 
 INCLUDE_ASM(const s32, "xhumungus", func_001D58F8);
 
-INCLUDE_ASM(const s32, "xhumungus", func_001D59B8);
+s32 func_001D59B8(Script* arg0) {
+    s32 idx = arg0->unk_174[arg0->unk_174[3] + 4];
+    if (idx < 4) {
+        arg0->unk_174[arg0->unk_174[3] + 4] = D_003010F8->unk_48E[idx];
+    }
+    return 2;
+}
 
 INCLUDE_ASM(const s32, "xhumungus", func_001D59F8);
 
