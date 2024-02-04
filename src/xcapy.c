@@ -1,7 +1,5 @@
 #include "common.h"
 
-//#include "gcc/stdio.h"
-
 typedef struct XCapy {
     /* 0x00 */ char unk_00[0x08];
     /* 0x08 */ s32 unk_08;
@@ -11,7 +9,9 @@ typedef struct XCapy {
 } XCapy;
 
 typedef struct XCapy2 {
-    /* 0x00 */ char unk_00[0x24];
+    /* 0x00 */ char unk_00[0x1C];
+    /* 0x1C */ s32 unk_1C;
+    /* 0x20 */ char unk_20[0x04];
     /* 0x24 */ s32 unk_24;
     /* 0x28 */ s32 unk_28;
     /* 0x2C */ s32 unk_2C;
@@ -28,7 +28,9 @@ void func_00244200(void*);
 void func_002465E8(s32*, s32);
 
 extern UNK_TYPE D_0042BC20[];
-extern s32 D_004610F8;
+
+s32 D_004610F8 = 13;
+s32 D_004610FC = 11;
 
 UNK_TYPE D_006632D0;
 extern s32 D_006633A0[8];
@@ -160,4 +162,22 @@ void func_00244858(XCapy* arg0) {
             }
             break;
     }
+}
+
+void func_00244B70(XCapy2* arg0) {
+    char str[0x10];
+    u8 rgb[3]; // probably
+    
+    s32 len = 69;
+
+    rgb[0] = 0xFF;
+    rgb[1] = 0xFF;
+    rgb[2] = 0xFF;
+
+    sprintf(str, "%d", arg0->unk_1C);
+    func_00244130(len, 22, rgb, 1.0f, str, D_004610F8);
+    len += strlen(str) * 13;
+    sprintf(str, "m");
+    len += 2;
+    func_00244130(len, 24, rgb, 1.0f, str, D_004610FC);
 }
