@@ -483,6 +483,8 @@ segments:
     - [0x16F360, data]
     - [0x1B3AA0, .data, xnoodle]
     - [0x1B7B90, data]
+    - [0x1B91F8, .data, xspinach]
+    - [0x1B9370, data]
     - [0x201090, .data, xapple]
     - [0x2010F8, data] # todo: xapple owns D_00301078
     - [0x2DE638, data, xquack]
@@ -528,7 +530,7 @@ segments:
     # - [0x386A60, .rodata, xarcade]
     - [0x386AE0, .rodata, xnoodle]
     - [0x386B10, rodata, 69C8]
-    - [0x386DB0, .rodata, xspinach]
+    - [0x386D20, .rodata, xspinach]
     - [0x386DB8, .rodata, xblade]
     - [0x386E40, rodata, 14D58]
     - [0x386FF0, .rodata, xkingdom]
