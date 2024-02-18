@@ -21,6 +21,14 @@ main                         = 0x00100438; // type:func
 func_00110ED8                = 0x00110ED8; // type:func  
 
 //=============================
+// worldfile.c
+//=============================
+worldfile_getAbbr            = 0x00111F40; // type:func
+worldfile_getNameNoSet       = 0x00111F68; // type:func
+worldfile_getNames           = 0x00111FF0; // type:func
+worldfile_getBinImgName      = 0x001120D0; // type:func
+
+//=============================
 // cdvd.c
 //=============================
 cdvd_GetFileDescriptor       = 0x0011FB68; // type:func
@@ -2024,6 +2032,17 @@ sceIpuInit                   = 0x0026f0a8; // type:func
 D_0048BAB8 = 0x0048BAB8; // type:s32
 D_004885C0 = 0x004885C0; // type:s32
 D_00486F20 = 0x00486F20; // force_migration:True
+
+//=============================
+// worldfile.c
+//=============================
+worldAbbrs                   = 0x002B9178; // size:0x58
+worldDataExt                 = 0x002B91D0; // size:0x8
+roomArchiveExt               = 0x002B91D8; // size:0x8
+worldDataFile                = 0x002B91F0; // size:0x40
+worldBinImgFile              = 0x002B9230; // size:0x40
+roomArchiveRaw               = 0x002B9270; // size:0x40
+roomArchiveFile              = 0x002B92B0; // size:0x40
 
 //=============================
 // ppp lib

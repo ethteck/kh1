@@ -2,6 +2,7 @@
 #include "common_funcs.h"
 #include "common_data.h"
 
+#include "worldfile.h"
 #include "xblade.h"
 #include "xarcade.h"
 #include "xnoodle.h"
@@ -28,7 +29,6 @@ extern s32 D_002B8680;
 extern s32 D_002B8684;
 extern s32 D_002B8698[];
 extern s32 D_002B91E0;
-extern s32 D_002B92B0;
 extern s32 D_002B92F8;
 extern s32 D_002B930C;
 extern s32 D_002B9310;
@@ -336,7 +336,7 @@ s32 func_00113380() {
     func_00112168();
     func_00101580();
     D_002B9340 = func_001133E0(D_002B9340, 0x80);
-    func_00120590(&D_002B92B0, D_002B9340, func_001132F0, 0);
+    func_00120590(roomArchiveFile, D_002B9340, func_001132F0, 0);
     return 4;
 }
 
