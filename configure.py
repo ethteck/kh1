@@ -26,7 +26,7 @@ PRE_ELF_PATH = f"build/{BASENAME}.elf"
 COMMON_INCLUDES = "-Iinclude -isystem include/sdk/ee -isystem include/gcc"
 
 GAME_CC_DIR = f"{TOOLS_DIR}/cc/ee-gcc2.96/bin"
-LIB_CC_DIR = f"{TOOLS_DIR}/cc/ee-gcc2.9-990721/bin"
+LIB_CC_DIR = f"{TOOLS_DIR}/cc/ee-gcc2.9-991111/bin"
 
 GAME_COMPILE_CMD = (
     f"{GAME_CC_DIR}/ee-gcc -c -B {GAME_CC_DIR}/ee- {COMMON_INCLUDES} -O2 -G0 -g"
