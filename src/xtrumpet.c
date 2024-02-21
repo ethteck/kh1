@@ -262,7 +262,7 @@ void func_00111F00() {
     func_00245140();
 }
 
-// The following unused functions might be part of xspinach?
+// The following unused functions might be part of worldfile.c?
 
 void func_00111F28(void) {
 }
