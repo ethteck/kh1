@@ -2043,10 +2043,28 @@ disk_Mgr                     = 0x00464360; // size:0x24
 //=============================
 // lib/libkernl/filestub.c
 //=============================
-_fs_init                     = 0x00465360; //type:s32
-_fs_semid                    = 0x00465364; //type:s32
-_fs_iob_semid                = 0x00465368; //type:s32
-_fs_fsq_semid                = 0x0046536C; //type:s32
+// data
+_sceFs_q                     = 0x004652E0; // size:128
+_fs_init                     = 0x00465360; // type:s32
+_fs_semid                    = 0x00465364; // type:s32
+_fs_iob_semid                = 0x00465368; // type:s32
+_fs_fsq_semid                = 0x0046536C; // type:s32
+_fs_wildcard                 = 0x00465370; // type:s32
+// __ps2_klibinfo               = 0x00464B0C; // size:16
+
+// bss
+
+// static
+    rcv_adr                  = 0x00666740; // size:4
+    ip0                      = 0x00666744; // size:4
+_send_data                   = 0x00666780; // size:3136
+_rcv_data_rpc                = 0x006673C0; // size:64
+_rcv_data_cmd                = 0x00667400; // size:1088
+_iob                         = 0x00667840; // size:512
+_cd                          = 0x00667A40; // size:40
+_fsversion                   = 0x00667A68; // size:4
+_sif_FsRcv_Data              = 0x00667A80; // size:64
+_sif_FsPoff_Data             = 0x00667AC0; // size:64
 
 //=============================
 // cdvd.c
@@ -2082,8 +2100,3 @@ KeMatPht                     = 0x00618F00; // size:0x40
 // disk.c
 //=============================
 disk_ThreadStack             = 0x00663A90; //size:0x1000
-
-// lib/libkernl/filestub.c
-//=============================
-_fsversion                   = 0x00667A68;
-//=============================

@@ -50,6 +50,7 @@ typedef float f32;
 #define b32 s32 // 32-bit boolean (TRUE/FALSE)
 
 #define ARRAY_COUNT(arr) (s32)(sizeof(arr) / sizeof(arr[0]))
+#define ARRAY_COUNTU(arr) (u32)(sizeof(arr) / sizeof(arr[0]))
 
 #define PI 3.1415928f
 

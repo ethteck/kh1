@@ -1,8 +1,12 @@
 #include "common.h"
 #include "eekernel.h"
 #include <sifdev.h>
+#include <sifrpc.h>
+#include "lib/libkernl/filestub.h"
 
-s32 D_004652E0[32] = {
+#define MAX_IOB_COUNT 32
+
+s32 _sceFs_q[32] = {
     -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 };
 s32 _fs_init = 0;
@@ -11,7 +15,11 @@ s32 _fs_iob_semid = -1;
 s32 _fs_fsq_semid = -1;
 
 // BSS
-char _fsversion[24];
+_sceFsIob _iob[32];
+sceSifClientData _cd;
+char _fsversion[4];
+_sceFsPoffData _sif_FsRcv_Data __attribute__((aligned (64)));
+_sceFsPoffData _sif_FsPoff_Data __attribute__((aligned (64)));
 
 void _sceFsIobSemaMK() {
     struct SemaParam param;
@@ -26,9 +34,41 @@ void _sceFsIobSemaMK() {
     }
 }
 
-INCLUDE_ASM(const s32, "lib/libkernl/filestub", new_iob);
+_sceFsIob *new_iob(void) {
+    _sceFsIob *io;
+    s32 i;
+    
+    _sceFsIobSemaMK();
+    WaitSema(_fs_iob_semid);
+    
+    for (io = &_iob; io < &_iob[MAX_IOB_COUNT]; io++) {
+        if (io->i_flag == 0){
+            io->i_flag = 0x10000000;
+            SignalSema(_fs_iob_semid);
+            return io;
+        }
+    }
+    
+    SignalSema(_fs_iob_semid);
+    return NULL;
+}
 
-INCLUDE_ASM(const s32, "lib/libkernl/filestub", get_iob);
+_sceFsIob * get_iob(int fd)
+{
+    _sceFsIob *ret;
+    
+    _sceFsIobSemaMK();
+    WaitSema(_fs_iob_semid);
+    
+    if (ARRAY_COUNTU(_iob) <= fd) {
+        SignalSema(_fs_iob_semid);
+        return 0;
+    }
+    
+    ret = &_iob[fd];
+    SignalSema(_fs_iob_semid);
+    return ret;
+}
 
 INCLUDE_ASM(const s32, "lib/libkernl/filestub", _sceFs_Rcv_Intr);
 
@@ -58,19 +98,23 @@ INCLUDE_ASM(const s32, "lib/libkernl/filestub", _sceFs_Poff_Intr);
 
 INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceFsInit);
 
-char* D_00465370 = "....";
+char* _fswildcard = "....";
 s32 D_00465374 = -1;
 char* D_00465378 = "....\0"; // TODO remove \0 or move this string to another file. the compiler is de-duplicating it.
 
-extern char* D_00464B18;
+// extern char __ps2_klibinfo_[16];
+extern char* D_00464B18; // Actually &__ps2_klibinfo_[12]
+
 
 s32 _fs_version(void) {
     s32 ret = FALSE;
+    char *libver;
 
-    if (D_00464B18) {} // TODO fake match
+    libver = &D_00464B18; // TODO use the proper symbol for this
+    // libver = &__ps2_klibinfo_[12];
 
-    if (memcmp(&_fsversion, &D_00464B18, 4) != 0 && memcmp(&_fsversion, D_00465370, 4) != 0) {
-        ret = memcmp(&D_00464B18, D_00465370, 4) != 0;
+    if (memcmp(&_fsversion, libver, 4) != 0 && memcmp(&_fsversion, _fswildcard, 4) != 0) {
+        ret = memcmp(libver, _fswildcard, 4) != 0;
     }
     return ret;
 }
