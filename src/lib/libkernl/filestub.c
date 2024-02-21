@@ -2,9 +2,13 @@
 #include "eekernel.h"
 #include <sifdev.h>
 #include <sifrpc.h>
+#include <sifcmd.h>
+#include <stdarg.h>
+#include <errno.h>
 #include "lib/libkernl/filestub.h"
 
 #define MAX_IOB_COUNT 32
+#define UNCACHED(p) (((unsigned int)p | 0x20000000))
 
 s32 _sceFs_q[32] = {
     -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
@@ -15,6 +19,9 @@ s32 _fs_iob_semid = -1;
 s32 _fs_fsq_semid = -1;
 
 // BSS
+_sceFsData _send_data __attribute__((aligned (64)));
+s32 _rcv_data_rpc __attribute__((aligned (64))); // unverified
+_sceFsIntrData _rcv_data_cmd __attribute__((aligned (64)));
 _sceFsIob _iob[32];
 sceSifClientData _cd;
 char _fsversion[4];
@@ -53,8 +60,7 @@ _sceFsIob *new_iob(void) {
     return NULL;
 }
 
-_sceFsIob * get_iob(int fd)
-{
+_sceFsIob * get_iob(int fd) {
     _sceFsIob *ret;
     
     _sceFsIobSemaMK();
@@ -92,18 +98,41 @@ void _sceFsSigSema() {
     SignalSema(_fs_semid);
 }
 
-INCLUDE_ASM(const s32, "lib/libkernl/filestub", scePowerOffHandler);
+int* scePowerOffHandler(void (*func)(void *), void* addr) {
+    int *ret;
+    _sceFsPoffData *pd;
 
-INCLUDE_ASM(const s32, "lib/libkernl/filestub", _sceFs_Poff_Intr);
+    pd = &_sif_FsPoff_Data;
+    _sceFsWaitS(0x1b);
+    if (_fs_init == 0x0) {
+        sceFsInit();
+    }
+    DIntr();
+    ret = _sif_FsPoff_Data.sceFsPoffCbfunc;
+    pd->sceFsPoffCbdata = addr;
+    pd->sceFsPoffCbfunc = func;
+    EIntr();
+    _sceFsSigSema();
+    return ret;
+}
+
+void _sceFs_Poff_Intr(void *pkt, _sceFsPoffData *data) {
+    if (data->sceFsPoffCbfunc != NULL) {
+        data->sceFsPoffCbfunc(data->sceFsPoffCbdata);
+    }
+    ExitHandler();
+}
 
 INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceFsInit);
 
 char* _fswildcard = "....";
+
+// TODO these two vars aren't from this file
 s32 D_00465374 = -1;
-char* D_00465378 = "....\0"; // TODO remove \0 or move this string to another file. the compiler is de-duplicating it.
+char* D_00465378 = "....\0";
 
 // extern char __ps2_klibinfo_[16];
-extern char* D_00464B18; // Actually &__ps2_klibinfo_[12]
+extern char* D_00464B18; // TODO use the proper symbol for this
 
 
 s32 _fs_version(void) {
@@ -131,7 +160,92 @@ s32 sceFsReset() {
     return 0;
 }
 
-INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceOpen);
+int sceOpen(const char *filename, int flag, ...) {
+    unsigned int mode;
+    int nsize;
+    int ret;
+    int retfd;
+    _sceFsOpenData *od;
+    _sceFsIob *io;
+    struct SemaParam sparam;
+    int i;
+    va_list arg;
+    int semaId;
+
+
+    od = &_send_data.openData;
+    
+    _sceFsWaitS(0x0);
+    if (_fs_init == 0x0) {
+        sceFsInit();
+    }
+
+    
+    if (_fs_version() != 0x0) {
+        _sceFsSigSema();
+        return -SCE_EVERSIONMISS;
+    } 
+        
+    io = new_iob();
+    if (io == NULL) {
+        _sceFsSigSema();
+        return -ENODEV;
+    }
+
+    va_start (arg, flag);
+    mode = va_arg (arg, int);
+    va_end (arg);
+    
+    for (i = 0; i < 0x400 && (od->name[i] = filename[i]) != 0; i++) { }
+    
+    if (i == 0x400) {
+        od->name[0x400-1] = 0x0;
+    }
+    
+    
+    nsize = (int)((u32)io - (u32)&_iob) >> 0x4;
+    od->flag = flag & ~0x90000000;
+    od->ee_fds = nsize;
+    od->mode = mode;
+    sparam.maxCount = 0x1;
+    sparam.initCount = 0x0;
+    sparam.option = 0x0;
+    semaId = CreateSema(&sparam);
+    od->ee_semid = semaId;
+    od->ee_retadr = &retfd;
+    od->ee_retsiz = sizeof(retfd);
+
+    ret = sceSifCallRpc(&_cd, 0x0, 0x0, &_send_data, sizeof(_sceFsOpenData), &_rcv_data_rpc, sizeof(_rcv_data_rpc), 0x0, 0x0);
+    if (ret < 0x0) {
+        DeleteSema(semaId);
+        _sceFsSigSema();
+        return -EAGAIN;
+    }
+    
+    ret = *(u32*)UNCACHED(&_rcv_data_rpc);
+    _sceFsSigSema();
+    if (ret == 0x0) {
+        DeleteSema(semaId);
+        return -EAGAIN;
+    }
+        
+    WaitSema(semaId);
+    DeleteSema(semaId);
+    if (retfd < 0x0) {
+        WaitSema(_fs_iob_semid);
+        io->i_flag = 0x0;
+        SignalSema(_fs_iob_semid);
+        return retfd;
+    }
+    
+    ret = nsize;
+    WaitSema(_fs_iob_semid);
+    io->i_fd = retfd;
+    io->i_flag |= flag;
+    SignalSema(_fs_iob_semid);
+
+    return ret;
+}
 
 INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceClose);
 
