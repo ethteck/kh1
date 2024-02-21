@@ -19,6 +19,8 @@ s32 _fs_iob_semid = -1;
 s32 _fs_fsq_semid = -1;
 
 // BSS
+unsigned int rcv_adr; // likely static
+unsigned int ip0; // likely static
 _sceFsData _send_data __attribute__((aligned (64)));
 s32 _rcv_data_rpc __attribute__((aligned (64))); // unverified
 _sceFsIntrData _rcv_data_cmd __attribute__((aligned (64)));
@@ -76,6 +78,7 @@ _sceFsIob * get_iob(int fd) {
     return ret;
 }
 
+void _sceFs_Rcv_Intr(void); // TODO match this one
 INCLUDE_ASM(const s32, "lib/libkernl/filestub", _sceFs_Rcv_Intr);
 
 void _sceFsSemInit() {
@@ -123,7 +126,54 @@ void _sceFs_Poff_Intr(void *pkt, _sceFsPoffData *data) {
     ExitHandler();
 }
 
-INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceFsInit);
+int sceFsInit(void) {
+    int i;
+	int istat;
+	int bufmode;
+	_sceFsIob *io;
+    _sceFsPoffData *pd;
+
+    pd = &_sif_FsPoff_Data;
+    sceSifInitRpc(0x0);
+    pd->sceFsPoffCbfunc = NULL;
+    pd->sceFsPoffCbdata = NULL;
+    DIntr();
+    sceSifAddCmdHandler(SIF_CMDI_SYSTEM | 0x11, &_sceFs_Rcv_Intr, &_sif_FsRcv_Data);
+    sceSifAddCmdHandler(SIF_CMDI_SYSTEM | 0x13, &_sceFs_Poff_Intr, &_sif_FsPoff_Data);
+    EIntr();
+
+    while( 1 ) {
+        istat = sceSifBindRpc(&_cd, 0x80000001, 0x0);
+        if (istat < 0x0) {
+            return -1;
+        }
+        
+        if (_cd.serve != NULL){
+            break;
+        }
+
+        for (i = 0x100000; i != -1; i--) {}
+    }
+
+    _sceFsIobSemaMK();
+    WaitSema(_fs_iob_semid);
+    
+    for (io = &_iob; io < &_iob[MAX_IOB_COUNT]; io++) {
+        io->i_flag = 0;
+    }
+    
+    SignalSema(_fs_iob_semid);
+    rcv_adr = &_rcv_data_cmd;
+    istat = sceSifCallRpc(&_cd, 0xff, 0x0, &rcv_adr, 0x4, &_rcv_data_rpc, 0x4, NULL, NULL);
+    if (istat < 0x0) {
+        return -SCE_ECALLMISS;
+    }
+    else {
+        memcpy(&_fsversion, UNCACHED(&_rcv_data_rpc), 4);
+        _fs_init = 0x1;
+        return 0; // SCE_OK doesn't seem to exist in this SDK version
+    }
+}
 
 char* _fswildcard = "....";
 
@@ -202,7 +252,7 @@ int sceOpen(const char *filename, int flag, ...) {
         od->name[0x400-1] = 0x0;
     }
     
-    
+
     nsize = (int)((u32)io - (u32)&_iob) >> 0x4;
     od->flag = flag & ~0x90000000;
     od->ee_fds = nsize;
