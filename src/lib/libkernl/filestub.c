@@ -128,9 +128,9 @@ void _sceFs_Poff_Intr(void *pkt, _sceFsPoffData *data) {
 
 int sceFsInit(void) {
     int i;
-	int istat;
-	int bufmode;
-	_sceFsIob *io;
+    int istat;
+    int bufmode;
+    _sceFsIob *io;
     _sceFsPoffData *pd;
 
     pd = &_sif_FsPoff_Data;
@@ -297,7 +297,62 @@ int sceOpen(const char *filename, int flag, ...) {
     return ret;
 }
 
-INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceClose);
+int sceClose(int fd) {
+    _sceFsCloseData *cd;
+    _sceFsIob *io;
+    int ret;
+    int nsize;
+    int ret_close;
+    struct SemaParam sparam;
+    int semaid;
+
+    cd = &_send_data.closeData;
+    
+    io = get_iob(fd);
+    _sceFsWaitS(0x1);
+    if (_fs_init == 0x0) {
+        _sceFsSigSema();
+        return -0x1; // errno.h says this would be "Not super-user" but that doesn't make sense
+    }
+    
+    if ((io == NULL) || (io->i_flag == 0x0)) {
+        _sceFsSigSema();
+        return -EBADF;
+    }
+    
+    nsize = (int)((u32)io - (u32)&_iob) >> 0x4;
+    cd->fd = io->i_fd;
+    cd->ee_fds = nsize;
+    sparam.maxCount = 0x1;
+    sparam.initCount = 0x0;
+    sparam.option = 0x0;
+    semaid = CreateSema(&sparam);
+    cd->ee_semid = semaid;
+    cd->ee_retadr = &ret_close;
+    cd->ee_retsiz = sizeof(ret_close);
+    ret = sceSifCallRpc(&_cd, 0x1, 0x0, &_send_data, sizeof(_sceFsCloseData), &_rcv_data_rpc, 0x4, NULL, NULL);
+    if (ret < 0x0) {
+        DeleteSema(semaid);
+        _sceFsSigSema();
+        return -EAGAIN;
+    }
+   
+    io->i_flag = 0x0;
+    ret = *(u32*)UNCACHED(&_rcv_data_rpc);
+    _sceFsSigSema();
+    if (ret == 0x0) {
+        DeleteSema(semaid);
+        return -EAGAIN;
+    }
+        
+    WaitSema(semaid);
+    DeleteSema(semaid);
+    if (ret_close < 0) {
+        return ret_close;
+    }
+    
+    return 0; // SCE_OK
+}
 
 INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceLseek);
 
@@ -377,6 +432,111 @@ INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceLseek64);
 
 INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceDevctl);
 
-INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceSymlink);
+int sceSymlink(const char *existing, const char *new) {
+    _sceFsSymlinkData *rd;
+    int nsize;
+    int ret;
+    int ret_link;
+    struct SemaParam sparam;
+    int i;
+    int semaid;
 
-INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceReadlink);
+    rd = &_send_data.symlinkData;
+    
+    _sceFsWaitS(0x11);
+    if (_fs_init == 0x0) {
+        sceFsInit();
+    }
+
+    for (i = 0; i < 0x400 && (rd->existing[i] = existing[i]) != 0; i++) { }
+    if (i == 0x400) {
+        rd->existing[0x400-1] = 0x0;
+    }
+    
+    for (i = 0; i < 0x400 && (rd->new[i] = new[i]) != 0; i++) { }
+    if (i == 0x400) {
+        rd->new[0x400-1] = 0x0;
+    }
+
+    sparam.maxCount = 0x1;
+    sparam.initCount = 0x0;
+    sparam.option = 0x0;
+    semaid = CreateSema(&sparam);
+    rd->ee_semid = semaid;
+    rd->ee_retadr = &ret_link;
+    rd->ee_retsiz = sizeof(ret_link);
+    
+    ret = sceSifCallRpc(&_cd, 0x18, 0x0, &_send_data, sizeof(_sceFsSymlinkData), &_rcv_data_rpc, 0x4, NULL, NULL);
+    if (ret < 0x0) {
+        DeleteSema(semaid);
+        _sceFsSigSema();
+        return -EAGAIN;
+    }
+   
+    ret = *(u32*)UNCACHED(&_rcv_data_rpc);
+    _sceFsSigSema();
+    if (ret == 0x0) {
+        DeleteSema(semaid);
+        return -EAGAIN;
+    }
+    
+    WaitSema(semaid);
+    DeleteSema(semaid);
+    return ret_link;
+}
+
+int sceReadlink(const char *path, char *buf, unsigned int bufsize) {
+    _sceFsReadlinkData *rd;
+    int nsize;
+    int ret;
+    int ret_link;
+    struct SemaParam sparam;
+    int i;
+    int semaid;
+
+    rd = &_send_data.readLinkData;
+    
+    _sceFsWaitS(0x11);
+    if (_fs_init == 0x0) {
+        sceFsInit();
+    }
+
+    for (i = 0; i < 0x400 && (rd->path[i] = path[i]) != 0; i++) { }
+    
+    if (i == 0x400) {
+        rd->path[0x400-1] = 0x0;
+    }
+
+    if (bufsize >= 0x400) {
+        bufsize = 0x3ff;
+    }
+
+    rd->bufsize = bufsize;
+    rd->bufaddr = buf;
+    sceSifWriteBackDCache(buf, bufsize);
+    sparam.maxCount = 0x1;
+    sparam.initCount = 0x0;
+    sparam.option = 0x0;
+    semaid = CreateSema(&sparam);
+    rd->ee_semid = semaid;
+    rd->ee_retadr = &ret_link;
+    rd->ee_retsiz = sizeof(ret_link);
+    
+    ret = sceSifCallRpc(&_cd, 0x19, 0x0, &_send_data, sizeof(_sceFsSymlinkData), &_rcv_data_rpc, 0x4, NULL, NULL);
+    if (ret < 0x0) {
+        DeleteSema(semaid);
+        _sceFsSigSema();
+        return -EAGAIN;
+    }
+   
+    ret = *(u32*)UNCACHED(&_rcv_data_rpc);
+    _sceFsSigSema();
+    if (ret == 0x0) {
+        DeleteSema(semaid);
+        return -EAGAIN;
+    }
+    
+    WaitSema(semaid);
+    DeleteSema(semaid);
+    return ret_link;
+}
