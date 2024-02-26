@@ -364,7 +364,55 @@ INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceIoctl);
 
 INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceIoctl2);
 
-INCLUDE_ASM(const s32, "lib/libkernl/filestub", _sceCallCode);
+int _sceCallCode(char *name, unsigned int callcode) {
+    _sceFsNameData *cc;
+    int nsize;
+    int ret;
+    int ret_code;
+    struct SemaParam sparam;
+    int i;
+    int semaid;
+
+    cc = &_send_data.nameData;
+    
+    _sceFsWaitS(callcode);
+    if (_fs_init == 0x0) {
+        sceFsInit();
+    }
+    
+    for (i = 0; i < 0x400 && (cc->name[i] = name[i]) != 0; i++) { }
+    if (i == 0x400) {
+        cc->name[0x400-1] = 0x0;
+        i = 0x3FF;
+    }
+    
+    sparam.maxCount = 0x1;
+    sparam.initCount = 0x0;
+    sparam.option = 0x0;
+    semaid = CreateSema(&sparam);
+    cc->ee_semid = semaid;
+    cc->ee_retadr = &ret_code;
+    cc->ee_retsiz = sizeof(ret_code);
+    
+    ret = sceSifCallRpc(&_cd, callcode, 0x0, &_send_data, i + 0xD, &_rcv_data_rpc, 0x4, NULL, NULL);
+    
+    if (ret < 0x0) {
+        DeleteSema(semaid);
+        _sceFsSigSema();
+        return -EAGAIN;
+    }
+   
+    ret = *(u32*)UNCACHED(&_rcv_data_rpc);
+    _sceFsSigSema();
+    if (ret == 0x0) {
+        DeleteSema(semaid);
+        return -EAGAIN;
+    }
+    
+    WaitSema(semaid);
+    DeleteSema(semaid);
+    return ret_code;
+}
 
 /**
  * @brief Delete file
@@ -415,9 +463,120 @@ s32 sceChdir(const char* name) {
     return _sceCallCode(name, 18);
 }
 
-INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceSync);
+int sceSync(const char *path, int flag) {
+    _sceFsSyncData *sd;
+    int nsize;
+    int ret;
+    int ret_sync;
+    struct SemaParam sparam;
+    int i;
+    int semaid;
 
-INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceMount);
+    sd = &_send_data.syncData;
+    
+    _sceFsWaitS(0x13);
+    if (_fs_init == 0x0) {
+        sceFsInit();
+    }
+    
+    for (i = 0; i < 0x400 && (sd->path[i] = path[i]) != 0; i++) { }
+    if (i == 0x400) {
+        sd->path[0x400-1] = 0x0;
+    }
+    
+    sd->flag = flag;
+    sparam.maxCount = 0x1;
+    sparam.initCount = 0x0;
+    sparam.option = 0x0;
+    semaid = CreateSema(&sparam);
+    sd->ee_semid = semaid;
+    sd->ee_retadr = &ret_sync;
+    sd->ee_retsiz = sizeof(ret_sync);
+    
+    ret = sceSifCallRpc(&_cd, 0x13, 0x0, &_send_data, sizeof(_sceFsSyncData), &_rcv_data_rpc, 0x4, NULL, NULL);
+    
+    if (ret < 0x0) {
+        DeleteSema(semaid);
+        _sceFsSigSema();
+        return -EAGAIN;
+    }
+   
+    ret = *(u32*)UNCACHED(&_rcv_data_rpc);
+    _sceFsSigSema();
+    if (ret == 0x0) {
+        DeleteSema(semaid);
+        return -EAGAIN;
+    }
+    
+    WaitSema(semaid);
+    DeleteSema(semaid);
+    return ret_sync;
+}
+
+int sceMount(const char *fsdevname, const char *blkdevname, int flag, void *arg, int arglen) {
+    _sceFsMountData *md;
+    int nsize;
+    int ret;
+    int ret_sync;
+    struct SemaParam sparam;
+    int i;
+    int semaid;
+
+    md = &_send_data.mountData;
+    
+    _sceFsWaitS(0x14);
+    if (_fs_init == 0x0) {
+        sceFsInit();
+    }
+    
+    for (i = 0; i < 0x400 && (md->fsdevname[i] = fsdevname[i]) != 0; i++) { }
+    if (i == 0x400) {
+        md->fsdevname[0x400-1] = 0x0;
+    }
+    for (i = 0; i < 0x400 && (md->blkdevname[i] = blkdevname[i]) != 0; i++) { }
+    if (i == 0x400) {
+        md->blkdevname[0x400-1] = 0x0;
+    }
+
+    if (arglen > 0x400) {
+        _sceFsSigSema();
+        return -E2BIG;
+    }
+
+    for (i = 0; i < arglen; i++) {
+        md->arg[i] = ((char*)arg)[i];
+    }
+    
+    md->flag = flag;
+    md->arglen = arglen;
+    sparam.maxCount = 0x1;
+    sparam.initCount = 0x0;
+    sparam.option = 0x0;
+    semaid = CreateSema(&sparam);
+    md->ee_semid = semaid;
+    md->ee_retadr = &ret_sync;
+    md->ee_retsiz = sizeof(ret_sync);
+    
+    sceSifWriteBackDCache(&_send_data, sizeof(_sceFsMountData));
+    ret = sceSifCallRpc(&_cd, 0x14, 0x0, &_send_data, sizeof(_sceFsMountData), &_rcv_data_rpc, 0x4, NULL, NULL);
+    
+    if (ret < 0x0) {
+        DeleteSema(semaid);
+        _sceFsSigSema();
+        return -EAGAIN;
+    }
+   
+    ret = *(u32*)UNCACHED(&_rcv_data_rpc);
+    _sceFsSigSema();
+    if (ret == 0x0) {
+        DeleteSema(semaid);
+        return -EAGAIN;
+    }
+    
+    WaitSema(semaid);
+    DeleteSema(semaid);
+    return ret_sync;
+}
 
 /**
  * @brief Unmount filesystem
@@ -430,7 +589,68 @@ s32 sceUmount(const char* name) {
 
 INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceLseek64);
 
-INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceDevctl);
+int sceDevctl(const char *devname, int cmd, const void *arg, unsigned int arglen, void *bufp, unsigned int buflen) {
+    _sceFsDevctlData *dd;
+    int nsize;
+    int ret;
+    int ret_devctl;
+    struct SemaParam sparam;
+    int i;
+    int semaid;
+
+    dd = &_send_data.devctlData;
+    
+    _sceFsWaitS(0x17);
+    if (_fs_init == 0x0) {
+        sceFsInit();
+    }
+
+    for (i = 0; i < 0x400 && (dd->path[i] = devname[i]) != 0; i++) { }
+    if (i == 0x400) {
+        dd->path[0x400-1] = 0x0;
+    }
+
+    if ((arglen > 0x400) || (buflen > 0x400)) {
+        _sceFsSigSema();
+        return -EINVAL;
+    }
+
+    for (i = 0; i < arglen; i++) {
+        dd->arg_buf[i] = ((char*)arg)[i];
+    }
+    
+    dd->cmd = cmd;
+    dd->arglen = arglen;
+    sparam.maxCount = 0x1;
+    sparam.initCount = 0x0;
+    sparam.option = 0x0;
+    semaid = CreateSema(&sparam);
+    dd->ee_semid = semaid;
+    dd->ee_retadr = &ret_devctl;
+    dd->ee_retsiz = sizeof(ret_devctl);
+    dd->ret_argadr = bufp;
+    dd->ret_arglen = buflen;
+    
+    sceSifWriteBackDCache(&_send_data, sizeof(_sceFsDevctlData));
+    ret = sceSifCallRpc(&_cd, 0x17, 0x0, &_send_data, sizeof(_sceFsDevctlData), &_rcv_data_rpc, 0x4, NULL, NULL);
+    
+    if (ret < 0x0) {
+        DeleteSema(semaid);
+        _sceFsSigSema();
+        return -EAGAIN;
+    }
+   
+    ret = *(u32*)UNCACHED(&_rcv_data_rpc);
+    _sceFsSigSema();
+    if (ret == 0x0) {
+        DeleteSema(semaid);
+        return -EAGAIN;
+    }
+    
+    WaitSema(semaid);
+    DeleteSema(semaid);
+    return ret_devctl;
+}
 
 int sceSymlink(const char *existing, const char *new) {
     _sceFsSymlinkData *rd;
