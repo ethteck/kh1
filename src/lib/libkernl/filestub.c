@@ -8,7 +8,7 @@
 #include "lib/libkernl/filestub.h"
 
 #define MAX_IOB_COUNT 32
-#define UNCACHED(p) (((unsigned int)p | 0x20000000))
+#define UNCACHED(p) (((u32)p | 0x20000000))
 
 s32 _sceFs_q[32] = {
     -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
@@ -19,8 +19,8 @@ s32 _fs_iob_semid = -1;
 s32 _fs_fsq_semid = -1;
 
 // BSS
-unsigned int rcv_adr; // likely static
-unsigned int ip0; // likely static
+u32 rcv_adr; // likely static
+u32 ip0; // likely static
 _sceFsData _send_data __attribute__((aligned (64)));
 s32 _rcv_data_rpc __attribute__((aligned (64))); // unverified
 _sceFsIntrData _rcv_data_cmd __attribute__((aligned (64)));
@@ -127,9 +127,9 @@ void _sceFs_Poff_Intr(void *pkt, _sceFsPoffData *data) {
 }
 
 int sceFsInit(void) {
-    int i;
-    int istat;
-    int bufmode;
+    s32 i;
+    s32 istat;
+    s32 bufmode;
     _sceFsIob *io;
     _sceFsPoffData *pd;
 
@@ -211,16 +211,16 @@ s32 sceFsReset() {
 }
 
 int sceOpen(const char *filename, int flag, ...) {
-    unsigned int mode;
-    int nsize;
-    int ret;
-    int retfd;
+    u32 mode;
+    s32 nsize;
+    s32 ret;
+    s32 retfd;
     _sceFsOpenData *od;
     _sceFsIob *io;
     struct SemaParam sparam;
-    int i;
+    s32 i;
     va_list arg;
-    int semaId;
+    s32 semaId;
 
 
     od = &_send_data.openData;
@@ -300,11 +300,11 @@ int sceOpen(const char *filename, int flag, ...) {
 int sceClose(int fd) {
     _sceFsCloseData *cd;
     _sceFsIob *io;
-    int ret;
-    int nsize;
-    int ret_close;
+    s32 ret;
+    s32 nsize;
+    s32 ret_close;
     struct SemaParam sparam;
-    int semaid;
+    s32 semaid;
 
     cd = &_send_data.closeData;
     
@@ -365,10 +365,10 @@ INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceIoctl);
 int sceIoctl2(int fd, int cmd, const void *arg, unsigned int arglen, void *bufp,  unsigned int buflen) {
     _sceFsIoctlData *id;
     _sceFsIob *io;
-    int ret;
-    int ret_ioctl;
+    s32 ret;
+    s32 ret_ioctl;
     struct SemaParam sparam;
-    int semaid;
+    s32 semaid;
     
     id = &_send_data.ioctlData;
 
@@ -430,12 +430,12 @@ int sceIoctl2(int fd, int cmd, const void *arg, unsigned int arglen, void *bufp,
 
 int _sceCallCode(char *name, unsigned int callcode) {
     _sceFsNameData *cc;
-    int nsize;
-    int ret;
-    int ret_code;
+    s32 nsize;
+    s32 ret;
+    s32 ret_code;
     struct SemaParam sparam;
-    int i;
-    int semaid;
+    s32 i;
+    s32 semaid;
 
     cc = &_send_data.nameData;
     
@@ -489,11 +489,11 @@ s32 sceRemove(const char* filename) {
 
 int sceMkdir(const char *name, int flag) {
     _sceFsMkdirData *mkd;
-    int nsize;
-    int ret;
-    int ret_mkdir;
+    s32 nsize;
+    s32 ret;
+    s32 ret_mkdir;
     struct SemaParam sparam;
-    int semaid;
+    s32 semaid;
 
     mkd = &_send_data.mkdirData;
     
@@ -547,11 +547,11 @@ s32 sceRmdir(const char* dirname) {
 
 int sceFormat(const char *path, const char *blkdevname, void *arg, int arglen) {
     _sceFsFormatData *fd;
-    int nsize;
-    int ret;
-    int ret_format;
+    s32 nsize;
+    s32 ret;
+    s32 ret_format;
     struct SemaParam sparam;
-    int semaid;
+    s32 semaid;
 
     fd = &_send_data.formatData;
     
@@ -614,11 +614,11 @@ int sceFormat(const char *path, const char *blkdevname, void *arg, int arglen) {
 
 int sceAddDrv(void *addr) {
     _sceFsAddrData *id;
-    int nsize;
-    int ret;
-    int ret_adddrv;
+    s32 nsize;
+    s32 ret;
+    s32 ret_adddrv;
     struct SemaParam sparam;
-    int semaid;
+    s32 semaid;
 
     id = &_send_data.addrData;
     
@@ -661,7 +661,7 @@ s32 sceDelDrv(const char* name) {
 
 int sceDopen(const char *name) {
     _sceFsIob *io;
-    int ret;
+    s32 ret;
     
     _sceFsWaitS(0x9);
     if (_fs_init == 0x0) {
@@ -693,11 +693,11 @@ int sceDopen(const char *name) {
 int sceDclose(int fd) {
     _sceFsCloseData *cd;
     _sceFsIob *io;
-    int ret;
-    int ret_dclose;
+    s32 ret;
+    s32 ret_dclose;
     struct SemaParam sparam;
-    int semaid;
-    int temp;
+    s32 semaid;
+    s32 temp;
 
     io = get_iob(fd);
     cd = &_send_data.closeData;
@@ -749,10 +749,10 @@ int sceDclose(int fd) {
 int sceDread(int fd, struct sce_dirent *dp) {
     _sceFsReadData *rd;
     _sceFsIob *io;
-    int ret;
-    int ret_dread;
+    s32 ret;
+    s32 ret_dread;
     struct SemaParam sparam;
-    int semaid;
+    s32 semaid;
 
     io = get_iob(fd);
     rd = &_send_data.readData;
@@ -799,11 +799,11 @@ int sceDread(int fd, struct sce_dirent *dp) {
 
 int sceGetstat(const char *name, struct sce_stat *dp) {
     _sceFsGStatData *sd;
-    int ret;
-    int nsize;
-    int ret_getstat;
+    s32 ret;
+    s32 nsize;
+    s32 ret_getstat;
     struct SemaParam sparam;
-    int semaid;
+    s32 semaid;
 
     sd = &_send_data.gStatData;
     
@@ -848,11 +848,11 @@ int sceGetstat(const char *name, struct sce_stat *dp) {
 
 int sceChstat(const char *name, struct sce_stat *buf, unsigned int cbit) {
     _sceFsCStatData *cd;
-    int ret;
-    int nsize;
-    int ret_chstat;
+    s32 ret;
+    s32 nsize;
+    s32 ret_chstat;
     struct SemaParam sparam;
-    int semaid;
+    s32 semaid;
 
     cd = &_send_data.cStatData;
     
@@ -899,11 +899,11 @@ int sceChstat(const char *name, struct sce_stat *buf, unsigned int cbit) {
 
 int sceRename(const char *oldname, const char *newname) {
     _sceFsRenameData *rd;
-    int ret;
-    int nsize;
-    int ret_chstat;
+    s32 ret;
+    s32 nsize;
+    s32 ret_chstat;
     struct SemaParam sparam;
-    int semaid;
+    s32 semaid;
 
     rd = &_send_data.renameData;
     
@@ -961,12 +961,12 @@ s32 sceChdir(const char* name) {
 
 int sceSync(const char *path, int flag) {
     _sceFsSyncData *sd;
-    int nsize;
-    int ret;
-    int ret_sync;
+    s32 nsize;
+    s32 ret;
+    s32 ret_sync;
     struct SemaParam sparam;
-    int i;
-    int semaid;
+    s32 i;
+    s32 semaid;
 
     sd = &_send_data.syncData;
     
@@ -1011,12 +1011,12 @@ int sceSync(const char *path, int flag) {
 
 int sceMount(const char *fsdevname, const char *blkdevname, int flag, void *arg, int arglen) {
     _sceFsMountData *md;
-    int nsize;
-    int ret;
-    int ret_sync;
+    s32 nsize;
+    s32 ret;
+    s32 ret_sync;
     struct SemaParam sparam;
-    int i;
-    int semaid;
+    s32 i;
+    s32 semaid;
 
     md = &_send_data.mountData;
     
@@ -1087,12 +1087,12 @@ INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceLseek64);
 
 int sceDevctl(const char *devname, int cmd, const void *arg, unsigned int arglen, void *bufp, unsigned int buflen) {
     _sceFsDevctlData *dd;
-    int nsize;
-    int ret;
-    int ret_devctl;
+    s32 nsize;
+    s32 ret;
+    s32 ret_devctl;
     struct SemaParam sparam;
-    int i;
-    int semaid;
+    s32 i;
+    s32 semaid;
 
     dd = &_send_data.devctlData;
     
@@ -1150,12 +1150,12 @@ int sceDevctl(const char *devname, int cmd, const void *arg, unsigned int arglen
 
 int sceSymlink(const char *existing, const char *new) {
     _sceFsSymlinkData *rd;
-    int nsize;
-    int ret;
-    int ret_link;
+    s32 nsize;
+    s32 ret;
+    s32 ret_link;
     struct SemaParam sparam;
-    int i;
-    int semaid;
+    s32 i;
+    s32 semaid;
 
     rd = &_send_data.symlinkData;
     
@@ -1203,12 +1203,12 @@ int sceSymlink(const char *existing, const char *new) {
 
 int sceReadlink(const char *path, char *buf, unsigned int bufsize) {
     _sceFsReadlinkData *rd;
-    int nsize;
-    int ret;
-    int ret_link;
+    s32 nsize;
+    s32 ret;
+    s32 ret_link;
     struct SemaParam sparam;
-    int i;
-    int semaid;
+    s32 i;
+    s32 semaid;
 
     rd = &_send_data.readLinkData;
     

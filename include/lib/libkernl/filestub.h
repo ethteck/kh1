@@ -5,254 +5,254 @@
 #include "common.h"
 
 typedef struct _sceFsIob {
-    int i_fd;
+    s32 i_fd;
     u32 i_flag;
-    int i_errno;
+    s32 i_errno;
     void *i_private;
 }_sceFsIob;
 
 typedef struct {
-	int ee_semid;
-	unsigned int ee_retadr;
-	unsigned int ee_retsiz;
-	int flag;
-	unsigned int mode;
-	char name[1024];
-	int ee_fds;
+    s32 ee_semid;
+    u32 ee_retadr;
+    u32 ee_retsiz;
+    s32 flag;
+    u32 mode;
+    char name[1024];
+    s32 ee_fds;
 } _sceFsOpenData;
 
 typedef struct {
-	int ee_semid;
-	unsigned int ee_retadr;
-	unsigned int ee_retsiz;
-	int fd;
-	int ee_fds;
+    s32 ee_semid;
+    u32 ee_retadr;
+    u32 ee_retsiz;
+    s32 fd;
+    s32 ee_fds;
 } _sceFsCloseData;
 
 typedef struct {
-	int ee_semid;
-	unsigned int ee_retadr;
-	unsigned int ee_retsiz;
-	int fd;
-	int offset;
-	int how;
-	int ee_fds;
+    s32 ee_semid;
+    u32 ee_retadr;
+    u32 ee_retsiz;
+    s32 fd;
+    s32 offset;
+    s32 how;
+    s32 ee_fds;
 } _sceFsLseekData;
 
 typedef struct {
-	int ee_semid;
-	unsigned int ee_retadr;
-	unsigned int ee_retsiz;
-	int fd;
-	unsigned int addr;
-	int size;
-	unsigned int intr_addr;
-	int ee_fds;
+    s32 ee_semid;
+    u32 ee_retadr;
+    u32 ee_retsiz;
+    s32 fd;
+    u32 addr;
+    s32 size;
+    u32 s32r_addr;
+    s32 ee_fds;
 } _sceFsReadData;
 
 typedef struct {
-	int ee_semid;
-	unsigned int ee_retadr;
-	unsigned int ee_retsiz;
-	int fd;
-	unsigned int addr;
-	int size;
-	int psize;
-	unsigned char pdata[16];
-	int ee_fds;
+    s32 ee_semid;
+    u32 ee_retadr;
+    u32 ee_retsiz;
+    s32 fd;
+    u32 addr;
+    s32 size;
+    s32 psize;
+    u8 pdata[16];
+    s32 ee_fds;
 } _sceFsWriteData;
 
 typedef struct {
-	int ee_semid;
-	unsigned int ee_retadr;
-	unsigned int ee_retsiz;
-	int fd;
-	int cmd;
-	unsigned char arg[1024];
-	void *ret_argadr;
-	int ret_argsiz;
-	int arglen;
+    s32 ee_semid;
+    u32 ee_retadr;
+    u32 ee_retsiz;
+    s32 fd;
+    s32 cmd;
+    u8 arg[1024];
+    void *ret_argadr;
+    s32 ret_argsiz;
+    s32 arglen;
 } _sceFsIoctlData;
 
 typedef struct {
-	int ee_semid;
-	unsigned int ee_retadr;
-	unsigned int ee_retsiz;
-	char name[1024];
+    s32 ee_semid;
+    u32 ee_retadr;
+    u32 ee_retsiz;
+    char name[1024];
 } _sceFsNameData;
 
 typedef struct {
-	int ee_semid;
-	unsigned int ee_retadr;
-	unsigned int ee_retsiz;
-	void *addr;
+    s32 ee_semid;
+    u32 ee_retadr;
+    u32 ee_retsiz;
+    void *addr;
 } _sceFsAddrData;
 
 typedef struct {
-	int ee_semid;
-	unsigned int ee_retadr;
-	unsigned int ee_retsiz;
-	void *addr;
-	unsigned char name[1024];
+    s32 ee_semid;
+    u32 ee_retadr;
+    u32 ee_retsiz;
+    void *addr;
+    u8 name[1024];
 } _sceFsGStatData;
 
 typedef struct {
-	int ee_semid;
-	unsigned int ee_retadr;
-	unsigned int ee_retsiz;
-	unsigned int cbit;
-	struct sce_stat stat;
-	unsigned char name[1024];
+    s32 ee_semid;
+    u32 ee_retadr;
+    u32 ee_retsiz;
+    u32 cbit;
+    struct sce_stat stat;
+    u8 name[1024];
 } _sceFsCStatData;
 
 typedef struct {
-	int ee_semid;
-	unsigned int ee_retadr;
-	unsigned int ee_retsiz;
-	char path[1024];
-	char blkdevname[1024];
-	unsigned char arg[1024];
-	int arglen;
+    s32 ee_semid;
+    u32 ee_retadr;
+    u32 ee_retsiz;
+    char path[1024];
+    char blkdevname[1024];
+    u8 arg[1024];
+    s32 arglen;
 } _sceFsFormatData;
 
 typedef struct {
-	int ee_semid;
-	unsigned int ee_retadr;
-	unsigned int ee_retsiz;
-	char oldpath[1024];
-	char newpath[1024];
+    s32 ee_semid;
+    u32 ee_retadr;
+    u32 ee_retsiz;
+    char oldpath[1024];
+    char newpath[1024];
 } _sceFsRenameData;
 
 typedef struct {
-	int ee_semid;
-	unsigned int ee_retadr;
-	unsigned int ee_retsiz;
-	int fd;
-	int flag;
-	char path[1024];
+    s32 ee_semid;
+    u32 ee_retadr;
+    u32 ee_retsiz;
+    s32 fd;
+    s32 flag;
+    char path[1024];
 } _sceFsSyncData;
 
 typedef struct {
-	int ee_semid;
-	unsigned int ee_retadr;
-	unsigned int ee_retsiz;
-	int flag;
-	char name[1024];
+    s32 ee_semid;
+    u32 ee_retadr;
+    u32 ee_retsiz;
+    s32 flag;
+    char name[1024];
 } _sceFsMkdirData;
 
 typedef struct {
-	int ee_semid;
-	unsigned int ee_retadr;
-	unsigned int ee_retsiz;
-	char fsdevname[1024];
-	char blkdevname[1024];
-	unsigned char arg[1024];
-	int flag;
-	int arglen;
+    s32 ee_semid;
+    u32 ee_retadr;
+    u32 ee_retsiz;
+    char fsdevname[1024];
+    char blkdevname[1024];
+    u8 arg[1024];
+    s32 flag;
+    s32 arglen;
 } _sceFsMountData;
 
 typedef struct {
-	int ee_semid;
-	unsigned int ee_retadr;
-	unsigned int ee_retsiz;
-	int fd;
-	long int offset;
-	int how;
-	int ee_fds;
+    s32 ee_semid;
+    u32 ee_retadr;
+    u32 ee_retsiz;
+    s32 fd;
+    s64 offset;
+    s32 how;
+    s32 ee_fds;
 } _sceFsLseek64Data;
 
 typedef struct {
-	int ee_semid;
-	unsigned int ee_retadr;
-	unsigned int ee_retsiz;
-	char path[1024];
-	unsigned char arg_buf[1024];
-	int cmd;
-	int arglen;
-	void *ret_argadr;
-	int ret_arglen;
+    s32 ee_semid;
+    u32 ee_retadr;
+    u32 ee_retsiz;
+    char path[1024];
+    u8 arg_buf[1024];
+    s32 cmd;
+    s32 arglen;
+    void *ret_argadr;
+    s32 ret_arglen;
 } _sceFsDevctlData;
 
 typedef struct {
-	int ee_semid;
-	unsigned int ee_retadr;
-	unsigned int ee_retsiz;
-	char existing[1024];
-	char new[1024];
+    s32 ee_semid;
+    u32 ee_retadr;
+    u32 ee_retsiz;
+    char existing[1024];
+    char new[1024];
 } _sceFsSymlinkData;
 
 typedef struct {
-	int ee_semid;
-	unsigned int ee_retadr;
-	unsigned int ee_retsiz;
-	unsigned int bufsize;
-	unsigned int bufaddr;
-	char path[1024];
+    s32 ee_semid;
+    u32 ee_retadr;
+    u32 ee_retsiz;
+    u32 bufsize;
+    u32 bufaddr;
+    char path[1024];
 } _sceFsReadlinkData;
 
 typedef struct {
-	int psize;
-	int ssize;
-	unsigned int paddr;
-	unsigned int saddr;
-	unsigned char pdata[64];
-	unsigned char sdata[64];
+    s32 psize;
+    s32 ssize;
+    u32 paddr;
+    u32 saddr;
+    u8 pdata[64];
+    u8 sdata[64];
 } _sceFsReadIntrData;
 
 typedef struct {
-	int ee_semid;
-	unsigned int ee_retmod;
-	unsigned int ee_retadr;
-	unsigned int ee_retsiz;
-	int data_top[4];
+    s32 ee_semid;
+    u32 ee_retmod;
+    u32 ee_retadr;
+    u32 ee_retsiz;
+    s32 data_top[4];
 } _sceFsIntrRcvData;
 
 typedef struct {
-	int ee_semid;
-	unsigned int ee_retmod;
-	unsigned int ee_retadr;
-	unsigned int ee_retsiz;
-	int ee_ret;
-	unsigned int ee_dentadr;
-	struct sce_dirent dent;
+    s32 ee_semid;
+    u32 ee_retmod;
+    u32 ee_retadr;
+    u32 ee_retsiz;
+    s32 ee_ret;
+    u32 ee_dentadr;
+    struct sce_dirent dent;
 } _sceFsIntrRcvDirData;
 
 typedef struct {
-	int ee_semid;
-	unsigned int ee_retmod;
-	unsigned int ee_retadr;
-	unsigned int ee_retsiz;
-	int ee_ret;
-	unsigned int ee_readladr;
-	unsigned int ee_readlsiz;
-	char linkname[1024];
+    s32 ee_semid;
+    u32 ee_retmod;
+    u32 ee_retadr;
+    u32 ee_retsiz;
+    s32 ee_ret;
+    u32 ee_readladr;
+    u32 ee_readlsiz;
+    char linkname[1024];
 } _sceFsIntrRcvReadLData;
 
 typedef struct {
-	int ee_semid;
-	unsigned int ee_retmod;
-	unsigned int ee_retadr;
-	unsigned int ee_retsiz;
-	int ee_ret;
-	unsigned int ret_argadr;
-	unsigned int ret_argsiz;
-	unsigned char arg[1024];
+    s32 ee_semid;
+    u32 ee_retmod;
+    u32 ee_retadr;
+    u32 ee_retsiz;
+    s32 ee_ret;
+    u32 ret_argadr;
+    u32 ret_argsiz;
+    u8 arg[1024];
 } _sceFsIntrRcvIoctlData;
 
 typedef struct {
-	int ee_semid;
-	unsigned int ee_retmod;
-	unsigned int ee_retadr;
-	unsigned int ee_retsiz;
-	int ee_ret;
-	unsigned int ret_argadr;
-	unsigned int ret_argsiz;
-	unsigned char arg[1024];
+    s32 ee_semid;
+    u32 ee_retmod;
+    u32 ee_retadr;
+    u32 ee_retsiz;
+    s32 ee_ret;
+    u32 ret_argadr;
+    u32 ret_argsiz;
+    u8 arg[1024];
 } _sceFsIntrRcvDevctlData;
 
 typedef struct {
-	void (*sceFsPoffCbfunc)(/* parameters unknown */);
-	void *sceFsPoffCbdata;
+    void (*sceFsPoffCbfunc)(void *);
+    void *sceFsPoffCbdata;
 } _sceFsPoffData;
 
 // inferred
