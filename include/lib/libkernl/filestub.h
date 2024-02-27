@@ -117,7 +117,7 @@ typedef struct {
 	unsigned int ee_retadr;
 	unsigned int ee_retsiz;
 	unsigned int cbit;
-	sce_stat stat;
+	struct sce_stat stat;
 	unsigned char name[1024];
 } _sceFsCStatData;
 

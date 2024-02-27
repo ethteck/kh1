@@ -797,11 +797,158 @@ int sceDread(int fd, struct sce_dirent *dp) {
     return ret_dread;
 }
 
-INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceGetstat);
+int sceGetstat(const char *name, struct sce_stat *dp) {
+    _sceFsGStatData *sd;
+    int ret;
+    int nsize;
+    int ret_getstat;
+    struct SemaParam sparam;
+    int semaid;
 
-INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceChstat);
+    sd = &_send_data.gStatData;
+    
+    _sceFsWaitS(0xC);
+    if (_fs_init == 0x0) {
+        sceFsInit();
+    }
 
-INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceRename);
+    for (nsize = 0; nsize < 0x400 && (sd->name[nsize] = name[nsize]) != 0; nsize++) { }
+    if (nsize == 0x400) {
+        sd->name[0x400-1] = 0x0;
+        nsize = 0x3FF;
+    }
+
+    sd->addr = dp;
+    sparam.maxCount = 0x1;
+    sparam.initCount = 0x0;
+    sparam.option = 0x0;
+    semaid = CreateSema(&sparam);
+    sd->ee_semid = semaid;
+    sd->ee_retadr = &ret_getstat;
+    sd->ee_retsiz = sizeof(ret_getstat);
+
+    ret = sceSifCallRpc(&_cd, 0xC, 0x0, &_send_data, nsize + 0x11, &_rcv_data_rpc, 0x4, NULL, NULL);
+    if (ret < 0x0) {
+        DeleteSema(semaid);
+        _sceFsSigSema();
+        return -EAGAIN;
+    }
+   
+    ret = *(u32*)UNCACHED(&_rcv_data_rpc);
+    _sceFsSigSema();
+    if (ret == 0x0) {
+        DeleteSema(semaid);
+        return -EAGAIN;
+    }
+
+    WaitSema(semaid);
+    DeleteSema(semaid);
+    return ret_getstat;
+}
+
+int sceChstat(const char *name, struct sce_stat *buf, unsigned int cbit) {
+    _sceFsCStatData *cd;
+    int ret;
+    int nsize;
+    int ret_chstat;
+    struct SemaParam sparam;
+    int semaid;
+
+    cd = &_send_data.cStatData;
+    
+    _sceFsWaitS(0xD);
+    if (_fs_init == 0x0) {
+        sceFsInit();
+    }
+
+    for (nsize = 0; nsize < 0x400 && (cd->name[nsize] = name[nsize]) != 0; nsize++) { }
+    if (nsize == 0x400) {
+        cd->name[0x400-1] = 0x0;
+        nsize = 0x3FF;
+    }
+
+    cd->stat = *buf;
+    cd->cbit = cbit;
+    sparam.maxCount = 0x1;
+    sparam.initCount = 0x0;
+    sparam.option = 0x0;
+    semaid = CreateSema(&sparam);
+    cd->ee_semid = semaid;
+    cd->ee_retadr = &ret_chstat;
+    cd->ee_retsiz = sizeof(ret_chstat);
+    
+    sceSifWriteBackDCache(&_send_data, sizeof(_sceFsCStatData));
+    ret = sceSifCallRpc(&_cd, 0xD, 0x0, &_send_data, nsize + 0x51, &_rcv_data_rpc, 0x4, NULL, NULL);
+    if (ret < 0x0) {
+        DeleteSema(semaid);
+        _sceFsSigSema();
+        return -EAGAIN;
+    }
+   
+    ret = *(u32*)UNCACHED(&_rcv_data_rpc);
+    _sceFsSigSema();
+    if (ret == 0x0) {
+        DeleteSema(semaid);
+        return -EAGAIN;
+    }
+
+    WaitSema(semaid);
+    DeleteSema(semaid);
+    return ret_chstat;
+}
+
+int sceRename(const char *oldname, const char *newname) {
+    _sceFsRenameData *rd;
+    int ret;
+    int nsize;
+    int ret_chstat;
+    struct SemaParam sparam;
+    int semaid;
+
+    rd = &_send_data.renameData;
+    
+    _sceFsWaitS(0x11);
+    if (_fs_init == 0x0) {
+        sceFsInit();
+    }
+
+    for (nsize = 0; nsize < 0x400 && (rd->oldpath[nsize] = oldname[nsize]) != 0; nsize++) { }
+    if (nsize == 0x400) {
+        rd->oldpath[0x400-1] = 0x0;
+    }
+    
+    for (nsize = 0; nsize < 0x400 && (rd->newpath[nsize] = newname[nsize]) != 0; nsize++) { }
+    if (nsize == 0x400) {
+        rd->newpath[0x400-1] = 0x0;
+    }
+
+    sparam.maxCount = 0x1;
+    sparam.initCount = 0x0;
+    sparam.option = 0x0;
+    semaid = CreateSema(&sparam);
+    rd->ee_semid = semaid;
+    rd->ee_retadr = &ret_chstat;
+    rd->ee_retsiz = sizeof(ret_chstat);
+    
+    sceSifWriteBackDCache(&_send_data, sizeof(_sceFsRenameData));
+    ret = sceSifCallRpc(&_cd, 0x11, 0x0, &_send_data, sizeof(_sceFsRenameData), &_rcv_data_rpc, 0x4, NULL, NULL);
+    if (ret < 0x0) {
+        DeleteSema(semaid);
+        _sceFsSigSema();
+        return -EAGAIN;
+    }
+   
+    ret = *(u32*)UNCACHED(&_rcv_data_rpc);
+    _sceFsSigSema();
+    if (ret == 0x0) {
+        DeleteSema(semaid);
+        return -EAGAIN;
+    }
+
+    WaitSema(semaid);
+    DeleteSema(semaid);
+    return ret_chstat;
+}
 
 /**
  * @brief Change current directory
