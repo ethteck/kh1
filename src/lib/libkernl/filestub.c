@@ -30,7 +30,7 @@ char _fsversion[4];
 _sceFsPoffData _sif_FsRcv_Data __attribute__((aligned (64)));
 _sceFsPoffData _sif_FsPoff_Data __attribute__((aligned (64)));
 
-void _sceFsIobSemaMK() {
+static void _sceFsIobSemaMK() {
     struct SemaParam param;
 
     if (_fs_iob_semid == -1) {
@@ -43,7 +43,7 @@ void _sceFsIobSemaMK() {
     }
 }
 
-_sceFsIob *new_iob(void) {
+static _sceFsIob *new_iob(void) {
     _sceFsIob *io;
     s32 i;
     
@@ -62,7 +62,7 @@ _sceFsIob *new_iob(void) {
     return NULL;
 }
 
-_sceFsIob * get_iob(int fd) {
+static _sceFsIob * get_iob(int fd) {
     _sceFsIob *ret;
     
     _sceFsIobSemaMK();
@@ -78,10 +78,10 @@ _sceFsIob * get_iob(int fd) {
     return ret;
 }
 
-void _sceFs_Rcv_Intr(void); // TODO match this one
+static void _sceFs_Rcv_Intr(void); // TODO match this one
 INCLUDE_ASM(const s32, "lib/libkernl/filestub", _sceFs_Rcv_Intr);
 
-void _sceFsSemInit() {
+static void _sceFsSemInit() {
     struct SemaParam param;
     if (_fs_semid == -1) {
         param.option = 0;
@@ -91,13 +91,13 @@ void _sceFsSemInit() {
     }
 }
 
-s32 _sceFsWaitS() {
+static s32 _sceFsWaitS() {
     _sceFsSemInit();
     WaitSema(_fs_semid);
     return 0;
 }
 
-void _sceFsSigSema() {
+static void _sceFsSigSema() {
     SignalSema(_fs_semid);
 }
 
@@ -119,7 +119,7 @@ int* scePowerOffHandler(void (*func)(void *), void* addr) {
     return ret;
 }
 
-void _sceFs_Poff_Intr(void *pkt, _sceFsPoffData *data) {
+static void _sceFs_Poff_Intr(void *pkt, _sceFsPoffData *data) {
     if (data->sceFsPoffCbfunc != NULL) {
         data->sceFsPoffCbfunc(data->sceFsPoffCbdata);
     }
@@ -185,7 +185,7 @@ char* D_00465378 = "....\0";
 extern char* D_00464B18; // TODO use the proper symbol for this
 
 
-s32 _fs_version(void) {
+static s32 _fs_version(void) {
     s32 ret = FALSE;
     char *libver;
 
@@ -428,7 +428,7 @@ int sceIoctl2(int fd, int cmd, const void *arg, unsigned int arglen, void *bufp,
     return ret_ioctl;
 }
 
-int _sceCallCode(char *name, unsigned int callcode) {
+static int _sceCallCode(char *name, unsigned int callcode) {
     _sceFsNameData *cc;
     s32 nsize;
     s32 ret;
