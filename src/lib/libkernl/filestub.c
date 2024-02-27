@@ -8,9 +8,10 @@
 #include "lib/libkernl/filestub.h"
 
 #define MAX_IOB_COUNT 32
+#define MAX_ARG_SIZE 1024
 #define UNCACHED(p) (((u32)p | 0x20000000))
 
-s32 _sceFs_q[32] = {
+s32 _sceFs_q[MAX_IOB_COUNT] = {
     -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 };
 s32 _fs_init = 0;
@@ -24,7 +25,7 @@ u32 ip0; // likely static
 _sceFsData _send_data __attribute__((aligned (64)));
 s32 _rcv_data_rpc __attribute__((aligned (64))); // unverified
 _sceFsIntrData _rcv_data_cmd __attribute__((aligned (64)));
-_sceFsIob _iob[32];
+_sceFsIob _iob[MAX_IOB_COUNT];
 sceSifClientData _cd;
 char _fsversion[4];
 _sceFsPoffData _sif_FsRcv_Data __attribute__((aligned (64)));
@@ -164,12 +165,12 @@ int sceFsInit(void) {
     
     SignalSema(_fs_iob_semid);
     rcv_adr = &_rcv_data_cmd;
-    istat = sceSifCallRpc(&_cd, 0xff, 0x0, &rcv_adr, 0x4, &_rcv_data_rpc, 0x4, NULL, NULL);
+    istat = sceSifCallRpc(&_cd, 0xff, 0x0, &rcv_adr, sizeof(rcv_adr), &_rcv_data_rpc, sizeof(_rcv_data_rpc), NULL, NULL);
     if (istat < 0x0) {
         return -SCE_ECALLMISS;
     }
     else {
-        memcpy(&_fsversion, UNCACHED(&_rcv_data_rpc), 4);
+        memcpy(&_fsversion, UNCACHED(&_rcv_data_rpc), sizeof(_fsversion));
         _fs_init = 0x1;
         return 0; // SCE_OK doesn't seem to exist in this SDK version
     }
@@ -206,7 +207,7 @@ static s32 _fs_version(void) {
  */
 s32 sceFsReset() {
     _fs_init = 0;
-    memset(_fsversion, 0, 4);
+    memset(_fsversion, 0, sizeof(_fsversion));
     return 0;
 }
 
@@ -246,14 +247,12 @@ int sceOpen(const char *filename, int flag, ...) {
     mode = va_arg (arg, int);
     va_end (arg);
     
-    for (i = 0; i < 0x400 && (od->name[i] = filename[i]) != 0; i++) { }
-    
-    if (i == 0x400) {
-        od->name[0x400-1] = 0x0;
+    for (i = 0; i < MAX_ARG_SIZE && (od->name[i] = filename[i]) != 0; i++) { }
+    if (i == MAX_ARG_SIZE) {
+        od->name[MAX_ARG_SIZE-1] = 0x0;
     }
-    
 
-    nsize = (int)((u32)io - (u32)&_iob) >> 0x4;
+    nsize = io - _iob;
     od->flag = flag & ~0x90000000;
     od->ee_fds = nsize;
     od->mode = mode;
@@ -320,7 +319,7 @@ int sceClose(int fd) {
         return -EBADF;
     }
     
-    nsize = (int)((u32)io - (u32)&_iob) >> 0x4;
+    nsize = io - _iob;
     cd->fd = io->i_fd;
     cd->ee_fds = nsize;
     sparam.maxCount = 0x1;
@@ -330,7 +329,7 @@ int sceClose(int fd) {
     cd->ee_semid = semaid;
     cd->ee_retadr = &ret_close;
     cd->ee_retsiz = sizeof(ret_close);
-    ret = sceSifCallRpc(&_cd, 0x1, 0x0, &_send_data, sizeof(_sceFsCloseData), &_rcv_data_rpc, 0x4, NULL, NULL);
+    ret = sceSifCallRpc(&_cd, 0x1, 0x0, &_send_data, sizeof(_sceFsCloseData), &_rcv_data_rpc, sizeof(_rcv_data_rpc), NULL, NULL);
     if (ret < 0x0) {
         DeleteSema(semaid);
         _sceFsSigSema();
@@ -383,7 +382,7 @@ int sceIoctl2(int fd, int cmd, const void *arg, unsigned int arglen, void *bufp,
         return -EBADF;
     }
     
-    if ((arglen > 0x400) || (buflen > 0x400)) {
+    if ((arglen > MAX_ARG_SIZE) || (buflen > MAX_ARG_SIZE)) {
         _sceFsSigSema();
         return -EINVAL;
     }
@@ -408,7 +407,7 @@ int sceIoctl2(int fd, int cmd, const void *arg, unsigned int arglen, void *bufp,
     id->ret_argsiz = buflen;
     
     sceSifWriteBackDCache(&_send_data, sizeof(_sceFsIoctlData));
-    ret = sceSifCallRpc(&_cd, 0x1a, 0x0, &_send_data, sizeof(_sceFsIoctlData), &_rcv_data_rpc, 0x4, NULL, NULL);
+    ret = sceSifCallRpc(&_cd, 0x1a, 0x0, &_send_data, sizeof(_sceFsIoctlData), &_rcv_data_rpc, sizeof(_rcv_data_rpc), NULL, NULL);
     
     if (ret < 0x0) {
         DeleteSema(semaid);
@@ -434,7 +433,6 @@ static int _sceCallCode(char *name, unsigned int callcode) {
     s32 ret;
     s32 ret_code;
     struct SemaParam sparam;
-    s32 i;
     s32 semaid;
 
     cc = &_send_data.nameData;
@@ -444,10 +442,10 @@ static int _sceCallCode(char *name, unsigned int callcode) {
         sceFsInit();
     }
     
-    for (i = 0; i < 0x400 && (cc->name[i] = name[i]) != 0; i++) { }
-    if (i == 0x400) {
-        cc->name[0x400-1] = 0x0;
-        i = 0x3FF;
+    for (nsize = 0; nsize < MAX_ARG_SIZE && (cc->name[nsize] = name[nsize]) != 0; nsize++) { }
+    if (nsize == MAX_ARG_SIZE) {
+        cc->name[MAX_ARG_SIZE-1] = 0x0;
+        nsize = MAX_ARG_SIZE-1;
     }
     
     sparam.maxCount = 0x1;
@@ -458,7 +456,7 @@ static int _sceCallCode(char *name, unsigned int callcode) {
     cc->ee_retadr = &ret_code;
     cc->ee_retsiz = sizeof(ret_code);
     
-    ret = sceSifCallRpc(&_cd, callcode, 0x0, &_send_data, i + 0xD, &_rcv_data_rpc, 0x4, NULL, NULL);
+    ret = sceSifCallRpc(&_cd, callcode, 0x0, &_send_data, nsize + 0xC + 1, &_rcv_data_rpc, sizeof(_rcv_data_rpc), NULL, NULL);
     
     if (ret < 0x0) {
         DeleteSema(semaid);
@@ -502,10 +500,10 @@ int sceMkdir(const char *name, int flag) {
         sceFsInit();
     }
 
-    for (nsize = 0; nsize < 0x400 && (mkd->name[nsize] = name[nsize]) != 0; nsize++) { }
-    if (nsize == 0x400) {
-        mkd->name[0x400-1] = 0x0;
-        nsize = 0x3FF;
+    for (nsize = 0; nsize < MAX_ARG_SIZE && (mkd->name[nsize] = name[nsize]) != 0; nsize++) { }
+    if (nsize == MAX_ARG_SIZE) {
+        mkd->name[MAX_ARG_SIZE-1] = 0x0;
+        nsize = MAX_ARG_SIZE-1;
     }
     
     mkd->flag = flag;
@@ -517,7 +515,7 @@ int sceMkdir(const char *name, int flag) {
     mkd->ee_retadr = &ret_mkdir;
     mkd->ee_retsiz = sizeof(ret_mkdir);
     
-    ret = sceSifCallRpc(&_cd, 0x7, 0x0, &_send_data, nsize + 0x11, &_rcv_data_rpc, 0x4, NULL, NULL);
+    ret = sceSifCallRpc(&_cd, 0x7, 0x0, &_send_data, nsize + 0x10 + 1, &_rcv_data_rpc, sizeof(_rcv_data_rpc), NULL, NULL);
     if (ret < 0x0) {
         DeleteSema(semaid);
         _sceFsSigSema();
@@ -560,21 +558,21 @@ int sceFormat(const char *path, const char *blkdevname, void *arg, int arglen) {
         sceFsInit();
     }
 
-    for (nsize = 0; nsize < 0x400 && (fd->path[nsize] = path[nsize]) != 0; nsize++) { }
-    if (nsize == 0x400) {
-        fd->path[0x400-1] = 0x0;
+    for (nsize = 0; nsize < MAX_ARG_SIZE && (fd->path[nsize] = path[nsize]) != 0; nsize++) { }
+    if (nsize == MAX_ARG_SIZE) {
+        fd->path[MAX_ARG_SIZE-1] = 0x0;
     }
 
     if (blkdevname == NULL) {
         fd->blkdevname[0] = 0x0;
     } else {   
-        for (nsize = 0; nsize < 0x400 && (fd->blkdevname[nsize] = blkdevname[nsize]) != 0; nsize++) { }
-        if (nsize == 0x400) {
-            fd->blkdevname[0x400-1] = 0x0;
+        for (nsize = 0; nsize < MAX_ARG_SIZE && (fd->blkdevname[nsize] = blkdevname[nsize]) != 0; nsize++) { }
+        if (nsize == MAX_ARG_SIZE) {
+            fd->blkdevname[MAX_ARG_SIZE-1] = 0x0;
         }
     }
 
-    if (arglen > 0x400) {
+    if (arglen > MAX_ARG_SIZE) {
         _sceFsSigSema();
         return -E2BIG;
     }
@@ -593,7 +591,7 @@ int sceFormat(const char *path, const char *blkdevname, void *arg, int arglen) {
     fd->ee_retsiz = sizeof(ret_format);
 
     sceSifWriteBackDCache(&_send_data, sizeof(_sceFsFormatData));
-    ret = sceSifCallRpc(&_cd, 0xE, 0x0, &_send_data, sizeof(_sceFsFormatData), &_rcv_data_rpc, 0x4, NULL, NULL);
+    ret = sceSifCallRpc(&_cd, 0xE, 0x0, &_send_data, sizeof(_sceFsFormatData), &_rcv_data_rpc, sizeof(_rcv_data_rpc), NULL, NULL);
     if (ret < 0x0) {
         DeleteSema(semaid);
         _sceFsSigSema();
@@ -636,7 +634,7 @@ int sceAddDrv(void *addr) {
     id->ee_retadr = &ret_adddrv;
     id->ee_retsiz = sizeof(ret_adddrv);
 
-    ret = sceSifCallRpc(&_cd, 0xF, 0x0, &_send_data, sizeof(_sceFsAddrData), &_rcv_data_rpc, 0x4, NULL, NULL);
+    ret = sceSifCallRpc(&_cd, 0xF, 0x0, &_send_data, sizeof(_sceFsAddrData), &_rcv_data_rpc, sizeof(_rcv_data_rpc), NULL, NULL);
     if (ret < 0x0) {
         DeleteSema(semaid);
         _sceFsSigSema();
@@ -722,7 +720,7 @@ int sceDclose(int fd) {
     cd->ee_retadr = &ret_dclose;
     cd->ee_retsiz = sizeof(ret_dclose);
 
-    ret = sceSifCallRpc(&_cd, 0xA, 0x0, &_send_data, sizeof(_sceFsCloseData), &_rcv_data_rpc, 0x4, NULL, NULL);
+    ret = sceSifCallRpc(&_cd, 0xA, 0x0, &_send_data, sizeof(_sceFsCloseData), &_rcv_data_rpc, sizeof(_rcv_data_rpc), NULL, NULL);
     if (ret < 0x0) {
         DeleteSema(semaid);
         _sceFsSigSema();
@@ -778,7 +776,7 @@ int sceDread(int fd, struct sce_dirent *dp) {
     rd->ee_retadr = &ret_dread;
     rd->ee_retsiz = sizeof(ret_dread);
 
-    ret = sceSifCallRpc(&_cd, 0xB, 0x0, &_send_data, sizeof(_sceFsReadData), &_rcv_data_rpc, 0x4, NULL, NULL);
+    ret = sceSifCallRpc(&_cd, 0xB, 0x0, &_send_data, sizeof(_sceFsReadData), &_rcv_data_rpc, sizeof(_rcv_data_rpc), NULL, NULL);
     if (ret < 0x0) {
         WaitSema(semaid);
         _sceFsSigSema();
@@ -812,10 +810,10 @@ int sceGetstat(const char *name, struct sce_stat *dp) {
         sceFsInit();
     }
 
-    for (nsize = 0; nsize < 0x400 && (sd->name[nsize] = name[nsize]) != 0; nsize++) { }
-    if (nsize == 0x400) {
-        sd->name[0x400-1] = 0x0;
-        nsize = 0x3FF;
+    for (nsize = 0; nsize < MAX_ARG_SIZE && (sd->name[nsize] = name[nsize]) != 0; nsize++) { }
+    if (nsize == MAX_ARG_SIZE) {
+        sd->name[MAX_ARG_SIZE-1] = 0x0;
+        nsize = MAX_ARG_SIZE-1;
     }
 
     sd->addr = dp;
@@ -827,7 +825,7 @@ int sceGetstat(const char *name, struct sce_stat *dp) {
     sd->ee_retadr = &ret_getstat;
     sd->ee_retsiz = sizeof(ret_getstat);
 
-    ret = sceSifCallRpc(&_cd, 0xC, 0x0, &_send_data, nsize + 0x11, &_rcv_data_rpc, 0x4, NULL, NULL);
+    ret = sceSifCallRpc(&_cd, 0xC, 0x0, &_send_data, nsize + 0x10 + 1, &_rcv_data_rpc, sizeof(_rcv_data_rpc), NULL, NULL);
     if (ret < 0x0) {
         DeleteSema(semaid);
         _sceFsSigSema();
@@ -861,10 +859,10 @@ int sceChstat(const char *name, struct sce_stat *buf, unsigned int cbit) {
         sceFsInit();
     }
 
-    for (nsize = 0; nsize < 0x400 && (cd->name[nsize] = name[nsize]) != 0; nsize++) { }
-    if (nsize == 0x400) {
-        cd->name[0x400-1] = 0x0;
-        nsize = 0x3FF;
+    for (nsize = 0; nsize < MAX_ARG_SIZE && (cd->name[nsize] = name[nsize]) != 0; nsize++) { }
+    if (nsize == MAX_ARG_SIZE) {
+        cd->name[MAX_ARG_SIZE-1] = 0x0;
+        nsize = MAX_ARG_SIZE-1;
     }
 
     cd->stat = *buf;
@@ -878,7 +876,7 @@ int sceChstat(const char *name, struct sce_stat *buf, unsigned int cbit) {
     cd->ee_retsiz = sizeof(ret_chstat);
     
     sceSifWriteBackDCache(&_send_data, sizeof(_sceFsCStatData));
-    ret = sceSifCallRpc(&_cd, 0xD, 0x0, &_send_data, nsize + 0x51, &_rcv_data_rpc, 0x4, NULL, NULL);
+    ret = sceSifCallRpc(&_cd, 0xD, 0x0, &_send_data, nsize + 0x50 + 1, &_rcv_data_rpc, sizeof(_rcv_data_rpc), NULL, NULL);
     if (ret < 0x0) {
         DeleteSema(semaid);
         _sceFsSigSema();
@@ -912,14 +910,14 @@ int sceRename(const char *oldname, const char *newname) {
         sceFsInit();
     }
 
-    for (nsize = 0; nsize < 0x400 && (rd->oldpath[nsize] = oldname[nsize]) != 0; nsize++) { }
-    if (nsize == 0x400) {
-        rd->oldpath[0x400-1] = 0x0;
+    for (nsize = 0; nsize < MAX_ARG_SIZE && (rd->oldpath[nsize] = oldname[nsize]) != 0; nsize++) { }
+    if (nsize == MAX_ARG_SIZE) {
+        rd->oldpath[MAX_ARG_SIZE-1] = 0x0;
     }
     
-    for (nsize = 0; nsize < 0x400 && (rd->newpath[nsize] = newname[nsize]) != 0; nsize++) { }
-    if (nsize == 0x400) {
-        rd->newpath[0x400-1] = 0x0;
+    for (nsize = 0; nsize < MAX_ARG_SIZE && (rd->newpath[nsize] = newname[nsize]) != 0; nsize++) { }
+    if (nsize == MAX_ARG_SIZE) {
+        rd->newpath[MAX_ARG_SIZE-1] = 0x0;
     }
 
     sparam.maxCount = 0x1;
@@ -931,7 +929,7 @@ int sceRename(const char *oldname, const char *newname) {
     rd->ee_retsiz = sizeof(ret_chstat);
     
     sceSifWriteBackDCache(&_send_data, sizeof(_sceFsRenameData));
-    ret = sceSifCallRpc(&_cd, 0x11, 0x0, &_send_data, sizeof(_sceFsRenameData), &_rcv_data_rpc, 0x4, NULL, NULL);
+    ret = sceSifCallRpc(&_cd, 0x11, 0x0, &_send_data, sizeof(_sceFsRenameData), &_rcv_data_rpc, sizeof(_rcv_data_rpc), NULL, NULL);
     if (ret < 0x0) {
         DeleteSema(semaid);
         _sceFsSigSema();
@@ -975,9 +973,9 @@ int sceSync(const char *path, int flag) {
         sceFsInit();
     }
     
-    for (i = 0; i < 0x400 && (sd->path[i] = path[i]) != 0; i++) { }
-    if (i == 0x400) {
-        sd->path[0x400-1] = 0x0;
+    for (i = 0; i < MAX_ARG_SIZE && (sd->path[i] = path[i]) != 0; i++) { }
+    if (i == MAX_ARG_SIZE) {
+        sd->path[MAX_ARG_SIZE-1] = 0x0;
     }
     
     sd->flag = flag;
@@ -989,7 +987,7 @@ int sceSync(const char *path, int flag) {
     sd->ee_retadr = &ret_sync;
     sd->ee_retsiz = sizeof(ret_sync);
     
-    ret = sceSifCallRpc(&_cd, 0x13, 0x0, &_send_data, sizeof(_sceFsSyncData), &_rcv_data_rpc, 0x4, NULL, NULL);
+    ret = sceSifCallRpc(&_cd, 0x13, 0x0, &_send_data, sizeof(_sceFsSyncData), &_rcv_data_rpc, sizeof(_rcv_data_rpc), NULL, NULL);
     
     if (ret < 0x0) {
         DeleteSema(semaid);
@@ -1015,7 +1013,6 @@ int sceMount(const char *fsdevname, const char *blkdevname, int flag, void *arg,
     s32 ret;
     s32 ret_sync;
     struct SemaParam sparam;
-    s32 i;
     s32 semaid;
 
     md = &_send_data.mountData;
@@ -1025,22 +1022,22 @@ int sceMount(const char *fsdevname, const char *blkdevname, int flag, void *arg,
         sceFsInit();
     }
     
-    for (i = 0; i < 0x400 && (md->fsdevname[i] = fsdevname[i]) != 0; i++) { }
-    if (i == 0x400) {
-        md->fsdevname[0x400-1] = 0x0;
+    for (nsize = 0; nsize < MAX_ARG_SIZE && (md->fsdevname[nsize] = fsdevname[nsize]) != 0; nsize++) { }
+    if (nsize == MAX_ARG_SIZE) {
+        md->fsdevname[MAX_ARG_SIZE-1] = 0x0;
     }
-    for (i = 0; i < 0x400 && (md->blkdevname[i] = blkdevname[i]) != 0; i++) { }
-    if (i == 0x400) {
-        md->blkdevname[0x400-1] = 0x0;
+    for (nsize = 0; nsize < MAX_ARG_SIZE && (md->blkdevname[nsize] = blkdevname[nsize]) != 0; nsize++) { }
+    if (nsize == MAX_ARG_SIZE) {
+        md->blkdevname[MAX_ARG_SIZE-1] = 0x0;
     }
 
-    if (arglen > 0x400) {
+    if (arglen > MAX_ARG_SIZE) {
         _sceFsSigSema();
         return -E2BIG;
     }
 
-    for (i = 0; i < arglen; i++) {
-        md->arg[i] = ((char*)arg)[i];
+    for (nsize = 0; nsize < arglen; nsize++) {
+        md->arg[nsize] = ((char*)arg)[nsize];
     }
     
     md->flag = flag;
@@ -1054,7 +1051,7 @@ int sceMount(const char *fsdevname, const char *blkdevname, int flag, void *arg,
     md->ee_retsiz = sizeof(ret_sync);
     
     sceSifWriteBackDCache(&_send_data, sizeof(_sceFsMountData));
-    ret = sceSifCallRpc(&_cd, 0x14, 0x0, &_send_data, sizeof(_sceFsMountData), &_rcv_data_rpc, 0x4, NULL, NULL);
+    ret = sceSifCallRpc(&_cd, 0x14, 0x0, &_send_data, sizeof(_sceFsMountData), &_rcv_data_rpc, sizeof(_rcv_data_rpc), NULL, NULL);
     
     if (ret < 0x0) {
         DeleteSema(semaid);
@@ -1091,7 +1088,6 @@ int sceDevctl(const char *devname, int cmd, const void *arg, unsigned int arglen
     s32 ret;
     s32 ret_devctl;
     struct SemaParam sparam;
-    s32 i;
     s32 semaid;
 
     dd = &_send_data.devctlData;
@@ -1101,18 +1097,18 @@ int sceDevctl(const char *devname, int cmd, const void *arg, unsigned int arglen
         sceFsInit();
     }
 
-    for (i = 0; i < 0x400 && (dd->path[i] = devname[i]) != 0; i++) { }
-    if (i == 0x400) {
-        dd->path[0x400-1] = 0x0;
+    for (nsize = 0; nsize < MAX_ARG_SIZE && (dd->path[nsize] = devname[nsize]) != 0; nsize++) { }
+    if (nsize == MAX_ARG_SIZE) {
+        dd->path[MAX_ARG_SIZE-1] = 0x0;
     }
 
-    if ((arglen > 0x400) || (buflen > 0x400)) {
+    if ((arglen > MAX_ARG_SIZE) || (buflen > MAX_ARG_SIZE)) {
         _sceFsSigSema();
         return -EINVAL;
     }
 
-    for (i = 0; i < arglen; i++) {
-        dd->arg_buf[i] = ((char*)arg)[i];
+    for (nsize = 0; nsize < arglen; nsize++) {
+        dd->arg_buf[nsize] = ((char*)arg)[nsize];
     }
     
     dd->cmd = cmd;
@@ -1128,7 +1124,7 @@ int sceDevctl(const char *devname, int cmd, const void *arg, unsigned int arglen
     dd->ret_arglen = buflen;
     
     sceSifWriteBackDCache(&_send_data, sizeof(_sceFsDevctlData));
-    ret = sceSifCallRpc(&_cd, 0x17, 0x0, &_send_data, sizeof(_sceFsDevctlData), &_rcv_data_rpc, 0x4, NULL, NULL);
+    ret = sceSifCallRpc(&_cd, 0x17, 0x0, &_send_data, sizeof(_sceFsDevctlData), &_rcv_data_rpc, sizeof(_rcv_data_rpc), NULL, NULL);
     
     if (ret < 0x0) {
         DeleteSema(semaid);
@@ -1154,7 +1150,6 @@ int sceSymlink(const char *existing, const char *new) {
     s32 ret;
     s32 ret_link;
     struct SemaParam sparam;
-    s32 i;
     s32 semaid;
 
     rd = &_send_data.symlinkData;
@@ -1164,14 +1159,14 @@ int sceSymlink(const char *existing, const char *new) {
         sceFsInit();
     }
 
-    for (i = 0; i < 0x400 && (rd->existing[i] = existing[i]) != 0; i++) { }
-    if (i == 0x400) {
-        rd->existing[0x400-1] = 0x0;
+    for (nsize = 0; nsize < MAX_ARG_SIZE && (rd->existing[nsize] = existing[nsize]) != 0; nsize++) { }
+    if (nsize == MAX_ARG_SIZE) {
+        rd->existing[MAX_ARG_SIZE-1] = 0x0;
     }
     
-    for (i = 0; i < 0x400 && (rd->new[i] = new[i]) != 0; i++) { }
-    if (i == 0x400) {
-        rd->new[0x400-1] = 0x0;
+    for (nsize = 0; nsize < MAX_ARG_SIZE && (rd->new[nsize] = new[nsize]) != 0; nsize++) { }
+    if (nsize == MAX_ARG_SIZE) {
+        rd->new[MAX_ARG_SIZE-1] = 0x0;
     }
 
     sparam.maxCount = 0x1;
@@ -1182,7 +1177,7 @@ int sceSymlink(const char *existing, const char *new) {
     rd->ee_retadr = &ret_link;
     rd->ee_retsiz = sizeof(ret_link);
     
-    ret = sceSifCallRpc(&_cd, 0x18, 0x0, &_send_data, sizeof(_sceFsSymlinkData), &_rcv_data_rpc, 0x4, NULL, NULL);
+    ret = sceSifCallRpc(&_cd, 0x18, 0x0, &_send_data, sizeof(_sceFsSymlinkData), &_rcv_data_rpc, sizeof(_rcv_data_rpc), NULL, NULL);
     if (ret < 0x0) {
         DeleteSema(semaid);
         _sceFsSigSema();
@@ -1207,7 +1202,6 @@ int sceReadlink(const char *path, char *buf, unsigned int bufsize) {
     s32 ret;
     s32 ret_link;
     struct SemaParam sparam;
-    s32 i;
     s32 semaid;
 
     rd = &_send_data.readLinkData;
@@ -1217,14 +1211,14 @@ int sceReadlink(const char *path, char *buf, unsigned int bufsize) {
         sceFsInit();
     }
 
-    for (i = 0; i < 0x400 && (rd->path[i] = path[i]) != 0; i++) { }
+    for (nsize = 0; nsize < MAX_ARG_SIZE && (rd->path[nsize] = path[nsize]) != 0; nsize++) { }
     
-    if (i == 0x400) {
-        rd->path[0x400-1] = 0x0;
+    if (nsize == MAX_ARG_SIZE) {
+        rd->path[MAX_ARG_SIZE-1] = 0x0;
     }
 
-    if (bufsize >= 0x400) {
-        bufsize = 0x3ff;
+    if (bufsize >= MAX_ARG_SIZE) {
+        bufsize = MAX_ARG_SIZE-1;
     }
 
     rd->bufsize = bufsize;
@@ -1238,7 +1232,7 @@ int sceReadlink(const char *path, char *buf, unsigned int bufsize) {
     rd->ee_retadr = &ret_link;
     rd->ee_retsiz = sizeof(ret_link);
     
-    ret = sceSifCallRpc(&_cd, 0x19, 0x0, &_send_data, sizeof(_sceFsSymlinkData), &_rcv_data_rpc, 0x4, NULL, NULL);
+    ret = sceSifCallRpc(&_cd, 0x19, 0x0, &_send_data, sizeof(_sceFsSymlinkData), &_rcv_data_rpc, sizeof(_rcv_data_rpc), NULL, NULL);
     if (ret < 0x0) {
         DeleteSema(semaid);
         _sceFsSigSema();
