@@ -1,6 +1,7 @@
 #ifndef __filestub__
 #define __filestub__
 
+#include <sifdev.h>
 #include "common.h"
 
 typedef struct _sceFsIob {
@@ -9,23 +10,6 @@ typedef struct _sceFsIob {
     int i_errno;
     void *i_private;
 }_sceFsIob;
-
-typedef struct {
-	unsigned int st_mode;
-	unsigned int st_attr;
-	unsigned int st_size;
-	unsigned char st_ctime[8];
-	unsigned char st_atime[8];
-	unsigned char st_mtime[8];
-	unsigned int st_hisize;
-	unsigned int st_private[6];
-} sce_stat;
-
-typedef struct {
-	sce_stat d_stat;
-	char d_name[256];
-	void *d_private;
-} sce_dirent;
 
 typedef struct {
 	int ee_semid;
@@ -230,7 +214,7 @@ typedef struct {
 	unsigned int ee_retsiz;
 	int ee_ret;
 	unsigned int ee_dentadr;
-	sce_dirent dent;
+	struct sce_dirent dent;
 } _sceFsIntrRcvDirData;
 
 typedef struct {
