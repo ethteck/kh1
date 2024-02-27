@@ -659,11 +659,143 @@ s32 sceDelDrv(const char* name) {
     return _sceCallCode(name, 16);
 }
 
-INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceDopen);
+int sceDopen(const char *name) {
+    _sceFsIob *io;
+    int ret;
+    
+    _sceFsWaitS(0x9);
+    if (_fs_init == 0x0) {
+        sceFsInit();
+    }
+    
+    _sceFsSigSema();
+    io = new_iob();
+    if (io == NULL) {
+        return -ENODEV;
+    }
+    
+    ret = _sceCallCode(name, 0x9);
+    if (ret < 0x0) {
+        WaitSema(_fs_iob_semid);
+        io->i_flag = 0x0;
+        SignalSema(_fs_iob_semid);
+        return ret;
+    }
+        
+    WaitSema(_fs_iob_semid);
+    io->i_fd = ret;
+    ret = io - _iob;
+    SignalSema(_fs_iob_semid);
+    
+    return ret;
+}
 
-INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceDclose);
+int sceDclose(int fd) {
+    _sceFsCloseData *cd;
+    _sceFsIob *io;
+    int ret;
+    int ret_dclose;
+    struct SemaParam sparam;
+    int semaid;
+    int temp;
 
-INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceDread);
+    io = get_iob(fd);
+    cd = &_send_data.closeData;
+    
+    _sceFsWaitS(0xA);
+    if (_fs_init == 0x0) {
+        _sceFsSigSema();
+        return -1;
+    }
+
+    if ((io == NULL) || (io->i_flag == 0x0)) {
+        _sceFsSigSema();
+        return -EBADF;
+    }
+
+    cd->fd = io->i_fd;
+    sparam.maxCount = 0x1;
+    sparam.initCount = 0x0;
+    sparam.option = 0x0;
+    semaid = CreateSema(&sparam);
+    cd->ee_semid = semaid;
+    cd->ee_retadr = &ret_dclose;
+    cd->ee_retsiz = sizeof(ret_dclose);
+
+    ret = sceSifCallRpc(&_cd, 0xA, 0x0, &_send_data, sizeof(_sceFsCloseData), &_rcv_data_rpc, 0x4, NULL, NULL);
+    if (ret < 0x0) {
+        DeleteSema(semaid);
+        _sceFsSigSema();
+        return -EAGAIN;
+    }
+   
+    io->i_flag = 0;
+    ret = *(u32*)UNCACHED(&_rcv_data_rpc);
+    _sceFsSigSema();
+    if (ret == 0x0) {
+        DeleteSema(semaid);
+        return -EAGAIN;
+    }
+
+    WaitSema(semaid);
+    DeleteSema(semaid);
+    temp = -1;
+    if (temp < ret_dclose) {
+        return 0;
+    }
+    return ret_dclose;
+}
+
+int sceDread(int fd, struct sce_dirent *dp) {
+    _sceFsReadData *rd;
+    _sceFsIob *io;
+    int ret;
+    int ret_dread;
+    struct SemaParam sparam;
+    int semaid;
+
+    io = get_iob(fd);
+    rd = &_send_data.readData;
+    
+    _sceFsWaitS(0xB);
+    if (_fs_init == 0x0) {
+        _sceFsSigSema();
+        return -1;
+    }
+
+    if ((io == NULL) || (io->i_flag == 0x0)) {
+        _sceFsSigSema();
+        return -EBADF;
+    }
+
+    rd->fd = io->i_fd;
+    rd->addr = dp;
+    sparam.maxCount = 0x1;
+    sparam.initCount = 0x0;
+    sparam.option = 0x0;
+    semaid = CreateSema(&sparam);
+    rd->ee_semid = semaid;
+    rd->ee_retadr = &ret_dread;
+    rd->ee_retsiz = sizeof(ret_dread);
+
+    ret = sceSifCallRpc(&_cd, 0xB, 0x0, &_send_data, sizeof(_sceFsReadData), &_rcv_data_rpc, 0x4, NULL, NULL);
+    if (ret < 0x0) {
+        WaitSema(semaid);
+        _sceFsSigSema();
+        return -EAGAIN;
+    }
+   
+    ret = *(u32*)UNCACHED(&_rcv_data_rpc);
+    _sceFsSigSema();
+    if (ret == 0x0) {
+        DeleteSema(semaid);
+        return -EAGAIN;
+    }
+
+    WaitSema(semaid);
+    DeleteSema(semaid);
+    return ret_dread;
+}
 
 INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceGetstat);
 
