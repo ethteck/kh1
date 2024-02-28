@@ -26,14 +26,14 @@ PRE_ELF_PATH = f"build/{BASENAME}.elf"
 COMMON_INCLUDES = "-Iinclude -isystem include/sdk/ee -isystem include/gcc"
 
 GAME_CC_DIR = f"{TOOLS_DIR}/cc/ee-gcc2.96/bin"
-LIB_CC_DIR = f"{TOOLS_DIR}/cc/ee-gcc2.9-990721/bin"
+LIB_CC_DIR = f"{TOOLS_DIR}/cc/ee-gcc2.9-991111/bin"
 
 GAME_COMPILE_CMD = (
     f"{GAME_CC_DIR}/ee-gcc -c -B {GAME_CC_DIR}/ee- {COMMON_INCLUDES} -O2 -G0 -g"
 )
 
 LIB_COMPILE_CMD = (
-    f"{LIB_CC_DIR}/ee-gcc -c -B {LIB_CC_DIR}/ee- {COMMON_INCLUDES} -O2 -G0 -g"
+    f"{LIB_CC_DIR}/ee-gcc -c -B {LIB_CC_DIR}/ee- -isystem include/gcc-991111 {COMMON_INCLUDES} -O2 -G0 -g"
 )
 
 WIBO_VER = "0.6.4"

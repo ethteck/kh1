@@ -141,21 +141,31 @@ extern "C" {
 #define	SCE_EVERSIONMISS	0x10004
 
 struct sce_stat {
-        unsigned int    st_mode;        /* ファイルの種類(file/dir) */
-                                        /* とモード(R/W/X) */
-        unsigned int    st_attr;        /* デバイス依存の属性 */
-        unsigned int    st_size;        /* ファイルサイズ 下位 32 bit */
-        unsigned char   st_ctime[8];    /* 作成時間 */
-        unsigned char   st_atime[8];    /* 最終参照時間 */
-        unsigned char   st_mtime[8];    /* 最終変更時間 */
-        unsigned int    st_hisize;      /* ファイルサイズ 上位 32bit */
-        unsigned int    st_private[6];  /* その他 */
+    unsigned int    st_mode;        /*J ファイルの種類(file/dir)とモード(R/W/X) */
+                                    /*E File type (file/dir) and mode (R/W/X) */
+    unsigned int    st_attr;        /*J デバイス依存の属性 */
+                                    /*E Device dependent attributes */
+    unsigned int    st_size;        /*J ファイルサイズ 下位 32 bit */
+                                    /*E File size lower 32 bit */
+    unsigned char   st_ctime[8];    /*J 作成時間 */
+                                    /*E Creation time */
+    unsigned char   st_atime[8];    /*J 最終参照時間 */
+                                    /*E Last access time */
+    unsigned char   st_mtime[8];    /*J 最終変更時間 */
+                                    /*E Last modified time */
+    unsigned int    st_hisize;      /*J ファイルサイズ 上位 32bit */
+                                    /*E File size top 32bit*/
+    unsigned int    st_private[6];  /*J その他 */
+                                    /*E Other */
 };
 
 struct sce_dirent {
-        struct sce_stat d_stat; /* ファイルのステータス */
-        char d_name[256];       /* ファイル名(フルパスではない) */
-        void    *d_private;     /* その他 */
+    struct sce_stat d_stat; /*J ファイルのステータス */
+                            /*E File status */
+    char d_name[256];       /*J ファイル名(フルパスではない) */
+                            /*E File name (not the full path) */
+    void    *d_private;     /*J その他 */
+                            /*E Other */
 };
 
 #define SCE_CST_MODE    0x0001
