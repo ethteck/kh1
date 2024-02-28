@@ -5,19 +5,19 @@
 #define SYSCALL(id) __asm__ volatile("li $3,"#id"\n syscall")
 
 typedef struct {
-    int num;
-    void *func;
+    s32 num;
+    void* func;
 } _sysEntry;
-static s32 *kFindAddress(s32 value);
+static s32* kFindAddress(s32 value);
 static void setup(s32 n, void (*f)());
 
 _sysEntry SysEntry = {.num = 0x83, .func = &kFindAddress};
-int _pad = 0;
-int __sce_sema_id = 0;
-int __sce_eh_sema_id = 0;
-s32 *_SyscallEntry = 0;
+s32 _pad = 0;
+s32 __sce_sema_id = 0;
+s32 __sce_eh_sema_id = 0;
+s32* _SyscallEntry = 0;
 
-void supplement_crt0(void) {
+static void supplement_crt0(void) {
     struct SemaParam libc_sema;
     struct SemaParam eh_sema;
     
@@ -30,8 +30,8 @@ void supplement_crt0(void) {
     return;
 }
 
-static s32 *kFindAddress(s32 value) {
-    s32 *addr;
+static s32* kFindAddress(s32 value) {
+    s32* addr;
     
     addr = (s32*)KSEG0;
     while (*addr != value) {
@@ -40,11 +40,11 @@ static s32 *kFindAddress(s32 value) {
     return addr;
 }
 
-static u32 FindAddress(void *value) {
+static u32 FindAddress(void* value) {
     SYSCALL(0x83);
 }
 
-int GetSystemCallTableEntry() {
+static s32 GetSystemCallTableEntry(void) {
     u32 addr;
     
     setup(SysEntry.num, SysEntry.func);
@@ -56,17 +56,16 @@ static void setup(s32 n, void (*f)()) {
     SYSCALL(0x74);
 }
 
-static s32 *_setup(s32 n) {
+static s32* _setup(s32 n) {
     SYSCALL(0x74);
     return _SyscallEntry + n;
 }
 
-void _InitSys() {
+void _InitSys(void) {
     supplement_crt0();
     GetSystemCallTableEntry();
     InitAlarm();
     InitThread();
     InitExecPS2();
     InitTLBFunctions();
-    return;
 }

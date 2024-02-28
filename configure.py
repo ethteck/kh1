@@ -33,7 +33,7 @@ GAME_COMPILE_CMD = (
 )
 
 LIB_COMPILE_CMD = (
-    f"{LIB_CC_DIR}/ee-gcc -c -B {LIB_CC_DIR}/ee- -isystem include/gcc-991111 {COMMON_INCLUDES} -O2 -G0 -g"
+    f"{LIB_CC_DIR}/ee-gcc -c -isystem include/gcc-991111 {COMMON_INCLUDES} -O2 -G0 -g"
 )
 
 WIBO_VER = "0.6.4"

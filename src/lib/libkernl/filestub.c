@@ -31,7 +31,7 @@ char _fsversion[4];
 _sceFsPoffData _sif_FsRcv_Data __attribute__((aligned (64)));
 _sceFsPoffData _sif_FsPoff_Data __attribute__((aligned (64)));
 
-static void _sceFsIobSemaMK() {
+static void _sceFsIobSemaMK(void) {
     struct SemaParam param;
 
     if (_fs_iob_semid == -1) {
@@ -44,14 +44,14 @@ static void _sceFsIobSemaMK() {
     }
 }
 
-static _sceFsIob *new_iob(void) {
-    _sceFsIob *io;
+static _sceFsIob* new_iob(void) {
+    _sceFsIob* io;
     s32 i;
     
     _sceFsIobSemaMK();
     WaitSema(_fs_iob_semid);
     
-    for (io = &_iob; io < &_iob[MAX_IOB_COUNT]; io++) {
+    for (io = &_iob[0]; io < &_iob[MAX_IOB_COUNT]; io++) {
         if (io->i_flag == 0){
             io->i_flag = 0x10000000;
             SignalSema(_fs_iob_semid);
@@ -63,8 +63,8 @@ static _sceFsIob *new_iob(void) {
     return NULL;
 }
 
-static _sceFsIob * get_iob(int fd) {
-    _sceFsIob *ret;
+static _sceFsIob* get_iob(s32 fd) {
+    _sceFsIob* ret;
     
     _sceFsIobSemaMK();
     WaitSema(_fs_iob_semid);
@@ -79,10 +79,10 @@ static _sceFsIob * get_iob(int fd) {
     return ret;
 }
 
-static void _sceFs_Rcv_Intr(void); // TODO match this one
+static void _sceFs_Rcv_Intr(void*, void*); // TODO match this one
 INCLUDE_ASM(const s32, "lib/libkernl/filestub", _sceFs_Rcv_Intr);
 
-static void _sceFsSemInit() {
+static void _sceFsSemInit(void) {
     struct SemaParam param;
     if (_fs_semid == -1) {
         param.option = 0;
@@ -92,19 +92,19 @@ static void _sceFsSemInit() {
     }
 }
 
-static s32 _sceFsWaitS() {
+static s32 _sceFsWaitS(s32 unused) {
     _sceFsSemInit();
     WaitSema(_fs_semid);
     return 0;
 }
 
-static void _sceFsSigSema() {
+static void _sceFsSigSema(void) {
     SignalSema(_fs_semid);
 }
 
-int* scePowerOffHandler(void (*func)(void *), void* addr) {
-    int *ret;
-    _sceFsPoffData *pd;
+int* scePowerOffHandler(void (*func)(void*), void* addr) {
+    int* ret;
+    _sceFsPoffData* pd;
 
     pd = &_sif_FsPoff_Data;
     _sceFsWaitS(0x1b);
@@ -112,7 +112,7 @@ int* scePowerOffHandler(void (*func)(void *), void* addr) {
         sceFsInit();
     }
     DIntr();
-    ret = _sif_FsPoff_Data.sceFsPoffCbfunc;
+    ret = (int*)_sif_FsPoff_Data.sceFsPoffCbfunc;
     pd->sceFsPoffCbdata = addr;
     pd->sceFsPoffCbfunc = func;
     EIntr();
@@ -120,9 +120,11 @@ int* scePowerOffHandler(void (*func)(void *), void* addr) {
     return ret;
 }
 
-static void _sceFs_Poff_Intr(void *pkt, _sceFsPoffData *data) {
-    if (data->sceFsPoffCbfunc != NULL) {
-        data->sceFsPoffCbfunc(data->sceFsPoffCbdata);
+static void _sceFs_Poff_Intr(void* pkt, void* data) {
+    _sceFsPoffData* p;
+    p = (_sceFsPoffData*)data;
+    if (p->sceFsPoffCbfunc != NULL) {
+        p->sceFsPoffCbfunc(p->sceFsPoffCbdata);
     }
     ExitHandler();
 }
@@ -131,8 +133,8 @@ int sceFsInit(void) {
     s32 i;
     s32 istat;
     s32 bufmode;
-    _sceFsIob *io;
-    _sceFsPoffData *pd;
+    _sceFsIob* io;
+    _sceFsPoffData* pd;
 
     pd = &_sif_FsPoff_Data;
     sceSifInitRpc(0x0);
@@ -159,18 +161,18 @@ int sceFsInit(void) {
     _sceFsIobSemaMK();
     WaitSema(_fs_iob_semid);
     
-    for (io = &_iob; io < &_iob[MAX_IOB_COUNT]; io++) {
+    for (io = &_iob[0]; io < &_iob[MAX_IOB_COUNT]; io++) {
         io->i_flag = 0;
     }
     
     SignalSema(_fs_iob_semid);
-    rcv_adr = &_rcv_data_cmd;
+    rcv_adr = (u32)&_rcv_data_cmd;
     istat = sceSifCallRpc(&_cd, 0xff, 0x0, &rcv_adr, sizeof(rcv_adr), &_rcv_data_rpc, sizeof(_rcv_data_rpc), NULL, NULL);
     if (istat < 0x0) {
         return -SCE_ECALLMISS;
     }
     else {
-        memcpy(&_fsversion, UNCACHED(&_rcv_data_rpc), sizeof(_fsversion));
+        memcpy(&_fsversion, (void*)UNCACHED(&_rcv_data_rpc), sizeof(_fsversion));
         _fs_init = 0x1;
         return 0; // SCE_OK doesn't seem to exist in this SDK version
     }
@@ -183,12 +185,12 @@ s32 D_00465374 = -1;
 char* D_00465378 = "....\0";
 
 // extern char __ps2_klibinfo_[16];
-extern char* D_00464B18; // TODO use the proper symbol for this
+extern char D_00464B18; // TODO use the proper symbol for this
 
 
 static s32 _fs_version(void) {
     s32 ret = FALSE;
-    char *libver;
+    char* libver;
 
     libver = &D_00464B18; // TODO use the proper symbol for this
     // libver = &__ps2_klibinfo_[12];
@@ -211,18 +213,17 @@ s32 sceFsReset() {
     return 0;
 }
 
-int sceOpen(const char *filename, int flag, ...) {
+int sceOpen(const char* filename, int flag, ...) {
     u32 mode;
     s32 nsize;
     s32 ret;
     s32 retfd;
-    _sceFsOpenData *od;
-    _sceFsIob *io;
+    _sceFsOpenData* od;
+    _sceFsIob* io;
     struct SemaParam sparam;
     s32 i;
     va_list arg;
     s32 semaId;
-
 
     od = &_send_data.openData;
     
@@ -261,7 +262,7 @@ int sceOpen(const char *filename, int flag, ...) {
     sparam.option = 0x0;
     semaId = CreateSema(&sparam);
     od->ee_semid = semaId;
-    od->ee_retadr = &retfd;
+    od->ee_retadr = (u32)&retfd;
     od->ee_retsiz = sizeof(retfd);
 
     ret = sceSifCallRpc(&_cd, 0x0, 0x0, &_send_data, sizeof(_sceFsOpenData), &_rcv_data_rpc, sizeof(_rcv_data_rpc), 0x0, 0x0);
@@ -297,8 +298,8 @@ int sceOpen(const char *filename, int flag, ...) {
 }
 
 int sceClose(int fd) {
-    _sceFsCloseData *cd;
-    _sceFsIob *io;
+    _sceFsCloseData* cd;
+    _sceFsIob* io;
     s32 ret;
     s32 nsize;
     s32 ret_close;
@@ -327,7 +328,7 @@ int sceClose(int fd) {
     sparam.option = 0x0;
     semaid = CreateSema(&sparam);
     cd->ee_semid = semaid;
-    cd->ee_retadr = &ret_close;
+    cd->ee_retadr = (u32)&ret_close;
     cd->ee_retsiz = sizeof(ret_close);
     ret = sceSifCallRpc(&_cd, 0x1, 0x0, &_send_data, sizeof(_sceFsCloseData), &_rcv_data_rpc, sizeof(_rcv_data_rpc), NULL, NULL);
     if (ret < 0x0) {
@@ -361,9 +362,9 @@ INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceWrite);
 
 INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceIoctl);
 
-int sceIoctl2(int fd, int cmd, const void *arg, unsigned int arglen, void *bufp,  unsigned int buflen) {
-    _sceFsIoctlData *id;
-    _sceFsIob *io;
+int sceIoctl2(int fd, int cmd, const void* arg, unsigned int arglen, void* bufp,  unsigned int buflen) {
+    _sceFsIoctlData* id;
+    _sceFsIob* io;
     s32 ret;
     s32 ret_ioctl;
     struct SemaParam sparam;
@@ -401,7 +402,7 @@ int sceIoctl2(int fd, int cmd, const void *arg, unsigned int arglen, void *bufp,
     sparam.option = 0x0;
     semaid = CreateSema(&sparam);
     id->ee_semid = semaid;
-    id->ee_retadr = &ret_ioctl;
+    id->ee_retadr = (u32)&ret_ioctl;
     id->ee_retsiz = sizeof(ret_ioctl);
     id->ret_argadr = bufp;
     id->ret_argsiz = buflen;
@@ -427,8 +428,8 @@ int sceIoctl2(int fd, int cmd, const void *arg, unsigned int arglen, void *bufp,
     return ret_ioctl;
 }
 
-static int _sceCallCode(char *name, unsigned int callcode) {
-    _sceFsNameData *cc;
+static s32 _sceCallCode(const char* name, u32 callcode) {
+    _sceFsNameData* cc;
     s32 nsize;
     s32 ret;
     s32 ret_code;
@@ -453,7 +454,7 @@ static int _sceCallCode(char *name, unsigned int callcode) {
     sparam.option = 0x0;
     semaid = CreateSema(&sparam);
     cc->ee_semid = semaid;
-    cc->ee_retadr = &ret_code;
+    cc->ee_retadr = (u32)&ret_code;
     cc->ee_retsiz = sizeof(ret_code);
     
     ret = sceSifCallRpc(&_cd, callcode, 0x0, &_send_data, nsize + 0xC + 1, &_rcv_data_rpc, sizeof(_rcv_data_rpc), NULL, NULL);
@@ -485,8 +486,8 @@ s32 sceRemove(const char* filename) {
     return _sceCallCode(filename, 6);
 }
 
-int sceMkdir(const char *name, int flag) {
-    _sceFsMkdirData *mkd;
+int sceMkdir(const char* name, int flag) {
+    _sceFsMkdirData* mkd;
     s32 nsize;
     s32 ret;
     s32 ret_mkdir;
@@ -512,7 +513,7 @@ int sceMkdir(const char *name, int flag) {
     sparam.option = 0x0;
     semaid = CreateSema(&sparam);
     mkd->ee_semid = semaid;
-    mkd->ee_retadr = &ret_mkdir;
+    mkd->ee_retadr = (u32)&ret_mkdir;
     mkd->ee_retsiz = sizeof(ret_mkdir);
     
     ret = sceSifCallRpc(&_cd, 0x7, 0x0, &_send_data, nsize + 0x10 + 1, &_rcv_data_rpc, sizeof(_rcv_data_rpc), NULL, NULL);
@@ -543,8 +544,8 @@ s32 sceRmdir(const char* dirname) {
     return _sceCallCode(dirname, 8);
 }
 
-int sceFormat(const char *path, const char *blkdevname, void *arg, int arglen) {
-    _sceFsFormatData *fd;
+int sceFormat(const char* path, const char* blkdevname, void* arg, int arglen) {
+    _sceFsFormatData* fd;
     s32 nsize;
     s32 ret;
     s32 ret_format;
@@ -587,7 +588,7 @@ int sceFormat(const char *path, const char *blkdevname, void *arg, int arglen) {
     sparam.option = 0x0;
     semaid = CreateSema(&sparam);
     fd->ee_semid = semaid;
-    fd->ee_retadr = &ret_format;
+    fd->ee_retadr = (u32)&ret_format;
     fd->ee_retsiz = sizeof(ret_format);
 
     sceSifWriteBackDCache(&_send_data, sizeof(_sceFsFormatData));
@@ -610,8 +611,8 @@ int sceFormat(const char *path, const char *blkdevname, void *arg, int arglen) {
     return ret_format;
 }
 
-int sceAddDrv(void *addr) {
-    _sceFsAddrData *id;
+int sceAddDrv(void* addr) {
+    _sceFsAddrData* id;
     s32 nsize;
     s32 ret;
     s32 ret_adddrv;
@@ -631,7 +632,7 @@ int sceAddDrv(void *addr) {
     sparam.option = 0x0;
     semaid = CreateSema(&sparam);
     id->ee_semid = semaid;
-    id->ee_retadr = &ret_adddrv;
+    id->ee_retadr = (u32)&ret_adddrv;
     id->ee_retsiz = sizeof(ret_adddrv);
 
     ret = sceSifCallRpc(&_cd, 0xF, 0x0, &_send_data, sizeof(_sceFsAddrData), &_rcv_data_rpc, sizeof(_rcv_data_rpc), NULL, NULL);
@@ -657,8 +658,8 @@ s32 sceDelDrv(const char* name) {
     return _sceCallCode(name, 16);
 }
 
-int sceDopen(const char *name) {
-    _sceFsIob *io;
+int sceDopen(const char* name) {
+    _sceFsIob* io;
     s32 ret;
     
     _sceFsWaitS(0x9);
@@ -689,8 +690,8 @@ int sceDopen(const char *name) {
 }
 
 int sceDclose(int fd) {
-    _sceFsCloseData *cd;
-    _sceFsIob *io;
+    _sceFsCloseData* cd;
+    _sceFsIob* io;
     s32 ret;
     s32 ret_dclose;
     struct SemaParam sparam;
@@ -717,7 +718,7 @@ int sceDclose(int fd) {
     sparam.option = 0x0;
     semaid = CreateSema(&sparam);
     cd->ee_semid = semaid;
-    cd->ee_retadr = &ret_dclose;
+    cd->ee_retadr = (u32)&ret_dclose;
     cd->ee_retsiz = sizeof(ret_dclose);
 
     ret = sceSifCallRpc(&_cd, 0xA, 0x0, &_send_data, sizeof(_sceFsCloseData), &_rcv_data_rpc, sizeof(_rcv_data_rpc), NULL, NULL);
@@ -744,9 +745,9 @@ int sceDclose(int fd) {
     return ret_dclose;
 }
 
-int sceDread(int fd, struct sce_dirent *dp) {
-    _sceFsReadData *rd;
-    _sceFsIob *io;
+int sceDread(int fd, struct sce_dirent* dp) {
+    _sceFsReadData* rd;
+    _sceFsIob* io;
     s32 ret;
     s32 ret_dread;
     struct SemaParam sparam;
@@ -767,13 +768,13 @@ int sceDread(int fd, struct sce_dirent *dp) {
     }
 
     rd->fd = io->i_fd;
-    rd->addr = dp;
+    rd->addr = (u32)dp;
     sparam.maxCount = 0x1;
     sparam.initCount = 0x0;
     sparam.option = 0x0;
     semaid = CreateSema(&sparam);
     rd->ee_semid = semaid;
-    rd->ee_retadr = &ret_dread;
+    rd->ee_retadr = (u32)&ret_dread;
     rd->ee_retsiz = sizeof(ret_dread);
 
     ret = sceSifCallRpc(&_cd, 0xB, 0x0, &_send_data, sizeof(_sceFsReadData), &_rcv_data_rpc, sizeof(_rcv_data_rpc), NULL, NULL);
@@ -795,8 +796,8 @@ int sceDread(int fd, struct sce_dirent *dp) {
     return ret_dread;
 }
 
-int sceGetstat(const char *name, struct sce_stat *dp) {
-    _sceFsGStatData *sd;
+int sceGetstat(const char* name, struct sce_stat* dp) {
+    _sceFsGStatData* sd;
     s32 ret;
     s32 nsize;
     s32 ret_getstat;
@@ -822,7 +823,7 @@ int sceGetstat(const char *name, struct sce_stat *dp) {
     sparam.option = 0x0;
     semaid = CreateSema(&sparam);
     sd->ee_semid = semaid;
-    sd->ee_retadr = &ret_getstat;
+    sd->ee_retadr = (u32)&ret_getstat;
     sd->ee_retsiz = sizeof(ret_getstat);
 
     ret = sceSifCallRpc(&_cd, 0xC, 0x0, &_send_data, nsize + 0x10 + 1, &_rcv_data_rpc, sizeof(_rcv_data_rpc), NULL, NULL);
@@ -844,8 +845,8 @@ int sceGetstat(const char *name, struct sce_stat *dp) {
     return ret_getstat;
 }
 
-int sceChstat(const char *name, struct sce_stat *buf, unsigned int cbit) {
-    _sceFsCStatData *cd;
+int sceChstat(const char* name, struct sce_stat* buf, unsigned int cbit) {
+    _sceFsCStatData* cd;
     s32 ret;
     s32 nsize;
     s32 ret_chstat;
@@ -872,7 +873,7 @@ int sceChstat(const char *name, struct sce_stat *buf, unsigned int cbit) {
     sparam.option = 0x0;
     semaid = CreateSema(&sparam);
     cd->ee_semid = semaid;
-    cd->ee_retadr = &ret_chstat;
+    cd->ee_retadr = (u32)&ret_chstat;
     cd->ee_retsiz = sizeof(ret_chstat);
     
     sceSifWriteBackDCache(&_send_data, sizeof(_sceFsCStatData));
@@ -895,8 +896,8 @@ int sceChstat(const char *name, struct sce_stat *buf, unsigned int cbit) {
     return ret_chstat;
 }
 
-int sceRename(const char *oldname, const char *newname) {
-    _sceFsRenameData *rd;
+int sceRename(const char* oldname, const char* newname) {
+    _sceFsRenameData* rd;
     s32 ret;
     s32 nsize;
     s32 ret_chstat;
@@ -925,7 +926,7 @@ int sceRename(const char *oldname, const char *newname) {
     sparam.option = 0x0;
     semaid = CreateSema(&sparam);
     rd->ee_semid = semaid;
-    rd->ee_retadr = &ret_chstat;
+    rd->ee_retadr = (u32)&ret_chstat;
     rd->ee_retsiz = sizeof(ret_chstat);
     
     sceSifWriteBackDCache(&_send_data, sizeof(_sceFsRenameData));
@@ -957,8 +958,8 @@ s32 sceChdir(const char* name) {
     return _sceCallCode(name, 18);
 }
 
-int sceSync(const char *path, int flag) {
-    _sceFsSyncData *sd;
+int sceSync(const char* path, int flag) {
+    _sceFsSyncData* sd;
     s32 nsize;
     s32 ret;
     s32 ret_sync;
@@ -984,7 +985,7 @@ int sceSync(const char *path, int flag) {
     sparam.option = 0x0;
     semaid = CreateSema(&sparam);
     sd->ee_semid = semaid;
-    sd->ee_retadr = &ret_sync;
+    sd->ee_retadr = (u32)&ret_sync;
     sd->ee_retsiz = sizeof(ret_sync);
     
     ret = sceSifCallRpc(&_cd, 0x13, 0x0, &_send_data, sizeof(_sceFsSyncData), &_rcv_data_rpc, sizeof(_rcv_data_rpc), NULL, NULL);
@@ -1007,8 +1008,8 @@ int sceSync(const char *path, int flag) {
     return ret_sync;
 }
 
-int sceMount(const char *fsdevname, const char *blkdevname, int flag, void *arg, int arglen) {
-    _sceFsMountData *md;
+int sceMount(const char* fsdevname, const char* blkdevname, int flag, void* arg, int arglen) {
+    _sceFsMountData* md;
     s32 nsize;
     s32 ret;
     s32 ret_sync;
@@ -1047,7 +1048,7 @@ int sceMount(const char *fsdevname, const char *blkdevname, int flag, void *arg,
     sparam.option = 0x0;
     semaid = CreateSema(&sparam);
     md->ee_semid = semaid;
-    md->ee_retadr = &ret_sync;
+    md->ee_retadr = (u32)&ret_sync;
     md->ee_retsiz = sizeof(ret_sync);
     
     sceSifWriteBackDCache(&_send_data, sizeof(_sceFsMountData));
@@ -1082,8 +1083,8 @@ s32 sceUmount(const char* name) {
 
 INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceLseek64);
 
-int sceDevctl(const char *devname, int cmd, const void *arg, unsigned int arglen, void *bufp, unsigned int buflen) {
-    _sceFsDevctlData *dd;
+int sceDevctl(const char* devname, int cmd, const void* arg, unsigned int arglen, void* bufp, unsigned int buflen) {
+    _sceFsDevctlData* dd;
     s32 nsize;
     s32 ret;
     s32 ret_devctl;
@@ -1118,7 +1119,7 @@ int sceDevctl(const char *devname, int cmd, const void *arg, unsigned int arglen
     sparam.option = 0x0;
     semaid = CreateSema(&sparam);
     dd->ee_semid = semaid;
-    dd->ee_retadr = &ret_devctl;
+    dd->ee_retadr = (u32)&ret_devctl;
     dd->ee_retsiz = sizeof(ret_devctl);
     dd->ret_argadr = bufp;
     dd->ret_arglen = buflen;
@@ -1144,8 +1145,8 @@ int sceDevctl(const char *devname, int cmd, const void *arg, unsigned int arglen
     return ret_devctl;
 }
 
-int sceSymlink(const char *existing, const char *new) {
-    _sceFsSymlinkData *rd;
+int sceSymlink(const char* existing, const char* new) {
+    _sceFsSymlinkData* rd;
     s32 nsize;
     s32 ret;
     s32 ret_link;
@@ -1174,7 +1175,7 @@ int sceSymlink(const char *existing, const char *new) {
     sparam.option = 0x0;
     semaid = CreateSema(&sparam);
     rd->ee_semid = semaid;
-    rd->ee_retadr = &ret_link;
+    rd->ee_retadr = (u32)&ret_link;
     rd->ee_retsiz = sizeof(ret_link);
     
     ret = sceSifCallRpc(&_cd, 0x18, 0x0, &_send_data, sizeof(_sceFsSymlinkData), &_rcv_data_rpc, sizeof(_rcv_data_rpc), NULL, NULL);
@@ -1196,8 +1197,8 @@ int sceSymlink(const char *existing, const char *new) {
     return ret_link;
 }
 
-int sceReadlink(const char *path, char *buf, unsigned int bufsize) {
-    _sceFsReadlinkData *rd;
+int sceReadlink(const char* path, char* buf, unsigned int bufsize) {
+    _sceFsReadlinkData* rd;
     s32 nsize;
     s32 ret;
     s32 ret_link;
@@ -1222,14 +1223,14 @@ int sceReadlink(const char *path, char *buf, unsigned int bufsize) {
     }
 
     rd->bufsize = bufsize;
-    rd->bufaddr = buf;
+    rd->bufaddr = (u32)buf;
     sceSifWriteBackDCache(buf, bufsize);
     sparam.maxCount = 0x1;
     sparam.initCount = 0x0;
     sparam.option = 0x0;
     semaid = CreateSema(&sparam);
     rd->ee_semid = semaid;
-    rd->ee_retadr = &ret_link;
+    rd->ee_retadr = (u32)&ret_link;
     rd->ee_retsiz = sizeof(ret_link);
     
     ret = sceSifCallRpc(&_cd, 0x19, 0x0, &_send_data, sizeof(_sceFsSymlinkData), &_rcv_data_rpc, sizeof(_rcv_data_rpc), NULL, NULL);
