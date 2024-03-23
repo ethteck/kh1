@@ -142,14 +142,14 @@ INCLUDE_ASM(const s32, "xhumungus", func_001CC1B8);
 
 INCLUDE_ASM(const s32, "xhumungus", func_001CC240);
 
-s32 func_001CC2C8() {
+s32 func_001CC2C8(void) {
     if (!(D_002C1EA8 >> 1 & 1)) {
         func_00180038();
     }
     return 2;
 }
 
-s32 func_001CC300() {
+s32 func_001CC300(void) {
     if (!(D_002C1EA8 >> 1 & 1)) {
         func_00180080();
     }
@@ -158,7 +158,7 @@ s32 func_001CC300() {
 
 INCLUDE_ASM(const s32, "xhumungus", func_001CC338);
 
-void func_001CC520() {
+void func_001CC520(void) {
     D_003854E0.unk_00 = 0;
 }
 
@@ -243,7 +243,7 @@ s32 func_001CE188(Script* arg0) {
 
 INCLUDE_ASM(const s32, "xhumungus", func_001CE1A0);
 
-s32 func_001CE738() {
+s32 func_001CE738(void) {
     func_0017FED8();
     return 2;
 }
@@ -355,11 +355,11 @@ INCLUDE_ASM(const s32, "xhumungus", func_001CF070);
 
 INCLUDE_ASM(const s32, "xhumungus", func_001CF128);
 
-s32 func_001CF1B0() {
+s32 func_001CF1B0(void) {
     return 2;
 }
 
-s32 func_001CF1B8() {
+s32 func_001CF1B8(void) {
     D_00375BC0 |= 2;
     func_00133538();
     return 2;
@@ -367,7 +367,7 @@ s32 func_001CF1B8() {
 
 INCLUDE_ASM(const s32, "xhumungus", func_001CF1E8);
 
-s32 func_001CF250() {
+s32 func_001CF250(void) {
     return 2;
 }
 
@@ -413,7 +413,7 @@ INCLUDE_ASM(const s32, "xhumungus", func_001CF860);
 
 INCLUDE_ASM(const s32, "xhumungus", func_001CF8A8);
 
-s32 func_001CF918() {
+s32 func_001CF918(void) {
     if (D_002B834C == 1) {
         D_002B834C = 4;
     }
@@ -480,7 +480,7 @@ INCLUDE_ASM(const s32, "xhumungus", func_001D0870);
 
 INCLUDE_ASM(const s32, "xhumungus", func_001D0918);
 
-s32 func_001D0970() {
+s32 func_001D0970(void) {
     func_00104200(16);
     D_003854E0.unk_3078 |= 1;
     return 2;
@@ -488,7 +488,7 @@ s32 func_001D0970() {
 
 INCLUDE_ASM(const s32, "xhumungus", func_001D09A8);
 
-s32 func_001D0A08() {
+s32 func_001D0A08(void) {
     func_00104310(16);
     D_003854E0.unk_3078 &= ~1;
     return 2;
@@ -528,7 +528,7 @@ INCLUDE_ASM(const s32, "xhumungus", func_001D13D8);
 
 INCLUDE_ASM(const s32, "xhumungus", func_001D13F8);
 
-s32 func_001D14F0() {
+s32 func_001D14F0(void) {
     func_00109B00();
     return 2;
 }
@@ -549,19 +549,19 @@ INCLUDE_ASM(const s32, "xhumungus", func_001D17D0);
 
 INCLUDE_ASM(const s32, "xhumungus", func_001D1878);
 
-s32 func_001D1938() {
+s32 func_001D1938(void) {
     D_002C1EA8 &= ~8;
     return 2;
 }
 
-s32 func_001D1958() {
+s32 func_001D1958(void) {
     D_002C1EA8 |= 8;
     return 2;
 }
 
 INCLUDE_ASM(const s32, "xhumungus", func_001D1978);
 
-s32 func_001D19A8() {
+s32 func_001D19A8(void) {
     D_002C1EA8 |= 4;
     return 2;
 }
@@ -647,7 +647,7 @@ s32 func_001D20A0(Script* arg0) {
     return 2;
 }
 
-s32 func_001D2100() {
+s32 func_001D2100(void) {
     func_001064E8();
     return 2;
 }
@@ -666,13 +666,13 @@ s32 func_001D2158(Script* arg0) {
 
 INCLUDE_ASM(const s32, "xhumungus", func_001D2190);
 
-s32 func_001D2248() {
+s32 func_001D2248(void) {
     func_00104200(1);
     D_003854E0.unk_3078 |= 1;
     return 2;
 }
 
-s32 func_001D2280() {
+s32 func_001D2280(void) {
     func_00104310(1);
     D_003854E0.unk_3078 &= ~1;
     return 2;
@@ -686,16 +686,16 @@ INCLUDE_ASM(const s32, "xhumungus", func_001D23A8);
 
 INCLUDE_ASM(const s32, "xhumungus", func_001D23D8);
 
-void func_001D2440() {
+void func_001D2440(void) {
     func_F20000(0, 0);
 }
 
-s32 func_001D2460() {
+s32 func_001D2460(void) {
     func_00120590(D_0048A3A0, func_F20000, func_001D2440, NULL);
     return 2;
 }
 
-s32 func_001D2498() {
+s32 func_001D2498(void) {
     D_0041F8BC = 0;
     return 2;
 }
@@ -720,7 +720,7 @@ s32 func_001D2538(Script* arg0) {
 
 INCLUDE_ASM(const s32, "xhumungus", func_001D2580);
 
-s32 func_001D25D8() {
+s32 func_001D25D8(void) {
     D_003854E0.unk_3070 |= 0x10000000000;
     return 8;
 }
@@ -749,22 +749,22 @@ s32 func_001D2DF0(Script* arg0) {
     return 2;
 }
 
-s32 func_001D2E30() {
+s32 func_001D2E30(void) {
     D_002C1EA8 |= 0x10;
     return 2;
 }
 
-s32 func_001D2E50() {
+s32 func_001D2E50(void) {
     D_002C1EA8 &= ~0x10;
     return 2;
 }
 
-s32 func_001D2E70() {
+s32 func_001D2E70(void) {
     D_002A2740 = 1;
     return 2;
 }
 
-s32 func_001D2E88() {
+s32 func_001D2E88(void) {
     D_002A2740 = 0;
     return 2;
 }
@@ -802,7 +802,7 @@ s32 func_001D2F38(Script* arg0) {
 
 INCLUDE_ASM(const s32, "xhumungus", func_001D2F60);
 
-void func_001D3080() {
+void func_001D3080(void) {
     D_003854E0.unk_3070 &= ~0x200000000000;
 }
 
@@ -840,11 +840,11 @@ INCLUDE_ASM(const s32, "xhumungus", func_001D3A20);
 
 INCLUDE_ASM(const s32, "xhumungus", func_001D3A88);
 
-s32 func_001D3AF0() {
+s32 func_001D3AF0(void) {
     return 2;
 }
 
-s32 func_001D3AF8() {
+s32 func_001D3AF8(void) {
     return 2;
 }
 
@@ -907,14 +907,14 @@ INCLUDE_ASM(const s32, "xhumungus", func_001D46F0);
 
 INCLUDE_ASM(const s32, "xhumungus", func_001D4A30);
 
-s32 func_001D4A98() {
+s32 func_001D4A98(void) {
     D_003854E0.unk_3070 &= ~0x800000000000;
     return 2;
 }
 
 INCLUDE_ASM(const s32, "xhumungus", func_001D4AD0);
 
-s32 func_001D4B38() {
+s32 func_001D4B38(void) {
     D_003854E0.unk_3070 &= ~0x1000000000000;
     return 2;
 }
@@ -934,12 +934,12 @@ s32 func_001D4C30(Script* arg0) {
     return 2;
 }
 
-s32 func_001D4C80() {
+s32 func_001D4C80(void) {
     func_00111BD8();
     return 2;
 }
 
-s32 func_001D4CA0() {
+s32 func_001D4CA0(void) {
     func_00111BF0();
     return 2;
 }
@@ -977,14 +977,14 @@ s32 func_001D4DD8(Script* arg0) {
 
 INCLUDE_ASM(const s32, "xhumungus", func_001D4E20);
 
-s32 func_001D4E88() {
+s32 func_001D4E88(void) {
     D_003854E0.unk_3070 &= ~0x2000000000000;
     return 2;
 }
 
 INCLUDE_ASM(const s32, "xhumungus", func_001D4EC0);
 
-s32 func_001D4EE8() {
+s32 func_001D4EE8(void) {
     D_00375BC0 &= ~8;
     return 2;
 }
@@ -1019,7 +1019,7 @@ INCLUDE_ASM(const s32, "xhumungus", func_001D5248);
 
 INCLUDE_ASM(const s32, "xhumungus", func_001D52B0);
 
-s32 func_001D5328() {
+s32 func_001D5328(void) {
     func_00178140(0);
     return 2;
 }
@@ -1056,18 +1056,18 @@ INCLUDE_ASM(const s32, "xhumungus", func_001D5608);
 
 INCLUDE_ASM(const s32, "xhumungus", func_001D5658);
 
-s32 func_001D56A8() {
+s32 func_001D56A8(void) {
     func_00112A50();
     D_003854E0.unk_3070 |= 0x10000000000;
     return 8;
 }
 
-s32 func_001D56E8() {
+s32 func_001D56E8(void) {
     func_0011C540();
     return 2;
 }
 
-s32 func_001D5708() {
+s32 func_001D5708(void) {
     func_00111198();
     func_0022F808();
     return 2;
@@ -1181,42 +1181,42 @@ INCLUDE_ASM(const s32, "xhumungus", func_001D6C58);
 
 INCLUDE_ASM(const s32, "xhumungus", func_001D6CA8);
 
-s32 func_001D6CD8() {
+s32 func_001D6CD8(void) {
     func_0012C990(0, 0);
     return 2;
 }
 
-s32 func_001D6D00() {
+s32 func_001D6D00(void) {
     func_0012C990(0, 1);
     return 2;
 }
 
-s32 func_001D6D28() {
+s32 func_001D6D28(void) {
     func_0012C990(1, 0);
     return 2;
 }
 
-s32 func_001D6D50() {
+s32 func_001D6D50(void) {
     func_0012C990(1, 1);
     return 2;
 }
 
-s32 func_001D6D78() {
+s32 func_001D6D78(void) {
     func_0012C990(2, 0);
     return 2;
 }
 
-s32 func_001D6DA0() {
+s32 func_001D6DA0(void) {
     func_0012C990(2, 1);
     return 2;
 }
 
-s32 func_001D6DC8() {
+s32 func_001D6DC8(void) {
     func_0012C990(6, 0);
     return 2;
 }
 
-s32 func_001D6DF0() {
+s32 func_001D6DF0(void) {
     func_0012C990(6, 1);
     return 2;
 }
@@ -1314,7 +1314,7 @@ s32 func_001D7850(Script* arg0) {
     return 2;
 }
 
-s32 func_001D7898() {
+s32 func_001D7898(void) {
     int i = 1;
     int j;
 
@@ -1326,7 +1326,7 @@ s32 func_001D7898() {
     return 2;
 }
 
-s32 func_001D78D8() {
+s32 func_001D78D8(void) {
     int i = 1;
     int j;
 
@@ -1358,12 +1358,12 @@ s32 func_001D79E0(Script* arg0) {
     return 2;
 }
 
-s32 func_001D7A28() {
+s32 func_001D7A28(void) {
     func_00145398();
     return 2;
 }
 
-s32 func_001D7A48() {
+s32 func_001D7A48(void) {
     func_00112B60();
     return 2;
 }
@@ -1384,12 +1384,12 @@ s32 func_001D7DD0(Script* arg0) {
     return 2;
 }
 
-s32 func_001D7E18() {
+s32 func_001D7E18(void) {
     func_00249F88();
     return 2;
 }
 
-s32 func_001D7E38() {
+s32 func_001D7E38(void) {
     if (func_0024A000() == 0) {
         return 4;
     }
@@ -1398,17 +1398,17 @@ s32 func_001D7E38() {
 
 INCLUDE_ASM(const s32, "xhumungus", func_001D7E68);
 
-s32 func_001D7EC8() {
+s32 func_001D7EC8(void) {
     func_00104178();
     return 2;
 }
 
-s32 func_001D7EE8() {
+s32 func_001D7EE8(void) {
     func_001009A8();
     return 2;
 }
 
-s32 func_001D7F08() {
+s32 func_001D7F08(void) {
     func_001009D8();
     return 2;
 }
@@ -1419,7 +1419,7 @@ s32 func_001D7F28(Script* arg0) {
     return 2;
 }
 
-s32 func_001D7F70() {
+s32 func_001D7F70(void) {
     func_00180848();
     return 2;
 }
@@ -1452,12 +1452,12 @@ s32 func_001D80F8(Script* arg0) {
     return 2;
 }
 
-s32 func_001D8140() {
+s32 func_001D8140(void) {
     D_002C1EA8 &= ~0x8000000;
     return 2;
 }
 
-s32 func_001D8168() {
+s32 func_001D8168(void) {
     D_002C1EA8 |= 0x8000000;
     return 2;
 }
@@ -1473,12 +1473,12 @@ s32 func_001D81E0(Script* arg0) {
     return 2;
 }
 
-s32 func_001D8230() {
+s32 func_001D8230(void) {
     func_001116A8();
     return 2;
 }
 
-s32 func_001D8250() {
+s32 func_001D8250(void) {
     func_001116B8();
     return 2;
 }
@@ -1487,22 +1487,22 @@ INCLUDE_ASM(const s32, "xhumungus", func_001D8270);
 
 INCLUDE_ASM(const s32, "xhumungus", func_001D8380);
 
-s32 func_001D8408() {
+s32 func_001D8408(void) {
     D_002B9660 = 0;
     return 2;
 }
 
-s32 func_001D8418() {
+s32 func_001D8418(void) {
     D_002B9660 = 1;
     return 2;
 }
 
-s32 func_001D8430() {
+s32 func_001D8430(void) {
     D_003854E0.unk_3070 |= 0x800000000000000;
     return 2;
 }
 
-s32 func_001D8458() {
+s32 func_001D8458(void) {
     D_003854E0.unk_3070 &= ~0x800000000000000;
     return 2;
 }
@@ -1513,32 +1513,32 @@ INCLUDE_ASM(const s32, "xhumungus", func_001D8500);
 
 INCLUDE_ASM(const s32, "xhumungus", func_001D8570);
 
-s32 func_001D85C0() {
+s32 func_001D85C0(void) {
     D_002C1EA8 &= ~0x800;
     return 2;
 }
 
-s32 func_001D85E0() {
+s32 func_001D85E0(void) {
     D_002C1EA8 |= 0x800;
     return 2;
 }
 
-s32 func_001D8600() {
+s32 func_001D8600(void) {
     D_002C1EA8 &= ~0x200;
     return 2;
 }
 
-s32 func_001D8620() {
+s32 func_001D8620(void) {
     D_002C1EA8 |= 0x200;
     return 2;
 }
 
-s32 func_001D8640() {
+s32 func_001D8640(void) {
     D_002C1EA8 &= ~0x400;
     return 2;
 }
 
-s32 func_001D8660() {
+s32 func_001D8660(void) {
     D_002C1EA8 |= 0x400;
     return 2;
 }
@@ -1557,17 +1557,17 @@ s32 func_001D8748(Script* arg0) {
     return 2;
 }
 
-s32 func_001D8770() {
+s32 func_001D8770(void) {
     D_00388860 = 0;
     return 2;
 }
 
-s32 func_001D8780() {
+s32 func_001D8780(void) {
     D_002C1EA8 |= 0x1000;
     return 2;
 }
 
-s32 func_001D87A0() {
+s32 func_001D87A0(void) {
     D_002C1EA8 &= ~0x1000;
     return 2;
 }
@@ -1611,7 +1611,7 @@ INCLUDE_ASM(const s32, "xhumungus", func_001D8D38);
 
 INCLUDE_ASM(const s32, "xhumungus", func_001D8D60);
 
-void func_001D8DB8() {
+void func_001D8DB8(void) {
     D_003854E0.unk_3070 &= ~0x2000000000000000;
 }
 
@@ -1623,7 +1623,7 @@ INCLUDE_ASM(const s32, "xhumungus", func_001D8EE0);
 
 INCLUDE_ASM(const s32, "xhumungus", func_001D8F00);
 
-void func_001D8F80() {
+void func_001D8F80(void) {
     D_003854E0.unk_3070 &= ~0x4000000000000000;
 }
 
@@ -1653,12 +1653,12 @@ s32 func_001D9E18(Script* arg0) {
     return 2;
 }
 
-s32 func_001D9E60() {
+s32 func_001D9E60(void) {
     D_002C1EA8 &= ~0x8000;
     return 2;
 }
 
-s32 func_001D9E88() {
+s32 func_001D9E88(void) {
     D_002C1EA8 |= 0x8000;
     return 2;
 }
@@ -1674,12 +1674,12 @@ s32 func_001D9F88(Script* arg0) {
     return 2;
 }
 
-s32 func_001D9FE0() {
+s32 func_001D9FE0(void) {
     D_003854E0.unk_3078 |= 1;
     return 2;
 }
 
-s32 func_001DA000() {
+s32 func_001DA000(void) {
     D_003854E0.unk_3078 &= ~1;
     D_00375BC0 &= ~1;
     D_002B8348 = 1.0;
@@ -1743,22 +1743,22 @@ s32 func_001DA2E8(Script* arg0) {
     return 2;
 }
 
-s32 func_001DA330() {
+s32 func_001DA330(void) {
     func_00114400();
     return 2;
 }
 
-s32 func_001DA350() {
+s32 func_001DA350(void) {
     func_00114410();
     return 2;
 }
 
-s32 func_001DA370() {
+s32 func_001DA370(void) {
     func_00112AD8();
     return 2;
 }
 
-s32 func_001DA390() {
+s32 func_001DA390(void) {
     if (func_00110EA8() == 2) {
         return 2;
     }
@@ -1771,12 +1771,12 @@ s32 func_001DA3C0(Script* arg0) {
     return 2;
 }
 
-s32 func_001DA408() {
+s32 func_001DA408(void) {
     func_00110E78();
     return 2;
 }
 
-s32 func_001DA428() {
+s32 func_001DA428(void) {
     if (func_00110EA8() != 4) {
         return 4;
     }
@@ -1832,12 +1832,12 @@ s32 func_001DA6D8(Script* arg0) {
     return 2;
 }
 
-s32 func_001DA720() {
+s32 func_001DA720(void) {
     func_00112190();
     return 2;
 }
 
-s32 func_001DA740() {
+s32 func_001DA740(void) {
     func_001121A8();
     return 2;
 }
@@ -1856,7 +1856,7 @@ INCLUDE_ASM(const s32, "xhumungus", func_001DAD58);
 
 INCLUDE_ASM(const s32, "xhumungus", func_001DAE38);
 
-s32 func_001DAF70() {
+s32 func_001DAF70(void) {
     func_001116F8();
     func_0011C5B8();
     return 6;
@@ -1866,7 +1866,7 @@ INCLUDE_ASM(const s32, "xhumungus", func_001DAF98);
 
 INCLUDE_ASM(const s32, "xhumungus", func_001DAFC8);
 
-s32 func_001DB078() {
+s32 func_001DB078(void) {
     func_00103730();
     return 2;
 }
@@ -1885,7 +1885,7 @@ s32 func_001DB118(Script* arg0) {
     return 2;
 }
 
-void func_001DB168() {
+void func_001DB168(void) {
     D_003854E0.unk_3070 &= ~0x200000000000;
 }
 
@@ -1919,13 +1919,13 @@ INCLUDE_ASM(const s32, "xhumungus", func_001DB578);
 void func_001DB5D0(); // temp for next function
 INCLUDE_ASM(const s32, "xhumungus", func_001DB5D0);
 
-s32 func_001DB618() {
+s32 func_001DB618(void) {
     func_0011ED30(50002, func_001DB5D0);
     D_003854E0.unk_3078 |= 4;
     return 2;
 }
 
-s32 func_001DB658() {
+s32 func_001DB658(void) {
     D_003854E0.unk_3078 &= ~4;
     return 2;
 }
@@ -1966,7 +1966,7 @@ s32 func_001DB838(Script* arg0) {
     return 2;
 }
 
-s32 func_001DB880() {
+s32 func_001DB880(void) {
     D_00375BC0 &= ~4;
     D_003854E0.unk_3070 &= ~0x2000000000;
     return 2;
@@ -1980,14 +1980,14 @@ s32 func_001DB8C8(Script* arg0) {
 
 INCLUDE_ASM(const s32, "xhumungus", func_001DB910);
 
-s32 func_001DB970() {
+s32 func_001DB970(void) {
     if (D_002C1EAA & 1) {
         return 4;
     }
     return 2;
 }
 
-s32 func_001DB990() {
+s32 func_001DB990(void) {
     if (D_002C1EA8 & 0x6000) {
         return 4;
     }
@@ -1996,7 +1996,7 @@ s32 func_001DB990() {
 
 INCLUDE_ASM(const s32, "xhumungus", func_001DB9B0);
 
-s32 func_001DBA00() {
+s32 func_001DBA00(void) {
     if (func_00235F50() != 0) {
         return 4;
     }
@@ -2048,12 +2048,12 @@ INCLUDE_ASM(const s32, "xhumungus", func_001DC198);
 
 INCLUDE_ASM(const s32, "xhumungus", func_001DC1F0);
 
-s32 func_001DC278() {
+s32 func_001DC278(void) {
     D_002B9338 = 0;
     return 2;
 }
 
-s32 func_001DC288() {
+s32 func_001DC288(void) {
     D_002B9338 = 1;
     return 2;
 }
@@ -2088,7 +2088,7 @@ INCLUDE_ASM(const s32, "xhumungus", func_001DC478);
 
 INCLUDE_ASM(const s32, "xhumungus", func_001DC4D0);
 
-void func_001DC538() {
+void func_001DC538(void) {
     D_003854E0.unk_3078 &= ~0x20;
 }
 
@@ -2110,7 +2110,7 @@ s32 func_001DC8A8(Script* arg0) {
     return 2;
 }
 
-s32 func_001DC8F0() {
+s32 func_001DC8F0(void) {
     func_00111F00();
     return 2;
 }
@@ -2143,17 +2143,17 @@ INCLUDE_ASM(const s32, "xhumungus", func_001DCD90);
 
 INCLUDE_ASM(const s32, "xhumungus", func_001DCDE0);
 
-s32 func_001DCE30() {
+s32 func_001DCE30(void) {
     D_00375BC0 |= 0x10;
     return 2;
 }
 
-s32 func_001DCE50() {
+s32 func_001DCE50(void) {
     D_00375BC0 &= ~0x10;
     return 2;
 }
 
-s32 func_001DCE70() {
+s32 func_001DCE70(void) {
     func_001ED878(0);
     return 2;
 }
@@ -2178,22 +2178,22 @@ INCLUDE_ASM(const s32, "xhumungus", func_001DD2C0);
 
 INCLUDE_ASM(const s32, "xhumungus", func_001DD318);
 
-s32 func_001DD370() {
+s32 func_001DD370(void) {
     D_002C1EA8 |= 0x20;
     return 2;
 }
 
-s32 func_001DD390() {
+s32 func_001DD390(void) {
     D_002C1EA8 &= ~0x20;
     return 2;
 }
 
-s32 func_001DD3B0() {
+s32 func_001DD3B0(void) {
     D_003854E0.unk_3078 &= ~0x80;
     return 2;
 }
 
-s32 func_001DD3D0() {
+s32 func_001DD3D0(void) {
     D_003854E0.unk_3078 |= 0x80;
     return 2;
 }
@@ -2202,12 +2202,12 @@ INCLUDE_ASM(const s32, "xhumungus", func_001DD3F0);
 
 INCLUDE_ASM(const s32, "xhumungus", func_001DD430);
 
-s32 func_001DD480() {
+s32 func_001DD480(void) {
     D_002C1EA8 |= 0x200000;
     return 2;
 }
 
-s32 func_001DD4A0() {
+s32 func_001DD4A0(void) {
     D_002C1EA8 &= ~0x200000;
     return 2;
 }
@@ -2220,17 +2220,17 @@ s32 func_001DD520(Script* arg0) {
     return 2;
 }
 
-void func_001DD548() {
+void func_001DD548(void) {
     D_003854E0.unk_3078 &= ~0x100;
 }
 
-s32 func_001DD568() {
+s32 func_001DD568(void) {
     D_003854E0.unk_3078 |= 0x100;
     func_0011E830(func_001DD548, func_F20000);
     return 2;
 }
 
-s32 func_001DD5B0() {
+s32 func_001DD5B0(void) {
     D_003854E0.unk_3078 |= 0x100;
     func_0011E830(func_001DD548, &D_003D55DC);
     return 2;
@@ -2265,17 +2265,17 @@ s32 func_001DD848(Script* arg0) {
 
 INCLUDE_ASM(const s32, "xhumungus", func_001DD890);
 
-s32 func_001DD990() {
+s32 func_001DD990(void) {
     func_00125B40(1);
     return 2;
 }
 
-s32 func_001DD9B0() {
+s32 func_001DD9B0(void) {
     func_00125B40(0);
     return 2;
 }
 
-s32 func_001DD9D0() {
+s32 func_001DD9D0(void) {
     s32 i, j = 0;
 
     do {
@@ -2312,7 +2312,7 @@ INCLUDE_ASM(const s32, "xhumungus", func_001DDCE8);
 
 INCLUDE_ASM(const s32, "xhumungus", func_001DDFA0);
 
-void func_001DE098() {
+void func_001DE098(void) {
     D_003854E0.unk_3380++;
 }
 
@@ -2320,12 +2320,12 @@ INCLUDE_ASM(const s32, "xhumungus", func_001DE0B0);
 
 INCLUDE_ASM(const s32, "xhumungus", func_001DE1B8);
 
-s32 func_001DE338() {
+s32 func_001DE338(void) {
     func_0011EF58(&D_00624960, 0);
     return 0;
 }
 
-s32 func_001DE360() {
+s32 func_001DE360(void) {
     s32 result;
 
     D_00624550 = func_00155ED8(0x32, 2);
@@ -2353,11 +2353,11 @@ INCLUDE_ASM(const s32, "xhumungus", func_001DE750);
 
 INCLUDE_ASM(const s32, "xhumungus", func_001DE7C0);
 
-void func_001DEDF8() {
+void func_001DEDF8(void) {
     func_00177908(D_00624550);
     D_003854E0.unk_3070 &= ~0x100000000000;
 }
 
-s32 func_001DEE48() {
+s32 func_001DEE48(void) {
     return func_00120590(&D_00624658, D_00624550, func_001DEDF8, NULL);
 }

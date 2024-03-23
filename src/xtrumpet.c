@@ -40,11 +40,11 @@ extern s32 D_004D2998;
 extern s32 D_004D29AC;
 extern s32 D_004D29C4;
 
-void func_001110A0() {
+void func_001110A0(void) {
     D_002B90B0 = func_0022F768(3);
 }
 
-void func_001110D0() {
+void func_001110D0(void) {
     s32 i;
 
     func_001110A0();
@@ -80,7 +80,7 @@ INCLUDE_ASM(const s32, "xtrumpet", func_00111328);
 
 INCLUDE_ASM(const s32, "xtrumpet", func_001113A8);
 
-void func_001113E8() {
+void func_001113E8(void) {
     func_001809C8(&D_002B90B0->unk_4C);
 }
 
@@ -94,20 +94,20 @@ void func_00111580(s32 param1) {
     func_001114B8(D_002B8678, param1);
 }
 
-void* func_001115A0() {
+void* func_001115A0(void) {
     if (D_002B90B0 != 0) {
         return D_002B90B0->unk_15C;
     }
     return NULL;
 }
 
-void func_001115C0() {
+void func_001115C0(void) {
     if (D_002B90B0 != 0) {
         D_002B90B0->unk_15C++;
     }
 }
 
-void func_001115E8() {
+void func_001115E8(void) {
     D_002B8364 = 0;
     func_0022F578(-1);
     func_001EF840();
@@ -120,21 +120,21 @@ void func_001115E8() {
 
 INCLUDE_ASM(const s32, "xtrumpet", func_00111638);
 
-void func_001116A8() {
+void func_001116A8(void) {
     D_004D2998 = 0;
 }
 
-void func_001116B8() {
+void func_001116B8(void) {
     D_004D2998 = 1;
 }
 
-void func_001116C8() {
+void func_001116C8(void) {
     if (D_004D2998 == 0) {
         func_0022F808();
     }
 }
 
-void func_001116F8() {
+void func_001116F8(void) {
     s32 iVar1 = func_0013C2A8(3);
     if (iVar1 != -1) {
         D_002B90B0->unk_158 |= 8;
@@ -163,7 +163,7 @@ void func_001116F8() {
 
 // Injecting .rodata calls, unsure how to handle this
 INCLUDE_ASM(const s32, "xtrumpet", func_001117D8);
-// void func_001117D8() {
+// void func_001117D8(void) {
 //   switch (D_002B8678) {
 //   case 5:
 //     if (D_002B90B0->unk158 & 8) {
@@ -197,7 +197,7 @@ INCLUDE_ASM(const s32, "xtrumpet", func_001117D8);
 //   }
 // }
 
-void func_00111910() {
+void func_00111910(void) {
     D_002B9174 = 0;
 }
 
@@ -210,17 +210,17 @@ INCLUDE_ASM(const s32, "xtrumpet", func_00111A70);
 
 INCLUDE_ASM(const s32, "xtrumpet", func_00111B70);
 
-void func_00111BD8() {
+void func_00111BD8(void) {
     D_004D29AC = 1;
     D_002B9174 = 1;
 }
 
-void func_00111BF0() {
+void func_00111BF0(void) {
     D_004D29AC = 0;
     D_002B9174 = 0;
 }
 
-s32 func_00111C08() {
+s32 func_00111C08(void) {
     D_004D29AC = 2;
     return D_002B916C;
 }
@@ -256,7 +256,7 @@ INCLUDE_ASM(const s32, "xtrumpet", func_00111D98);
 
 INCLUDE_ASM(const s32, "xtrumpet", func_00111E20);
 
-void func_00111F00() {
+void func_00111F00(void) {
     D_004D29D0 = 1;
     func_00245130();
     func_00245140();

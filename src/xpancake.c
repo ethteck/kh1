@@ -22,7 +22,7 @@ void func_00106718(void);
 void func_00106728(void);
 XFlapjack* func_0011EEB8(u16*, s32, s32 (*)(XFlapjack*));
 
-s32 func_001061D8() {
+s32 func_001061D8(void) {
     if (((D_002B85C0[0] == 0) || (D_002B860C == 128)) & 0xFFFF) {
         return 1;
     }
@@ -37,7 +37,7 @@ INCLUDE_ASM(const s32, "xpancake", func_00106380);
 
 INCLUDE_ASM(const s32, "xpancake", func_00106428);
 
-void func_001064E8() {
+void func_001064E8(void) {
     D_0048E508 = 0;
 }
 
@@ -91,11 +91,11 @@ void func_00106690(s32 arg0) {
     }
 }
 
-void func_00106718() {
+void func_00106718(void) {
     D_002B29CC = 0;
 }
 
-void func_00106728() {
+void func_00106728(void) {
     D_002B29D0 = 0;
 }
 

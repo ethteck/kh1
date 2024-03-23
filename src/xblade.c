@@ -78,17 +78,17 @@ extern void func_001ED878();
 
 INCLUDE_ASM(const s32, "xblade", func_00112168);
 
-void func_00112190() {
+void func_00112190(void) {
     D_002B85F8 |= 0x20;
 }
 
-void func_001121A8() {
+void func_001121A8(void) {
     D_002B85F8 &= ~0x20;
 }
 
 INCLUDE_ASM(const s32, "xblade", func_001121C8);
 
-void* func_001124E8() {
+void* func_001124E8(void) {
     return func_0011ED30(50000, func_001016E8);
 }
 
@@ -114,7 +114,7 @@ s32 func_00112508(UNK_TYPE arg0, UNK_TYPE arg1, s32* arg2) {
     return func_0011CC20(-1, arg2, func_001124E8);
 }
 
-s32 func_001125F0() {
+s32 func_001125F0(void) {
     char stack[64];
     void* p0;
 
@@ -124,7 +124,7 @@ s32 func_001125F0() {
     return func_00120590(stack, p0, func_00112508, 0);
 }
 
-s32 func_00112630() {
+s32 func_00112630(void) {
     func_001121C8();
     func_0010E580();
     func_0010AD58(D_002B9330);
@@ -136,7 +136,7 @@ s32 func_00112630() {
 INCLUDE_ASM(const s32, "xblade", func_00112690);
 s32 func_00112690();
 
-s32 func_001127A0() {
+s32 func_001127A0(void) {
     func_001C38C0();
     D_002B29C4 = 0;
     func_00122720();
@@ -144,7 +144,7 @@ s32 func_001127A0() {
     return 4;
 }
 
-void* func_001127E0() {
+void* func_001127E0(void) {
     func_001009D8();
     return func_0011ED30(190000, func_001127A0);
 }
@@ -168,14 +168,14 @@ void func_001128D8(s32 arg0) {
 
 INCLUDE_ASM(const s32, "xblade", func_001128F0);
 
-s32 func_001129C8() {
+s32 func_001129C8(void) {
     func_0011C6C8(0);
     D_002B29C4 = 0;
     func_00122720();
     return 4;
 }
 
-void func_001129F8() {
+void func_001129F8(void) {
     func_00157B90();
     D_002A0520[1] = 0;
     D_002A0520[0] = 0;
@@ -185,7 +185,7 @@ void func_001129F8() {
     func_00101628(360);
 }
 
-void func_00112A50() {
+void func_00112A50(void) {
     func_0012C990(2, 0);
     func_0012C990(6, 0);
     D_002C1EA8 |= 0x80000;
@@ -197,7 +197,7 @@ void func_00112A50() {
     func_001093A8(4);
 }
 
-void func_00112AD8() {
+void func_00112AD8(void) {
     D_002C1EA8 |= 0x80000;
     func_001129F8();
     func_001C38C0();
@@ -213,7 +213,7 @@ void func_00112B60(void) {
     // empty function
 }
 
-void func_00112B68() {
+void func_00112B68(void) {
     func_001ED888(2);
     func_001EE1E0(3, -9);
     func_001EE1E0(0, -1);
@@ -237,21 +237,21 @@ void func_00112B68() {
     func_001EE1E0(3, -10);
 }
 
-void* func_00112C70() {
+void* func_00112C70(void) {
     func_00114420();
     return func_001093A8(9);
 }
 
-void* func_00112C90() {
+void* func_00112C90(void) {
     func_00114420();
     return func_001093A8(8);
 }
 
-void* func_00112CB0() {
+void* func_00112CB0(void) {
     return func_00155ED8(61, 3);
 }
 
-void* func_00112CD0() {
+void* func_00112CD0(void) {
     return func_00155ED8(0, 64);
 }
 
@@ -276,7 +276,7 @@ s32 func_001130F0(s32 arg0) {
     return func_00110150();
 }
 
-void func_00113130() {
+void func_00113130(void) {
     if (D_002B9328 != 0 && D_002B932C == 0) {
         func_0013C008();
     }
@@ -284,7 +284,7 @@ void func_00113130() {
 
 INCLUDE_ASM(const s32, "xblade", func_00113170);
 s32 func_00113170();
-// s32 func_00113170() {
+// s32 func_00113170(void) {
 //     if (D_002B2CC4 != 0) {
 //         return 0;
 //     }
@@ -320,11 +320,11 @@ s32 func_00113170();
 //     return 4;
 // }
 
-void* func_001132A0() {
+void* func_001132A0(void) {
     return func_0011ED30(49900, func_00113170);
 }
 
-void* func_001132C0() {
+void* func_001132C0(void) {
     func_00113130();
     return func_00122588(D_002B9340, func_001132A0);
 }
@@ -332,7 +332,7 @@ void* func_001132C0() {
 INCLUDE_ASM(const s32, "xblade", func_001132F0);
 s32 func_001132F0();
 
-s32 func_00113380() {
+s32 func_00113380(void) {
     func_00112168();
     func_00101580();
     D_002B9340 = func_001133E0(D_002B9340, 0x80);
@@ -344,7 +344,7 @@ INCLUDE_ASM(const s32, "xblade", func_001133E0);
 
 INCLUDE_ASM(const s32, "xblade", func_00113410);
 
-void func_00113618() {
+void func_00113618(void) {
     D_004D2A8C = 205;
     D_004D2A90 = 135;
     D_004D2A94 = 50;
@@ -359,7 +359,7 @@ INCLUDE_ASM(const s32, "xblade", func_001136C8);
 
 INCLUDE_ASM(const s32, "xblade", func_00113710);
 
-void func_001139F8() {
+void func_001139F8(void) {
     D_004D2A68 = 0;
     D_004D2A6C = 0;
 }
@@ -372,7 +372,7 @@ void* func_00113A10(s32 arg0) {
 
 INCLUDE_ASM(const s32, "xblade", func_00113A40);
 
-s32 func_00113AF8() {
+s32 func_00113AF8(void) {
     func_00102970(0x80, 0x20);
 
     if (D_004D2A70 == 4) {
@@ -381,7 +381,7 @@ s32 func_00113AF8() {
     return 4;
 }
 
-s32 func_00113B30() {
+s32 func_00113B30(void) {
     XPointy* p0 = func_0011ED30(10499, func_00113AF8);
     p0->unk_02 = 1;
     func_00102970(0x80, 0x10);
@@ -389,7 +389,7 @@ s32 func_00113B30() {
     return 4;
 }
 
-s32 func_00113B78() {
+s32 func_00113B78(void) {
     XPointy* p0 = func_0011ED30(190019, func_00113B30);
     p0->unk_02 = 1;
     func_0010A108();
@@ -400,7 +400,7 @@ s32 func_00113B78() {
 INCLUDE_ASM(const s32, "xblade", func_00113BC0);
 s32 func_00113BC0();
 
-s32 func_00113C40() {
+s32 func_00113C40(void) {
     XPointy* p0;
 
     func_00102970(0x80, 0x10);
@@ -409,26 +409,26 @@ s32 func_00113C40() {
     return 4;
 }
 
-s32 func_00113C80() {
+s32 func_00113C80(void) {
     func_00102970(0x80, 0x20);
     return 4;
 }
 
-void func_00113CA8() {
+void func_00113CA8(void) {
     D_002B9668 = 1;
 }
 
 INCLUDE_ASM(const s32, "xblade", func_00113CB8);
 
-void func_00113E18() {
+void func_00113E18(void) {
     D_002C1EBC = 1;
 }
 
-void func_00113E28() {
+void func_00113E28(void) {
     D_002C1EBC = 0;
 }
 
-void func_00113E38() {
+void func_00113E38(void) {
     func_001778A0(1);
     D_004D2A70 = 1;
     D_004D2A60 = 1;
@@ -438,19 +438,19 @@ INCLUDE_ASM(const s32, "xblade", func_00113E68);
 
 INCLUDE_ASM(const s32, "xblade", func_00113E98);
 
-void func_00114400() {
+void func_00114400(void) {
     D_002B966C = 1;
 }
 
-void func_00114410() {
+void func_00114410(void) {
     D_002B966C = 0;
 }
 
-void func_00114420() {
+void func_00114420(void) {
     D_004D2A74 = 1;
 }
 
-void func_00114430() {
+void func_00114430(void) {
     D_004D2A74 = 0;
 }
 
@@ -466,7 +466,7 @@ INCLUDE_ASM(const s32, "xblade", func_001145E8);
 
 INCLUDE_ASM(const s32, "xblade", func_00114638);
 
-void func_00114800() {
+void func_00114800(void) {
     D_004D2AAC = 0;
     D_004D2AB0 = 0;
 }

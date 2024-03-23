@@ -35,7 +35,7 @@ INCLUDE_ASM(const s32, "xbiscuit", func_001F0C30);
 
 // Nonmatch: Assignment instructions out of order
 INCLUDE_ASM(const s32, "xbiscuit", func_001F0D88);
-// void func_001F0D88() {
+// void func_001F0D88(void) {
 //     D_003E30A8 = &D_003DEF90;
 //     D_003E30AC = 0x310;
 //     func_001F0E38(20);
@@ -44,7 +44,7 @@ INCLUDE_ASM(const s32, "xbiscuit", func_001F0D88);
 //     func_001F0DD0();
 // }
 
-void func_001F0DD0() {
+void func_001F0DD0(void) {
     func_001F0DF8(&D_003E0810, &D_003E2BE0);
 }
 
@@ -59,13 +59,13 @@ void func_001F0E38(s32 arg0) {
     D_00639A80 = arg0 << 4;
 }
 
-s32 func_001F0E48() {
+s32 func_001F0E48(void) {
     return D_00639A80 >> 4;
 }
 
 INCLUDE_ASM(const s32, "xbiscuit", func_001F0E58);
 
-s32 func_001F0E68() {
+s32 func_001F0E68(void) {
     return D_003E3080;
 }
 
@@ -73,7 +73,7 @@ void func_001F0E78(s32 arg0) {
     D_003E3084 = arg0;
 }
 
-s32 func_001F0E88() {
+s32 func_001F0E88(void) {
     return D_003E3084;
 }
 
@@ -262,7 +262,7 @@ INCLUDE_ASM(const s32, "xbiscuit", func_001F3738);
 
 // Nonmatch: Assignment instructions out of order
 INCLUDE_ASM(const s32, "xbiscuit", func_001F3990);
-// void func_001F3990() {
+// void func_001F3990(void) {
 //     s32 i = 24;
 //     XCookie* cookie = D_00639A90;
 

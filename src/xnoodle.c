@@ -99,17 +99,17 @@ void func_0010BB10(XNoodle* arg0, s32 arg1) {
 
 INCLUDE_ASM(const s32, "xnoodle", func_0010BB50);
 
-s32 func_0010BDA8() {
+s32 func_0010BDA8(void) {
     func_0011EF58(&D_002B3AE0, 0);
     D_0048ECD4 = 0;
     return 0;
 }
 
-void func_0010BDD8() {
+void func_0010BDD8(void) {
     sceVu0CameraMatrix(D_0048EC50, D_002B3A20, D_002B3A30, D_002B3A40);
 }
 
-void* func_0010BE10() {
+void* func_0010BE10(void) {
     D_0048ECD4 = 0;
     func_0010BDD8();
     func_0011EDD0(&D_002B3AE0, D_002B3A50, 0x24, 4);
@@ -132,7 +132,7 @@ INCLUDE_ASM(const s32, "xnoodle", func_0010C0E0);
 
 INCLUDE_ASM(const s32, "xnoodle", func_0010C110);
 
-void func_0010C158() {
+void func_0010C158(void) {
     void* p0 = func_00155ED8(0x34, 0xC);
     s32 val = func_00120438("kanji.knj", p0);
     memcpy(&D_0048ED00, p0, val);

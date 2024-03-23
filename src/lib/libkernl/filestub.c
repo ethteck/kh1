@@ -207,7 +207,7 @@ static s32 _fs_version(void) {
  * since the file service RPC BIND information will be invalid.
  * @return Always returns 0
  */
-s32 sceFsReset() {
+s32 sceFsReset(void) {
     _fs_init = 0;
     memset(_fsversion, 0, sizeof(_fsversion));
     return 0;

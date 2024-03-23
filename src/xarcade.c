@@ -24,6 +24,7 @@ extern s32 D_002B85C0[4];
 extern s32** D_002B8690;
 extern s32** D_002B8694;
 extern sceGsLoadImage D_002B8700;
+extern sceGsLoadImage D_002B8760;
 extern s32 D_002B8870;
 extern s32 D_002B8C70;
 extern s32 D_002B8C8C;
@@ -47,7 +48,7 @@ extern void func_001C20B8();
 extern void func_00233968();
 extern void func_00248530();
 
-void func_001090D8() {
+void func_001090D8(void) {
     KingdomFile* file;
 
     func_0010FEC0();
@@ -70,7 +71,7 @@ void func_001090D8() {
     func_0011F7C0();
 }
 
-s32 func_001091B0() {
+s32 func_001091B0(void) {
     func_0011EF58(&D_002B8C70, 0);
     return 0;
 }
@@ -78,7 +79,7 @@ s32 func_001091B0() {
 INCLUDE_ASM(const s32, "xarcade", func_001091D8);
 void func_001091D8();
 
-void* func_00109340() {
+void* func_00109340(void) {
     func_00110190();
     func_00176E30();
     func_00176E98();
@@ -89,7 +90,7 @@ void* func_00109340() {
 
 INCLUDE_ASM(const s32, "xarcade", func_001093A8);
 
-void func_001093D8() {
+void func_001093D8(void) {
     func_00122518();
     func_001600B8();
     func_00100240();
@@ -100,7 +101,7 @@ void func_001093D8() {
     D_002B8694 = &D_002DECA0;
 }
 
-void func_00109440() {
+void func_00109440(void) {
     FlushCache(INVALIDATE_ICACHE);
     func_F20000(0, 0);
 }
@@ -110,9 +111,18 @@ s32 func_00109468();
 
 INCLUDE_ASM(const s32, "xarcade", func_00109580);
 
-INCLUDE_ASM(const s32, "xarcade", func_001099D8);
+void func_001099D8(void) {
+    sceGsSetDefLoadImage(&D_002B8700, 0xE00, 8, 1, 0, 0, 0x200, 0xC0);
+    FlushCache(0);
+    sceGsSyncPath(0, 0);
+    sceGsExecLoadImage(&D_002B8700, &func_F20000);
+    sceGsSetDefLoadImage(&D_002B8760, 0x1400, 8, 1, 0, 0, 0x200, 0xC0);
+    FlushCache(0);
+    sceGsSyncPath(0, 0);
+    sceGsExecLoadImage(&D_002B8760, &func_F20000 + 0x48000);
+}
 
-s32 func_00109AA0() {
+s32 func_00109AA0(void) {
     sceGsStoreImage img;
 
     sceGsSetDefStoreImage(&img, 0x1A00, 8, 1, 0, 0, 0x200, 0x180);
@@ -122,7 +132,7 @@ s32 func_00109AA0() {
     return 4;
 }
 
-void* func_00109B00() {
+void* func_00109B00(void) {
     return func_0011ED30(190000, func_00109AA0);
 }
 
@@ -137,7 +147,7 @@ void* func_00109C50(s32 arg0) {
 
 INCLUDE_ASM(const s32, "xarcade", func_00109C98);
 
-s32 func_00109D68() {
+s32 func_00109D68(void) {
     sceGsStoreImage img;
 
     sceGsSetDefStoreImage(&img, 0x1A00, 8, 1, 0, 0, 0x200, 0x180);
@@ -148,7 +158,7 @@ s32 func_00109D68() {
     return 4;
 }
 
-void* func_00109DE8() {
+void* func_00109DE8(void) {
     D_002B2CC4 = 1;
     if (D_002B85C0[0] != 0x80) {
         func_001037C8(1);
@@ -162,7 +172,7 @@ s32 func_00109E30();
 INCLUDE_ASM(const s32, "xarcade", func_00109F60);
 s32 func_00109F60();
 
-void* func_0010A040() {
+void* func_0010A040(void) {
     D_0048EC00.unk_00 = 0;
     if (D_002B2CC0 != 0) {
         return func_0011ED30(190000, func_00109F60);
@@ -170,18 +180,18 @@ void* func_0010A040() {
     return func_0011ED30(190000, func_00109E30);
 }
 
-s32 func_0010A098() {
+s32 func_0010A098(void) {
     func_00109C98();
     D_002B2BB8 = 0x180808080;
     func_00106948(&D_002B2C00);
     return 0;
 }
 
-void* func_0010A0E0() {
+void* func_0010A0E0(void) {
     return func_0011ED30(190000, func_0010A098);
 }
 
-void func_0010A108() {
+void func_0010A108(void) {
     sceGsStoreImage img;
 
     func_00106948(&D_002B2CB0);
@@ -192,7 +202,7 @@ void func_0010A108() {
     sceGsExecStoreImage(&img, D_002B2CC8);
 }
 
-void func_0010A190() {
+void func_0010A190(void) {
     sceGsSetDefLoadImage(&D_002B8700, 0x3600, 4, 1, 0, 0, 0x100, 0xC0);
     FlushCache(WRITEBACK_DCACHE);
     sceGsSyncPath(0, 0);
