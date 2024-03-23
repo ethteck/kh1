@@ -56,7 +56,6 @@ extern s32 D_004D2994;
 
 extern s32 func_F20000();
 void func_00110F88(s32);
-s32 func_00120438(char*, void*);
 s32 func_00120590(char*, void*, void*, void*);
 
 void func_0010F3D0(void) {

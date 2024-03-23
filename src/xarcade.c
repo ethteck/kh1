@@ -111,17 +111,16 @@ s32 func_00109468();
 
 INCLUDE_ASM(const s32, "xarcade", func_00109580);
 
-INCLUDE_ASM(const s32, "xarcade", func_001099D8);
-// void func_001099D8(void) {
-//     sceGsSetDefLoadImage(&D_002B8700, 0xE00, 8, 1, 0, 0, 0x200, 0xC0);
-//     FlushCache(0);
-//     sceGsSyncPath(0, 0);
-//     sceGsExecLoadImage(&D_002B8700, &func_F20000);
-//     sceGsSetDefLoadImage(&D_002B8760, 0x1400, 8, 1, 0, 0, 0x200, 0xC0);
-//     FlushCache(0);
-//     sceGsSyncPath(0, 0);
-//     sceGsExecLoadImage(&D_002B8760, &func_F20000 + 0x48000);
-// }
+void func_001099D8(void) {
+    sceGsSetDefLoadImage(&D_002B8700, 0xE00, 8, 1, 0, 0, 0x200, 0xC0);
+    FlushCache(0);
+    sceGsSyncPath(0, 0);
+    sceGsExecLoadImage(&D_002B8700, &func_F20000);
+    sceGsSetDefLoadImage(&D_002B8760, 0x1400, 8, 1, 0, 0, 0x200, 0xC0);
+    FlushCache(0);
+    sceGsSyncPath(0, 0);
+    sceGsExecLoadImage(&D_002B8760, &func_F20000 + 0x48000);
+}
 
 s32 func_00109AA0(void) {
     sceGsStoreImage img;

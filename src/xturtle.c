@@ -4,9 +4,27 @@
 #include "xturtle.h"
 
 typedef struct XTurtle {
-    /* 0x00 */ char unk_00[0x14];
-    /* 0x04 */ char unk_14;
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ s32 unk_08;
+    /* 0x0C */ s32 unk_0C;
+    /* 0x10 */ s32 unk_10;
+    /* 0x14 */ u8 unk_14;
+    /* 0x15 */ u8 unk_15;
+    /* 0x16 */ u8 unk_16;
+    /* 0x17 */ char unk_17;
 } XTurtle;
+
+typedef struct XScale {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ s32 unk_04;
+} XScale; // size = 0x8
+
+typedef struct XShell {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ s32 unk_08;
+} XShell; // size = 0xC
 
 extern s32 D_002A0514;
 extern s32 D_002BD8B4;
@@ -16,14 +34,25 @@ extern s32 D_002BD8CC;
 extern s32 D_002BD8E0;
 extern s32 D_002BD8E4;
 
-extern char D_00486E70[];
+const char D_00486E40[] = "%3d";
+const char D_00486E48[] = "amusic/music";
+const char D_00486E58[] = ".dat";
+const char D_00486E60[] = "amusic/se";
+const char D_00486E70[] = "amusic/se000.dat\0\0\0\0";
+
 void (*D_004DCB70)(void);
+extern s32 D_004DCB8C;
+extern XTurtle* D_004DCB90;
+extern XShell* D_004DCB94;
+extern XTurtle* D_004DCB98;
+extern XTurtle* D_004DCF58;
+extern XScale* D_004DD138;
 extern s32 D_004DD180;
 
-XTurtle* func_0011CDD8(s32,s32,s32,s32,s32);
+XTurtle* func_0011CDD8(s32, s32, s32, s32, s32);
 
-void* func_0011C5D8(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
-    return func_001EE570(arg0, arg1, arg2, arg3, arg4, arg5);
+void func_0011C5D8(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
+    func_001EE570(arg0, arg1, arg2, arg3, arg4, arg5);
 }
 
 s32 func_0011C5F0(s32 arg0, s32 arg1, s32 arg2) {
@@ -62,7 +91,40 @@ void* func_0011C6B0(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     return func_001EE478(arg0, arg1, arg2, arg3, arg4);
 }
 
-INCLUDE_ASM(const s32, "xturtle", func_0011C6C8);
+void func_0011C6C8(s32 arg0) {
+    XScale* var_2;
+    XTurtle* var_3;
+    XShell* var_4;
+    s32 i;
+
+    if (arg0 == 0) {
+        D_004DCB90 = &D_004DCB98;
+        D_004DCB94 = &D_004DCF58;
+        D_004DCB8C = 0x28;
+    } else {
+        D_004DCB90 = func_00155ED8(0x10, 1);
+        D_004DCB94 = func_00155ED8(0x11, 1);
+        D_004DCB8C = 0x80;
+    }
+
+    var_3 = D_004DCB90;
+    var_4 = D_004DCB94;
+    for (i = 0; i < D_004DCB8C; i++) {
+        var_3->unk_14 = 0;
+        var_4->unk_00 = 0;
+        var_4->unk_04 = 0;
+        var_4->unk_08 = 0;
+        var_3++;
+        var_4++;
+    }
+
+    var_2 = &D_004DD138;
+    for (i = 0; i < 4; i++) {
+        var_2->unk_00 = 0;
+        var_2->unk_04 = 0;
+        var_2++;
+    }
+}
 
 void func_0011C7D0(void) {
     D_004DD180 = 0;
@@ -116,9 +178,32 @@ INCLUDE_ASM(const s32, "xturtle", func_0011CB50);
 
 INCLUDE_ASM(const s32, "xturtle", func_0011CC20);
 
-INCLUDE_ASM(const s32, "xturtle", func_0011CDB8);
+void func_0011CDB8(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, XTurtle* arg5, s32 arg6) {
+    arg5->unk_0C = arg6;
+    arg5->unk_00 = arg0;
+    arg5->unk_10 = arg1;
+    arg5->unk_04 = arg2;
+    arg5->unk_08 = arg3;
+    arg5->unk_16 = arg4;
+    arg5->unk_15 = 0;
+}
 
-INCLUDE_ASM(const s32, "xturtle", func_0011CDD8);
+XTurtle* func_0011CDD8(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+    XTurtle* it = D_004DCB90;
+    s32 i;
+
+    for (i = 0; i < D_004DCB8C; i++, it++) {
+        s32 val = (arg0 < 1000) ? 2 : -1;
+
+        if (it->unk_14 == 0) {
+            func_0011CDB8(arg0, arg1, arg2, arg3, arg4, it, val);
+            return it;
+        }
+    }
+
+    return NULL;
+}
+
 
 INCLUDE_ASM(const s32, "xturtle", func_0011CE58);
 
@@ -302,7 +387,11 @@ void func_0011E2A8(void) {
     D_002BD8B4 = 1;
 }
 
-INCLUDE_ASM(const s32, "xturtle", func_0011E2F8);
+void func_0011E2F8(void) {
+    func_0011C5F0(1, 0, 720);
+    func_0011C5D8(0, 0, 0x3000, 480, 1, 240);
+    D_002BD8B4 = 0;
+}
 
 void func_0011E340(void) {
     D_002BD8E0 = 1;

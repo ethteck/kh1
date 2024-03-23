@@ -284,7 +284,6 @@ s32 func_001203C8(char* name, char* buf) {
     return D_002C2198;
 }
 
-s32 func_00120438(const char* fileName, void* dst);
 INCLUDE_ASM(const s32, "xkingdom", func_00120438);
 // s32 func_00120438(char* filename, void* arg1) {
 //     IOReadTask* temp_2 = func_001202E8(filename, arg1);
