@@ -20,7 +20,7 @@ INCLUDE_ASM(const s32, "ppp/pppRyjMegaBirthModelFilter", func_001A69B0);
 
 INCLUDE_ASM(const s32, "ppp/pppRyjMegaBirthModelFilter", pppRyjMegaBirthModelFilterDraw);
 
-void pppRyjMegaBirthModelFilterSta() {
+void pppRyjMegaBirthModelFilterSta(void) {
     sceVu0SubVector(g_vecCamDirM, ppvAt, ppvEye);
     sceVu0Normalize(g_vecCamDirM, g_vecCamDirM);
     g_vecCamDirM[3] = 1.0f;

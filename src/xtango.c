@@ -36,29 +36,29 @@ extern void func_0022F888();
 INCLUDE_ASM(const s32, "xtango", func_001EF210);
 u32 func_001EF210(); // temporary for following functions, changes signature to unsigned
 
-u32 func_001EF298() {
+u32 func_001EF298(void) {
     return func_001EF210() / 216000;
 }
 
-u32 func_001EF2D0() {
+u32 func_001EF2D0(void) {
     return func_001EF210() / 3600;
 }
 
-u32 func_001EF300() {
+u32 func_001EF300(void) {
     return func_001EF210() / 60;
 }
 
 INCLUDE_ASM(const s32, "xtango", func_001EF330);
 
-u32 func_001EF3D0() {
+u32 func_001EF3D0(void) {
     return func_001EF210() / 216000;
 }
 
-u32 func_001EF408() {
+u32 func_001EF408(void) {
     return (func_001EF210() / 3600) % 60;
 }
 
-u32 func_001EF448() {
+u32 func_001EF448(void) {
     return (func_001EF210() / 60) % 60;
 }
 
@@ -72,11 +72,11 @@ INCLUDE_ASM(const s32, "xtango", func_001EF668);
 
 INCLUDE_ASM(const s32, "xtango", func_001EF708);
 
-void func_001EF810() {
+void func_001EF810(void) {
     D_003ED718 = (XWhiskey*)func_0022F768(5);
 }
 
-void func_001EF840() {
+void func_001EF840(void) {
     func_0022F888();
     func_00218A10();
     D_003ED718->munny = 0;
@@ -84,7 +84,7 @@ void func_001EF840() {
     func_0021D2B0();
 }
 
-void func_001EF878() {
+void func_001EF878(void) {
     func_00230068();
     func_002304D8();
     func_001F0D88(); // in xbiscuit
@@ -226,7 +226,7 @@ s32 func_001EFDE8(s32 arg0) {
     return func_001BC370(arg0);
 }
 
-s32 func_001EFE00() {
+s32 func_001EFE00(void) {
     s32 sVar1 = func_001BC578();
     s32 iVar2 = 0;
     s32 iVar3 = 0;
@@ -312,7 +312,7 @@ s32 func_001F0550(s32 arg0, s32 idx) {
 
 INCLUDE_ASM(const s32, "xtango", func_001F05A0);
 
-s32 func_001F0600() {
+s32 func_001F0600(void) {
     s32 i;
 
     for (i = 3; i >= 0; i--) {
@@ -382,7 +382,7 @@ void func_001F0A58(u32 arg0) {
     D_003ED718->munny = arg0 <= 99999 ? arg0 : 99999;
 }
 
-s32 func_001F0A80() {
+s32 func_001F0A80(void) {
     return D_003ED718->munny;
 }
 

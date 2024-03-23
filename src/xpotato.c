@@ -25,7 +25,7 @@ extern u32 D_0063D050;
 extern void* func_001F3A20(void*, s32);
 extern void func_001F9B50(s32);
 
-void func_00215A88() {
+void func_00215A88(void) {
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(D_003ED718->unk_20); i++) {
@@ -97,14 +97,14 @@ void func_00217840(void* arg0) {
     D_0063CF04 = NULL;
 }
 
-void func_00217898() {
+void func_00217898(void) {
     if (D_0063CF3C > D_003DE6A0 - 1) {
         D_0063CF3C = D_003DE6A0 - 1;
     }
     func_00215B88();
 }
 
-void func_002178D0() {
+void func_002178D0(void) {
     D_0063CF3C = 0;
     D_0063CF40 = 0;
     D_0063CF44 = 0;
@@ -136,17 +136,17 @@ s32 func_00218840(s32 arg0) {
 
 INCLUDE_ASM(const s32, "xpotato", func_00218870);
 
-void func_002189D0() {
+void func_002189D0(void) {
     if (D_0063CF88 > D_003DE6A0 - 1) {
         D_0063CF88 = D_003DE6A0 - 1;
     }
 }
 
-void func_00218A00() {
+void func_00218A00(void) {
     D_0063CF88 = 0;
 }
 
-void func_00218A10() {
+void func_00218A10(void) {
     D_003ED718->unk_00 = 0;
     D_003ED718->unk_08 = 0;
     D_003ED718->unk_04 = 0;
@@ -160,11 +160,11 @@ INCLUDE_ASM(const s32, "xpotato", func_00218A38);
 
 INCLUDE_ASM(const s32, "xpotato", func_00218AC0);
 
-u32 func_00218B48() {
+u32 func_00218B48(void) {
     return D_003ED718->unk_00;
 }
 
-u32 func_00218B58() {
+u32 func_00218B58(void) {
     return func_00218B48();
 }
 
@@ -172,11 +172,11 @@ void func_00218B70(s32 arg0) {
     D_003ED718->unk_00 = arg0;
 }
 
-u32 func_00218B80() {
+u32 func_00218B80(void) {
     return D_003ED718->unk_04;
 }
 
-u32 func_00218B90() {
+u32 func_00218B90(void) {
     return func_00218B80();
 }
 
@@ -184,11 +184,11 @@ u32 func_00218BA8(u32 arg0) {
     D_003ED718->unk_04 = arg0;
 }
 
-s32 func_00218BB8() {
+s32 func_00218BB8(void) {
     return D_003ED718->unk_08;
 }
 
-u32 func_00218BC8() {
+u32 func_00218BC8(void) {
     return func_00218BB8();
 }
 
@@ -196,22 +196,22 @@ void func_00218BE0(s32 arg0) {
     D_003ED718->unk_08 = arg0;
 }
 
-u32 func_00218BF0() {
+u32 func_00218BF0(void) {
     return 0;
 }
 
-u32 func_00218BF8() {
+u32 func_00218BF8(void) {
     return 0;
 }
 
 void func_00218C00(void) {
 }
 
-u32 func_00218C08() {
+u32 func_00218C08(void) {
     return D_003ED718->unk_10;
 }
 
-s32 func_00218C18() {
+s32 func_00218C18(void) {
     return func_00218C08();
 }
 
@@ -219,11 +219,11 @@ void func_00218C30(s32 arg0) {
     D_003ED718->unk_10 = arg0;
 }
 
-u32 func_00218C40() {
+u32 func_00218C40(void) {
     return D_003ED718->unk_14;
 }
 
-s32 func_00218C50() {
+s32 func_00218C50(void) {
     return func_00218C40();
 }
 
@@ -231,11 +231,11 @@ void func_00218C68(s32 arg0) {
     D_003ED718->unk_14 = arg0;
 }
 
-u32 func_00218C78() {
+u32 func_00218C78(void) {
     return D_003ED718->unk_18;
 }
 
-s32 func_00218C88() {
+s32 func_00218C88(void) {
     return func_00218C78();
 }
 
@@ -245,12 +245,12 @@ void func_00218CA0(s32 arg0) {
 
 INCLUDE_ASM(const s32, "xpotato", func_00218CB0);
 
-void func_00218D08() {
+void func_00218D08(void) {
     D_003ED72C++;
     D_003ED728--;
 }
 
-void func_00218D38() {
+void func_00218D38(void) {
     func_0011F9E8(0x3600, 4, 19, 0, 0, 138, 0x58, 759, D_003ED730, &D_0063CFA0);
     func_0011F9E8(0x3680, 1, 0, 0, 0, 16, 16, 64, D_003ED730 + 0x2F70, &D_0063D050);
 }

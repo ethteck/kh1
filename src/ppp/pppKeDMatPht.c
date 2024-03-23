@@ -1,6 +1,6 @@
 #include "ppp.h"
 
-void pppKeDMatPhtCalc() {
+void pppKeDMatPhtCalc(void) {
     sceVu0MulMatrix(KeDMat, ppvWorldMatrix, KeMatPht);
     sceVu0ScaleVector(ppvPObj.next->dmat[0], ppvPObj.next->cmat[0], ppvParScl[0]);
     sceVu0ScaleVector(ppvPObj.next->dmat[1], ppvPObj.next->cmat[1], ppvParScl[1]);

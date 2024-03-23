@@ -43,11 +43,11 @@ char cdvd_CbThreadStack[0x1000];
 extern s32 D_004DDC60;
 extern XOtherCrown D_004DDC68[16];
 
-sceCdlFILE* cdvd_GetFileDescriptor() {
+sceCdlFILE* cdvd_GetFileDescriptor(void) {
     return &cdvd_Descriptor;
 }
 
-void func_0011FB78() {
+void func_0011FB78(void) {
     func_001224B8();
     func_001102C0();
 }
@@ -346,7 +346,7 @@ void func_00120728(s32 arg0) {
     func_0011EEB8(&D_004DE128, 0, arg0);
 }
 
-s32 func_00120750() {
+s32 func_00120750(void) {
     func_0011EF58(&D_004DE128, 0);
     return 0;
 }
@@ -393,12 +393,12 @@ s32 cdvd_StartModule(char* file, s32 args, char* argp, s32* result) {
     return sceSifLoadStartModule(module, args, argp, result);
 }
 
-void func_001208B8() {
+void func_001208B8(void) {
     s32 val = func_0011ED30(185000, func_00120750);
     *(s16*)(val + 2) = -1;
 }
 
-void func_001208E8() {
+void func_001208E8(void) {
     IOReadTask* task;
     s32 i;
 
@@ -412,7 +412,7 @@ void func_001208E8() {
     }
 }
 
-s32 cdvd_Initialize() {
+s32 cdvd_Initialize(void) {
     s32 val;
 
     // Initialize SIF RPC API
@@ -439,7 +439,7 @@ s32 cdvd_Initialize() {
     return sceCdInitEeCB(0, &cdvd_CbThreadStack, 0x1000);
 }
 
-void func_001209E0() {
+void func_001209E0(void) {
     sceCdDiskReady(0);
     cdvd_TryLoadFile(&cdvd_Descriptor, "\\SYSTEM.CNF;1");
     func_0011FB98(cdvd_Descriptor.lsn, 1, D_004EC140);

@@ -46,7 +46,7 @@ extern s32 D_0048DB00; // gp0 value
 
 char disk_ThreadStack[0x1000];
 
-s32 func_0024A010() {
+s32 func_0024A010(void) {
     return D_004642EC;
 }
 
@@ -61,7 +61,7 @@ void disk_Timeout(s32 time) {
     }
 }
 
-s32 disk_GetTimer() {
+s32 disk_GetTimer(void) {
     return disk_Timer;
 }
 
@@ -95,7 +95,7 @@ void func_0024A278(void* sema) {
     }
 }
 
-s32* disk_StartThread() {
+s32* disk_StartThread(void) {
     struct ThreadParam threadParam;
     s32 sema;
     struct SemaParam semaParam;
@@ -115,7 +115,7 @@ s32* disk_StartThread() {
     return sceCdPOffCallback(func_0024A278, (void*)sema);
 }
 
-char* func_0024A368() {
+char* func_0024A368(void) {
     return disk_SectorSize;
 }
 
@@ -131,11 +131,11 @@ char* func_0024A398(void) {
     return D_00464330;
 }
 
-char* disk_GetImgName() {
+char* disk_GetImgName(void) {
     return disk_ImgName;
 }
 
-b32 disk_Mount() {
+b32 disk_Mount(void) {
     char blkdevname[128];
 
     if (disk_Mgr.isMounted == FALSE) {
@@ -148,7 +148,7 @@ b32 disk_Mount() {
     return FALSE;
 }
 
-b32 disk_Unmount() {
+b32 disk_Unmount(void) {
     if (disk_Mgr.isMounted != FALSE) {
         if (sceUmount("pfs0:") == 0) {
             disk_Mgr.isMounted = FALSE;
@@ -158,7 +158,7 @@ b32 disk_Unmount() {
     return TRUE;
 }
 
-b32 func_0024A4A8() {
+b32 func_0024A4A8(void) {
     char* filename;
     s32 fd;
     u64 offset;
@@ -358,7 +358,7 @@ s32 func_0024A8B0(s32 arg0) {
     return D_00464358;
 }
 
-s32 func_0024AA88() {
+s32 func_0024AA88(void) {
     return D_00464358;
 }
 
@@ -368,6 +368,6 @@ void func_0024AA98(s32 arg0) {
 
 // blocked by subsequent 4-byte aligned function breaking split
 
-// s32 func_0024AAA8() {
+// s32 func_0024AAA8(void) {
 //     return D_0046435C;
 // }

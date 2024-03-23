@@ -59,24 +59,24 @@ void func_00110F88(s32);
 s32 func_00120438(char*, void*);
 s32 func_00120590(char*, void*, void*, void*);
 
-void func_0010F3D0() {
+void func_0010F3D0(void) {
     func_00106948(&D_002B8170);
     sceGsSyncPath(0, 0);
 }
 
-void func_0010F3F8() {
+void func_0010F3F8(void) {
     func_00106948(&D_002B8240);
     sceGsSyncPath(0, 0);
 }
 
-void func_0010F420() {
+void func_0010F420(void) {
     func_00106948(&D_002B8280);
     sceGsSyncPath(0, 0);
 }
 
 #define DISPWIDTH 640
 
-void func_0010F448() {
+void func_0010F448(void) {
     sceGsSyncPath(0, 0);
     DPUT_GS_PMODE(SCE_GS_SET_PMODE(1, 1, 0, 0, 0, 0, 0xFF));
     DPUT_GS_DISPFB1(SCE_GS_SET_DISPFB1(0xD8000 / 2048, 512 / 64, SCE_GS_PSMCT32, 0, 0));
@@ -136,11 +136,11 @@ void func_0010F4A8(u32 arg0) {
     }
 }
 
-void func_0010F6F0() {
+void func_0010F6F0(void) {
     D_004CF580 = D_002C1EB8.s32;
 }
 
-void func_0010F708() {
+void func_0010F708(void) {
     D_004CF588 = D_002C1EB8.s32;
 }
 
@@ -155,7 +155,7 @@ INCLUDE_ASM(const s32, "xtailor", func_0010F768);
 
 INCLUDE_ASM(const s32, "xtailor", func_0010FA30);
 
-void func_0010FA88() {
+void func_0010FA88(void) {
     void* src = func_00155ED8(0x34, 0xC);
     // s32 size = func_00120438("allset.set", src);
     s32 size = func_00120438(D_00486C40, src);
@@ -163,7 +163,7 @@ void func_0010FA88() {
     func_0010FA30(&D_004CF590);
 }
 
-void func_0010FAE8() {
+void func_0010FAE8(void) {
     void* src = func_00155ED8(0x34, 0xC);
     // s32 size = func_00120438("allarea.nam", src);
     s32 size = func_00120438(D_00486C50, src);
@@ -173,17 +173,17 @@ void func_0010FAE8() {
 INCLUDE_ASM(const s32, "xtailor", func_0010FB38);
 void* func_0010FB38(s32, s32);
 
-void* func_0010FB68() {
+void* func_0010FB68(void) {
     return func_0010FB38(D_002B8678, D_002B8680);
 }
 
 INCLUDE_ASM(const s32, "xtailor", func_0010FB90);
 
-void func_0010FCD0() {
+void func_0010FCD0(void) {
     D_004D2990 = 0;
 }
 
-void func_0010FCE0() {
+void func_0010FCE0(void) {
     D_004D2990 = 1;
 }
 
@@ -205,7 +205,7 @@ void func_0010FE10(u32* x, u32* y) {
     *y = D_004D2610.display.DY;
 }
 
-void func_0010FE38() {
+void func_0010FE38(void) {
     sceGsResetGraph(1, 1, 2, 0);
     DPUT_GS_EXTWRITE(0);
     sceGsPutDispEnv(&D_004D2610);
@@ -218,14 +218,14 @@ INCLUDE_ASM(const s32, "xtailor", func_0010FEC0);
 INCLUDE_ASM(const s32, "xtailor", func_00110038);
 s32 func_00110038(s32);
 
-void func_00110150() {
+void func_00110150(void) {
     D_002B85C0[3] = 128;
     D_002B85C0[2] = 128;
     D_002B85C0[1] = 128;
     D_002B85C0[0] = 128;
 }
 
-void func_00110170() {
+void func_00110170(void) {
     D_002B85C0[3] = 0;
     D_002B85C0[2] = 0;
     D_002B85C0[1] = 0;
@@ -238,7 +238,7 @@ INCLUDE_ASM(const s32, "xtailor", func_00110230);
 
 INCLUDE_ASM(const s32, "xtailor", func_00110240);
 
-void func_001102A0() {
+void func_001102A0(void) {
     sceGsSyncVCallback(func_00110038);
 }
 
@@ -248,14 +248,14 @@ INCLUDE_ASM(const s32, "xtailor", func_00110410);
 
 INCLUDE_ASM(const s32, "xtailor", func_00110848);
 
-void func_001109A8() {
+void func_001109A8(void) {
     sceVu0CopyMatrix(D_004D2950, D_002B84F0);
     sceVu0MulMatrix(D_002B84F0, D_002B83B0, D_002DEC60);
     sceVu0MulMatrix(D_002B8530, D_002B8430, D_002DEC60);
     sceVu0MulMatrix(D_002B8570, D_002B8470, D_002DEC60);
 }
 
-void func_00110A30() {
+void func_00110A30(void) {
     sceVu0CopyMatrix(D_002B8370, D_004D2590);
     sceVu0CopyMatrix(D_002B83B0, D_004D2850);
     sceVu0CopyMatrix(D_002B83F0, D_004D2890);
@@ -282,7 +282,7 @@ INCLUDE_ASM(const s32, "xtailor", func_00110C70);
 INCLUDE_ASM(const s32, "xtailor", func_00110DE0);
 void func_00110DE0();
 
-void func_00110E18() {
+void func_00110E18(void) {
     D_002A30D0 = 0;
     D_002B9030 = 0;
     D_002B9084 = 0;
@@ -300,23 +300,23 @@ INCLUDE_ASM(const s32, "xtailor", func_00110EA8);
 
 INCLUDE_ASM(const s32, "xtailor", func_00110ED8);
 
-void func_00110EE8() {
+void func_00110EE8(void) {
     func_F20000(3, 0);
 }
 
-void func_00110F08() {
+void func_00110F08(void) {
     func_F20000(8, 0);
 }
 
-void func_00110F28() {
+void func_00110F28(void) {
     func_F20000(9, 0);
 }
 
-void func_00110F48() {
+void func_00110F48(void) {
     func_F20000(4, 0);
 }
 
-void func_00110F68() {
+void func_00110F68(void) {
     func_F20000(5, 0);
 }
 
@@ -324,13 +324,13 @@ void func_00110F88(s32 arg0) {
     func_F20000(6, arg0);
 }
 
-void func_00110FA8() {
+void func_00110FA8(void) {
     func_F20000(7, 0);
 }
 
 INCLUDE_ASM(const s32, "xtailor", func_00110FC8);
 
-void func_00111050() {
+void func_00111050(void) {
     sceCdRead(0, 0, NULL, NULL);
     func_00247CD8();
     sceCdStatus();

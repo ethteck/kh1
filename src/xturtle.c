@@ -22,8 +22,8 @@ extern s32 D_004DD180;
 
 XTurtle* func_0011CDD8(s32,s32,s32,s32,s32);
 
-void* func_0011C5D8() {
-    return func_001EE570();
+void* func_0011C5D8(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
+    return func_001EE570(arg0, arg1, arg2, arg3, arg4, arg5);
 }
 
 s32 func_0011C5F0(s32 arg0, s32 arg1, s32 arg2) {
@@ -42,7 +42,7 @@ void* func_0011C638(void* arg0) {
     return func_001EE6B8(arg0);
 }
 
-s32 func_0011C650() {
+s32 func_0011C650(void) {
     return func_001EE090();
 }
 
@@ -64,15 +64,15 @@ void* func_0011C6B0(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 
 INCLUDE_ASM(const s32, "xturtle", func_0011C6C8);
 
-void func_0011C7D0() {
+void func_0011C7D0(void) {
     D_004DD180 = 0;
 }
 
-void func_0011C7E0() {
+void func_0011C7E0(void) {
     D_004DD180 = 1;
 }
 
-void func_0011C7F0() {
+void func_0011C7F0(void) {
     func_0011C7D0();
     func_0011C6C8(0);
     func_001EE5D8(0);
@@ -98,7 +98,7 @@ s32 func_0011C9B0(void* arg0) {
     return func_00120438(D_00486E70, arg0); // in xkingdom.c
 }
 
-s32 func_0011C9D0() {
+s32 func_0011C9D0(void) {
     if (func_001EE090()) {
         return 0;
     }
@@ -296,7 +296,7 @@ s32 func_0011E168(s32 arg0) {
 
 INCLUDE_ASM(const s32, "xturtle", func_0011E190);
 
-void func_0011E2A8() {
+void func_0011E2A8(void) {
     func_0011C5F0(0, 0, 960);
     func_0011C5D8(1, 0, 0x3000, 240, 0, 240);
     D_002BD8B4 = 1;
@@ -304,17 +304,17 @@ void func_0011E2A8() {
 
 INCLUDE_ASM(const s32, "xturtle", func_0011E2F8);
 
-void func_0011E340() {
+void func_0011E340(void) {
     D_002BD8E0 = 1;
 }
 
-void func_0011E350() {
+void func_0011E350(void) {
     D_002BD8E0 = 0;
 }
 
 INCLUDE_ASM(const s32, "xturtle", func_0011E360);
 
-void func_0011E418() {
+void func_0011E418(void) {
     func_00101528();
 }
 

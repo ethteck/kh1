@@ -196,18 +196,18 @@ INCLUDE_ASM(const s32, "xgoblin", func_0011F4B8);
 INCLUDE_ASM(const s32, "xgoblin", func_0011F7C0);
 
 INCLUDE_ASM(const s32, "xgoblin", func_0011F8C0);
-// void func_0011F8C0() {
+// void func_0011F8C0(void) {
 //     sceDbcInit();
 //     scePad2Init(0);
 //     D_004DDC00 = scePad2CreateSocket(&D_002C1FD8, &D_004DDA00);
 // }
 
-s32 func_0011F908() {
+s32 func_0011F908(void) {
     scePcStart(0x8000F8DE, 0, 0); // TODO: libpc bitfield macro combination
     return 0;
 }
 
-void func_0011F938() {
+void func_0011F938(void) {
     func_0011F908();
     ((XGoblin*)func_0011ED30(10000, func_0011F908))->unk_02 = -1;
 }

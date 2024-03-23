@@ -68,7 +68,7 @@ char* worldfile_getNameNoSet(s32 idx, s32 fileidx, UNK_TYPE arg2, char* dest) {
     return strcat(dest, filenum);
 }
 
-char* worldfile_getNames() {
+char* worldfile_getNames(void) {
     char filenum[0x10];
     char abbr[0x40];
 

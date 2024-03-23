@@ -21,7 +21,7 @@ INCLUDE_ASM(const s32, "ppp/pppRyjMegaBirthFilter", func_001A4F78);
 INCLUDE_ASM(const s32, "ppp/pppRyjMegaBirthFilter", pppRyjMegaBirthFilterDraw);
 
 // INCLUDE_ASM(const s32, "ppp/pppRyjMegaBirthFilter", pppRyjMegaBirthFilterSta);
-void pppRyjMegaBirthFilterSta() {
+void pppRyjMegaBirthFilterSta(void) {
     sceVu0SubVector(g_vecCamDir, ppvAt, ppvEye);
     sceVu0Normalize(g_vecCamDir, g_vecCamDir);
     g_vecCamDir[3] = 1.0f;

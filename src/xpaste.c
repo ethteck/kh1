@@ -20,7 +20,7 @@ void func_0011C540();
 extern void func_00180CE0();
 extern void func_0022BA18(u16);
 
-s32 func_0011C440() {
+s32 func_0011C440(void) {
     if (D_003ED704 == 0) {
         if (D_003F117C == 1) {
             func_001093A8(2);
@@ -34,7 +34,7 @@ s32 func_0011C440() {
     return 0;
 }
 
-s32 func_0011C4B0() {
+s32 func_0011C4B0(void) {
     if (D_003F1514 == 0) {
         switch (D_003F1518) {
             case FALSE:
@@ -52,7 +52,7 @@ s32 func_0011C4B0() {
     return 0;
 }
 
-void func_0011C540() {
+void func_0011C540(void) {
     D_002BD854 = 1;
     D_002B8354 = 0;
     func_00114420();
@@ -67,14 +67,14 @@ void func_0011C598(s32 arg0) {
     D_002BD858 = arg0;
 }
 
-void func_0011C5A8() {
+void func_0011C5A8(void) {
     D_002BD858 = 0;
 }
 
-void func_0011C5B8() {
+void func_0011C5B8(void) {
     D_002BD85C = 1;
 }
 
-void func_0011C5C8() {
+void func_0011C5C8(void) {
     D_002BD85C = 0;
 }

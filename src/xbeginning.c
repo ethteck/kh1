@@ -197,7 +197,7 @@ s32 func_00100328(void) {
     return 0;
 }
 
-int main() {
+int main(void) {
     func_001090D8();
     do {
         func_00109580();
@@ -219,7 +219,7 @@ void func_00100460(s32 arg0, XArg1* arg1) {
     }
 }
 
-void func_001004F0() {
+void func_001004F0(void) {
     func_00100460(0, &D_0048DC50);
     func_00100460(1, &D_0048DC90);
     func_00100460(3, &D_0048DCD0);

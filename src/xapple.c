@@ -525,4 +525,21 @@ void* func_0013BB00(s32 arg0, s32 arg1) {
     return func_0011ED30(52000, func_0013B8F8);
 }
 
-INCLUDE_ASM(const s32, "xapple", func_0013BCA8);
+void func_0013BCA8(void) {
+    if ((D_002C1EA8 >> 13) & 1) {
+        func_F20000(2, 0);
+        func_0011ED80(func_0013B8F8);
+        func_0023E0B0(0, 1);
+        func_0023E0B0(1, 2);
+        func_0023E0B0(2, 2);
+    }
+    if (D_002C1EA8 & (0x100000 | 0x4000)) {
+        func_00133588();
+        func_001009A8();
+    }
+    D_00301088 &= ~8;
+    D_00301094 = 0;
+    D_002C1EA8 &= ~0x2000;
+    D_002C1EA8 &= ~0x4000;
+    D_002C1EA8 &= ~0x100000;
+}

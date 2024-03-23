@@ -30,22 +30,22 @@ void func_001ED878(s32 arg0) {
 
 INCLUDE_ASM(const s32, "xquack", func_001ED888);
 
-void* func_001EDA60() {
+void* func_001EDA60(void) {
     sceSifCallRpc(&D_003DE5C0, 31, 0, &D_0062D980, 0x2000, &D_0062D980, 0x2000, NULL, NULL);
     return D_0062D980;
 }
 
-void* func_001EDAB8() {
+void* func_001EDAB8(void) {
     sceSifCallRpc(&D_003DE5C0, 32, 0, &D_0062D980, 0x2000, &D_0062D980, 0x2000, NULL, NULL);
     return D_0062D980;
 }
 
-void* func_001EDB10() {
+void* func_001EDB10(void) {
     sceSifCallRpc(&D_003DE5C0, 33, 0, &D_0062D980, 0x2000, &D_0062D980, 0x2000, NULL, NULL);
     return D_0062D980;
 }
 
-void* func_001EDB68() {
+void* func_001EDB68(void) {
     sceSifCallRpc(&D_003DE5C0, 34, 0, &D_0062D980, 0x2000, &D_0062D980, 0x2000, NULL, NULL);
     return D_0062D980;
 }
@@ -81,12 +81,12 @@ s32 func_001EDF88(s32 arg0) {
 
 INCLUDE_ASM(const s32, "xquack", func_001EDFF8);
 
-s32 func_001EE068() {
+s32 func_001EE068(void) {
     FlushCache(WRITEBACK_DCACHE);
     return D_00639588;
 }
 
-s32 func_001EE090() {
+s32 func_001EE090(void) {
     FlushCache(WRITEBACK_DCACHE);
     return D_00639880;
 }
@@ -230,7 +230,7 @@ void* func_001EE8E0(s32 arg0, s32 arg1) {
     return D_0062D980;
 }
 
-void* func_001EE928() {
+void* func_001EE928(void) {
     sceSifCallRpc(&D_003DE5C0, 22, 0, &D_0062D980, 0x2000, &D_0062D980, 0x2000, NULL, NULL);
     return D_0062D980;
 }
@@ -241,14 +241,14 @@ void* func_001EE980(void* arg0) {
     return D_0062D980;
 }
 
-void* func_001EE9D8() {
+void* func_001EE9D8(void) {
     sceSifCallRpc(&D_003DE5C0, 24, 0, &D_0062D980, 0x2000, &D_0062D980, 0x2000, NULL, NULL);
     return D_0062D980;
 }
 
 INCLUDE_ASM(const s32, "xquack", func_001EEA30);
 
-void* func_001EEA98() {
+void* func_001EEA98(void) {
     sceSifCallRpc(&D_003DE5C0, 27, 0, &D_0062D980, 0x2000, &D_0062D980, 0x2000, NULL, NULL);
     return D_0062D980;
 }
