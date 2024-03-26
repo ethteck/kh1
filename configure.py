@@ -27,14 +27,12 @@ COMMON_INCLUDES = "-Iinclude -isystem include/sdk/ee -isystem include/gcc"
 
 GAME_CC_DIR = f"{TOOLS_DIR}/cc/ee-gcc2.96/bin"
 LIB_CC_DIR = f"{TOOLS_DIR}/cc/ee-gcc2.9-991111/bin"
+COMMON_COMPILE_FLAGS = "-O2 -G0"
 
-GAME_COMPILE_CMD = (
-    f"{GAME_CC_DIR}/ee-gcc -c -B {GAME_CC_DIR}/ee- {COMMON_INCLUDES} -O2 -G0 -g"
-)
+GAME_NO_G_COMPILE_CMD = f"{GAME_CC_DIR}/ee-gcc -c -B {GAME_CC_DIR}/ee- {COMMON_INCLUDES} {COMMON_COMPILE_FLAGS}"
+GAME_COMPILE_CMD = f"{GAME_NO_G_COMPILE_CMD} -g"
 
-LIB_COMPILE_CMD = (
-    f"{LIB_CC_DIR}/ee-gcc -c -isystem include/gcc-991111 {COMMON_INCLUDES} -O2 -G0 -g"
-)
+LIB_COMPILE_CMD = f"{LIB_CC_DIR}/ee-gcc -c -isystem include/gcc-991111 {COMMON_INCLUDES} {COMMON_COMPILE_FLAGS}"
 
 WIBO_VER = "0.6.4"
 
@@ -115,6 +113,12 @@ def build_stuff(linker_entries: List[LinkerEntry]):
     )
 
     ninja.rule(
+        "cc_no_g",
+        description="cc $in",
+        command=f"{GAME_NO_G_COMPILE_CMD} $in -o $out && {cross}strip $out -N dummy-symbol-name",
+    )
+
+    ninja.rule(
         "libcc",
         description="cc $in",
         command=f"{LIB_COMPILE_CMD} $in -o $out && {cross}strip $out -N dummy-symbol-name",
@@ -157,6 +161,9 @@ def build_stuff(linker_entries: List[LinkerEntry]):
             ):
                 build(entry.object_path, entry.src_paths, "libcc")
             else:
+                # if entry.src_paths[0].name == "xblade.c":  # ???
+                #     build(entry.object_path, entry.src_paths, "cc_no_g")
+                # else:
                 build(entry.object_path, entry.src_paths, "cc")
         elif isinstance(seg, splat.segtypes.common.databin.CommonSegDatabin):
             build(entry.object_path, entry.src_paths, "as")
