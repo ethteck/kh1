@@ -340,14 +340,12 @@ s32 func_00113380(void) {
     return 4;
 }
 
-INCLUDE_ASM(const s32, "xblade", func_001133E0);
-/// ASSEMBLER IS WRONG :crog:
-// s32 func_001133E0(s32 arg0, s32 arg1) {
-//     if ((arg0 % arg1) != 0) {
-//         arg0 = ((arg0 / arg1) * arg1) + arg1;
-//     }
-//     return arg0;
-// }
+s32 func_001133E0(s32 arg0, s32 arg1) {
+    if ((arg0 % arg1) != 0) {
+        arg0 = ((arg0 / arg1) * arg1) + arg1;
+    }
+    return arg0;
+}
 
 INCLUDE_ASM(const s32, "xblade", func_00113410);
 
