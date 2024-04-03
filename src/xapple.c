@@ -76,7 +76,6 @@ extern LargeApple* D_00532504;
 
 // funcs
 s32 func_0011EF58(s32*, s32);
-s32 func_00120590(char*, void*, void*, void*);
 f32 func_00120A38(sceVu0FVECTOR);
 f32 func_00120A58(f32*);
 f32 func_00120AC8(f32);

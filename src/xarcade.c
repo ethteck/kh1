@@ -107,7 +107,6 @@ void func_00109440(void) {
 }
 
 INCLUDE_ASM(const s32, "xarcade", func_00109468);
-s32 func_00109468();
 
 INCLUDE_ASM(const s32, "xarcade", func_00109580);
 

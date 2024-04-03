@@ -3,7 +3,6 @@
 import argparse
 import os
 import shutil
-import subprocess
 import sys
 from pathlib import Path
 from typing import Dict, List, Set, Union
@@ -25,25 +24,19 @@ PRE_ELF_PATH = f"build/{BASENAME}.elf"
 
 COMMON_INCLUDES = "-Iinclude -isystem include/sdk/ee -isystem include/gcc"
 
-GAME_CC_DIR = f"{TOOLS_DIR}/cc/ee-gcc2.96/bin"
+GAME_CC_DIR = f"{TOOLS_DIR}/cc/ee-gcc2.96"
 LIB_CC_DIR = f"{TOOLS_DIR}/cc/ee-gcc2.9-991111/bin"
+COMMON_COMPILE_FLAGS = "-O2 -G0 $g"
 
-GAME_COMPILE_CMD = (
-    f"{GAME_CC_DIR}/ee-gcc -c -B {GAME_CC_DIR}/ee- {COMMON_INCLUDES} -O2 -G0 -g"
-)
+GAME_GCC_CMD = f"{GAME_CC_DIR}/bin/ee-gcc -c -B {GAME_CC_DIR}/bin/ee- {COMMON_INCLUDES} {COMMON_COMPILE_FLAGS} $in"
 
-LIB_COMPILE_CMD = (
-    f"{LIB_CC_DIR}/ee-gcc -c -isystem include/gcc-991111 {COMMON_INCLUDES} -O2 -G0 -g"
-)
+GAME_COMPILE_CMD = f"{GAME_GCC_CMD} -S -o - | {TOOLS_DIR}/masps2.py | {GAME_CC_DIR}/ee/bin/as {COMMON_COMPILE_FLAGS} -EL -mabi=eabi"
 
-WIBO_VER = "0.6.4"
+LIB_COMPILE_CMD = f"{LIB_CC_DIR}/ee-gcc -c -isystem include/gcc-991111 {COMMON_INCLUDES} {COMMON_COMPILE_FLAGS}"
 
-
-def exec_shell(command: List[str]) -> str:
-    ret = subprocess.run(
-        command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
-    )
-    return ret.stdout
+NO_G_FILES = [
+    "xblade.c",
+]
 
 
 def clean():
@@ -111,7 +104,7 @@ def build_stuff(linker_entries: List[LinkerEntry]):
     ninja.rule(
         "cc",
         description="cc $in",
-        command=f"{GAME_COMPILE_CMD} $in -o $out && {cross}strip $out -N dummy-symbol-name",
+        command=f"{GAME_COMPILE_CMD} -o $out && {cross}strip $out -N dummy-symbol-name",
     )
 
     ninja.rule(
@@ -157,7 +150,11 @@ def build_stuff(linker_entries: List[LinkerEntry]):
             ):
                 build(entry.object_path, entry.src_paths, "libcc")
             else:
-                build(entry.object_path, entry.src_paths, "cc")
+                if entry.src_paths[0].name in NO_G_FILES:
+                    g = ""
+                else:
+                    g = "-g"
+                build(entry.object_path, entry.src_paths, "cc", variables={"g": g})
         elif isinstance(seg, splat.segtypes.common.databin.CommonSegDatabin):
             build(entry.object_path, entry.src_paths, "as")
         else:
@@ -195,16 +192,6 @@ if __name__ == "__main__":
         action="store_true",
     )
     args = parser.parse_args()
-
-    try:
-        exec_shell(["wibo"])
-    except FileNotFoundError:
-        print("ERROR: wibo does not appear to be accessible")
-        print("To install it, please download it and put it in your PATH:")
-        print(
-            f"  wget https://github.com/decompals/wibo/releases/download/{WIBO_VER}/wibo && chmod +x wibo && sudo mv wibo /usr/bin/"
-        )
-        sys.exit(1)
 
     if args.clean:
         clean()
