@@ -472,6 +472,10 @@ s32 func_001133E0(s32 arg0, s32 arg1) {
     return arg0;
 }
 
+#ifndef NON_MATCHING
+INCLUDE_ASM(const s32, "xblade", func_00113410);
+#else
+
 typedef struct Big300 {
     /* 0x00 */ s64 unk_00[0x300 / 8];
 } Big300; // size = 0x300;
@@ -481,44 +485,6 @@ extern s32 D_002B9650;
 
 s32 func_001F0EF0(s32);
 
-typedef unsigned long u_long;
-
-/* GS Special */
-#define GS_PMODE        ((volatile u_long *)(0x12000000))
-#define GS_SMODE2       ((volatile u_long *)(0x12000020))
-#define GS_DISPFB1      ((volatile u_long *)(0x12000070))
-#define GS_DISPLAY1     ((volatile u_long *)(0x12000080))
-#define GS_DISPFB2      ((volatile u_long *)(0x12000090))
-#define GS_DISPLAY2     ((volatile u_long *)(0x120000a0))
-#define GS_EXTBUF       ((volatile u_long *)(0x120000b0))
-#define GS_EXTDATA      ((volatile u_long *)(0x120000c0))
-#define GS_EXTWRITE     ((volatile u_long *)(0x120000d0))
-#define GS_BGCOLOR      ((volatile u_long *)(0x120000e0))
-#define GS_CSR          ((volatile u_long *)(0x12001000))
-#define GS_IMR          ((volatile u_long *)(0x12001010))
-#define GS_BUSDIR       ((volatile u_long *)(0x12001040))
-#define GS_SIGLBLID     ((volatile u_long *)(0x12001080))
-
-/* GS Special */
-#define DGET_GS_CSR()           (*GS_CSR)
-#define DGET_GS_SIGLBLID()      (*GS_SIGLBLID)
-#define DPUT_GS_PMODE(x)        (*GS_PMODE = (x))
-#define DPUT_GS_SMODE2(x)       (*GS_SMODE2 = (x))
-#define DPUT_GS_DISPFB1(x)      (*GS_DISPFB1 = (x))
-#define DPUT_GS_DISPLAY1(x)     (*GS_DISPLAY1 = (x))
-#define DPUT_GS_DISPFB2(x)      (*GS_DISPFB2 = (x))
-#define DPUT_GS_DISPLAY2(x)     (*GS_DISPLAY2 = (x))
-#define DPUT_GS_EXTBUF(x)       (*GS_EXTBUF = (x))
-#define DPUT_GS_EXTDATA(x)      (*GS_EXTDATA = (x))
-#define DPUT_GS_EXTWRITE(x)     (*GS_EXTWRITE = (x))
-#define DPUT_GS_BGCOLOR(x)      (*GS_BGCOLOR = (x))
-#define DPUT_GS_CSR(x)          (*GS_CSR = (x))
-#define DPUT_GS_IMR(x)          (*GS_IMR = (x))
-#define DPUT_GS_BUSDIR(x)       (*GS_BUSDIR = (x))
-
-#ifndef NON_MATCHING
-INCLUDE_ASM(const s32, "xblade", func_00113410);
-#else
 void func_00113410(void) {
     s32 temp_16;
     s32 temp_7;
