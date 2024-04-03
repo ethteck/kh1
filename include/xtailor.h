@@ -3,7 +3,7 @@
 void func_0010F3D0();
 void func_0010F420();
 void func_0010F708();
-void func_0010F768();
+s32 func_0010F768();
 void func_0010FA88();
 void func_0010FAE8();
 void func_0010FB90();

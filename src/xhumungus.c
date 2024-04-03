@@ -1,4 +1,4 @@
-#include "common_data.h"
+#include "common.h"
 
 #include "xhumungus.h"
 #include "xtailor.h"
@@ -52,7 +52,6 @@ extern UNK_PTR D_00624960;
 extern UNK_PTR D_00624970;
 
 extern void func_F20000();
-extern s32 func_00155ED8(s32, s32);
 
 INCLUDE_ASM(const s32, "xhumungus", func_001C8470);
 

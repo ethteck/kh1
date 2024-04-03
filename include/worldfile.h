@@ -10,7 +10,7 @@ const char* worldfile_getAbbr(int idx, char* dest);
 char* worldfile_getNameNoSet(s32 idx, s32, s32, char* dest);
 
 // Set world and room file names in global variables and return the raw name
-char* worldfile_getNames();
+char* worldfile_getNames(void);
 
 // Get the name of binary/image data files for a world/room
 char* worldfile_getBinImgName(s32);

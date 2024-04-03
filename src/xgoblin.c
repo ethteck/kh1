@@ -1,20 +1,10 @@
 #include "common.h"
-#include "common_funcs.h"
-#include "common_data.h"
 
 #include "io.h"
 
 #include "libpc.h"
 #include "libpad2.h"
 #include "libvu0.h"
-
-typedef struct XGoblin {
-    /* 0x00 */ u16 unk_00;
-    /* 0x02 */ u16 unk_02;
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ struct XGoblin* unk_08;
-    /* 0x0C */ u32 (*unk_0C)(struct XGoblin*);
-} XGoblin;
 
 void func_0011F938();
 void func_00121AE8();

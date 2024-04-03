@@ -59,4 +59,7 @@ f32 atan2f(f32, f32);
 
 #define BSS __attribute__ ((section (".bss")))
 
+#include "common_data.h"
+#include "common_funcs.h"
+
 #endif /* COMMON_H */

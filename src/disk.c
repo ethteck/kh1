@@ -1,4 +1,4 @@
-#include "common_data.h"
+#include "common.h"
 #include "disk.h"
 #include "io.h"
 #include "sifdev.h"

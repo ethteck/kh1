@@ -1,5 +1,4 @@
 #include "common.h"
-#include "common_data.h"
 
 #include "xtango.h"
 #include "xpotato.h"

@@ -1,5 +1,4 @@
 #include "common.h"
-#include "common_data.h"
 #include "io.h"
 #include "disk.h"
 #include "xnoodle.h"
@@ -402,8 +401,8 @@ void func_001208E8(void) {
     s32 i;
 
     func_0011EDD0(&D_004DE128, &D_004DDC68, 0x4C, 0x10);
-    task = D_004EC970;
     D_004DDC60 = 0;
+    task = D_004EC970;
 
     for (i = 0; i < ARRAY_COUNT(D_004EC970); i++) {
         cdvd_FreeTask(task);

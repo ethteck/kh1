@@ -15,6 +15,14 @@ typedef struct Unk3010F8 {
     /* 0x492 */ u8 unk_492[3];
 } Unk3010F8; // size = ?
 
+typedef struct XGoblin {
+    /* 0x00 */ u16 unk_00;
+    /* 0x02 */ u16 unk_02;
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ struct XGoblin* unk_08;
+    /* 0x0C */ u32 (*unk_0C)(struct XGoblin*);
+} XGoblin; // size = 0x10
+
 extern _VX D_002C1EB8;
 
 extern sceVu0FMATRIX D_002C1E20;
