@@ -26,23 +26,24 @@ extern s32 D_00639A8C;
 XCookie D_00639A90[24];
 extern void* D_0063B050;
 
+void func_001F0DD0(void);
 void func_001F0DF8(s32*, s32*);
+void func_001F0E38(s32 arg0);
+void func_001F0E58(s32 arg0);
 void* func_001F1960(s32, s32, s32, s32, s32, s32, s32, s32);
 void* func_001F19F0(s32, s32, s32, s32, s32, s32, s32, s32);
 void* func_001F1FA8(s32, s32, s32, s32, s32, s32, s32, s32);
 
 INCLUDE_ASM(const s32, "xbiscuit", func_001F0C30);
 
-// Nonmatch: Assignment instructions out of order
-INCLUDE_ASM(const s32, "xbiscuit", func_001F0D88);
-// void func_001F0D88(void) {
-//     D_003E30A8 = &D_003DEF90;
-//     D_003E30AC = 0x310;
-//     func_001F0E38(20);
-//     func_001F0E58(8);
-//     func_001F0E58(0);
-//     func_001F0DD0();
-// }
+void func_001F0D88(void) {
+    D_003E30A8 = &D_003DEF90;
+    D_003E30AC = 0x310;
+    func_001F0E38(20);
+    func_001F0E58(8);
+    func_001F0E58(0);
+    func_001F0DD0();
+}
 
 void func_001F0DD0(void) {
     func_001F0DF8(&D_003E0810, &D_003E2BE0);
@@ -63,7 +64,9 @@ s32 func_001F0E48(void) {
     return D_00639A80 >> 4;
 }
 
-INCLUDE_ASM(const s32, "xbiscuit", func_001F0E58);
+void func_001F0E58(s32 arg0) {
+    D_003E3080 = arg0;
+}
 
 s32 func_001F0E68(void) {
     return D_003E3080;

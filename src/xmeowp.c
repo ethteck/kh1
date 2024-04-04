@@ -1,5 +1,7 @@
 #include "common.h"
 
+static const char padding[0x10] = {0};
+
 typedef struct XLaserDot {
     u8 unk[16];
 } XLaserDot;
