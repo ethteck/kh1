@@ -1,19 +1,22 @@
 #include "common.h"
 #include "worldfile.h"
 
+// .data
 extern s32 D_002A050C;
+extern s32 D_002A0520[2];
 extern s32 D_002B8688;
 extern s32 D_002B868C;
 extern s32 D_002B9040;
 extern s32 D_002B930C;
 extern s32 D_002B9338;
+extern s32 D_002BD8B8[2];
 extern s32 D_002BD8DC;
-extern s32 D_002BD8B8[];
-extern s32 D_002A0520[];
 
+// todo: .rodata also used in func_001011E0
 const char D_00486970[] = ".img";
 
-extern s32 D_0048DE90[];
+// .bss
+extern s32 D_0048DE90[2];
 
 extern s32 func_001011B8();
 extern void func_0011C6C8(s32);
@@ -49,7 +52,7 @@ void func_00101560() {
 void func_00101580() {
     s32 i;
 
-    for (i = 0; i <= 1; i++) {
+    for (i = 0; i < ARRAY_COUNT(D_0048DE90); i++) {
         if (D_0048DE90[i] != D_002A0520[i]) {
             if (D_002A0520[i] != 0) {
                 func_0011D070(D_002A0520[i], i, &D_002B9040, 0x3FFF);
@@ -62,7 +65,7 @@ void func_00101580() {
 void func_00101628(s32 arg0) {
     s32 i;
     
-    for (i = 0; i < 2; i++) {
+    for (i = 0; i < ARRAY_COUNT(D_0048DE90); i++) {
         if ((D_0048DE90[i] != D_002A0520[i]) || (D_0048DE90[i] == 0)) {
             func_0011D1F8(D_0048DE90[i], i, arg0);
         }
