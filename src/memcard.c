@@ -21,10 +21,10 @@ s32 memcardFree = 0;
 
 // Boolean indicating if the memory card is formatted
 s32 memcardFormat = 0;
-s32 D_0041F920[8] = {};
-s32 D_0041F940[8] = {};
-s32 D_0041F960[8] = {};
-s32 D_0041F980[8] = {};
+s32 D_0041F920[2][4] = {};
+s32 D_0041F940[2][4] = {};
+s32 D_0041F960[2][4] = {};
+s32 D_0041F980[2][4] = {};
 
 // Buffer for storing the obtained file list
 sceMcTblGetDir* memcardFileBuf = NULL;
@@ -107,33 +107,33 @@ void func_00230988(s32 arg0, s32 arg1) {
 }
 
 s32 func_002309A0(s32 port, s32 slot) {
-    s32 iVar1 = D_0041F940[port * 4 + slot];
-    D_0041F940[port * 4 + slot] = 0;
+    s32 iVar1 = D_0041F940[port][slot];
+    D_0041F940[port][slot] = 0;
     return iVar1;
 }
 
 void func_002309C8(s32 port, s32 slot) {
-    D_0041F940[port * 4 + slot] = 0;
+    D_0041F940[port][slot] = 0;
 }
 
 s32 func_002309E8(s32 port, s32 slot) {
-    s32 iVar1 = D_0041F960[port * 4 + slot];
-    D_0041F960[port * 4 + slot] = 0;
+    s32 iVar1 = D_0041F960[port][slot];
+    D_0041F960[port][slot] = 0;
     return iVar1;
 }
 
 void func_00230A10(s32 port, s32 slot) {
-    D_0041F960[port * 4 + slot] = 0;
+    D_0041F960[port][slot] = 0;
 }
 
 s32 func_00230A30(s32 port, s32 slot) {
-    s32 iVar1 = D_0041F980[port * 4 + slot];
-    D_0041F980[port * 4 + slot] = 0;
+    s32 iVar1 = D_0041F980[port][slot];
+    D_0041F980[port][slot] = 0;
     return iVar1;
 }
 
 void func_00230A58(s32 port, s32 slot) {
-    D_0041F980[port * 4 + slot] = 0;
+    D_0041F980[port][slot] = 0;
 }
 
 INCLUDE_ASM(const s32, "memcard", func_00230A78);
@@ -231,33 +231,33 @@ void memcard_GetInfo(void) {
 
         case 2:
             if (memcardType == sceMcTypePDA) {
-                D_0041F920[memcardPort * 4 + memcardSlot] = 3;
+                D_0041F920[memcardPort][memcardSlot] = 3;
             } else {
                 switch (memcardResult) {
                     case sceMcResSucceed: // Same card has been used continuously
                         D_00641FF8[1] = 0;
-                        D_0041F920[memcardPort * 4 + memcardSlot] = 0;
+                        D_0041F920[memcardPort][memcardSlot] = 0;
                         break;
 
                     case sceMcResChangedCard: // Card has since been changed to a formatted card
                         D_00641FF8[1] = 0;
-                        D_0041F920[memcardPort * 4 + memcardSlot] = 1;
-                        D_0041F940[memcardPort * 4 + memcardSlot] = 1;
-                        D_0041F960[memcardPort * 4 + memcardSlot] = 1;
+                        D_0041F920[memcardPort][memcardSlot] = 1;
+                        D_0041F940[memcardPort][memcardSlot] = 1;
+                        D_0041F960[memcardPort][memcardSlot] = 1;
                         break;
 
                     case sceMcResNoFormat: // Card has since been changed to an unformatted card
                         D_00641FF8[1] = 0;
-                        D_0041F920[memcardPort * 4 + memcardSlot] = 2;
-                        D_0041F940[memcardPort * 4 + memcardSlot] = 1;
-                        D_0041F960[memcardPort * 4 + memcardSlot] = 1;
+                        D_0041F920[memcardPort][memcardSlot] = 2;
+                        D_0041F940[memcardPort][memcardSlot] = 1;
+                        D_0041F960[memcardPort][memcardSlot] = 1;
                         break;
 
                     default:
-                        D_0041F920[memcardPort * 4 + memcardSlot] = 3;
+                        D_0041F920[memcardPort][memcardSlot] = 3;
                         if (D_00641FF8[1] == 0) {
-                            D_0041F940[memcardPort * 4 + memcardSlot] = 1;
-                            D_0041F980[memcardPort * 4 + memcardSlot] = 1;
+                            D_0041F940[memcardPort][memcardSlot] = 1;
+                            D_0041F980[memcardPort][memcardSlot] = 1;
                         }
                         D_00641FF8[1] = 1;
                         break;
