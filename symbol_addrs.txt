@@ -906,6 +906,34 @@ KeLnsFls_Init                = 0x001A8758; // type:func
 KeThResHd_Init               = 0x001AA960; // type:func
 
 //=============================
+// memcard.c
+//=============================
+memcard_GetAllStatus         = 0x002312B0; // type:func
+memcard_GetDirStatus         = 0x002312C0; // type:func
+memcard_GetFormatStatus      = 0x002312D0; // type:func
+memcard_GetUnformatStatus    = 0x002312E0; // type:func
+memcard_GetChdirStatus       = 0x002312F0; // type:func
+memcard_GetMkdirStatus       = 0x00231300; // type:func
+memcard_GetCreateStatus      = 0x00231310; // type:func
+memcard_GetDeleteStatus      = 0x00231320; // type:func
+memcard_GetReadStatus        = 0x00231330; // type:func
+memcard_GetWriteStatus       = 0x00231340; // type:func
+memcard_GetRenameStatus      = 0x00231350; // type:func
+memcard_GetInfo              = 0x002319E0; // type:func
+memcard_GetAllFiles          = 0x00231C88; // type:func
+memcard_GetDirFiles          = 0x00231E08; // type:func
+memcard_Format               = 0x00231F80; // type:func
+memcard_Unformat             = 0x002320E8; // type:func
+memcard_Chdir                = 0x00232250; // type:func
+memcard_Mkdir                = 0x002323B0; // type:func
+memcard_Create               = 0x00232510; // type:func
+memcard_Delete               = 0x002327D0; // type:func
+memcard_Read                 = 0x00232948; // type:func
+memcard_Write                = 0x00232BF0; // type:func
+memcard_Rename               = 0x00232EB0; // type:func
+memcard_RunCommand           = 0x00233040; // type:func
+
+//=============================
 // disk.c
 //=============================
 disk_Timeout                 = 0x0024A140; // type:func
@@ -2050,6 +2078,19 @@ roomArchiveFile              = 0x002B92B0; // size:0x40
 ppvParScl                    = 0x0036C6C0; // size 0x10
 
 //=============================
+// memcard.c
+//=============================
+memcardCommands              = 0x0041F8C8; // size:0x38
+memcardPort                  = 0x0041F908; // type:s32
+memcardSlot                  = 0x0041F90C; // type:s32
+memcardType                  = 0x0041F910; // type:s32
+memcardFree                  = 0x0041F914; // type:s32
+memcardFormat                = 0x0041F918; // type:s32
+memcardFileBuf               = 0x0041F9A0; // type:s32
+memcardEntries               = 0x0041F9A4; // type:s32
+memcardDirStore              = 0x0041F9A8; // size:0x20
+
+//=============================
 // disk.c
 //=============================
 disk_BlockSize               = 0x004642E8; // type:s32
@@ -2123,6 +2164,25 @@ g_vecCamDir                  = 0x00618E60; // size:0x10
 g_vecCamDirM                 = 0x00618E70; // size:0x10
 KeDMat                       = 0x00618EC0; // size:0x40
 KeMatPht                     = 0x00618F00; // size:0x40
+
+//=============================
+// memcard.c
+//=============================
+memcardCurCmdIdx             = 0x00641FC0;
+memcardResult                = 0x00641FD8;
+memcardGetAllStatus          = 0x00642000;
+memcardGetDirStatus          = 0x00642004;
+memcardFormatStatus          = 0x00642008;
+memcardUnformatStatus        = 0x0064200C;
+memcardChdirStatus           = 0x00642010;
+memcardMkdirStatus           = 0x00642014;
+memcardCreateStatus          = 0x00642018;
+memcardDeleteStatus          = 0x0064201C;
+memcardReadStatus            = 0x00642020;
+memcardWriteStatus           = 0x00642024;
+memcardRenameStatus          = 0x00642028;
+memcardFileName              = 0x00642030;
+memcardNewFileName           = 0x00642034;
 
 //=============================
 // disk.c
