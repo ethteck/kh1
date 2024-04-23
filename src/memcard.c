@@ -41,7 +41,8 @@ s32 D_0041F9C8[2] = {};
 
 s32 D_006417B8;
 s32 memcardCurCmdIdx;
-s32 D_00641FC4;
+// Commands are executed in a loop, altering behavior based on the current step
+s32 memcardLoopStep;
 s32 D_00641FC8;
 s32 D_00641FCC;
 s32 D_00641FD0;
@@ -74,9 +75,9 @@ s32 D_0064202C;
 
 char* memcardFileName;
 char* memcardNewFileName;
-void* D_00642038;
-s32 D_0064203C;
-s32 D_00642040;
+void* memcardFileBuffer;
+s32 memcardFileSize;
+s32 memcardFileHandle;
 s32 (*D_00642044)(s32);
 
 INCLUDE_ASM(const s32, "memcard", func_002304D8);
@@ -217,19 +218,19 @@ s32 func_00231360(void) {
 INCLUDE_ASM(const s32, "memcard", func_00231370);
 
 void memcard_GetInfo(void) {
-    switch (D_00641FC4) {
-        case 0:
+    switch (memcardLoopStep) {
+        case 0: // Examine the memory card status
             sceMcGetInfo(memcardPort, memcardSlot, &memcardType, &memcardFree, &memcardFormat);
-            D_00641FC4++;
+            memcardLoopStep++;
             break;
 
-        case 1:
-            if (sceMcSync(1, NULL, &memcardResult) != 0) {
-                D_00641FC4++;
+        case 1: // Wait for sceMcGetInfo to finish
+            if (sceMcSync(1, NULL, &memcardResult) != sceMcExecRun) {
+                memcardLoopStep++;
             }
             break;
 
-        case 2:
+        case 2: // Check the result of the memory card status
             if (memcardType == sceMcTypePDA) {
                 D_0041F920[memcardPort][memcardSlot] = 3;
             } else {
@@ -253,7 +254,7 @@ void memcard_GetInfo(void) {
                         D_0041F960[memcardPort][memcardSlot] = 1;
                         break;
 
-                    default:
+                    default: // Card could not be accessed or detected
                         D_0041F920[memcardPort][memcardSlot] = 3;
                         if (D_00641FF8[1] == 0) {
                             D_0041F940[memcardPort][memcardSlot] = 1;
@@ -274,20 +275,19 @@ void memcard_GetInfo(void) {
 }
 
 void memcard_GetAllFiles(void) {
-    switch (D_00641FC4) {
-        case 0:
+    switch (memcardLoopStep) {
+        case 0: // Get all files on the memory card
             sceMcGetDir(memcardPort, memcardSlot, "*", 0, memcardEntries, memcardFileBuf);
-            D_00641FC4++;
+            memcardLoopStep++;
             break;
 
-        case 1:
-            if (sceMcSync(1, NULL, &memcardResult) != 0) {
-                D_00641FC4++;
+        case 1: // Wait for sceMcGetDir to finish
+            if (sceMcSync(1, NULL, &memcardResult) != sceMcExecRun) {
+                memcardLoopStep++;
             }
             break;
 
-        case 2:
-            // Result contains number of entries obtained
+        case 2: // Result contains number of entries obtained, negative if it won't write to table
             if (memcardResult >= 0) {
                 memcardEntries = memcardResult;
                 memcardGetAllStatus = 0;
@@ -297,7 +297,7 @@ void memcard_GetAllFiles(void) {
                     memcardGetAllStatus = 1;
                 } else if (memcardResult == sceMcResNoEntry) {
                     memcardEntries = -1;
-                    memcardGetAllStatus = D_00641FC4;
+                    memcardGetAllStatus = 2;
                 } else {
                     memcardEntries = -1;
                     memcardGetAllStatus = 3;
@@ -312,63 +312,61 @@ void memcard_GetAllFiles(void) {
 }
 
 void memcard_GetDirFiles(void) {
-    switch (D_00641FC4) {
-        case 0:
+    switch (memcardLoopStep) {
+        case 0: // Get files in the specified directory
             sceMcGetDir(memcardPort, memcardSlot, memcardFileName, 0, memcardEntries, memcardFileBuf);
-            D_00641FC4++;
+            memcardLoopStep++;
             break;
 
-        case 1:
-            if (sceMcSync(1, NULL, &memcardResult) != 0) {
-                D_00641FC4++;
+        case 1: // Wait for sceMcGetDir to finish
+            if (sceMcSync(1, NULL, &memcardResult) != sceMcExecRun) {
+                memcardLoopStep++;
             }
             break;
 
-        case 2:
-            if (D_00641FC4 == 2) {
-                if (memcardResult >= 0) {
-                    memcardEntries = memcardResult;
-                    memcardGetDirStatus = 0;
+        case 2: // Result contains number of entries obtained, negative if it won't write to table
+            if (memcardResult >= 0) {
+                memcardEntries = memcardResult;
+                memcardGetDirStatus = 0;
+            } else {
+                if (memcardResult == sceMcResNoFormat) {
+                    memcardEntries = -1;
+                    memcardGetDirStatus = 2;
+                } else if (memcardResult == sceMcResNoEntry) {
+                    memcardEntries = -1;
+                    memcardGetDirStatus = 3;
                 } else {
-                    if (memcardResult == sceMcResNoFormat) {
-                        memcardEntries = -1;
-                        memcardGetDirStatus = D_00641FC4;
-                    } else if (memcardResult == sceMcResNoEntry) {
-                        memcardEntries = -1;
-                        memcardGetDirStatus = 3;
-                    } else {
-                        memcardEntries = -1;
-                        memcardGetDirStatus = 4;
-                    }
+                    memcardEntries = -1;
+                    memcardGetDirStatus = 4;
                 }
-                memcardCurCmdIdx = 0;
-                D_00641FE8 = D_00641FE4;
-                if (D_00642044 != NULL) {
-                    D_00642044(D_00641FD4);
-                }
+            }
+            memcardCurCmdIdx = 0;
+            D_00641FE8 = D_00641FE4;
+            if (D_00642044 != NULL) {
+                D_00642044(D_00641FD4);
             }
     }
 }
 
 void memcard_Format(void) {
-    switch (D_00641FC4) {
-        case 0:
+    switch (memcardLoopStep) {
+        case 0: // Format the memory card
             sceMcFormat(memcardPort, memcardSlot);
-            D_00641FC4++;
+            memcardLoopStep++;
             break;
 
-        case 1:
-            if (sceMcSync(1, NULL, &memcardResult) != 0) {
-                D_00641FC4++;
+        case 1: // Wait for sceMcFormat to finish
+            if (sceMcSync(1, NULL, &memcardResult) != sceMcExecRun) {
+                memcardLoopStep++;
             }
             break;
 
-        case 2:
+        case 2: // Check the result of the format
             if (memcardResult != sceMcResSucceed) {
                 if (D_00641FDC != 0) {
                     D_00641FDC--;
                     D_00641FE0 = 60;
-                    D_00641FC4 = 3;
+                    memcardLoopStep = 3;
                     break;
                 }
                 memcardFormatStatus = TRUE;
@@ -387,29 +385,29 @@ void memcard_Format(void) {
                 D_00641FE0--;
                 break;
             }
-            D_00641FC4 = 0;
+            memcardLoopStep = 0;
     }
 }
 
 void memcard_Unformat(void) {
-    switch (D_00641FC4) {
-        case 0:
+    switch (memcardLoopStep) {
+        case 0: // Erase memory card formatting
             sceMcUnformat(memcardPort, memcardSlot);
-            D_00641FC4++;
+            memcardLoopStep++;
             break;
 
-        case 1:
-            if (sceMcSync(1, NULL, &memcardResult) != 0) {
-                D_00641FC4++;
+        case 1: // Wait for sceMcUnformat to finish
+            if (sceMcSync(1, NULL, &memcardResult) != sceMcExecRun) {
+                memcardLoopStep++;
             }
             break;
 
-        case 2:
+        case 2: // Check the result of the unformat
             if (memcardResult != sceMcResSucceed) {
                 if (D_00641FDC != 0) {
                     D_00641FDC--;
                     D_00641FE0 = 60;
-                    D_00641FC4 = 3;
+                    memcardLoopStep = 3;
                     break;
                 }
                 memcardUnformatStatus = 1;
@@ -428,35 +426,35 @@ void memcard_Unformat(void) {
                 D_00641FE0--;
                 break;
             }
-            D_00641FC4 = 0;
+            memcardLoopStep = 0;
     }
 }
 
 void memcard_Chdir(void) {
-    switch (D_00641FC4) {
-        case 0:
+    switch (memcardLoopStep) {
+        case 0: // Change the current working directory
             sceMcChdir(memcardPort, memcardSlot, memcardFileName, memcardDirStore);
-            D_00641FC4++;
+            memcardLoopStep++;
             break;
 
-        case 1:
-            if (sceMcSync(1, NULL, &memcardResult) != 0) {
-                D_00641FC4++;
+        case 1: // Wait for sceMcChdir to finish
+            if (sceMcSync(1, NULL, &memcardResult) != sceMcExecRun) {
+                memcardLoopStep++;
             }
             break;
 
-        case 2:
+        case 2: // Check the result of the chdir
             switch (memcardResult) {
-                case sceMcResSucceed:
+                case sceMcResSucceed: // Directory was changed successfully
                     memcardChdirStatus = 0;
                     break;
                 case sceMcResNoFormat: // Memory card was unformatted
                     memcardChdirStatus = 1;
                     break;
                 case sceMcResNoEntry: // Specified directory does not exist
-                    memcardChdirStatus = D_00641FC4;
+                    memcardChdirStatus = 2;
                     break;
-                default:
+                default: // Memory card could not be accessed or detected
                     memcardChdirStatus = 3;
                     break;
             }
@@ -469,33 +467,33 @@ void memcard_Chdir(void) {
 }
 
 void memcard_Mkdir(void) {
-    switch (D_00641FC4) {
-        case 0:
+    switch (memcardLoopStep) {
+        case 0: // Create a new directory
             sceMcMkdir(memcardPort, memcardSlot, memcardFileName);
-            D_00641FC4++;
+            memcardLoopStep++;
             break;
 
-        case 1:
-            if (sceMcSync(1, NULL, &memcardResult) != 0) {
-                D_00641FC4++;
+        case 1: // Wait for sceMcMkdir to finish
+            if (sceMcSync(1, NULL, &memcardResult) != sceMcExecRun) {
+                memcardLoopStep++;
             }
             break;
 
-        case 2:
+        case 2: // Check the result of the mkdir
             switch (memcardResult) {
-                case sceMcResSucceed:
+                case sceMcResSucceed: // Directory was created successfully
                     memcardMkdirStatus = 0;
                     break;
                 case sceMcResNoFormat: // Memory card was unformatted
                     memcardMkdirStatus = 1;
                     break;
                 case sceMcResFullDevice: // Memory card is too full
-                    memcardMkdirStatus = D_00641FC4;
+                    memcardMkdirStatus = 2;
                     break;
                 case sceMcResNoEntry: // Specified directory already exists
                     memcardMkdirStatus = 3;
                     break;
-                default:
+                default: // Memory card could not be accessed or detected
                     memcardMkdirStatus = 4;
                     break;
             }
@@ -512,22 +510,22 @@ void memcard_Create(void) {
     int iVar1;
     s32 sVar2;
 
-    switch (D_00641FC4) {
-        case 0:
+    switch (memcardLoopStep) {
+        case 0: // Open the file
             sceMcOpen(memcardPort, memcardSlot, memcardFileName, SCE_CREAT | SCE_RDWR);
-            D_00641FC4++;
+            memcardLoopStep++;
             break;
 
-        case 1:
-            if (sceMcSync(1, NULL, &memcardResult) != 0) {
-                D_00641FC4++;
+        case 1: // Wait for sceMcOpen to finish
+            if (sceMcSync(1, NULL, &memcardResult) != sceMcExecRun) {
+                memcardLoopStep++;
             }
             break;
 
-        case 2:
+        case 2: // Store the file handle
             if (memcardResult > -1) {
-                D_00641FC4 = D_00641FC4 + 1;
-                D_00642040 = memcardResult;
+                memcardLoopStep++;
+                memcardFileHandle = memcardResult;
                 return;
             }
             if (memcardResult == sceMcResNoFormat) {
@@ -545,20 +543,20 @@ void memcard_Create(void) {
             }
             goto LAB_0023278c;
 
-        case 3:
-            sceMcWrite(D_00642040, D_00642038, D_0064203C);
-            D_00641FC4++;
+        case 3: // Write to the file
+            sceMcWrite(memcardFileHandle, memcardFileBuffer, memcardFileSize);
+            memcardLoopStep++;
             break;
 
-        case 4:
-            if (sceMcSync(1, NULL, &memcardResult) != 0) {
-                D_00641FC4++;
+        case 4: // Wait for sceMcWrite to finish
+            if (sceMcSync(1, NULL, &memcardResult) != sceMcExecRun) {
+                memcardLoopStep++;
             }
             break;
 
-        case 5:
+        case 5: // Check the result of the write
             if (memcardResult >= 0) {
-                if (memcardResult == D_0064203C) {
+                if (memcardResult == memcardFileSize) {
                     memcardCreateStatus = 0;
                 } else {
                     memcardCreateStatus = 6;
@@ -578,16 +576,16 @@ void memcard_Create(void) {
                     memcardCreateStatus = 7;
                 }
             }
-            D_00641FC4++;
+            memcardLoopStep++;
             return;
 
-        case 6:
-            sceMcClose(D_00642040);
-            D_00641FC4++;
+        case 6: // Close the file
+            sceMcClose(memcardFileHandle);
+            memcardLoopStep++;
             break;
 
-        case 7:
-            if (sceMcSync(1, NULL, &memcardResult) == 0) {
+        case 7: // Block until sceMcClose is finished
+            if (sceMcSync(1, NULL, &memcardResult) == sceMcExecRun) {
                 return;
             }
         LAB_0023278c:
@@ -600,36 +598,36 @@ void memcard_Create(void) {
 }
 
 void memcard_Delete(void) {
-    switch (D_00641FC4) {
-        case 0:
+    switch (memcardLoopStep) {
+        case 0: // Delete the file or directory
             sceMcDelete(memcardPort, memcardSlot, memcardFileName);
-            D_00641FC4++;
+            memcardLoopStep++;
             break;
 
-        case 1:
-            if (sceMcSync(1, NULL, &memcardResult) != 0) {
-                D_00641FC4++;
+        case 1: // Wait for sceMcDelete to finish
+            if (sceMcSync(1, NULL, &memcardResult) != sceMcExecRun) {
+                memcardLoopStep++;
             }
             break;
 
-        case 2:
+        case 2: // Check the result of the delete
             switch (memcardResult) {
-                case sceMcResSucceed:
+                case sceMcResSucceed: // File or directory was deleted successfully
                     memcardDeleteStatus = 0;
                     break;
-                case sceMcResNoFormat:
+                case sceMcResNoFormat: // Memory card was unformatted
                     memcardDeleteStatus = 1;
                     break;
-                case sceMcResNoEntry:
+                case sceMcResNoEntry: // Specified file or directory does not exist
                     memcardDeleteStatus = 2;
                     break;
-                case sceMcResDeniedPermit:
+                case sceMcResDeniedPermit: // File or directory could not be deleted
                     memcardDeleteStatus = 3;
                     break;
-                case sceMcResNotEmpty:
+                case sceMcResNotEmpty: // Directory is not empty
                     memcardDeleteStatus = 4;
                     break;
-                default:
+                default: // Memory card could not be accessed or detected
                     memcardDeleteStatus = 5;
                     break;
             }
@@ -643,22 +641,22 @@ void memcard_Delete(void) {
 
 // todo: match without goto
 void memcard_Read(void) {
-    switch (D_00641FC4) {
-        case 0:
+    switch (memcardLoopStep) {
+        case 0: // Open the file
             sceMcOpen(memcardPort, memcardSlot, memcardFileName, SCE_RDONLY);
-            D_00641FC4++;
+            memcardLoopStep++;
             return;
 
-        case 1:
-            if (sceMcSync(1, NULL, &memcardResult) != 0) {
-                D_00641FC4++;
+        case 1: // Wait for sceMcOpen to finish
+            if (sceMcSync(1, NULL, &memcardResult) != sceMcExecRun) {
+                memcardLoopStep++;
             }
             return;
 
-        case 2:
+        case 2: // Store the file handle
             if (memcardResult > -1) {
-                D_00641FC4++;
-                D_00642040 = memcardResult;
+                memcardLoopStep++;
+                memcardFileHandle = memcardResult;
                 return;
             }
             if (memcardResult == sceMcResNoFormat) {
@@ -676,20 +674,20 @@ void memcard_Read(void) {
             }
             goto LAB_00232bac;
 
-        case 3:
-            sceMcRead(D_00642040, D_00642038, D_0064203C);
-            D_00641FC4++;
+        case 3: // Read from the file
+            sceMcRead(memcardFileHandle, memcardFileBuffer, memcardFileSize);
+            memcardLoopStep++;
             return;
 
-        case 4:
-            if (sceMcSync(1, NULL, &memcardResult) != 0) {
-                D_00641FC4++;
+        case 4: // Wait for sceMcRead to finish
+            if (sceMcSync(1, NULL, &memcardResult) != sceMcExecRun) {
+                memcardLoopStep++;
             }
             return;
 
-        case 5:
+        case 5: // Check the result of the read
             if (memcardResult >= sceMcResSucceed) {
-                if (memcardResult == D_0064203C) {
+                if (memcardResult == memcardFileSize) {
                     memcardReadStatus = 0;
                 } else {
                     memcardReadStatus = 6;
@@ -707,16 +705,16 @@ void memcard_Read(void) {
                     memcardReadStatus = 7;
                 }
             }
-            D_00641FC4++;
+            memcardLoopStep++;
             return;
 
-        case 6:
-            sceMcClose(D_00642040);
-            D_00641FC4++;
+        case 6: // Close the file
+            sceMcClose(memcardFileHandle);
+            memcardLoopStep++;
             return;
 
-        case 7:
-            if (sceMcSync(1, NULL, &memcardResult) == 0) {
+        case 7: // Block until sceMcClose is finished
+            if (sceMcSync(1, NULL, &memcardResult) == sceMcExecRun) {
                 return;
             }
         LAB_00232bac:
@@ -730,22 +728,22 @@ void memcard_Read(void) {
 
 // todo: match without goto
 void memcard_Write(void) {
-    switch (D_00641FC4) {
-        case 0:
+    switch (memcardLoopStep) {
+        case 0: // Open the file
             sceMcOpen(memcardPort, memcardSlot, memcardFileName, 2);
-            D_00641FC4++;
+            memcardLoopStep++;
             return;
 
-        case 1:
-            if (sceMcSync(1, NULL, &memcardResult) != 0) {
-                D_00641FC4++;
+        case 1: // Wait for sceMcOpen to finish
+            if (sceMcSync(1, NULL, &memcardResult) != sceMcExecRun) {
+                memcardLoopStep++;
             }
             return;
 
-        case 2:
+        case 2: // Store the file handle
             if (memcardResult > -1) {
-                D_00641FC4++;
-                D_00642040 = memcardResult;
+                memcardLoopStep++;
+                memcardFileHandle = memcardResult;
                 return;
             }
             if (memcardResult == sceMcResNoFormat) {
@@ -763,20 +761,20 @@ void memcard_Write(void) {
             }
             goto LAB_00232bac;
 
-        case 3:
-            sceMcWrite(D_00642040, D_00642038, D_0064203C);
-            D_00641FC4++;
+        case 3: // Write to the file
+            sceMcWrite(memcardFileHandle, memcardFileBuffer, memcardFileSize);
+            memcardLoopStep++;
             return;
 
-        case 4:
-            if (sceMcSync(1, NULL, &memcardResult) != 0) {
-                D_00641FC4++;
+        case 4: // Wait for sceMcWrite to finish
+            if (sceMcSync(1, NULL, &memcardResult) != sceMcExecRun) {
+                memcardLoopStep++;
             }
             return;
 
-        case 5:
+        case 5: // Check the result of the write
             if (memcardResult >= 0) {
-                if (memcardResult == D_0064203C) {
+                if (memcardResult == memcardFileSize) {
                     memcardWriteStatus = 0;
                 } else {
                     memcardWriteStatus = 6;
@@ -796,15 +794,15 @@ void memcard_Write(void) {
                     memcardWriteStatus = 7;
                 }
             }
-            D_00641FC4++;
+            memcardLoopStep++;
             return;
 
-        case 6:
-            sceMcClose(D_00642040);
-            D_00641FC4++;
+        case 6: // Close the file
+            sceMcClose(memcardFileHandle);
+            memcardLoopStep++;
             return;
 
-        case 7:
+        case 7: // Block until sceMcClose is finished
             if (sceMcSync(1, NULL, &memcardResult) == 0) {
                 return;
             }
@@ -818,25 +816,25 @@ void memcard_Write(void) {
 }
 
 void memcard_Rename(void) {
-    switch (D_00641FC4) {
-        case 0:
+    switch (memcardLoopStep) {
+        case 0: // Rename the file
             sceMcRename(memcardPort, memcardSlot, memcardFileName, memcardNewFileName);
-            D_00641FC4++;
+            memcardLoopStep++;
             break;
 
-        case 1:
-            if (sceMcSync(1, NULL, &memcardResult) != 0) {
-                D_00641FC4++;
+        case 1: // Wait for sceMcRename to finish
+            if (sceMcSync(1, NULL, &memcardResult) != sceMcExecRun) {
+                memcardLoopStep++;
             }
             break;
 
-        case 2:
+        case 2: // Check the result of the rename
             if (memcardResult == sceMcResSucceed) {
                 memcardRenameStatus = 0;
             } else if (memcardResult == sceMcResNoFormat) {
                 memcardRenameStatus = 1;
             } else if (memcardResult == sceMcResNoEntry) {
-                memcardRenameStatus = D_00641FC4;
+                memcardRenameStatus = 2;
             } else {
                 memcardRenameStatus = 3;
             }

@@ -2169,6 +2169,7 @@ KeMatPht                     = 0x00618F00; // size:0x40
 // memcard.c
 //=============================
 memcardCurCmdIdx             = 0x00641FC0;
+memcardLoopStep              = 0x00641FC4;
 memcardResult                = 0x00641FD8;
 memcardGetAllStatus          = 0x00642000;
 memcardGetDirStatus          = 0x00642004;
@@ -2183,6 +2184,9 @@ memcardWriteStatus           = 0x00642024;
 memcardRenameStatus          = 0x00642028;
 memcardFileName              = 0x00642030;
 memcardNewFileName           = 0x00642034;
+memcardFileBuffer            = 0x00642038;
+memcardFileSize              = 0x0064203C;
+memcardFileHandle            = 0x00642040;
 
 //=============================
 // disk.c
