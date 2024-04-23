@@ -3,8 +3,6 @@
 
 #include "libmc.h"
 
-// .data
-
 void (*memcardCommands[14])(void) = {
     func_00231370,    memcard_GetInfo, memcard_GetAllFiles, memcard_GetDirFiles, memcard_Format,
     memcard_Unformat, memcard_Chdir,   memcard_Mkdir,       memcard_Create,      memcard_Delete,
@@ -40,6 +38,7 @@ s32 D_0041F9C8[2] = {};
 // .bss
 
 s32 D_006417B8;
+s64 D_006417C0[0x100];
 s32 memcardCurCmdIdx;
 // Commands are executed in a loop, altering behavior based on the current step
 s32 memcardLoopStep;
@@ -57,21 +56,9 @@ s32 D_00641FE4;
 s32 D_00641FE8;
 s32 D_00641FEC;
 s32 D_00641FF0;
-s32 D_00641FF8[2];
 
-// The following appear to be status flags for each command
-s32 memcardGetAllStatus;
-s32 memcardGetDirStatus;
-s32 memcardFormatStatus;
-s32 memcardUnformatStatus;
-s32 memcardChdirStatus;
-s32 memcardMkdirStatus;
-s32 memcardCreateStatus;
-s32 memcardDeleteStatus;
-s32 memcardReadStatus;
-s32 memcardWriteStatus;
-s32 memcardRenameStatus;
-s32 D_0064202C;
+// Status flags for each command
+s32 memcardStatus[14];
 
 char* memcardFileName;
 char* memcardNewFileName;
@@ -80,9 +67,73 @@ s32 memcardFileSize;
 s32 memcardFileHandle;
 s32 (*D_00642044)(s32);
 
-INCLUDE_ASM(const s32, "memcard", func_002304D8);
+void memcard_Initialize(void) {
+    s32 i;
+    s64* buffer;
 
-INCLUDE_ASM(const s32, "memcard", func_00230520);
+    sceMcInit();
+    buffer = D_006417C0;
+    for (i = 0x100; i > 0; i--) {
+        *buffer = 0;
+        buffer++;
+    }
+    memcard_SetDefaults();
+}
+
+void memcard_SetDefaults(void) {
+    s32 i, j;
+    s32 port;
+
+    for (i = 0; i < 2; i++) {
+        D_0041F9C8[i] = 1;
+        D_0041F900[i] = sceMcGetSlotMax(i);
+    }
+
+    memcardCurCmdIdx = 0;
+    memcardLoopStep = 0;
+    D_00641FC8 = 0;
+    D_00641FCC = 0;
+    D_00641FD0 = 1;
+    D_00641FD4 = 1;
+    memcardPort = 0;
+    memcardSlot = 0;
+    D_006417B8 = 0;
+    D_00641FE4 = 300;
+    D_00641FE8 = 300;
+
+    for (i = 0; i <= 13; i++) {
+        memcardStatus[i] = 0;
+    }
+
+    for (i = 0; i < 2; i++) {
+        for (j = 0; j < 4; j++) {
+            D_0041F920[i][j] = 3;
+            D_0041F940[i][j] = 0;
+            D_0041F960[i][j] = 0;
+            D_0041F980[i][j] = 0;
+        }
+    }
+
+    for (port = 0; port < 2; port++) {
+        sceMcGetInfo(port, 0, &memcardType, &memcardFree, &memcardFormat);
+
+        sceMcSync(0, 0, &memcardResult);
+        switch (memcardResult) {
+            case 0:
+                D_0041F920[port][0] = 0;
+                break;
+            case -1:
+                D_0041F920[port][0] = 1;
+                break;
+            case -2:
+                D_0041F920[port][0] = 2;
+                break;
+            default:
+                D_0041F920[port][0] = 3;
+                break;
+        }
+    }
+}
 
 INCLUDE_ASM(const s32, "memcard", func_00230760);
 
@@ -164,58 +215,215 @@ INCLUDE_ASM(const s32, "memcard", func_00231190);
 INCLUDE_ASM(const s32, "memcard", func_00231240);
 
 s32 func_002312A0(void) {
-    return D_00641FF8[1];
+    return memcardStatus[1];
 }
 
 s32 memcard_GetAllStatus(void) {
-    return memcardGetAllStatus;
+    return memcardStatus[2];
 }
 
 s32 memcard_GetDirStatus(void) {
-    return memcardGetDirStatus;
+    return memcardStatus[3];
 }
 
 s32 memcard_GetFormatStatus(void) {
-    return memcardFormatStatus;
+    return memcardStatus[4];
 }
 
 s32 memcard_GetUnformatStatus(void) {
-    return memcardUnformatStatus;
+    return memcardStatus[5];
 }
 
 s32 memcard_GetChdirStatus(void) {
-    return memcardChdirStatus;
+    return memcardStatus[6];
 }
 
 s32 memcard_GetMkdirStatus(void) {
-    return memcardMkdirStatus;
+    return memcardStatus[7];
 }
 
 s32 memcard_GetCreateStatus(void) {
-    return memcardCreateStatus;
+    return memcardStatus[8];
 }
 
 s32 memcard_GetDeleteStatus(void) {
-    return memcardDeleteStatus;
+    return memcardStatus[9];
 }
 
 s32 memcard_GetReadStatus(void) {
-    return memcardReadStatus;
+    return memcardStatus[10];
 }
 
 s32 memcard_GetWriteStatus(void) {
-    return memcardWriteStatus;
+    return memcardStatus[11];
 }
 
 s32 memcard_GetRenameStatus(void) {
-    return memcardRenameStatus;
+    return memcardStatus[12];
 }
 
 s32 func_00231360(void) {
-    return D_0064202C;
+    return memcardStatus[13];
 }
 
+// todo: confusing struct?
 INCLUDE_ASM(const s32, "memcard", func_00231370);
+// void func_00231370(void) {
+//     if (D_00641FC8 != D_00641FCC) {
+//         switch (*(s32*)(D_006417C0 + D_00641FCC * 4)) {
+//             case 1:
+//                 memcardCurCmdIdx = 1;
+//                 D_00642044 = *(s32*)(D_006417C0 + D_00641FCC * 4 + 2);
+//                 memcardLoopStep = 0;
+//                 memcardPort = *(s32*)(D_006417C0 + D_00641FCC * 4 + 1);
+//                 memcardSlot = *(s32*)((int)D_006417C0 + D_00641FCC * 0x20 + 0xc);
+//                 D_00641FD4 = *(s32*)((int)D_006417C0 + D_00641FCC * 0x20 + 4);
+//                 D_00641FCC = D_00641FCC + 1 & 0x3f;
+//                 break;
+//             case 2:
+//                 memcardCurCmdIdx = 2;
+//                 D_00642044 = *(s32*)(D_006417C0 + D_00641FCC * 4 + 3);
+//                 memcardLoopStep = 0;
+//                 memcardPort = *(s32*)(D_006417C0 + D_00641FCC * 4 + 1);
+//                 memcardSlot = *(s32*)((int)D_006417C0 + D_00641FCC * 0x20 + 0xc);
+//                 memcardFileBuf = *(sceMcTblGetDir**)(D_006417C0 + D_00641FCC * 4 + 2);
+//                 memcardEntries = *(s32*)((int)D_006417C0 + D_00641FCC * 0x20 + 0x14);
+//                 D_00641FD4 = *(s32*)((int)D_006417C0 + D_00641FCC * 0x20 + 4);
+//                 D_00641FCC = D_00641FCC + 1 & 0x3f;
+//                 break;
+//             case 3:
+//                 memcardCurCmdIdx = 3;
+//                 D_00642044 = *(s32*)((int)D_006417C0 + D_00641FCC * 0x20 + 0x1c);
+//                 memcardLoopStep = 0;
+//                 memcardPort = *(s32*)(D_006417C0 + D_00641FCC * 4 + 1);
+//                 memcardSlot = *(s32*)((int)D_006417C0 + D_00641FCC * 0x20 + 0xc);
+//                 memcardFileName = *(char**)(D_006417C0 + D_00641FCC * 4 + 2);
+//                 memcardFileBuf = *(sceMcTblGetDir**)((int)D_006417C0 + D_00641FCC * 0x20 + 0x14);
+//                 memcardEntries = *(s32*)(D_006417C0 + D_00641FCC * 4 + 3);
+//                 D_00641FD4 = *(s32*)((int)D_006417C0 + D_00641FCC * 0x20 + 4);
+//                 D_00641FCC = D_00641FCC + 1 & 0x3f;
+//                 break;
+//             case 4:
+//                 memcardCurCmdIdx = 4;
+//                 D_00642044 = *(s32*)(D_006417C0 + D_00641FCC * 4 + 2);
+//                 memcardLoopStep = 0;
+//                 memcardPort = *(s32*)(D_006417C0 + D_00641FCC * 4 + 1);
+//                 memcardSlot = *(s32*)((int)D_006417C0 + D_00641FCC * 0x20 + 0xc);
+//                 D_00641FD4 = *(s32*)((int)D_006417C0 + D_00641FCC * 0x20 + 4);
+//                 D_00641FDC = 0;
+//                 D_00641FE0 = 0;
+//                 D_00641FCC = D_00641FCC + 1 & 0x3f;
+//                 break;
+//             case 5:
+//                 memcardCurCmdIdx = 5;
+//                 D_00642044 = *(s32*)(D_006417C0 + D_00641FCC * 4 + 2);
+//                 memcardLoopStep = 0;
+//                 memcardPort = *(s32*)(D_006417C0 + D_00641FCC * 4 + 1);
+//                 memcardSlot = *(s32*)((int)D_006417C0 + D_00641FCC * 0x20 + 0xc);
+//                 D_00641FD4 = *(s32*)((int)D_006417C0 + D_00641FCC * 0x20 + 4);
+//                 D_00641FDC = 0;
+//                 D_00641FE0 = 0;
+//                 D_00641FCC = D_00641FCC + 1 & 0x3f;
+//                 break;
+//             case 6:
+//                 memcardCurCmdIdx = 6;
+//                 D_00642044 = *(s32*)((int)D_006417C0 + D_00641FCC * 0x20 + 0x14);
+//                 memcardLoopStep = 0;
+//                 memcardPort = *(s32*)(D_006417C0 + D_00641FCC * 4 + 1);
+//                 memcardSlot = *(s32*)((int)D_006417C0 + D_00641FCC * 0x20 + 0xc);
+//                 memcardFileName = *(char**)(D_006417C0 + D_00641FCC * 4 + 2);
+//                 D_00641FD4 = *(s32*)((int)D_006417C0 + D_00641FCC * 0x20 + 4);
+//                 D_00641FCC = D_00641FCC + 1 & 0x3f;
+//                 break;
+//             case 7:
+//                 memcardCurCmdIdx = 7;
+//                 D_00642044 = *(s32*)((int)D_006417C0 + D_00641FCC * 0x20 + 0x14);
+//                 memcardLoopStep = 0;
+//                 memcardPort = *(s32*)(D_006417C0 + D_00641FCC * 4 + 1);
+//                 memcardSlot = *(s32*)((int)D_006417C0 + D_00641FCC * 0x20 + 0xc);
+//                 memcardFileName = *(char**)(D_006417C0 + D_00641FCC * 4 + 2);
+//                 D_00641FD4 = *(s32*)((int)D_006417C0 + D_00641FCC * 0x20 + 4);
+//                 D_00641FCC = D_00641FCC + 1 & 0x3f;
+//                 break;
+//             case 8:
+//                 memcardCurCmdIdx = 8;
+//                 D_00642044 = *(s32*)((int)D_006417C0 + D_00641FCC * 0x20 + 0x1c);
+//                 memcardLoopStep = 0;
+//                 memcardPort = *(s32*)(D_006417C0 + D_00641FCC * 4 + 1);
+//                 memcardSlot = *(s32*)((int)D_006417C0 + D_00641FCC * 0x20 + 0xc);
+//                 memcardFileName = *(char**)(D_006417C0 + D_00641FCC * 4 + 2);
+//                 memcardFileBuffer = *(void**)((int)D_006417C0 + D_00641FCC * 0x20 + 0x14);
+//                 memcardFileSize = *(s32*)(D_006417C0 + D_00641FCC * 4 + 3);
+//                 D_00641FD4 = *(s32*)((int)D_006417C0 + D_00641FCC * 4 + 4);
+//                 D_00641FCC = D_00641FCC + 1 & 0x3f;
+//                 break;
+//             case 9:
+//                 memcardCurCmdIdx = 9;
+//                 D_00642044 = *(s32*)((int)D_006417C0 + D_00641FCC * 0x20 + 0x14);
+//                 memcardLoopStep = 0;
+//                 memcardPort = *(s32*)(D_006417C0 + D_00641FCC * 4 + 1);
+//                 memcardSlot = *(s32*)((int)D_006417C0 + D_00641FCC * 0x20 + 0xc);
+//                 memcardFileName = *(char**)(D_006417C0 + D_00641FCC * 4 + 2);
+//                 D_00641FD4 = *(s32*)((int)D_006417C0 + D_00641FCC * 0x20 + 4);
+//                 D_00641FCC = D_00641FCC + 1 & 0x3f;
+//                 break;
+//             case 10:
+//                 memcardCurCmdIdx = 10;
+//                 D_00642044 = *(s32*)((int)D_006417C0 + D_00641FCC * 0x20 + 0x1c);
+//                 memcardLoopStep = 0;
+//                 memcardPort = *(s32*)(D_006417C0 + D_00641FCC * 4 + 1);
+//                 memcardSlot = *(s32*)((int)D_006417C0 + D_00641FCC * 0x20 + 0xc);
+//                 memcardFileName = *(char**)(D_006417C0 + D_00641FCC * 4 + 2);
+//                 memcardFileBuffer = *(void**)((int)D_006417C0 + D_00641FCC * 0x20 + 0x14);
+//                 memcardFileSize = *(s32*)(D_006417C0 + D_00641FCC * 4 + 3);
+//                 D_00641FD4 = *(s32*)((int)D_006417C0 + D_00641FCC * 4 + 4);
+//                 D_00641FCC = D_00641FCC + 1 & 0x3f;
+//                 break;
+//             case 11:
+//                 memcardCurCmdIdx = 11;
+//                 D_00642044 = *(s32*)((int)D_006417C0 + D_00641FCC * 0x20 + 0x1c);
+//                 memcardLoopStep = 0;
+//                 memcardPort = *(s32*)(D_006417C0 + D_00641FCC * 4 + 1);
+//                 memcardSlot = *(s32*)((int)D_006417C0 + D_00641FCC * 0x20 + 0xc);
+//                 memcardFileName = *(char**)(D_006417C0 + D_00641FCC * 4 + 2);
+//                 memcardFileBuffer = *(void**)((int)D_006417C0 + D_00641FCC * 0x20 + 0x14);
+//                 memcardFileSize = *(s32*)(D_006417C0 + D_00641FCC * 4 + 3);
+//                 D_00641FD4 = *(s32*)((int)D_006417C0 + D_00641FCC * 4 + 4);
+//                 D_00641FCC = D_00641FCC + 1 & 0x3f;
+//                 break;
+//             case 12:
+//                 memcardCurCmdIdx = 12;
+//                 D_00642044 = *(s32*)(D_006417C0 + D_00641FCC * 4 + 3);
+//                 memcardLoopStep = 0;
+//                 memcardPort = *(s32*)(D_006417C0 + D_00641FCC * 4 + 1);
+//                 memcardSlot = *(s32*)((int)D_006417C0 + D_00641FCC * 0x20 + 0xc);
+//                 memcardFileName = *(char**)(D_006417C0 + D_00641FCC * 4 + 2);
+//                 memcardNewFileName = *(char**)((int)D_006417C0 + D_00641FCC * 0x20 + 0x14);
+//                 D_00641FD4 = *(s32*)((int)D_006417C0 + D_00641FCC * 0x20 + 4);
+//                 D_00641FCC = D_00641FCC + 1 & 0x3f;
+//                 break;
+//             case 13:
+//                 memcardCurCmdIdx = 13;
+//                 D_00641FD4 = *(s32*)((int)D_006417C0 + D_00641FCC * 0x20 + 4);
+//                 D_00642044 = *(s32*)(D_006417C0 + D_00641FCC * 4 + 1);
+//                 D_00641FCC = D_00641FCC + 1 & 0x3f;
+//         }
+//     } else {
+//         if (D_006417B8 == 0) {
+//             return;
+//         }
+//         if (D_00641FE8 != 0) {
+//             D_00641FE8--;
+//             return;
+//         }
+//         memcardCurCmdIdx = 1;
+//         D_00642044 = 0;
+//         memcardLoopStep = 0;
+//         memcardPort = D_00641FEC;
+//         memcardSlot = D_00641FF0;
+//         D_00641FE8 = D_00641FE4;
+//     }
+// }
 
 void memcard_GetInfo(void) {
     switch (memcardLoopStep) {
@@ -236,19 +444,19 @@ void memcard_GetInfo(void) {
             } else {
                 switch (memcardResult) {
                     case sceMcResSucceed: // Same card has been used continuously
-                        D_00641FF8[1] = 0;
+                        memcardStatus[1] = 0;
                         D_0041F920[memcardPort][memcardSlot] = 0;
                         break;
 
                     case sceMcResChangedCard: // Card has since been changed to a formatted card
-                        D_00641FF8[1] = 0;
+                        memcardStatus[1] = 0;
                         D_0041F920[memcardPort][memcardSlot] = 1;
                         D_0041F940[memcardPort][memcardSlot] = 1;
                         D_0041F960[memcardPort][memcardSlot] = 1;
                         break;
 
                     case sceMcResNoFormat: // Card has since been changed to an unformatted card
-                        D_00641FF8[1] = 0;
+                        memcardStatus[1] = 0;
                         D_0041F920[memcardPort][memcardSlot] = 2;
                         D_0041F940[memcardPort][memcardSlot] = 1;
                         D_0041F960[memcardPort][memcardSlot] = 1;
@@ -256,11 +464,11 @@ void memcard_GetInfo(void) {
 
                     default: // Card could not be accessed or detected
                         D_0041F920[memcardPort][memcardSlot] = 3;
-                        if (D_00641FF8[1] == 0) {
+                        if (memcardStatus[1] == 0) {
                             D_0041F940[memcardPort][memcardSlot] = 1;
                             D_0041F980[memcardPort][memcardSlot] = 1;
                         }
-                        D_00641FF8[1] = 1;
+                        memcardStatus[1] = 1;
                         break;
                 }
             }
@@ -290,17 +498,17 @@ void memcard_GetAllFiles(void) {
         case 2: // Result contains number of entries obtained, negative if it won't write to table
             if (memcardResult >= 0) {
                 memcardEntries = memcardResult;
-                memcardGetAllStatus = 0;
+                memcardStatus[2] = 0;
             } else {
                 if (memcardResult == sceMcResNoFormat) {
                     memcardEntries = -1;
-                    memcardGetAllStatus = 1;
+                    memcardStatus[2] = 1;
                 } else if (memcardResult == sceMcResNoEntry) {
                     memcardEntries = -1;
-                    memcardGetAllStatus = 2;
+                    memcardStatus[2] = 2;
                 } else {
                     memcardEntries = -1;
-                    memcardGetAllStatus = 3;
+                    memcardStatus[2] = 3;
                 }
             }
             memcardCurCmdIdx = 0;
@@ -327,17 +535,17 @@ void memcard_GetDirFiles(void) {
         case 2: // Result contains number of entries obtained, negative if it won't write to table
             if (memcardResult >= 0) {
                 memcardEntries = memcardResult;
-                memcardGetDirStatus = 0;
+                memcardStatus[3] = 0;
             } else {
                 if (memcardResult == sceMcResNoFormat) {
                     memcardEntries = -1;
-                    memcardGetDirStatus = 2;
+                    memcardStatus[3] = 2;
                 } else if (memcardResult == sceMcResNoEntry) {
                     memcardEntries = -1;
-                    memcardGetDirStatus = 3;
+                    memcardStatus[3] = 3;
                 } else {
                     memcardEntries = -1;
-                    memcardGetDirStatus = 4;
+                    memcardStatus[3] = 4;
                 }
             }
             memcardCurCmdIdx = 0;
@@ -369,9 +577,9 @@ void memcard_Format(void) {
                     memcardLoopStep = 3;
                     break;
                 }
-                memcardFormatStatus = TRUE;
+                memcardStatus[4] = TRUE;
             } else {
-                memcardFormatStatus = FALSE;
+                memcardStatus[4] = FALSE;
             }
             memcardCurCmdIdx = 0;
             D_00641FE8 = D_00641FE4;
@@ -410,9 +618,9 @@ void memcard_Unformat(void) {
                     memcardLoopStep = 3;
                     break;
                 }
-                memcardUnformatStatus = 1;
+                memcardStatus[5] = TRUE;
             } else {
-                memcardUnformatStatus = 0;
+                memcardStatus[5] = FALSE;
             }
             memcardCurCmdIdx = 0;
             D_00641FE8 = D_00641FE4;
@@ -446,16 +654,16 @@ void memcard_Chdir(void) {
         case 2: // Check the result of the chdir
             switch (memcardResult) {
                 case sceMcResSucceed: // Directory was changed successfully
-                    memcardChdirStatus = 0;
+                    memcardStatus[6] = 0;
                     break;
                 case sceMcResNoFormat: // Memory card was unformatted
-                    memcardChdirStatus = 1;
+                    memcardStatus[6] = 1;
                     break;
                 case sceMcResNoEntry: // Specified directory does not exist
-                    memcardChdirStatus = 2;
+                    memcardStatus[6] = 2;
                     break;
                 default: // Memory card could not be accessed or detected
-                    memcardChdirStatus = 3;
+                    memcardStatus[6] = 3;
                     break;
             }
             memcardCurCmdIdx = 0;
@@ -482,19 +690,19 @@ void memcard_Mkdir(void) {
         case 2: // Check the result of the mkdir
             switch (memcardResult) {
                 case sceMcResSucceed: // Directory was created successfully
-                    memcardMkdirStatus = 0;
+                    memcardStatus[7] = 0;
                     break;
                 case sceMcResNoFormat: // Memory card was unformatted
-                    memcardMkdirStatus = 1;
+                    memcardStatus[7] = 1;
                     break;
                 case sceMcResFullDevice: // Memory card is too full
-                    memcardMkdirStatus = 2;
+                    memcardStatus[7] = 2;
                     break;
                 case sceMcResNoEntry: // Specified directory already exists
-                    memcardMkdirStatus = 3;
+                    memcardStatus[7] = 3;
                     break;
                 default: // Memory card could not be accessed or detected
-                    memcardMkdirStatus = 4;
+                    memcardStatus[7] = 4;
                     break;
             }
             memcardCurCmdIdx = 0;
@@ -529,17 +737,17 @@ void memcard_Create(void) {
                 return;
             }
             if (memcardResult == sceMcResNoFormat) {
-                memcardCreateStatus = 1;
+                memcardStatus[8] = 1;
             } else if (memcardResult == sceMcResFullDevice) {
-                memcardCreateStatus = 2;
+                memcardStatus[8] = 2;
             } else if (memcardResult == sceMcResNoEntry) {
-                memcardCreateStatus = 3;
+                memcardStatus[8] = 3;
             } else if (memcardResult == sceMcResDeniedPermit) {
-                memcardCreateStatus = 4;
+                memcardStatus[8] = 4;
             } else if (memcardResult == sceMcResUpLimitHandle) {
-                memcardCreateStatus = 5;
+                memcardStatus[8] = 5;
             } else {
-                memcardCreateStatus = 7;
+                memcardStatus[8] = 7;
             }
             goto LAB_0023278c;
 
@@ -557,23 +765,23 @@ void memcard_Create(void) {
         case 5: // Check the result of the write
             if (memcardResult >= 0) {
                 if (memcardResult == memcardFileSize) {
-                    memcardCreateStatus = 0;
+                    memcardStatus[8] = 0;
                 } else {
-                    memcardCreateStatus = 6;
+                    memcardStatus[8] = 6;
                 }
             } else {
                 if (memcardResult == sceMcResNoFormat) {
-                    memcardCreateStatus = 1;
+                    memcardStatus[8] = 1;
                 } else if (memcardResult == sceMcResFullDevice) {
-                    memcardCreateStatus = 2;
+                    memcardStatus[8] = 2;
                 } else if (memcardResult == sceMcResNoEntry) {
-                    memcardCreateStatus = 5;
+                    memcardStatus[8] = 5;
                 } else if (memcardResult == sceMcResDeniedPermit) {
-                    memcardCreateStatus = 4;
+                    memcardStatus[8] = 4;
                 } else if (memcardResult == sceMcResFailReplace) {
-                    memcardCreateStatus = 6;
+                    memcardStatus[8] = 6;
                 } else {
-                    memcardCreateStatus = 7;
+                    memcardStatus[8] = 7;
                 }
             }
             memcardLoopStep++;
@@ -613,22 +821,22 @@ void memcard_Delete(void) {
         case 2: // Check the result of the delete
             switch (memcardResult) {
                 case sceMcResSucceed: // File or directory was deleted successfully
-                    memcardDeleteStatus = 0;
+                    memcardStatus[9] = 0;
                     break;
                 case sceMcResNoFormat: // Memory card was unformatted
-                    memcardDeleteStatus = 1;
+                    memcardStatus[9] = 1;
                     break;
                 case sceMcResNoEntry: // Specified file or directory does not exist
-                    memcardDeleteStatus = 2;
+                    memcardStatus[9] = 2;
                     break;
                 case sceMcResDeniedPermit: // File or directory could not be deleted
-                    memcardDeleteStatus = 3;
+                    memcardStatus[9] = 3;
                     break;
                 case sceMcResNotEmpty: // Directory is not empty
-                    memcardDeleteStatus = 4;
+                    memcardStatus[9] = 4;
                     break;
                 default: // Memory card could not be accessed or detected
-                    memcardDeleteStatus = 5;
+                    memcardStatus[9] = 5;
                     break;
             }
             memcardCurCmdIdx = 0;
@@ -660,17 +868,17 @@ void memcard_Read(void) {
                 return;
             }
             if (memcardResult == sceMcResNoFormat) {
-                memcardReadStatus = 1;
+                memcardStatus[10] = 1;
             } else if (memcardResult == sceMcResFullDevice) {
-                memcardReadStatus = 2;
+                memcardStatus[10] = 2;
             } else if (memcardResult == sceMcResNoEntry) {
-                memcardReadStatus = 3;
+                memcardStatus[10] = 3;
             } else if (memcardResult == sceMcResDeniedPermit) {
-                memcardReadStatus = 4;
+                memcardStatus[10] = 4;
             } else if (memcardResult == sceMcResUpLimitHandle) {
-                memcardReadStatus = 5;
+                memcardStatus[10] = 5;
             } else {
-                memcardReadStatus = 7;
+                memcardStatus[10] = 7;
             }
             goto LAB_00232bac;
 
@@ -688,21 +896,21 @@ void memcard_Read(void) {
         case 5: // Check the result of the read
             if (memcardResult >= sceMcResSucceed) {
                 if (memcardResult == memcardFileSize) {
-                    memcardReadStatus = 0;
+                    memcardStatus[10] = 0;
                 } else {
-                    memcardReadStatus = 6;
+                    memcardStatus[10] = 6;
                 }
             } else {
                 if (memcardResult == sceMcResNoFormat) {
-                    memcardReadStatus = 1;
+                    memcardStatus[10] = 1;
                 } else if (memcardResult == sceMcResFullDevice) {
-                    memcardReadStatus = 6;
+                    memcardStatus[10] = 6;
                 } else if (memcardResult == sceMcResNoEntry) {
-                    memcardReadStatus = 5;
+                    memcardStatus[10] = 5;
                 } else if (memcardResult == sceMcResDeniedPermit) {
-                    memcardReadStatus = 4;
+                    memcardStatus[10] = 4;
                 } else {
-                    memcardReadStatus = 7;
+                    memcardStatus[10] = 7;
                 }
             }
             memcardLoopStep++;
@@ -747,17 +955,17 @@ void memcard_Write(void) {
                 return;
             }
             if (memcardResult == sceMcResNoFormat) {
-                memcardWriteStatus = 1;
+                memcardStatus[11] = 1;
             } else if (memcardResult == sceMcResFullDevice) {
-                memcardWriteStatus = 2;
+                memcardStatus[11] = 2;
             } else if (memcardResult == sceMcResNoEntry) {
-                memcardWriteStatus = 3;
+                memcardStatus[11] = 3;
             } else if (memcardResult == sceMcResDeniedPermit) {
-                memcardWriteStatus = 4;
+                memcardStatus[11] = 4;
             } else if (memcardResult == sceMcResUpLimitHandle) {
-                memcardWriteStatus = 5;
+                memcardStatus[11] = 5;
             } else {
-                memcardWriteStatus = 7;
+                memcardStatus[11] = 7;
             }
             goto LAB_00232bac;
 
@@ -775,23 +983,23 @@ void memcard_Write(void) {
         case 5: // Check the result of the write
             if (memcardResult >= 0) {
                 if (memcardResult == memcardFileSize) {
-                    memcardWriteStatus = 0;
+                    memcardStatus[11] = 0;
                 } else {
-                    memcardWriteStatus = 6;
+                    memcardStatus[11] = 6;
                 }
             } else {
                 if (memcardResult == sceMcResNoFormat) {
-                    memcardWriteStatus = 1;
+                    memcardStatus[11] = 1;
                 } else if (memcardResult == sceMcResFullDevice) {
-                    memcardWriteStatus = 2;
+                    memcardStatus[11] = 2;
                 } else if (memcardResult == sceMcResNoEntry) {
-                    memcardWriteStatus = 5;
+                    memcardStatus[11] = 5;
                 } else if (memcardResult == sceMcResDeniedPermit) {
-                    memcardWriteStatus = 4;
+                    memcardStatus[11] = 4;
                 } else if (memcardResult == sceMcResFailReplace) {
-                    memcardWriteStatus = 6;
+                    memcardStatus[11] = 6;
                 } else {
-                    memcardWriteStatus = 7;
+                    memcardStatus[11] = 7;
                 }
             }
             memcardLoopStep++;
@@ -830,13 +1038,13 @@ void memcard_Rename(void) {
 
         case 2: // Check the result of the rename
             if (memcardResult == sceMcResSucceed) {
-                memcardRenameStatus = 0;
+                memcardStatus[12] = 0;
             } else if (memcardResult == sceMcResNoFormat) {
-                memcardRenameStatus = 1;
+                memcardStatus[12] = 1;
             } else if (memcardResult == sceMcResNoEntry) {
-                memcardRenameStatus = 2;
+                memcardStatus[12] = 2;
             } else {
-                memcardRenameStatus = 3;
+                memcardStatus[12] = 3;
             }
             memcardCurCmdIdx = 0;
             D_00641FE8 = D_00641FE4;
@@ -849,7 +1057,7 @@ void memcard_Rename(void) {
 void func_00232FF8(void) {
     memcardCurCmdIdx = 0;
     D_00641FE8 = D_00641FE4;
-    D_0064202C = D_00642044(D_00641FD4);
+    memcardStatus[13] = D_00642044(D_00641FD4);
 }
 
 void memcard_RunCommand(void) {

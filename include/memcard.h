@@ -1,5 +1,7 @@
 #include "common.h"
 
+void memcard_Initialize(void);
+
 s32 memcard_GetAllStatus(void);
 s32 memcard_GetDirStatus(void);
 s32 memcard_GetFormatStatus(void);

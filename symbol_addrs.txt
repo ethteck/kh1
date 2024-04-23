@@ -908,6 +908,8 @@ KeThResHd_Init               = 0x001AA960; // type:func
 //=============================
 // memcard.c
 //=============================
+memcard_Initialize           = 0x002304D8; // type:func
+memcard_SetDefaults          = 0x00230520; // type:func
 memcard_GetAllStatus         = 0x002312B0; // type:func
 memcard_GetDirStatus         = 0x002312C0; // type:func
 memcard_GetFormatStatus      = 0x002312D0; // type:func
@@ -2171,17 +2173,7 @@ KeMatPht                     = 0x00618F00; // size:0x40
 memcardCurCmdIdx             = 0x00641FC0;
 memcardLoopStep              = 0x00641FC4;
 memcardResult                = 0x00641FD8;
-memcardGetAllStatus          = 0x00642000;
-memcardGetDirStatus          = 0x00642004;
-memcardFormatStatus          = 0x00642008;
-memcardUnformatStatus        = 0x0064200C;
-memcardChdirStatus           = 0x00642010;
-memcardMkdirStatus           = 0x00642014;
-memcardCreateStatus          = 0x00642018;
-memcardDeleteStatus          = 0x0064201C;
-memcardReadStatus            = 0x00642020;
-memcardWriteStatus           = 0x00642024;
-memcardRenameStatus          = 0x00642028;
+memcardStatus                = 0x00641FF8; //size:0x38
 memcardFileName              = 0x00642030;
 memcardNewFileName           = 0x00642034;
 memcardFileBuffer            = 0x00642038;

@@ -1,5 +1,6 @@
 #include "common.h"
 
+#include "memcard.h"
 #include "xtango.h"
 #include "xpotato.h"
 
@@ -85,7 +86,7 @@ void func_001EF840(void) {
 
 void func_001EF878(void) {
     func_00230068();
-    func_002304D8();
+    memcard_Initialize();
     func_001F0D88(); // in xbiscuit
     func_001F3738(); // in xbiscuit
     func_001F0C28();
