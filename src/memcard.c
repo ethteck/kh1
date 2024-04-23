@@ -73,7 +73,7 @@ void memcard_Initialize(void) {
 
     sceMcInit();
     buffer = D_006417C0;
-    for (i = 0x100; i > 0; i--) {
+    for (i = ARRAY_COUNT(D_006417C0); i > 0; i--) {
         *buffer = 0;
         buffer++;
     }
@@ -101,7 +101,7 @@ void memcard_SetDefaults(void) {
     D_00641FE4 = 300;
     D_00641FE8 = 300;
 
-    for (i = 0; i <= 13; i++) {
+    for (i = 0; i < ARRAY_COUNT(memcardStatus); i++) {
         memcardStatus[i] = 0;
     }
 
