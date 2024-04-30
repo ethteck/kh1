@@ -23,6 +23,7 @@ typedef struct XKitten {
     /* 0x7C */ s32 unk_7C;
     /* 0x80 */ s32 unk_80;
     /* 0x84 */ s32 unk_84;
+    /* 0x88 */ char unk_88[0x60];
 } XKitten;
 
 XKitten* func_001F3A20(XKitten*, s32);

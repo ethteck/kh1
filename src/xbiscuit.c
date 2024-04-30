@@ -1,12 +1,6 @@
 #include "common.h"
 #include "libdma.h"
 
-typedef struct {
-    /* 0x00 */ char unk_00[0x84];
-    /* 0x84 */ s32 unk_84;
-    /* 0x88 */ char unk_88[0x60];
-} XCookie;
-
 extern s32 D_003DEF90;
 extern s32 D_003E0810;
 extern s32 D_003E2BE0;
@@ -14,8 +8,6 @@ extern s32 D_003E3080;
 extern s32 D_003E3084;
 extern s32* D_003E30A8;
 extern s32 D_003E30AC;
-extern s32 D_003EBCC0;
-extern s32 D_003EBCC4;
 extern s32 D_003E38C0;
 extern s32 D_003EB8C0;
 
@@ -23,7 +15,6 @@ extern s32 D_00639A80;
 extern s32* D_00639A84;
 extern s32* D_00639A88;
 extern s32 D_00639A8C;
-XCookie D_00639A90[24];
 extern void* D_0063B050;
 
 void func_001F0DF8(s32*, s32*);
@@ -259,28 +250,3 @@ void func_001F3718(s32** arg0, s32** arg1) {
 }
 
 INCLUDE_ASM(const s32, "xbiscuit", func_001F3738);
-
-// Nonmatch: Assignment instructions out of order
-INCLUDE_ASM(const s32, "xbiscuit", func_001F3990);
-// void func_001F3990(void) {
-//     s32 i = 24;
-//     XCookie* cookie = D_00639A90;
-
-//     while (0 < i) {
-//         cookie->unk_84 = 0;
-//         cookie++;
-//         i--;
-//     }
-
-//     D_0063B050 = NULL;
-//     D_003EBCC0 = 0x80E6E6E6;
-//     D_003EBCC4 = 0x140;
-
-//     func_001F0E58(8);
-//     func_001F0E58(0);
-//     func_001FDAC8();
-// }
-
-s32 func_001F3A08(void* arg0) {
-    return func_001F3A20(arg0, 6);
-}

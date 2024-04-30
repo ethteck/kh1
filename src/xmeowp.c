@@ -3,10 +3,42 @@
 
 extern XKitten D_003E3890;
 extern void* D_003E3898;
+extern s32 D_003EBCC0;
+extern s32 D_003EBCC4;
+
 extern XLaserDot D_0048A670;
+
+extern XKitten D_00639A90[24];
 extern XKitten* D_0063B050;
 
 extern s32 func_00233138(s32, s32);
+
+// Nonmatch: Assignment instructions out of order
+INCLUDE_ASM(const s32, "xmeowp", func_001F3990);
+// void func_001F3990(void) {
+//     XKitten* pXVar1;
+//     int iVar2;
+
+//     iVar2 = 24;
+//     pXVar1 = D_00639A90;
+//     do {
+//         iVar2 += -1;
+//         pXVar1->unk_84 = 0;
+//         pXVar1 = pXVar1 + 1;
+//     } while (0 < iVar2);
+
+//     D_0063B050 = NULL;
+//     D_003EBCC0 = 0x80E6E6E6;
+//     D_003EBCC4 = 320;
+
+//     func_001F0E58(8);
+//     func_001F0E58(0);
+//     func_001FDAC8();
+// }
+
+s32 func_001F3A08(void* arg0) {
+    return func_001F3A20(arg0, 6);
+}
 
 INCLUDE_ASM(XKitten*, "xmeowp", func_001F3A20);
 
