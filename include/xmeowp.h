@@ -1,9 +1,5 @@
 #include "common.h"
 
-typedef struct XLaserDot {
-    u8 unk[16];
-} XLaserDot;
-
 typedef struct XKitten {
     /* 0x00 */ s32 unk_00;
     /* 0x04 */ s32 unk_04;
@@ -15,7 +11,7 @@ typedef struct XKitten {
     /* 0x1C */ u8 unk_1C[28];
     /* 0x38 */ u64 unk_38;
     /* 0x40 */ u8 unk_40[28];
-    /* 0x5C */ XLaserDot* unk_5C;
+    /* 0x5C */ u8* unk_5C;
     /* 0x60 */ u8 unk_60[8];
     /* 0x68 */ s32 unk_68;
     /* 0x6C */ u8 unk_6C[12];

@@ -6,7 +6,7 @@ extern void* D_003E3898;
 extern s32 D_003EBCC0;
 extern s32 D_003EBCC4;
 
-extern XLaserDot D_0048A670;
+const u8 D_0048A670[16] = {};
 
 extern XKitten D_00639A90[24];
 extern XKitten* D_0063B050;
@@ -36,7 +36,7 @@ INCLUDE_ASM(const s32, "xmeowp", func_001F3990);
 //     func_001FDAC8();
 // }
 
-s32 func_001F3A08(void* arg0) {
+XKitten* func_001F3A08(void* arg0) {
     return func_001F3A20(arg0, 6);
 }
 
@@ -253,14 +253,14 @@ void func_001F4810(XKitten* arg0, XKitten* arg1) {
     arg1->next = kit1_next;
 }
 
-XLaserDot* func_001F4858(XKitten* arg0) {
+u8* func_001F4858(XKitten* arg0) {
     if (arg0->unk_5C == NULL) {
         return &D_0048A670;
     }
     return arg0->unk_5C;
 }
 
-void func_001F4878(XKitten* arg0, XLaserDot* arg1) {
+void func_001F4878(XKitten* arg0, u8* arg1) {
     arg0->unk_5C = arg1;
 }
 

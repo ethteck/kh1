@@ -275,8 +275,11 @@ void func_00110C40(f32 arg0, f32 arg1, f32 arg2, f32 arg3) {
 
 INCLUDE_ASM(const s32, "xtailor", func_00110C70);
 
-INCLUDE_ASM(const s32, "xtailor", func_00110DE0);
-void func_00110DE0();
+void func_00110DE0() {
+    D_002B9030 = 1;
+    FlushCache(2);
+    func_F20000(0, D_004D2994);
+}
 
 void func_00110E18(void) {
     D_002A30D0 = 0;
