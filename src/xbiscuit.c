@@ -1,12 +1,6 @@
 #include "common.h"
 #include "libdma.h"
 
-typedef struct {
-    /* 0x00 */ char unk_00[0x84];
-    /* 0x84 */ s32 unk_84;
-    /* 0x88 */ char unk_88[0x60];
-} XCookie;
-
 extern s32 D_003DEF90;
 extern s32 D_003E0810;
 extern s32 D_003E2BE0;
@@ -14,16 +8,15 @@ extern s32 D_003E3080;
 extern s32 D_003E3084;
 extern s32* D_003E30A8;
 extern s32 D_003E30AC;
-extern s32 D_003EBCC0;
-extern s32 D_003EBCC4;
 extern s32 D_003E38C0;
 extern s32 D_003EB8C0;
+
+char D_0048A590[32]; // "menu/sysfont.bin"
 
 extern s32 D_00639A80;
 extern s32* D_00639A84;
 extern s32* D_00639A88;
 extern s32 D_00639A8C;
-XCookie D_00639A90[24];
 extern void* D_0063B050;
 
 void func_001F0DF8(s32*, s32*);
@@ -31,7 +24,30 @@ void* func_001F1960(s32, s32, s32, s32, s32, s32, s32, s32);
 void* func_001F19F0(s32, s32, s32, s32, s32, s32, s32, s32);
 void* func_001F1FA8(s32, s32, s32, s32, s32, s32, s32, s32);
 
-INCLUDE_ASM(const s32, "xbiscuit", func_001F0C30);
+void func_001F0C30(void) {
+    void* dst;
+    u64 stack0[22];
+    u64 stack1[22];
+
+    dst = func_00155ED8(0x34, 12);
+
+    func_00120438(D_0048A590, dst);
+
+    func_0011F9E8(0x3FFC, 1, 0, 0, 0, 0x10, 0x10, 0x40, dst + 0x10000, stack1);
+    FlushCache(0);
+    sceDmaSend(sceDmaGetChan(SCE_DMA_GIF), stack1);
+    sceGsSyncPath(0, 0);
+
+    func_0011F9E8(0x1000, 4, 36, 0, 0, 0x100, 0x100, 0x800, dst, stack0);
+    FlushCache(0);
+    sceDmaSend(sceDmaGetChan(SCE_DMA_GIF), stack0);
+    sceGsSyncPath(0, 0);
+
+    func_0011F9E8(0x1000, 4, 44, 0, 0, 0x100, 0x100, 0x800, dst + 0x8000, stack0);
+    FlushCache(0);
+    sceDmaSend(sceDmaGetChan(SCE_DMA_GIF), stack0);
+    sceGsSyncPath(0, 0);
+}
 
 // Nonmatch: Assignment instructions out of order
 INCLUDE_ASM(const s32, "xbiscuit", func_001F0D88);
@@ -199,7 +215,7 @@ INCLUDE_ASM(const s32, "xbiscuit", func_001F1FA8);
 
 INCLUDE_ASM(const s32, "xbiscuit", func_001F2378);
 
-void* func_001F2670(s32,s32,s32,s32,s32,s32,s32);
+void* func_001F2670(s32, s32, s32, s32, s32, s32, s32);
 INCLUDE_ASM(const s32, "xbiscuit", func_001F2670);
 
 void* func_001F2888(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
@@ -259,28 +275,3 @@ void func_001F3718(s32** arg0, s32** arg1) {
 }
 
 INCLUDE_ASM(const s32, "xbiscuit", func_001F3738);
-
-// Nonmatch: Assignment instructions out of order
-INCLUDE_ASM(const s32, "xbiscuit", func_001F3990);
-// void func_001F3990(void) {
-//     s32 i = 24;
-//     XCookie* cookie = D_00639A90;
-
-//     while (0 < i) {
-//         cookie->unk_84 = 0;
-//         cookie++;
-//         i--;
-//     }
-
-//     D_0063B050 = NULL;
-//     D_003EBCC0 = 0x80E6E6E6;
-//     D_003EBCC4 = 0x140;
-
-//     func_001F0E58(8);
-//     func_001F0E58(0);
-//     func_001FDAC8();
-// }
-
-s32 func_001F3A08(void* arg0) {
-    return func_001F3A20(arg0, 6);
-}

@@ -286,7 +286,7 @@ segments:
     - [0xEED88, asm]
     - [0xEF290, c, xtango]
     - [0xF0CB0, c, xbiscuit]
-    - [0xF3AA0, c, xmeowp]
+    - [0xF3A10, c, xmeowp]
     - [0xF4910, asm]
     - [0x115B08, c, xpotato]
     - [0x119868, c, xrodent]
@@ -546,7 +546,8 @@ segments:
     - [0x387A60, rodata, 3BE08]
     - [0x3881C0, rodata, 4A098]
     - [0x389BC0, rodata, DF218]
-    - [0x38A700, .rodata, xmeowp]
+    # - [0x38A610, .rodata, xbiscuit] # todo: switch tables
+    - [0x38A6F0, .rodata, xmeowp]
     - [0x38A720, rodata, F4910]
     - [0x38AB30, .rodata, xrodent]
     - [0x38AB50, rodata, 11A450]
