@@ -2138,6 +2138,12 @@ __sce_eh_sema_id             = 0x00465390; // size:4
 _SyscallEntry                = 0x00465394; // size:4
 
 //=============================
+// lib/libmc.c
+//=============================
+mcRunCmdNo                   = 0x00467DD0; // type:s32
+semaidRegFunc                = 0x00467DD4; // type:s32
+
+//=============================
 // cdvd.c
 //=============================
 cdvd_Descriptor              = 0x004EC948; // type:char
@@ -2184,3 +2190,13 @@ memcardFileHandle            = 0x00642040;
 // disk.c
 //=============================
 disk_ThreadStack             = 0x00663A90; //size:0x1000
+
+//=============================
+// lib/libmc.c
+//=============================
+mcClientID                   = 0x0066D600; // type:s32
+mcFileTable                  = 0x0066D640; // size:0x40
+mcSifParams                  = 0x0066D680; // size:0x30
+mcStatus                     = 0x0066D6B0; // size:0x414
+mcCachedTables               = 0x0066DBC0; // size:0x400
+mcRetVal                     = 0x0066EBC0; // type:s32

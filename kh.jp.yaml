@@ -477,7 +477,7 @@ segments:
     - [0x16D3D8, asm, libm/s_copysign]
     - [0x16D420, asm, libm/sf_copysign]
     - [0x16D460, asm, libpc]
-    - [0x16D4E8, asm, libmc]
+    - [0x16D4E8, c, lib/libmc]
     # libipu.a
     - [0x16ED50, asm, libipu/libipu]
     - [0x16F0C0, asm, libipu/ipuinit]
@@ -524,7 +524,7 @@ segments:
     - [0x3663A0, data, libdvib]
     - [0x3663C0, data, libcdvd/cdvd000]
     - [0x367E30, data, libpc]
-    - [0x367E40, data, libmc]
+    - [0x367E40, data, lib/libmc]
     - [0x367E60, data, libipu]
     - [0x367EE0, data]
 
