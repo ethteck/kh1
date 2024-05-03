@@ -2199,4 +2199,4 @@ mcFileTable                  = 0x0066D640; // size:0x40
 mcSifParams                  = 0x0066D680; // size:0x30
 mcStatus                     = 0x0066D6B0; // size:0x414
 mcCachedTables               = 0x0066DBC0; // size:0x400
-mcRetVal                     = 0x0066EBC0; // type:s32
+mcRetVal                     = 0x0066EBC0; // size:0x10

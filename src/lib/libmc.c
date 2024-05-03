@@ -38,13 +38,67 @@ char D_0048DAC0[32]; // "sceMcUdCheckNewCard RPC faild\n";
 sceSifClientData mcClientID;
 SifParams mcSifParams;
 McStatus mcStatus;
-s32 mcRetVal;
+s32 mcRetVal[4]; // Buffer for data received from RPC
 
 sceMcTblGetDir mcFileTable;
 s32 D_0066DB00;
 sceMcTblGetDir mcCachedTables[16];
 
-INCLUDE_ASM(const s32, "lib/libmc", sceMcInit);
+/**
+ * @brief Initialize internal variables used in the Memory Card library
+ *
+ * @return `sceMcIni` macro value
+ */
+s32 sceMcInit(void) {
+    struct SemaParam sParam;
+    s32 sifServerStat;
+    s32 i;
+
+    if (semaidRegFunc < 0) {
+        sParam.option = 0;
+        sParam.initCount = 1;
+        sParam.maxCount = 1;
+        semaidRegFunc = CreateSema(&sParam);
+    }
+    sceMcSync(0, NULL, NULL);
+    WaitSema(semaidRegFunc);
+    sceSifInitRpc(0);
+
+    while (TRUE) {
+        if (sceSifBindRpc(&mcClientID, 0x80000400, 0) < 0) {
+            printf(D_0048DA58);
+            do {
+                /* infinite loop */
+            } while (TRUE);
+        }
+        if (mcClientID.serve != NULL) {
+            break;
+        }
+
+        i = 0x100000;
+        do {
+            i--;
+        } while (i != 0);
+    }
+
+    sifServerStat = sceSifCallRpc(&mcClientID, 0xFE, 0, &mcSifParams, sizeof(mcSifParams), &mcRetVal, 12, NULL, NULL);
+    SignalSema(semaidRegFunc);
+    if (sifServerStat < 0) {
+        mcClientID.serve = NULL;
+        return sifServerStat - 100;
+    } else if (mcRetVal[1] < 0x20A) {
+        printf(D_0048DA70);
+        mcClientID.serve = NULL;
+        return sceMcIniOldMcserv;
+    } else {
+        if (mcRetVal[2] < 0x20E) {
+            printf(D_0048DA98);
+            mcClientID.serve = NULL;
+            return sceMcIniOldMcman;
+        }
+        return mcRetVal[0];
+    }
+}
 
 /**
  * Release resources used by the memory card library
@@ -66,7 +120,7 @@ INCLUDE_ASM(const s32, "lib/libmc", _lmcGetClientPtr);
  * @return `sceMsResNo` macro value
  */
 s32 sceMcChangeThreadPriority(s32 level) {
-    int iVar1;
+    s32 sifServerStat;
 
     if (PollSema(semaidRegFunc) < 0) {
         return sceMcErrSemapho;
@@ -75,15 +129,15 @@ s32 sceMcChangeThreadPriority(s32 level) {
         return sceMcErrUnbind;
     } else {
         mcSifParams.mode = level;
-        iVar1 = sceSifCallRpc(
+        sifServerStat = sceSifCallRpc(
             &mcClientID, sceMcFuncChgPrior, 1, &mcSifParams, sizeof(mcSifParams), &mcRetVal, 4, NULL, NULL
         );
-        if (iVar1 == 0) {
+        if (sifServerStat == 0) {
             mcRunCmdNo = sceMcFuncChgPrior;
         } else {
             SignalSema(semaidRegFunc);
         }
-        return iVar1;
+        return sifServerStat;
     }
 }
 
@@ -94,7 +148,7 @@ s32 sceMcChangeThreadPriority(s32 level) {
  * @return 1 to 4 on success, `sceMsResNo` macro value on error
  */
 s32 sceMcGetSlotMax(s32 port) {
-    int iVar1;
+    s32 sifServerStat;
 
     if (PollSema(semaidRegFunc) < 0) {
         return sceMcErrSemapho;
@@ -103,15 +157,15 @@ s32 sceMcGetSlotMax(s32 port) {
         return sceMcErrUnbind;
     } else {
         mcSifParams.port = port;
-        iVar1 = sceSifCallRpc(
+        sifServerStat = sceSifCallRpc(
             &mcClientID, sceMcFuncSlotMax, 0, &mcSifParams, sizeof(mcSifParams), &mcRetVal, 4, NULL, NULL
         );
-        if (iVar1 != 0) {
+        if (sifServerStat != 0) {
             SignalSema(semaidRegFunc);
-            return iVar1;
+            return sifServerStat;
         } else {
             SignalSema(semaidRegFunc);
-            return mcRetVal;
+            return mcRetVal[0];
         }
     }
 }
@@ -126,7 +180,7 @@ s32 sceMcGetSlotMax(s32 port) {
  * @return File descriptor on success, `sceMsResNo` macro value on error
  */
 s32 sceMcOpen(s32 port, s32 slot, const char* name, s32 mode) {
-    int iVar1;
+    s32 sifServerStat;
 
     if (PollSema(semaidRegFunc) < 0) {
         return sceMcErrSemapho;
@@ -142,13 +196,13 @@ s32 sceMcOpen(s32 port, s32 slot, const char* name, s32 mode) {
         mcStatus.port = port;
         mcStatus.mode = mode;
         mcStatus.slot = slot;
-        iVar1 = sceSifCallRpc(&mcClientID, sceMcFuncNoOpen, 1, &mcStatus, sizeof(mcStatus), &mcRetVal, 4, NULL, NULL);
-        if (iVar1 == 0) {
+        sifServerStat = sceSifCallRpc(&mcClientID, sceMcFuncNoOpen, 1, &mcStatus, sizeof(mcStatus), &mcRetVal, 4, NULL, NULL);
+        if (sifServerStat == 0) {
             mcRunCmdNo = sceMcFuncNoOpen;
         } else {
             SignalSema(semaidRegFunc);
         }
-        return iVar1;
+        return sifServerStat;
     }
 }
 
@@ -178,7 +232,7 @@ s32 sceMcMkdir(s32 port, s32 slot, const char* name) {
  * @return `sceMsRes` macro value
  */
 s32 sceMcClose(s32 fd) {
-    int iVar1;
+    s32 sifServerStat;
 
     if (PollSema(semaidRegFunc) < 0) {
         return sceMcErrSemapho;
@@ -187,15 +241,15 @@ s32 sceMcClose(s32 fd) {
         return sceMcErrUnbind;
     } else {
         mcSifParams.fd = fd;
-        iVar1 = sceSifCallRpc(
+        sifServerStat = sceSifCallRpc(
             &mcClientID, sceMcFuncNoClose, 1, &mcSifParams, sizeof(mcSifParams), &mcRetVal, 4, NULL, NULL
         );
-        if (iVar1 == 0) {
+        if (sifServerStat == 0) {
             mcRunCmdNo = sceMcFuncNoClose;
         } else {
             SignalSema(semaidRegFunc);
         }
-        return iVar1;
+        return sifServerStat;
     }
 }
 
@@ -208,7 +262,7 @@ s32 sceMcClose(s32 fd) {
  * @return s32
  */
 s32 sceMcSeek(s32 fd, s32 offset, s32 mode) {
-    int iVar1;
+    s32 sifServerStat;
 
     if (PollSema(semaidRegFunc) < 0) {
         return sceMcErrSemapho;
@@ -219,14 +273,14 @@ s32 sceMcSeek(s32 fd, s32 offset, s32 mode) {
         mcSifParams.fd = fd;
         mcSifParams.offset = offset;
         mcSifParams.mode = mode;
-        iVar1 =
+        sifServerStat =
             sceSifCallRpc(&mcClientID, sceMcFuncNoSeek, 1, &mcSifParams, sizeof(mcSifParams), &mcRetVal, 4, NULL, NULL);
-        if (iVar1 == 0) {
+        if (sifServerStat == 0) {
             mcRunCmdNo = sceMcFuncNoSeek;
         } else {
             SignalSema(semaidRegFunc);
         }
-        return iVar1;
+        return sifServerStat;
     }
 }
 
@@ -242,7 +296,7 @@ void mceIntrReadFixAlign();
  * @return Number of bytes read on success, `sceMsRes` macro value on error
  */
 s32 sceMcRead(s32 fd, void* buff, s32 size) {
-    int iVar1;
+    s32 sifServerStat;
 
     if (PollSema(semaidRegFunc) < 0) {
         return sceMcErrSemapho;
@@ -256,16 +310,16 @@ s32 sceMcRead(s32 fd, void* buff, s32 size) {
         mcSifParams.unk_1C = &D_0066DB00;
         sceSifWriteBackDCache(buff, size);
         sceSifWriteBackDCache(&D_0066DB00, 0xC0);
-        iVar1 = sceSifCallRpc(
+        sifServerStat = sceSifCallRpc(
             &mcClientID, sceMcFuncNoRead, 1, &mcSifParams, sizeof(mcSifParams), &mcRetVal, 4, mceIntrReadFixAlign,
             &D_0066DB00
         );
-        if (iVar1 == 0) {
+        if (sifServerStat == 0) {
             mcRunCmdNo = sceMcFuncNoRead;
         } else {
             SignalSema(semaidRegFunc);
         }
-        return iVar1;
+        return sifServerStat;
     }
 }
 
@@ -293,7 +347,7 @@ s32 sceMcUdCheckNewCard(void) {
         printf(D_0048DAC0);
         return -1;
     }
-    return mcRetVal;
+    return mcRetVal[0];
 }
 
 /**
@@ -309,7 +363,7 @@ s32 sceMcUdCheckNewCard(void) {
  * @return s32
  */
 s32 sceMcGetDir(s32 port, s32 slot, const char* name, u32 mode, s32 maxent, sceMcTblGetDir* table) {
-    int iVar1;
+    s32 sifServerStat;
 
     if (PollSema(semaidRegFunc) < 0) {
         return sceMcErrSemapho;
@@ -330,14 +384,14 @@ s32 sceMcGetDir(s32 port, s32 slot, const char* name, u32 mode, s32 maxent, sceM
         if (-1 < maxent) {
             sceSifWriteBackDCache(table, maxent << 6);
         }
-        iVar1 = sceSifCallRpc(&mcClientID, sceMcFuncNoGetDir, 1, &mcStatus, sizeof(mcStatus), &mcRetVal, 4, NULL, NULL);
-        if (iVar1 == 0) {
+        sifServerStat = sceSifCallRpc(&mcClientID, sceMcFuncNoGetDir, 1, &mcStatus, sizeof(mcStatus), &mcRetVal, 4, NULL, NULL);
+        if (sifServerStat == 0) {
             mcRunCmdNo = sceMcFuncNoGetDir;
         } else {
             SignalSema(semaidRegFunc);
         }
     }
-    return iVar1;
+    return sifServerStat;
 }
 
 INCLUDE_ASM(const s32, "lib/libmc", mceStorePwd);
@@ -353,7 +407,7 @@ void mceStorePwd();
  * @return `sceMsRes` macro value
  */
 s32 sceMcChdir(s32 port, s32 slot, const char* path, char* pwd) {
-    int iVar1;
+    s32 sifServerStat;
 
     if (PollSema(semaidRegFunc) < 0) {
         return sceMcErrSemapho;
@@ -370,16 +424,16 @@ s32 sceMcChdir(s32 port, s32 slot, const char* path, char* pwd) {
         strncpy(mcStatus.name, path, sizeof(mcStatus.name));
         mcStatus.unk_413 = 0;
         sceSifWriteBackDCache(&mcCachedTables, sizeof(mcCachedTables));
-        iVar1 = sceSifCallRpc(
+        sifServerStat = sceSifCallRpc(
             &mcClientID, sceMcFuncNoChDir, 1, &mcStatus, sizeof(mcStatus), &mcRetVal, 4, mceStorePwd, pwd
         );
-        if (iVar1 == 0) {
+        if (sifServerStat == 0) {
             mcRunCmdNo = sceMcFuncNoChDir;
         } else {
             SignalSema(semaidRegFunc);
         }
     }
-    return iVar1;
+    return sifServerStat;
 }
 
 /**
@@ -390,7 +444,7 @@ s32 sceMcChdir(s32 port, s32 slot, const char* path, char* pwd) {
  * @return `sceMsRes` macro value
  */
 s32 sceMcFormat(s32 port, s32 slot) {
-    int iVar1;
+    s32 sifServerStat;
 
     if (PollSema(semaidRegFunc) < 0) {
         return sceMcErrSemapho;
@@ -400,15 +454,15 @@ s32 sceMcFormat(s32 port, s32 slot) {
     } else {
         mcSifParams.port = port;
         mcSifParams.slot = slot;
-        iVar1 = sceSifCallRpc(
+        sifServerStat = sceSifCallRpc(
             &mcClientID, sceMcFuncNoFormat, 1, &mcSifParams, sizeof(mcSifParams), &mcRetVal, 4, NULL, NULL
         );
-        if (iVar1 == 0) {
+        if (sifServerStat == 0) {
             mcRunCmdNo = sceMcFuncNoFormat;
         } else {
             SignalSema(semaidRegFunc);
         }
-        return iVar1;
+        return sifServerStat;
     }
 }
 
@@ -421,7 +475,7 @@ s32 sceMcFormat(s32 port, s32 slot) {
  * @return `sceMsRes` macro value
  */
 s32 sceMcDelete(s32 port, s32 slot, const char* name) {
-    int iVar1;
+    s32 sifServerStat;
 
     if (PollSema(semaidRegFunc) < 0) {
         return sceMcErrSemapho;
@@ -437,13 +491,13 @@ s32 sceMcDelete(s32 port, s32 slot, const char* name) {
         mcStatus.port = port;
         mcStatus.slot = slot;
         mcStatus.mode = 0;
-        iVar1 = sceSifCallRpc(&mcClientID, sceMcFuncNoDelete, 1, &mcStatus, sizeof(mcStatus), &mcRetVal, 4, NULL, NULL);
-        if (iVar1 == 0) {
+        sifServerStat = sceSifCallRpc(&mcClientID, sceMcFuncNoDelete, 1, &mcStatus, sizeof(mcStatus), &mcRetVal, 4, NULL, NULL);
+        if (sifServerStat == 0) {
             mcRunCmdNo = sceMcFuncNoDelete;
         } else {
             SignalSema(semaidRegFunc);
         }
-        return iVar1;
+        return sifServerStat;
     }
 }
 
@@ -454,7 +508,7 @@ s32 sceMcDelete(s32 port, s32 slot, const char* name) {
  * @return `sceMsRes` macro value
  */
 s32 sceMcFlush(s32 fd) {
-    int iVar1;
+    s32 sifServerStat;
 
     if (PollSema(semaidRegFunc) < 0) {
         return sceMcErrSemapho;
@@ -463,15 +517,15 @@ s32 sceMcFlush(s32 fd) {
         return sceMcErrUnbind;
     } else {
         mcSifParams.fd = fd;
-        iVar1 = sceSifCallRpc(
+        sifServerStat = sceSifCallRpc(
             &mcClientID, sceMcFuncNoFlush, 1, &mcSifParams, sizeof(mcSifParams), &mcRetVal, 4, NULL, NULL
         );
-        if (iVar1 == 0) {
+        if (sifServerStat == 0) {
             mcRunCmdNo = sceMcFuncNoFlush;
         } else {
             SignalSema(semaidRegFunc);
         }
-        return iVar1;
+        return sifServerStat;
     }
 }
 
@@ -487,7 +541,7 @@ INCLUDE_ASM(const s32, "lib/libmc", sceMcSetFileInfo);
  * @return `sceMsRes` macro value
  */
 s32 sceMcRename(s32 port, s32 slot, const char* org, const char* new) {
-    int iVar1;
+    s32 sifServerStat;
 
     if (PollSema(semaidRegFunc) < 0) {
         return sceMcErrSemapho;
@@ -507,14 +561,14 @@ s32 sceMcRename(s32 port, s32 slot, const char* org, const char* new) {
         mcFileTable.EntryName[31] = '\0';
         mcStatus.table = &mcFileTable;
         FlushCache(0);
-        iVar1 =
+        sifServerStat =
             sceSifCallRpc(&mcClientID, sceMcFuncNoFileInfo, 1, &mcStatus, sizeof(mcStatus), &mcRetVal, 4, NULL, NULL);
-        if (iVar1 == 0) {
+        if (sifServerStat == 0) {
             mcRunCmdNo = sceMcFuncNoRename;
         } else {
             SignalSema(semaidRegFunc);
         }
-        return iVar1;
+        return sifServerStat;
     }
 }
 
@@ -526,7 +580,7 @@ s32 sceMcRename(s32 port, s32 slot, const char* org, const char* new) {
  * @return `sceMsRes` macro value
  */
 s32 sceMcUnformat(s32 port, s32 slot) {
-    int iVar1;
+    s32 sifServerStat;
 
     if (PollSema(semaidRegFunc) < 0) {
         return sceMcErrSemapho;
@@ -536,15 +590,15 @@ s32 sceMcUnformat(s32 port, s32 slot) {
     } else {
         mcSifParams.port = port;
         mcSifParams.slot = slot;
-        iVar1 = sceSifCallRpc(
+        sifServerStat = sceSifCallRpc(
             &mcClientID, sceMcFuncNoUnformat, 1, &mcSifParams, sizeof(mcSifParams), &mcRetVal, 4, NULL, NULL
         );
-        if (iVar1 == 0) {
+        if (sifServerStat == 0) {
             mcRunCmdNo = sceMcFuncNoUnformat;
         } else {
             SignalSema(semaidRegFunc);
         }
-        return iVar1;
+        return sifServerStat;
     }
 }
 
@@ -557,7 +611,7 @@ s32 sceMcUnformat(s32 port, s32 slot) {
  * @return Number of free entries on success, `sceMsRes` macro value on error
  */
 s32 sceMcGetEntSpace(s32 port, s32 slot, const char* path) {
-    int iVar1;
+    s32 sifServerStat;
 
     if (PollSema(semaidRegFunc) < 0) {
         return sceMcErrSemapho;
@@ -572,13 +626,13 @@ s32 sceMcGetEntSpace(s32 port, s32 slot, const char* path) {
         mcStatus.slot = slot;
         strncpy(mcStatus.name, path, sizeof(mcStatus.name));
         mcStatus.unk_413 = '\0';
-        iVar1 =
+        sifServerStat =
             sceSifCallRpc(&mcClientID, sceMcFuncNoEntSpace, 1, &mcStatus, sizeof(mcStatus), &mcRetVal, 4, NULL, NULL);
-        if (iVar1 == 0) {
+        if (sifServerStat == 0) {
             mcRunCmdNo = sceMcFuncNoEntSpace;
         } else {
             SignalSema(semaidRegFunc);
         }
-        return iVar1;
+        return sifServerStat;
     }
 }
