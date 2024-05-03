@@ -272,7 +272,7 @@ typedef union {
     _sceFsSyncData syncData;
     _sceFsMkdirData mkdirData;
     _sceFsMountData mountData;
-    _sceFsLseek64Data lseek64Data;
+    _sceFsLseek64Data lSeek64Data;
     _sceFsDevctlData devctlData;
     _sceFsSymlinkData symlinkData;
     _sceFsReadlinkData readLinkData;

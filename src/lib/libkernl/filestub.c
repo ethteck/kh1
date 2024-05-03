@@ -11,7 +11,7 @@
 #define MAX_ARG_SIZE 1024
 #define UNCACHED(p) (((u32)p | 0x20000000))
 
-s32 _sceFs_q[MAX_IOB_COUNT] = {
+vs32 _sceFs_q[MAX_IOB_COUNT] = {
     -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 };
 s32 _fs_init = 0;
@@ -21,7 +21,7 @@ s32 _fs_fsq_semid = -1;
 
 // BSS
 u32 rcv_adr; // likely static
-u32 ip0; // likely static
+u32* ip0; // likely static
 _sceFsData _send_data __attribute__((aligned (64)));
 s32 _rcv_data_rpc __attribute__((aligned (64))); // unverified
 _sceFsIntrData _rcv_data_cmd __attribute__((aligned (64)));
@@ -79,8 +79,83 @@ static _sceFsIob* get_iob(s32 fd) {
     return ret;
 }
 
-static void _sceFs_Rcv_Intr(void*, void*); // TODO match this one
-INCLUDE_ASM(const s32, "lib/libkernl/filestub", _sceFs_Rcv_Intr);
+static void _sceFs_Rcv_Intr(void* pkt, void* data) {
+    s32 ee_semid;
+    void* ee_retadr;
+    u32 ee_retsiz;
+    u32 ee_retmod;
+    s32 i;
+    u8* cp;
+    _sceFsReadIntrData* ridp;
+    void* r_addr;
+    u32 r_size;
+    
+    memcpy(&ee_semid, (void*)UNCACHED(&_rcv_data_cmd.rcvData.ee_semid), sizeof(s32));
+    memcpy(&ee_retmod, (void*)UNCACHED(&_rcv_data_cmd.rcvData.ee_retmod), sizeof(s32));
+    memcpy(&ee_retadr, (void*)UNCACHED(&_rcv_data_cmd.rcvData.ee_retadr), sizeof(s32));
+    memcpy(&ee_retsiz, (void*)UNCACHED(&_rcv_data_cmd.rcvData.ee_retsiz), sizeof(s32));
+    
+    if (-0x1 < ee_semid) {
+        memcpy(ee_retadr, (void*)UNCACHED(&_rcv_data_cmd.rcvData.data_top[0]), ee_retsiz);
+    }
+
+    switch (ee_retmod) {
+        case 0x2:
+            // _sceFsReadIntrData
+            ridp = (_sceFsReadIntrData *)UNCACHED(&_rcv_data_cmd.rcvData.data_top[1]);
+            if (ridp->psize > 0) {
+                cp = (u8*)ridp->paddr;
+                for (i = 0; i < ridp->psize; i++) {
+                    cp[i] = ridp->pdata[i];
+                }
+            }
+            
+            if (ridp->ssize > 0) {
+                cp = (u8*)ridp->saddr;
+                for (i = 0; i < ridp->ssize; i++) {
+                    cp[i] = ridp->sdata[i];
+                }
+            }
+            break;
+        case 0xb:
+            // _sceFsIntrRcvDirData
+            memcpy(&r_addr, (void*)UNCACHED(&_rcv_data_cmd.rcvDirData.ee_dentadr), sizeof(s32));
+            memcpy(r_addr, (void*)UNCACHED(&_rcv_data_cmd.rcvDirData.dent), sizeof(struct sce_dirent));
+            break;
+        case 0xc:
+            // unk
+            memcpy(&r_addr, (void*)UNCACHED(&_rcv_data_cmd.rcvData.data_top[1]), sizeof(s32));
+            memcpy(r_addr, (void*)UNCACHED(&_rcv_data_cmd.rcvData.data_top[2]), 0x40);
+            break;
+        case 0x17:
+        case 0x19:
+        case 0x1a:
+            // _sceFsIntrRcvReadLData
+            // _sceFsIntrRcvIoctlData
+            // _sceFsIntrRcvDevctlData
+            memcpy(&r_addr, (void*)UNCACHED(&_rcv_data_cmd.rcvData.data_top[1]), sizeof(s32));
+            memcpy(&r_size, (void*)UNCACHED(&_rcv_data_cmd.rcvData.data_top[2]), sizeof(s32));
+            if (r_size > 0x400){
+                r_size = 0x400;
+            }
+            memcpy(r_addr, (void*)UNCACHED(&_rcv_data_cmd.rcvData.data_top[3]), r_size);
+            break;
+    }
+
+    
+    if (ee_semid < 0x0) {
+        ee_semid = -ee_semid;
+        for (i = 0; i < ARRAY_COUNT(_sceFs_q); i++) {
+            if (_sceFs_q[i] == ee_semid) {
+                _sceFs_q[i] = -1;
+                break;
+            }
+        }
+    } else {
+        iSignalSema(ee_semid);
+    }
+    return;
+}
 
 static void _sceFsSemInit(void) {
     struct SemaParam param;
@@ -354,13 +429,352 @@ int sceClose(int fd) {
     return 0; // SCE_OK
 }
 
-INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceLseek);
+int sceLseek(int fd, int offset, int how) {
+    _sceFsLseekData* ld;
+    s32 ret_lseek;
+    s32 ret1;
+    s32 i;
+    s32 flag;
+    _sceFsIob* io;
+    s32 ret;
+    struct SemaParam sparam;
+    s32 semaid;
 
-INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceRead);
+    ld = &_send_data.lSeekData;
+    
+    io = get_iob(fd);
+    _sceFsWaitS(0x4);
+    if (_fs_init == 0x0) {
+        _sceFsSigSema();
+        return -0x1; // errno.h says this would be "Not super-user" but that doesn't make sense
+    }
+    
+    if ((io == NULL) || (io->i_flag == 0x0)) {
+        _sceFsSigSema();
+        return -EBADF;
+    }
+    
+    flag = io->i_flag;
+    ld->fd = io->i_fd;
+    ld->offset = offset;
+    ld->how = how;
+    ld->ee_fds = io - _iob;
+    sparam.maxCount = 0x1;
+    sparam.initCount = 0x0;
+    sparam.option = 0x0;
+    semaid = CreateSema(&sparam);
+    ld->ee_semid = semaid;
+    ld->ee_retadr = (u32)&ret_lseek;
+    ld->ee_retsiz = sizeof(ret_lseek);
+        
+    if ((flag & 0x8000) != 0x0) {
+        WaitSema(_fs_fsq_semid);
+        for (i = 0; i < 32; i++) {
+            if (_sceFs_q[i] == -1) {
+                _sceFs_q[i] = ld->ee_semid;
+                ld->ee_semid = -ld->ee_semid;
+                break;
+            }
+        }
+        SignalSema(_fs_fsq_semid);
+    }
+    
+    ret = sceSifCallRpc(&_cd, 0x4, 0x0, &_send_data, sizeof(_sceFsLseekData), &_rcv_data_rpc, sizeof(_rcv_data_rpc), NULL, NULL);
+    if (ret < 0x0) {
+        DeleteSema(semaid);
+        _sceFsSigSema();
+        return -EAGAIN;
+    }
+   
+    ret = *(u32*)UNCACHED(&_rcv_data_rpc);
+    _sceFsSigSema();
+    if (ret == 0x0) {
+        DeleteSema(semaid);
+        return -EAGAIN;
+    }
 
-INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceWrite);
+    if ((flag & 0x8000) != 0x0) {
+        DeleteSema(semaid);
+        return 0; // SCE_OK
+    } 
+    
+    WaitSema(semaid);
+    DeleteSema(semaid);
+    return ret_lseek;
+}
 
-INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceIoctl);
+int sceRead(int fd, void* addr, int size) {
+    _sceFsReadData* rd;
+    _sceFsIob* io;
+    s32 ret;
+    s32 ret_read;
+    s32 cnt0;
+    s32 i;
+    s32 flag;
+    struct SemaParam sparam;
+    s32 semaid;
+
+    rd = &_send_data.readData;
+    
+    io = get_iob(fd);
+    _sceFsWaitS(0x2);
+    if (_fs_init == 0x0) {
+        _sceFsSigSema();
+        return -0x1; // errno.h says this would be "Not super-user" but that doesn't make sense
+    }
+    
+    if ((io == NULL) || (io->i_flag == 0x0)) {
+        _sceFsSigSema();
+        return -EBADF;
+    }
+    
+    flag = io->i_flag;
+    rd->fd = io->i_fd;
+    rd->addr = (u32)addr;
+    rd->size = size;
+    rd->ee_fds = io - _iob;
+    sparam.maxCount = 0x1;
+    sparam.initCount = 0x0;
+    sparam.option = 0x0;
+    semaid = CreateSema(&sparam);
+    rd->ee_semid = semaid;
+    rd->ee_retadr = (u32)&ret_read;
+    rd->ee_retsiz = sizeof(ret_read);
+        
+    if ((flag & 0x8000) != 0x0) {
+        WaitSema(_fs_fsq_semid);
+        for (i = 0; i < 32; i++) {
+            if (_sceFs_q[i] == -1) {
+                _sceFs_q[i] = rd->ee_semid;
+                rd->ee_semid = -rd->ee_semid;
+                break;
+            }
+        }
+        SignalSema(_fs_fsq_semid);
+    }
+    if ((flag & 0x20000000) == 0x0) {
+        sceSifWriteBackDCache(addr, size);
+    }
+    sceSifWriteBackDCache(&_rcv_data_cmd, 0xA4);
+    sceSifWriteBackDCache(rd, sizeof(_sceFsReadData));
+    ret = sceSifCallRpc(&_cd, 0x2, 0x0, &_send_data, sizeof(_sceFsReadData), &_rcv_data_rpc, sizeof(_rcv_data_rpc), NULL, NULL);
+    if (ret < 0x0) {
+        DeleteSema(semaid);
+        _sceFsSigSema();
+        return -EAGAIN;
+    }
+   
+    ret = *(u32*)UNCACHED(&_rcv_data_rpc);
+    _sceFsSigSema();
+    if (ret == 0x0) {
+        DeleteSema(semaid);
+        return -EAGAIN;
+    }
+
+    if ((flag & 0x8000) != 0x0) {
+        DeleteSema(semaid);
+        return 0; // SCE_OK
+    } 
+    
+    WaitSema(semaid);
+    DeleteSema(semaid);
+    return ret_read;
+}
+
+int sceWrite(int fd, const void* buf, int nbyte) {
+    _sceFsWriteData* wd;
+    _sceFsIob* io;
+    s32 i;
+    s32 cnt0;
+    s32 psize;
+    s32 ret;
+    s32 ret_write;
+    struct SemaParam sparam;
+    s32 flag;
+    s32 semaid;
+    void* p;
+
+    wd = &_send_data.writeData;
+    
+    io = get_iob(fd);
+    _sceFsWaitS(0x3);
+    if (_fs_init == 0x0) {
+        _sceFsSigSema();
+        return -0x1; // errno.h says this would be "Not super-user" but that doesn't make sense
+    }
+    
+    if ((io == NULL) || (io->i_flag == 0x0)) {
+        _sceFsSigSema();
+        return -EBADF;
+    }
+    
+    flag = io->i_flag;
+    wd->fd = io->i_fd;
+    wd->size = nbyte;
+    wd->addr = (u32)buf;
+    wd->ee_fds = io - _iob;
+    sparam.maxCount = 0x1;
+    sparam.initCount = 0x0;
+    sparam.option = 0x0;
+    semaid = CreateSema(&sparam);
+    wd->ee_semid = semaid;
+    wd->ee_retadr = (u32)&ret_write;
+    wd->ee_retsiz = sizeof(ret_write);
+    
+    if ((flag & 0x8000) != 0x0) {
+        WaitSema(_fs_fsq_semid);
+        for (cnt0 = 0; cnt0 < 32; cnt0++) {
+            if (_sceFs_q[cnt0] == -1) {
+                _sceFs_q[cnt0] = wd->ee_semid;
+                wd->ee_semid = -wd->ee_semid;
+                break;
+            }
+        }
+        SignalSema(_fs_fsq_semid);
+    }
+
+    if (((u32)buf & 15) == 0x0) {
+        psize = 0x0;
+    } else {
+        int temp_v1;
+        temp_v1 = ((u32)buf - 0x10);
+        psize = ((u32)buf / 16) * 16 - temp_v1;
+    }
+    
+    if (nbyte < psize) {
+        psize = nbyte;
+    }
+    if ((flag & 0x20000000) == 0x0) {
+        sceSifWriteBackDCache(buf, nbyte);
+    }
+    
+    wd->psize = psize;
+    buf = (void*)UNCACHED(buf);
+    for (i = 0; i < psize; i++) {
+        wd->pdata[i] = *(char*)(buf + i);
+    }    
+    
+    ret = sceSifCallRpc(&_cd, 0x3, 0x0, &_send_data, sizeof(_sceFsWriteData), &_rcv_data_rpc, sizeof(_rcv_data_rpc), NULL, NULL);
+    if (ret < 0x0) {
+        DeleteSema(semaid);
+        _sceFsSigSema();
+        return -EAGAIN;
+    }
+   
+    ret = *(u32*)UNCACHED(&_rcv_data_rpc);
+    _sceFsSigSema();
+    if (ret == 0x0) {
+        DeleteSema(semaid);
+        return -EAGAIN;
+    }
+
+    if ((flag & 0x8000) != 0x0) {
+        DeleteSema(semaid);
+        return 0; // SCE_OK
+    } 
+    
+    WaitSema(semaid);
+    DeleteSema(semaid);
+    return ret_write;
+}
+
+int sceIoctl(int fd, int cmd, void* arg) {
+    _sceFsIoctlData* id;
+    _sceFsIob* io;
+    s32 ret;
+    s32 ret_ioctl;
+    s32 cnt0;
+    s32 wait;
+    struct SemaParam sparam;
+    s32 i;
+    s32 semaid;
+    s32 sz;
+    s32 temp;
+
+    ret = 1;
+    id = &_send_data.ioctlData;
+
+    io = get_iob(fd);
+    _sceFsWaitS(5);
+    ip0 = arg;
+    if (_fs_init == 0x0) {
+        sceFsInit();
+    }
+
+    if ((io == NULL) || (io->i_flag == 0x0)) {
+        _sceFsSigSema();
+        return -EBADF;
+    }
+
+    id->ret_argadr = 0;
+    id->ret_argsiz = 0;
+    
+    switch(cmd) {
+        case 1:
+            WaitSema(_fs_fsq_semid);
+            i = 0;
+            for (; i < 32 && (_sceFs_q[i] == -1); i++) {
+            }
+            if (i == 32) {
+                *ip0 = 0x0;
+            }
+            else {
+                *ip0 = 0x1;
+            }
+            SignalSema(_fs_fsq_semid);
+            _sceFsSigSema();
+            return 0x0;
+        break;
+        case 2:
+            *(u32*)arg = *(u32*)UNCACHED(&_rcv_data_cmd.rcvIoctlData.ee_ret);
+            _sceFsSigSema();
+            return 0x0;
+        break;
+        case 3:
+            *(u64*)arg = *(u64*)UNCACHED(&_rcv_data_cmd.rcvIoctlData.ee_ret);
+            _sceFsSigSema();
+            return 0x0;
+        break;
+    }
+    
+    id->fd = io->i_fd;
+    id->cmd = cmd;
+    
+    if (arg == NULL) {
+        id->arglen = 0;
+    } else {
+        id->arglen = 0x400;
+        memcpy(&id->arg, arg, 0x400);
+    }
+    
+    sparam.maxCount = 0x1;
+    sparam.initCount = 0x0;
+    sparam.option = 0x0;
+    semaid = CreateSema(&sparam);
+    id->ee_semid = semaid;
+    id->ee_retadr = (u32)&ret_ioctl;
+    id->ee_retsiz = sizeof(ret_ioctl);
+    
+    sceSifWriteBackDCache(&_send_data, sizeof(_sceFsIoctlData));
+    ret = sceSifCallRpc(&_cd, 0x5, 0x0, &_send_data, sizeof(_sceFsIoctlData), &_rcv_data_rpc, 0x4, NULL, NULL);
+    
+    if (ret < 0x0) {
+        DeleteSema(semaid);
+        _sceFsSigSema();
+        return -EAGAIN;
+    }
+   
+    temp = *(u32*)UNCACHED(&_rcv_data_rpc);
+    _sceFsSigSema();
+    if (temp == 0x0) {
+        DeleteSema(semaid);
+        return -EAGAIN;
+    }
+    
+    WaitSema(semaid);
+    DeleteSema(semaid);
+    return ret_ioctl;
+}
 
 int sceIoctl2(int fd, int cmd, const void* arg, unsigned int arglen, void* bufp,  unsigned int buflen) {
     _sceFsIoctlData* id;
@@ -1081,7 +1495,79 @@ s32 sceUmount(const char* name) {
     return _sceCallCode(name, 21);
 }
 
-INCLUDE_ASM(const s32, "lib/libkernl/filestub", sceLseek64);
+long sceLseek64(int fd, long offset, int how) {
+    _sceFsLseek64Data* ld;
+    _sceFsIob* io;
+    s32 cnt0;
+    s32 ret;
+    s64 ret_lseek64;
+    s32 i;
+    s32 flag;
+    struct SemaParam sparam;
+    s32 semaid;
+
+    ld = &_send_data.lSeek64Data;
+    
+    io = get_iob(fd);
+    _sceFsWaitS(0x16);
+    if (_fs_init == 0x0) {
+        _sceFsSigSema();
+        return -0x1; // errno.h says this would be "Not super-user" but that doesn't make sense
+    }
+    
+    if ((io == NULL) || (io->i_flag == 0x0)) {
+        _sceFsSigSema();
+        return -EBADF;
+    }
+    
+    flag = io->i_flag;
+    ld->fd = io->i_fd;
+    ld->offset = offset;
+    ld->how = how;
+    ld->ee_fds = io - _iob;
+    sparam.maxCount = 0x1;
+    sparam.initCount = 0x0;
+    sparam.option = 0x0;
+    semaid = CreateSema(&sparam);
+    ld->ee_semid = semaid;
+    ld->ee_retadr = (u32)&ret_lseek64;
+    ld->ee_retsiz = sizeof(ret_lseek64);
+        
+    if ((flag & 0x8000) != 0x0) {
+        WaitSema(_fs_fsq_semid);
+        for (i = 0; i < 32; i++) {
+            if (_sceFs_q[i] == -1) {
+                _sceFs_q[i] = ld->ee_semid;
+                ld->ee_semid = -ld->ee_semid;
+                break;
+            }
+        }
+        SignalSema(_fs_fsq_semid);
+    }
+    
+    ret = sceSifCallRpc(&_cd, 0x16, 0x0, &_send_data, sizeof(_sceFsLseek64Data), &_rcv_data_rpc, sizeof(_rcv_data_rpc), NULL, NULL);
+    if (ret < 0x0) {
+        DeleteSema(semaid);
+        _sceFsSigSema();
+        return -EAGAIN;
+    }
+   
+    ret = *(u32*)UNCACHED(&_rcv_data_rpc);
+    _sceFsSigSema();
+    if (ret == 0x0) {
+        DeleteSema(semaid);
+        return -EAGAIN;
+    }
+
+    if ((flag & 0x8000) != 0x0) {
+        DeleteSema(semaid);
+        return 0; // SCE_OK
+    } 
+    
+    WaitSema(semaid);
+    DeleteSema(semaid);
+    return ret_lseek64;
+}
 
 int sceDevctl(const char* devname, int cmd, const void* arg, unsigned int arglen, void* bufp, unsigned int buflen) {
     _sceFsDevctlData* dd;
