@@ -112,7 +112,7 @@ void func_0010BDD8(void) {
 void* func_0010BE10(void) {
     D_0048ECD4 = 0;
     func_0010BDD8();
-    func_0011EDD0(&D_002B3AE0, D_002B3A50, 0x24, 4);
+    func_0011EDD0(D_002B3AE0, D_002B3A50, 0x24, 4);
     return func_0011ED30(180200, func_0010BDA8);
 }
 
