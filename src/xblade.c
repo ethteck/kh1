@@ -7,6 +7,7 @@
 #include "xblade.h"
 #include "xarcade.h"
 #include "xnoodle.h"
+#include "xlamp.h"
 #include "xtailor.h"
 #include "disk.h"
 
@@ -91,7 +92,6 @@ void func_00114420();
 void func_00117588();
 void func_00177688(void);
 void func_001776C8(void);
-void* func_00122588(s32, void*);
 void func_00132450();
 void func_00157B90();
 void func_00177470();
@@ -143,12 +143,9 @@ s32 func_00112508(UNK_TYPE arg0, UNK_TYPE arg1, s32* arg2) {
 
 s32 func_001125F0(void) {
     char stack[64];
-    void* p0;
 
     func_0011C938(stack);
-    p0 = func_00155ED8(0x34, 4);
-
-    return func_00120590(stack, p0, func_00112508, 0);
+    return func_00120590(stack, func_00155ED8(0x34, 4), func_00112508, 0);
 }
 
 s32 func_00112630(void) {
@@ -332,11 +329,11 @@ void* func_00112C90(void) {
     return func_001093A8(8);
 }
 
-void* func_00112CB0(void) {
+s32 func_00112CB0(void) {
     return func_00155ED8(61, 3);
 }
 
-void* func_00112CD0(void) {
+s32 func_00112CD0(void) {
     return func_00155ED8(0, 64);
 }
 
@@ -440,21 +437,22 @@ void* func_001132A0(void) {
     return func_0011ED30(49900, func_00113170);
 }
 
-void* func_001132C0(void) {
+void func_001132C0(void) {
     func_00113130();
-    return func_00122588(D_002B9340, func_001132A0);
+    func_00122588(D_002B9340, func_001132A0);
 }
 
-void* func_001132F0(void) {
+void func_001132F0(void) {
     if (D_002B29C4 == 1) {
         func_0013C668();
     }
     func_001144C8();
     if (D_002B9338 == 0) {
         D_002BD8D8 = 1;
-        return func_0011E7C8(func_001132C0, func_00155ED8(0x34, 4));
+        func_0011E7C8(func_001132C0, func_00155ED8(0x34, 4));
+        return;
     }
-    return func_001132C0();
+    func_001132C0();
 }
 
 s32 func_00113380(void) {

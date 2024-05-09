@@ -1,6 +1,8 @@
 #include "common.h"
 #include "common_funcs.h"
 
+#include "xlamp.h"
+
 #include "gcc/stdio.h"
 #include "eekernel.h"
 #include "libvu0.h"
@@ -79,7 +81,6 @@ s32 func_0011EF58(s32*, s32);
 f32 func_00120A38(sceVu0FVECTOR);
 f32 func_00120A58(f32*);
 f32 func_00120AC8(f32);
-void func_001223B0(f32*, f32*);
 XAppleBlemish* func_001234A0(XAppleBlemish*);
 void func_00123830(XAppleBlemish*, s32);
 void func_00123E48(s32, sceVu0FVECTOR);

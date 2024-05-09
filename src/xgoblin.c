@@ -1,6 +1,7 @@
 #include "common.h"
 
 #include "io.h"
+#include "xlamp.h"
 
 #include "libpc.h"
 #include "libpad2.h"
@@ -8,8 +9,6 @@
 
 void func_0011F938();
 void func_00121AE8();
-void func_00122110();
-void func_00122410();
 void func_0012FB18();
 void func_00147870();
 

@@ -1,9 +1,12 @@
 #include "common_funcs.h"
+
+#include "xlamp.h"
 #include "xblade.h"
 #include "xnoodle.h"
 #include "xtailor.h"
 #include "disk.h"
 #include "io.h"
+
 #include "libgraph.h"
 
 typedef struct {
@@ -42,7 +45,6 @@ extern void func_F20000(s32, s32);
 extern void func_00100240(); // in xbeginning
 extern void func_00109C98();
 extern u_long128* func_00121C98(s32, u_long128**);
-extern void func_00122518();
 extern void func_001600B8();
 extern void func_001C20B8();
 extern void func_00233968();

@@ -2,6 +2,7 @@
 #include "io.h"
 #include "disk.h"
 #include "xnoodle.h"
+#include "xlamp.h"
 
 #include "sdk/libcdvd.h"
 #include "sdk/ee/eekernel.h"
@@ -298,8 +299,8 @@ INCLUDE_ASM(const s32, "xkingdom", func_00120438);
 //     return D_002C2198;
 // }
 
-void func_001204C0(void);
 INCLUDE_ASM(const s32, "xkingdom", func_001204C0);
+s32 func_001204C0(XOtherCrown*);
 
 s32 func_00120590(char* arg0, s32 arg1, s32 arg2, s32 arg3) {
     XOtherCrown* temp_2 = func_0011EEB8(&D_004DE128, 0, func_001204C0);
@@ -340,7 +341,7 @@ void cdvd_Seek(char* filename) {
     }
 }
 
-void func_00120728(s32 arg0) {
+void func_00120728(void* arg0) {
     func_0011EEB8(&D_004DE128, 0, arg0);
 }
 
@@ -392,8 +393,7 @@ s32 cdvd_StartModule(char* file, s32 args, char* argp, s32* result) {
 }
 
 void func_001208B8(void) {
-    s32 val = func_0011ED30(185000, func_00120750);
-    *(s16*)(val + 2) = -1;
+    *(s16*)(func_0011ED30(185000, func_00120750) + 2) = -1; // todo: relevant struct
 }
 
 void func_001208E8(void) {
