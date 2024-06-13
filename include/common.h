@@ -52,14 +52,10 @@ typedef float f32;
 #define ARRAY_COUNT(arr) (s32)(sizeof(arr) / sizeof(arr[0]))
 #define ARRAY_COUNTU(arr) (u32)(sizeof(arr) / sizeof(arr[0]))
 
-#define PI 3.1415928f
-
-f32 cosf(f32);
-f32 atan2f(f32, f32);
-
 #define BSS __attribute__ ((section (".bss")))
 
 #include "common_data.h"
 #include "common_funcs.h"
+#include "common_math.h"
 
 #endif /* COMMON_H */
