@@ -4,12 +4,6 @@
 #include "common.h"
 #include "ppp.h"
 
-// todo: relocate this once we have a better idea of what it is
-typedef struct {
-    /* 0x0 */ u_long128* shape;
-    /* 0x4 */ s32 nPacketSize;
-} pppShapeSt;
-
 typedef struct {
     /* 0x00 */ FMATRIX mat;
     /* 0x40 */ f32 zMat[3][4];

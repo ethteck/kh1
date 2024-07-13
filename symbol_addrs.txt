@@ -49,6 +49,30 @@ cdvd_Initialize              = 0x00120958; // type:func
 //=============================
 // ppp lib
 //=============================
+// pppMngr.c
+pppSetPrimPacket             = 0x00180F78; // type:func
+drawStart                    = 0x00180FB0; // type:func
+pppDbgAlloc                  = 0x00180FC0; // type:func
+drawEnd                      = 0x00180FD8; // type:func
+initGraphicSystem            = 0x00181010; // type:func
+pppSetUp                     = 0x001818E8; // type:func
+dpd_h_skip_version           = 0x00181A20; // type:func
+dpd_h_skip_datainfo          = 0x00181A28; // type:func
+dpd_set_object_tex           = 0x00181E40; // type:func
+dpd_set_shape_data           = 0x00181EE0; // type:func
+dpd_set_rsd_data             = 0x00181F60; // type:func
+dpd_set_vsf_data             = 0x00182020; // type:func
+dpd_set_object_data          = 0x001820B0; // type:func
+vramcache_clear              = 0x001824E8; // type:func
+vramcachemng_clear           = 0x00182508; // type:func
+vramcache_texture            = 0x001828A0; // type:func
+vramcache_clut               = 0x001828E8; // type:func
+init_part_mng                = 0x001835C8; // type:func
+pppInitPartRender            = 0x001836D0; // type:func
+pppSetPartMatrix             = 0x001837C0; // type:func
+pppDeletePObject             = 0x00183D30; // type:func
+pppAllFreePObject            = 0x00183E10; // type:func
+pppAlloc                     = 0x00185050; // type:func
 pppFree                      = 0x00185128; // type:func
 
 // pppKeThLz.c
@@ -904,6 +928,46 @@ KeLnsCrn_Init                = 0x001A84D8; // type:func
 KeLnsFls_Draw                = 0x001A84F0; // type:func
 KeLnsFls_Init                = 0x001A8758; // type:func
 KeThResHd_Init               = 0x001AA960; // type:func
+
+op_init_draw                 = 0x001ABF10; // type:func
+ops_init_draw_work           = 0x001ABF30; // type:func
+op_gs2_init                  = 0x001ABF58; // type:func
+op_ot_draw                   = 0x001AC6F8; // type:func
+op_otz_init                  = 0x001AC028; // type:func
+op_init_fog_work             = 0x001AC900; // type:func
+opc                          = 0x001AC9A0; // type:func
+opc2                         = 0x001AC9A8; // type:func
+opc3                         = 0x001AC9B0; // type:func
+op_init_global               = 0x001AC9B8; // type:func
+ops_init_spr                 = 0x001AC9C0; // type:func
+op_num_info                  = 0x001AC9F0; // type:func
+op_spr_alloc                 = 0x001AC9F8; // type:func
+op_spr_rev_alloc             = 0x001ACA38; // type:func
+op_spr_free                  = 0x001ACA78; // type:func
+op_spr_rev_free              = 0x001ACA90; // type:func
+op_spr_rev_check             = 0x001ACAA8; // type:func
+op_spr_check                 = 0x001ACAE0; // type:func
+op_file_read                 = 0x001ACB18; // type:func
+op_file_size                 = 0x001ACBC8; // type:func
+op_oef2_set                  = 0x001ACC40; // type:func
+op_oef2_set2                 = 0x001ACE58; // type:func
+op_oef2_set2_16              = 0x001ACE78; // type:func
+op_oef2_a_get                = 0x001ACE98; // type:func
+op_random                    = 0x001ACEF0; // type:func
+op_random_p                  = 0x001ACF38; // type:func
+
+//=============================
+// ppp/draw/md.c
+//=============================
+set_ztest_off                = 0x001ACF78; // type:func
+set_invisible                = 0x001ACFA8; // type:func
+unset_test                   = 0x001ACFD8; // type:func
+op1_md_draw                  = 0x001AD030; // type:func
+
+//=============================
+// ppp/draw/md0.c
+//=============================
+op_md_ot8                    = 0x001AD188; // type:func
 
 //=============================
 // memcard.c
@@ -2077,7 +2141,16 @@ roomArchiveFile              = 0x002B92B0; // size:0x40
 //=============================
 // ppp lib
 //=============================
+RendModel                    = 0x0035EC00; // size:0x1200
+RendShape                    = 0x0035FE00; // size:0x400
+RendVsf                      = 0x00360200; // size:0x400
 ppvParScl                    = 0x0036C6C0; // size 0x10
+
+oa_dmagif                    = 0x0036EDC8;
+spr_a                        = 0x0036F368; // size:0x80
+spr_rev_a                    = 0x0036F3F0; // size:0x80
+spr_index                    = 0x0036F360;
+spr_rev_index                = 0x0036F3E8;
 
 //=============================
 // memcard.c
@@ -2153,6 +2226,7 @@ cdvd_CbThreadStack           = 0x004ECCF0; // size:0x1000
 // ppp lib
 //=============================
 ppvDbgTemp                   = 0x00570140;
+g_Env                        = 0x00610580; // size:0x20
 ppvMng                       = 0x006105A0;
 ppvEnv                       = 0x006105A4;
 ppvPObj                      = 0x006105A8;
@@ -2163,10 +2237,16 @@ ppvWorldMatrixWood           = 0x00610740; // size:0x40
 ppvScreenMatrix              = 0x00610780; // size:0x40
 ppvSWMatrix                  = 0x006107C0; // size:0x40
 ppvSWMatrixWood              = 0x00610800; // size:0x40
+ppvUnitMatrix                = 0x00610900; // size:0x40
+ppvZeroVector                = 0x00610940; // size:0x10
 ppvlpCMatrix                 = 0x00610954;
 ppvUserStopPartF             = 0x0061095C; // type:s32
 ppvHookFuncTbl               = 0x00610960;
+ppvCurPrimpLen               = 0x00610968; // type:s32
+ppvPrimp                     = 0x0061096C;
+ppvPrimpLen                  = 0x00610970; // type:s32
 ppvEmptyLoop                 = 0x00610974; // type:s32
+ppvVertex                    = 0x00610978; // type:s32
 g_matUnit                    = 0x00618A10; // size:0x40
 g_vecCamDir                  = 0x00618E60; // size:0x10
 g_vecCamDirM                 = 0x00618E70; // size:0x10

@@ -4,6 +4,8 @@
 #include "common.h"
 #include "ppp/pppKeLns.h"
 
+extern f32 D_0036F790[0x1000]; // sine table
+
 void pppGetRotMatrixX(sceVu0FMATRIX mp, u32 angle);
 void pppGetRotMatrixY(sceVu0FMATRIX mp, u32 angle);
 void pppGetRotMatrixZ(sceVu0FMATRIX mp, u32 angle);
