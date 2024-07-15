@@ -297,7 +297,8 @@ segments:
     - [0xACFF8, c, ppp/draw/md]
     - [0xAD208, c, ppp/draw/md0] #todo: split into smaller subsegments by function
 
-    - [0xBBD58, asm]
+    - [0xBBD58, c, gumi]
+    - [0xBD138, asm]
     - [0xC3728, c, xflamingo]
     - [0xC5E08, asm]
     - [0xC84F0, c, xhumungus]
