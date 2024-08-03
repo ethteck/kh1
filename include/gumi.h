@@ -1,6 +1,9 @@
+#ifndef GUMI_H
+#define GUMI_H
+
 #include "common.h"
 
-typedef struct {
+typedef struct XGumiBlock {
     /* 0x00 */ char unk_00[0x31];
     /* 0x31 */ s8 unk_31;
     /* 0x32 */ char unk_32[0x12];
@@ -9,7 +12,17 @@ typedef struct {
     /* 0x47 */ s8 unk_47;
 } XGumiBlock; // size: 0x48
 
-typedef struct {
+typedef struct XGumiThing {
+    /* 0x000 */ u64 unk_000;
+    /* 0x008 */ u64 unk_008;
+    /* 0x010 */ u64 unk_010;
+    /* 0x018 */ u64 unk_018;
+    /* 0x020 */ struct XGumiThing* unk_020;
+    /* 0x024 */ char unk_024[4];
+    /* 0x028 */ s32 unk_028;
+    /* 0x02C */ char unk_02C[0x40];
+} XGumiThing; // size: 0x70
+typedef struct XGumi {
     /* 0x0000 */ char unk_0000[4];
     /* 0x0004 */ s32 unk_0004;
     /* 0x0008 */ s32 unk_0008;
@@ -33,3 +46,7 @@ typedef struct {
 } XGumi; // size: 0x9BE0
 
 XGumiBlock* func_001BCB58(void);
+
+// u8 func_001BC590(s32); // todo: used in a few other splits, but breaks match in defining TU if even declared beforehand
+
+#endif // GUMI_H

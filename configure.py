@@ -36,6 +36,7 @@ LIB_COMPILE_CMD = f"{LIB_CC_DIR}/ee-gcc -c -isystem include/gcc-991111 {COMMON_I
 
 NO_G_FILES = [
     "xblade.c",
+    "gumi.c",
 ]
 
 
