@@ -3,6 +3,7 @@
 #include "memcard.h"
 #include "xtango.h"
 #include "xpotato.h"
+#include "xcursed.h"
 
 typedef struct {
     /* 0x00 */ u16 unk_00;
@@ -73,7 +74,7 @@ INCLUDE_ASM(const s32, "xtango", func_001EF668);
 INCLUDE_ASM(const s32, "xtango", func_001EF708);
 
 void func_001EF810(void) {
-    D_003ED718 = (XWhiskey*)func_0022F768(5);
+    D_003ED718 = func_0022F768(5);
 }
 
 void func_001EF840(void) {

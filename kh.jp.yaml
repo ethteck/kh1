@@ -566,7 +566,7 @@ segments:
     - [0x386EC0, .rodata, xturtle]
     - [0x386F70, .rodata, xgoblin]
     - [0x386FF0, .rodata, xkingdom]
-    - [0x387080, rodata, 20AB8]
+    - [0x387080, rodata, 228A8]
     - [0x3879E8, .rodata, xapple]
     - [0x387A58, rodata, blob3] # todo: part of xapple
     - [0x387A60, rodata, 3BE08]
@@ -644,7 +644,7 @@ segments:
     - [0x38DA70, rodata, libm/sf_atan]
     # - [0x38DAC4, rodata, libm/sf_floor]
     - [0x38DAC8, rodata, libm/sf_scalbn]
-    - [0x38DAD8, rodata, libmc]
+    - [0x38DAD8, rodata, lib/libmc]
   - [0x38DB80, databin] # .reginfo / segment_1.2
   - [0x38DB98, databin]
   - [0x39A680]

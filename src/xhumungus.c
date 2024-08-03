@@ -1,5 +1,6 @@
 #include "common.h"
 
+#include "xcursed.h"
 #include "xhumungus.h"
 #include "xtailor.h"
 #include "xarcade.h"

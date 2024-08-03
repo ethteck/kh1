@@ -9,6 +9,3 @@ typedef struct {
     /* 0x080 */ char unk_80[0xF4];
     /* 0x174 */ s32 unk_174[1]; // length unknown
 } Script;
-
-
-struct XTrumpet* func_0022F768(s32);

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "gumi.h"
+#include "xcursed.h"
 
 s32 D_00373790;
 s32 D_00373794;
@@ -9,6 +10,9 @@ s32 D_00373898;
 void* D_0037389C;
 s32 D_003738A0;
 s32 D_003738A8;
+
+s32 D_00373B00[];
+s32 D_00373BC0[];
 
 char D_00489CB0[];
 char D_00489CC8[];
@@ -22,10 +26,13 @@ s32 D_0061BA40;
 s32 D_0061BA48[2][2];
 s32 D_0061B950;
 void* D_0061BA58;
-s32 D_0061B960;
+
+XGumiThing D_0061B960;
 
 extern void func_F20000();
-extern XGumi* func_0022F768(s32 arg0);
+extern void func_001C0370(void*, s32);
+
+void func_001BCAA0(void*);
 
 s32 func_001BBCD8(s32 arg0) {
     XGumi* pvVar1 = func_0022F768(4);
@@ -102,36 +109,35 @@ void func_001BBFC8(s32 arg0, s32 arg1) {
 
 s32 func_001BC010(void) {
     if ((func_001BCC80() & 0x80) == 0) {
-        return 0 < func_001BC590(49);
+        return func_001BC590(49) > 0;
     }
     return FALSE;
 }
 
-INCLUDE_ASM(const s32, "gumi", func_001BC048);
-// void func_001BC048(void) {
-//     XGumi* pXVar1;
-//     XGumiBlock* pXVar2;
+void func_001BC048(void) {
+    XGumi* pXVar1;
+    XGumiBlock* pXVar2;
 
-//     func_001BD210();
-//     pXVar1 = (XGumi*)func_0022F768(4);
-//     func_001C0370(pXVar1, 0x9BE0);
+    func_001BD210();
+    pXVar1 = (XGumi*)func_0022F768(4);
+    func_001C0370(pXVar1, sizeof(XGumi));
 
-//     pXVar1->unk_0004 = 0x100;
-//     pXVar1->unk_0000[0] = 'G';
-//     pXVar1->unk_0000[1] = 'U';
-//     pXVar1->unk_0000[2] = 'M';
-//     pXVar1->unk_0000[3] = 'I';
+    pXVar1->unk_0004 = 0x100;
+    pXVar1->unk_0000[0] = 'G';
+    pXVar1->unk_0000[1] = 'U';
+    pXVar1->unk_0000[2] = 'M';
+    pXVar1->unk_0000[3] = 'I';
 
-//     func_001BCCA0(pXVar1);
-//     func_001BC100(0);
+    func_001BCCA0(pXVar1);
+    func_001BC100(0);
 
-//     pXVar2 = func_001BCB58();
-//     pXVar2->unk_44 = 1;
-//     pXVar2->unk_47 = 1;
-//     func_001BCBD0(func_001BCB30());
-//     func_001BCD30(10, func_001BCB88(0));
-//     func_001BC290(func_001BCB88(0), 0);
-// }
+    pXVar2 = func_001BCB58();
+    pXVar2->unk_44 = 1;
+    pXVar2->unk_47 = 1;
+    func_001BCBD0(func_001BCB30());
+    func_001BCD30(10, func_001BCB88(0));
+    func_001BC290(func_001BCB88(0), 0);
+}
 
 INCLUDE_ASM(const s32, "gumi", func_001BC100);
 
@@ -224,7 +230,7 @@ void func_001BC888(void) {
 void func_001BC898(s32 arg0) {
     D_00373790 = arg0;
     if (arg0 != 0) {
-        func_001C0370(&D_0061B960, 0x70);
+        func_001C0370(&D_0061B960, sizeof(XGumiThing));
         D_0061BA40 = 0;
         D_0061BA48[0][0] = 0;
         D_0061BA48[0][1] = 0;
@@ -339,7 +345,18 @@ INCLUDE_ASM(const s32, "gumi", func_001BCC58);
 
 INCLUDE_ASM(const s32, "gumi", func_001BCC80);
 
-INCLUDE_ASM(const s32, "gumi", func_001BCCA0);
+void func_001BCCA0(XGumi* arg0) {
+    arg0->unk_9B00 = 0x4000;
+    arg0->unk_9B04 = 0x8000;
+    arg0->unk_9B08 = 0x400;
+    arg0->unk_9B0C = 0x2000;
+    arg0->unk_9B10 = 0x2000;
+    arg0->unk_9B14 = 0x2000;
+    arg0->unk_9B18 = 0x1000;
+    arg0->unk_9B1C = 0x1000;
+    arg0->unk_9B20 = 0x1000;
+    arg0->unk_9B24 = 0;
+}
 
 INCLUDE_ASM(const s32, "gumi", func_001BCD30);
 

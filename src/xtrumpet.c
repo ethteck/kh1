@@ -1,4 +1,6 @@
 #include "common.h"
+
+#include "xcursed.h"
 #include "xhumungus.h"
 
 typedef struct XTrumpet {
