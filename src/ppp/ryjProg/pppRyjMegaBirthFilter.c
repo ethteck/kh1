@@ -11,14 +11,14 @@ typedef struct {
 
 sceVu0FVECTOR g_vecCamDir;
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjMegaBirthFilter", pppRyjMegaBirthFilterCalc);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjMegaBirthFilter", pppRyjMegaBirthFilterCalc);
 
 void func_001A4F70(void) {
 }
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjMegaBirthFilter", func_001A4F78);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjMegaBirthFilter", func_001A4F78);
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjMegaBirthFilter", pppRyjMegaBirthFilterDraw);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjMegaBirthFilter", pppRyjMegaBirthFilterDraw);
 
 void pppRyjMegaBirthFilterSta(void) {
     sceVu0SubVector(g_vecCamDir, ppvAt, ppvEye);
@@ -51,16 +51,16 @@ void pppRyjMegaBirthFilterDes(pppPObject* pobj, pppCtrlTable* ctbl) {
     }
 }
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjMegaBirthFilter", func_001A5500);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjMegaBirthFilter", func_001A5500);
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjMegaBirthFilter", func_001A5548);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjMegaBirthFilter", func_001A5548);
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjMegaBirthFilter", func_001A55A8);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjMegaBirthFilter", func_001A55A8);
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjMegaBirthFilter", func_001A55D8);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjMegaBirthFilter", func_001A55D8);
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjMegaBirthFilter", func_001A5EF8);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjMegaBirthFilter", func_001A5EF8);
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjMegaBirthFilter", func_001A6040);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjMegaBirthFilter", func_001A6040);
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjMegaBirthFilter", func_001A66B0);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjMegaBirthFilter", func_001A66B0);

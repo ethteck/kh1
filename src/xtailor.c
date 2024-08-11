@@ -147,9 +147,9 @@ void func_0010F720(u32 arg0) {
     }
 }
 
-INCLUDE_ASM(const s32, "xtailor", func_0010F768);
+INCLUDE_ASM("asm/nonmatchings/xtailor", func_0010F768);
 
-INCLUDE_ASM(const s32, "xtailor", func_0010FA30);
+INCLUDE_ASM("asm/nonmatchings/xtailor", func_0010FA30);
 
 void func_0010FA88(void) {
     void* src = func_00155ED8(0x34, 0xC);
@@ -166,14 +166,14 @@ void func_0010FAE8(void) {
     memcpy(&D_004D0590, src, size);
 }
 
-INCLUDE_ASM(const s32, "xtailor", func_0010FB38);
+INCLUDE_ASM("asm/nonmatchings/xtailor", func_0010FB38);
 void* func_0010FB38(s32, s32);
 
 void* func_0010FB68(void) {
     return func_0010FB38(D_002B8678, D_002B8680);
 }
 
-INCLUDE_ASM(const s32, "xtailor", func_0010FB90);
+INCLUDE_ASM("asm/nonmatchings/xtailor", func_0010FB90);
 
 void func_0010FCD0(void) {
     D_004D2990 = 0;
@@ -183,7 +183,7 @@ void func_0010FCE0(void) {
     D_004D2990 = 1;
 }
 
-INCLUDE_ASM(const s32, "xtailor", func_0010FCF0);
+INCLUDE_ASM("asm/nonmatchings/xtailor", func_0010FCF0);
 
 void func_0010FD40(s16 w, s16 h) {
     D_004D284C = 0;
@@ -194,7 +194,7 @@ void func_0010FD40(s16 w, s16 h) {
     sceGsPutDispEnv(&D_004D2610);
 }
 
-INCLUDE_ASM(const s32, "xtailor", func_0010FDB8);
+INCLUDE_ASM("asm/nonmatchings/xtailor", func_0010FDB8);
 
 void func_0010FE10(u32* x, u32* y) {
     *x = D_004D2610.display.DX;
@@ -207,11 +207,11 @@ void func_0010FE38(void) {
     sceGsPutDispEnv(&D_004D2610);
 }
 
-INCLUDE_ASM(const s32, "xtailor", func_0010FE78);
+INCLUDE_ASM("asm/nonmatchings/xtailor", func_0010FE78);
 
-INCLUDE_ASM(const s32, "xtailor", func_0010FEC0);
+INCLUDE_ASM("asm/nonmatchings/xtailor", func_0010FEC0);
 
-INCLUDE_ASM(const s32, "xtailor", func_00110038);
+INCLUDE_ASM("asm/nonmatchings/xtailor", func_00110038);
 s32 func_00110038(s32);
 
 void func_00110150(void) {
@@ -228,21 +228,21 @@ void func_00110170(void) {
     D_002B85C0[0] = 0;
 }
 
-INCLUDE_ASM(const s32, "xtailor", func_00110190);
+INCLUDE_ASM("asm/nonmatchings/xtailor", func_00110190);
 
-INCLUDE_ASM(const s32, "xtailor", func_00110230);
+INCLUDE_ASM("asm/nonmatchings/xtailor", func_00110230);
 
-INCLUDE_ASM(const s32, "xtailor", func_00110240);
+INCLUDE_ASM("asm/nonmatchings/xtailor", func_00110240);
 
 void func_001102A0(void) {
     sceGsSyncVCallback(func_00110038);
 }
 
-INCLUDE_ASM(const s32, "xtailor", func_001102C0);
+INCLUDE_ASM("asm/nonmatchings/xtailor", func_001102C0);
 
-INCLUDE_ASM(const s32, "xtailor", func_00110410);
+INCLUDE_ASM("asm/nonmatchings/xtailor", func_00110410);
 
-INCLUDE_ASM(const s32, "xtailor", func_00110848);
+INCLUDE_ASM("asm/nonmatchings/xtailor", func_00110848);
 
 void func_001109A8(void) {
     sceVu0CopyMatrix(D_004D2950, D_002B84F0);
@@ -261,7 +261,7 @@ void func_00110A30(void) {
     sceVu0MulMatrix(D_002B84F0, D_002B83B0, D_002DEC60);
 }
 
-INCLUDE_ASM(const s32, "xtailor", func_00110AE0);
+INCLUDE_ASM("asm/nonmatchings/xtailor", func_00110AE0);
 
 void func_00110C40(f32 arg0, f32 arg1, f32 arg2, f32 arg3) {
     D_002B9090[0] = arg0;
@@ -273,7 +273,7 @@ void func_00110C40(f32 arg0, f32 arg1, f32 arg2, f32 arg3) {
     D_002B90A0[2] = 0;
 }
 
-INCLUDE_ASM(const s32, "xtailor", func_00110C70);
+INCLUDE_ASM("asm/nonmatchings/xtailor", func_00110C70);
 
 void func_00110DE0() {
     D_002B9030 = 1;
@@ -293,11 +293,11 @@ s32 func_00110E38(s32 arg0) {
     return func_00120590(D_00486C60, &func_F20000, func_00110DE0, NULL);
 }
 
-INCLUDE_ASM(const s32, "xtailor", func_00110E78);
+INCLUDE_ASM("asm/nonmatchings/xtailor", func_00110E78);
 
-INCLUDE_ASM(const s32, "xtailor", func_00110EA8);
+INCLUDE_ASM("asm/nonmatchings/xtailor", func_00110EA8);
 
-INCLUDE_ASM(const s32, "xtailor", func_00110ED8);
+INCLUDE_ASM("asm/nonmatchings/xtailor", func_00110ED8);
 
 void func_00110EE8(void) {
     func_F20000(3, 0);
@@ -327,7 +327,7 @@ void func_00110FA8(void) {
     func_F20000(7, 0);
 }
 
-INCLUDE_ASM(const s32, "xtailor", func_00110FC8);
+INCLUDE_ASM("asm/nonmatchings/xtailor", func_00110FC8);
 
 void func_00111050(void) {
     sceCdRead(0, 0, NULL, NULL);

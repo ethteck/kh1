@@ -248,7 +248,7 @@ s32 func_0013AB68(u16* arg0) {
     return 0;
 }
 
-INCLUDE_ASM(const s32, "xapple", func_0013AFE8);
+INCLUDE_ASM("asm/nonmatchings/xapple", func_0013AFE8);
 
 void func_0013B138(void) {
     if (D_0053260C[2] - D_0053260C[1] > 0) {
@@ -264,7 +264,7 @@ void func_0013B138(void) {
     D_00532604 = 4;
 }
 
-INCLUDE_ASM(const s32, "xapple", func_0013B1D0);
+INCLUDE_ASM("asm/nonmatchings/xapple", func_0013B1D0);
 
 // s32 func_0013B1D0(void) {
 //     XAppleBlemish* var_17;
@@ -323,7 +323,7 @@ s32 func_0013B368(void) {
     return 1;
 }
 
-INCLUDE_ASM(const s32, "xapple", func_0013B480);
+INCLUDE_ASM("asm/nonmatchings/xapple", func_0013B480);
 // s32 func_0013B480(OtherApple* arg0) {
 //     f32 temp_f2;
 //     if (arg0->unk_00 & 0x10) {
@@ -343,7 +343,7 @@ INCLUDE_ASM(const s32, "xapple", func_0013B480);
 //     return 0;
 // }
 
-INCLUDE_ASM(const s32, "xapple", func_0013B578);
+INCLUDE_ASM("asm/nonmatchings/xapple", func_0013B578);
 // int func_0011EEB8(int*, int, int*);
 // int func_00123858(void*);
 // void func_001250B0(void);
@@ -383,7 +383,7 @@ INCLUDE_ASM(const s32, "xapple", func_0013B578);
 //     func_0011EEB8(&D_00532518, 0, &func_0013B480);
 // }
 
-INCLUDE_ASM(const s32, "xapple", func_0013B6E0);
+INCLUDE_ASM("asm/nonmatchings/xapple", func_0013B6E0);
 
 // s32 func_0013B6E0(void) {
 //     XAppleBlemish* var_4;
@@ -459,7 +459,7 @@ void func_0013B9A8(void) {
     D_00532604 = 2;
 }
 
-INCLUDE_ASM(const s32, "xapple", func_0013B9B8);
+INCLUDE_ASM("asm/nonmatchings/xapple", func_0013B9B8);
 s32 func_0013B9B8();
 // s32 func_0013B9B8(s32 arg0, s32 arg1, s32 arg2) {
 //     int iVar1;

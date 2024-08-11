@@ -1,6 +1,6 @@
 #include "ppp/pppKeLns.h"
 
-INCLUDE_ASM(const s32, "ppp/keProg/pppKeLnsCrn", pppKeLnsCrnDraw);
+INCLUDE_ASM("asm/nonmatchings/ppp/keProg/pppKeLnsCrn", pppKeLnsCrnDraw);
 
 void pppKeLnsCrnCon(pppPObject* pobj, pppCtrlTable* ctbl) {
     KeLnsCrn* crn = (KeLnsCrn*)&pobj->val[ctbl->useVal[0]];
@@ -8,4 +8,4 @@ void pppKeLnsCrnCon(pppPObject* pobj, pppCtrlTable* ctbl) {
     KeLnsCrn_Init(crn);
 }
 
-INCLUDE_ASM(const s32, "ppp/keProg/pppKeLnsCrn", func_001940F0);
+INCLUDE_ASM("asm/nonmatchings/ppp/keProg/pppKeLnsCrn", func_001940F0);

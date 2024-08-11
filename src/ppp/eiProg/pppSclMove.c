@@ -1,5 +1,5 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "ppp/eiProg/pppSclMove", pppSclMoveCalc);
+INCLUDE_ASM("asm/nonmatchings/ppp/eiProg/pppSclMove", pppSclMoveCalc);
 
-INCLUDE_ASM(const s32, "ppp/eiProg/pppSclMove", pppSclMoveCon);
+INCLUDE_ASM("asm/nonmatchings/ppp/eiProg/pppSclMove", pppSclMoveCon);

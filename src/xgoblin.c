@@ -26,7 +26,7 @@ extern u_long128 D_004DDA00;
 extern s32 D_004DDC00;
 
 // Loads several modules
-INCLUDE_ASM(const s32, "xgoblin", func_0011EAF8);
+INCLUDE_ASM("asm/nonmatchings/xgoblin", func_0011EAF8);
 
 s32 func_0011EBC8(void) {
     func_00122250();
@@ -63,7 +63,7 @@ void func_0011ECD0(void) {
     D_002C1EA0 ^= 1;
 }
 
-INCLUDE_ASM(const s32, "xgoblin", func_0011ED30);
+INCLUDE_ASM("asm/nonmatchings/xgoblin", func_0011ED30);
 
 void func_0011ED60(s32 arg0) {
     func_0011F108(&D_004DD188, arg0);
@@ -76,9 +76,9 @@ s32 func_0011ED80(s32 arg0) {
     }
 }
 
-INCLUDE_ASM(const s32, "xgoblin", func_0011EDD0);
+INCLUDE_ASM("asm/nonmatchings/xgoblin", func_0011EDD0);
 
-INCLUDE_ASM(const s32, "xgoblin", func_0011EE10);
+INCLUDE_ASM("asm/nonmatchings/xgoblin", func_0011EE10);
 
 XGoblin* func_0011EE80(XGoblin* arg0, XGoblin* arg1) {
     XGoblin* pXVar;
@@ -91,7 +91,7 @@ XGoblin* func_0011EE80(XGoblin* arg0, XGoblin* arg1) {
     return pXVar2;
 }
 
-INCLUDE_ASM(const s32, "xgoblin", func_0011EEB8);
+INCLUDE_ASM("asm/nonmatchings/xgoblin", func_0011EEB8);
 
 s32 func_0011EF58(XGoblin* arg0, s32 arg1) {
     u32 uVar3;
@@ -159,13 +159,13 @@ b32 func_0011F0F8(XOtherCrown* arg0) {
     return arg0->unk_00 & 1;
 }
 
-INCLUDE_ASM(const s32, "xgoblin", func_0011F108);
+INCLUDE_ASM("asm/nonmatchings/xgoblin", func_0011F108);
 
-INCLUDE_ASM(const s32, "xgoblin", func_0011F148);
+INCLUDE_ASM("asm/nonmatchings/xgoblin", func_0011F148);
 
-INCLUDE_ASM(const s32, "xgoblin", func_0011F1A0);
+INCLUDE_ASM("asm/nonmatchings/xgoblin", func_0011F1A0);
 
-INCLUDE_ASM(const s32, "xgoblin", func_0011F388);
+INCLUDE_ASM("asm/nonmatchings/xgoblin", func_0011F388);
 
 u32 func_0011F478(u32 arg0) {
     u32 i;
@@ -180,11 +180,11 @@ u32 func_0011F478(u32 arg0) {
     return uVar3;
 }
 
-INCLUDE_ASM(const s32, "xgoblin", func_0011F4B8);
+INCLUDE_ASM("asm/nonmatchings/xgoblin", func_0011F4B8);
 
-INCLUDE_ASM(const s32, "xgoblin", func_0011F7C0);
+INCLUDE_ASM("asm/nonmatchings/xgoblin", func_0011F7C0);
 
-INCLUDE_ASM(const s32, "xgoblin", func_0011F8C0);
+INCLUDE_ASM("asm/nonmatchings/xgoblin", func_0011F8C0);
 // void func_0011F8C0(void) {
 //     sceDbcInit();
 //     scePad2Init(0);
@@ -201,10 +201,10 @@ void func_0011F938(void) {
     ((XGoblin*)func_0011ED30(10000, func_0011F908))->unk_02 = -1;
 }
 
-INCLUDE_ASM(const s32, "xgoblin", func_0011F970);
+INCLUDE_ASM("asm/nonmatchings/xgoblin", func_0011F970);
 
-INCLUDE_ASM(const s32, "xgoblin", func_0011F980);
+INCLUDE_ASM("asm/nonmatchings/xgoblin", func_0011F980);
 
-INCLUDE_ASM(const s32, "xgoblin", func_0011F9B0);
+INCLUDE_ASM("asm/nonmatchings/xgoblin", func_0011F9B0);
 
-INCLUDE_ASM(const s32, "xgoblin", func_0011F9E8);
+INCLUDE_ASM("asm/nonmatchings/xgoblin", func_0011F9E8);

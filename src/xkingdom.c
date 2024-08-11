@@ -64,7 +64,7 @@ void func_0011FB98(u32 lbn, u32 sectors, char* buf) {
     } while (sceCdGetError() != 0);
 }
 
-INCLUDE_ASM(const s32, "xkingdom", func_0011FC58);
+INCLUDE_ASM("asm/nonmatchings/xkingdom", func_0011FC58);
 
 void func_0011FD08(void) {
     if (func_001EE068() == 1) {
@@ -284,7 +284,7 @@ s32 func_001203C8(char* name, char* buf) {
     return D_002C2198;
 }
 
-INCLUDE_ASM(const s32, "xkingdom", func_00120438);
+INCLUDE_ASM("asm/nonmatchings/xkingdom", func_00120438);
 // s32 func_00120438(char* filename, void* arg1) {
 //     IOReadTask* temp_2 = func_001202E8(filename, arg1);
 
@@ -299,7 +299,7 @@ INCLUDE_ASM(const s32, "xkingdom", func_00120438);
 //     return D_002C2198;
 // }
 
-INCLUDE_ASM(const s32, "xkingdom", func_001204C0);
+INCLUDE_ASM("asm/nonmatchings/xkingdom", func_001204C0);
 s32 func_001204C0(XOtherCrown*);
 
 s32 func_00120590(char* arg0, s32 arg1, s32 arg2, s32 arg3) {

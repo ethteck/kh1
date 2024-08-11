@@ -1,3 +1,3 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "ppp/keProg/pppKeMvYpEff", pppKeMvYpEffCalc);
+INCLUDE_ASM("asm/nonmatchings/ppp/keProg/pppKeMvYpEff", pppKeMvYpEffCalc);

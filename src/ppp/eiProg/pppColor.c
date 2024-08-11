@@ -10,7 +10,7 @@ typedef struct {
     /* 0x8 */ pppCVECTOR release_col;
 } VColor;
 
-INCLUDE_ASM(const s32, "ppp/eiProg/pppColor", pppColorCalc);
+INCLUDE_ASM("asm/nonmatchings/ppp/eiProg/pppColor", pppColorCalc);
 
 void pppColorCon(pppPObject* pobj, pppCtrlTable* ctbl) {
     VColor* v = (VColor*)&pobj->val[ctbl->useVal[0]];

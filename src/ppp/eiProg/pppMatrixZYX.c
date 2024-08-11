@@ -1,3 +1,3 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "ppp/eiProg/pppMatrixZYX", pppMatrixZYXCalc);
+INCLUDE_ASM("asm/nonmatchings/ppp/eiProg/pppMatrixZYX", pppMatrixZYXCalc);

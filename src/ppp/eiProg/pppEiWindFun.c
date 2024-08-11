@@ -28,4 +28,4 @@ void pppEiWindFunCon(pppPObject* pobj, pppCtrlTable* ctbl) {
     v->wv = v->wdv = v->wddv = 0; 
 }
 
-INCLUDE_ASM(const s32, "ppp/eiProg/pppEiWindFun", pppEiWindFunCalc);
+INCLUDE_ASM("asm/nonmatchings/ppp/eiProg/pppEiWindFun", pppEiWindFunCalc);

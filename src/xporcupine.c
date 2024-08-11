@@ -21,7 +21,7 @@ extern s32 D_0048DE90[2];
 extern s32 func_001011B8();
 extern void func_0011C6C8(s32);
 
-INCLUDE_ASM(const s32, "xporcupine", func_001011E0);
+INCLUDE_ASM("asm/nonmatchings/xporcupine", func_001011E0);
 
 s32 func_001014A8() {
     char stack[64];
@@ -73,7 +73,7 @@ void func_00101628(s32 arg0) {
 }
 
 // nonmatch: regswap?
-INCLUDE_ASM(const s32, "xporcupine", func_001016B8);
+INCLUDE_ASM("asm/nonmatchings/xporcupine", func_001016B8);
 // void func_001016B8() {
 //     func_0011C6C8(0);
 //     D_0048DE90[0] = -1;
@@ -81,4 +81,4 @@ INCLUDE_ASM(const s32, "xporcupine", func_001016B8);
 //     func_00101580();
 // }
 
-INCLUDE_ASM(const s32, "xporcupine", func_001016E8);
+INCLUDE_ASM("asm/nonmatchings/xporcupine", func_001016E8);

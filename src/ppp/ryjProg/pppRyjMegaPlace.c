@@ -9,17 +9,17 @@ typedef struct {
     /* 0x14 */ void* pvLamp;
 } VRyjMegaPlace;
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjMegaPlace", pppRyjMegaPlaceCalc);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjMegaPlace", pppRyjMegaPlaceCalc);
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjMegaPlace", func_001A0140);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjMegaPlace", func_001A0140);
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjMegaPlace", func_001A0460);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjMegaPlace", func_001A0460);
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjMegaPlace", func_001A07A8);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjMegaPlace", func_001A07A8);
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjMegaPlace", pppRyjMegaPlaceDraw);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjMegaPlace", pppRyjMegaPlaceDraw);
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjMegaPlace", pppRyjMegaPlaceCon);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjMegaPlace", pppRyjMegaPlaceCon);
 
 void pppRyjMegaPlaceDes(pppPObject* pobj, pppCtrlTable* ctbl) {
     VRyjMegaPlace* v = (VRyjMegaPlace*)&pobj->val[ctbl->useVal[0]];

@@ -70,27 +70,27 @@ void func_001110D0(void) {
     D_002B90B0->unk_158 = 0;
 }
 
-INCLUDE_ASM(const s32, "xtrumpet", func_00111158);
+INCLUDE_ASM("asm/nonmatchings/xtrumpet", func_00111158);
 
-INCLUDE_ASM(const s32, "xtrumpet", func_00111198);
+INCLUDE_ASM("asm/nonmatchings/xtrumpet", func_00111198);
 
-INCLUDE_ASM(const s32, "xtrumpet", func_00111210);
+INCLUDE_ASM("asm/nonmatchings/xtrumpet", func_00111210);
 
-INCLUDE_ASM(const s32, "xtrumpet", func_00111298);
+INCLUDE_ASM("asm/nonmatchings/xtrumpet", func_00111298);
 
-INCLUDE_ASM(const s32, "xtrumpet", func_00111328);
+INCLUDE_ASM("asm/nonmatchings/xtrumpet", func_00111328);
 
-INCLUDE_ASM(const s32, "xtrumpet", func_001113A8);
+INCLUDE_ASM("asm/nonmatchings/xtrumpet", func_001113A8);
 
 void func_001113E8(void) {
     func_001809C8(&D_002B90B0->unk_4C);
 }
 
-INCLUDE_ASM(const s32, "xtrumpet", func_00111408);
+INCLUDE_ASM("asm/nonmatchings/xtrumpet", func_00111408);
 
-INCLUDE_ASM(const s32, "xtrumpet", func_00111468);
+INCLUDE_ASM("asm/nonmatchings/xtrumpet", func_00111468);
 
-INCLUDE_ASM(const s32, "xtrumpet", func_001114B8);
+INCLUDE_ASM("asm/nonmatchings/xtrumpet", func_001114B8);
 
 void func_00111580(s32 param1) {
     func_001114B8(D_002B8678, param1);
@@ -120,7 +120,7 @@ void func_001115E8(void) {
     func_001110D0();
 }
 
-INCLUDE_ASM(const s32, "xtrumpet", func_00111638);
+INCLUDE_ASM("asm/nonmatchings/xtrumpet", func_00111638);
 
 void func_001116A8(void) {
     D_004D2998 = 0;
@@ -164,7 +164,7 @@ void func_001116F8(void) {
 }
 
 // Injecting .rodata calls, unsure how to handle this
-INCLUDE_ASM(const s32, "xtrumpet", func_001117D8);
+INCLUDE_ASM("asm/nonmatchings/xtrumpet", func_001117D8);
 // void func_001117D8(void) {
 //   switch (D_002B8678) {
 //   case 5:
@@ -203,14 +203,14 @@ void func_00111910(void) {
     D_002B9174 = 0;
 }
 
-INCLUDE_ASM(const s32, "xtrumpet", func_00111920);
+INCLUDE_ASM("asm/nonmatchings/xtrumpet", func_00111920);
 void func_00111920();
 
-INCLUDE_ASM(const s32, "xtrumpet", func_00111A00);
+INCLUDE_ASM("asm/nonmatchings/xtrumpet", func_00111A00);
 
-INCLUDE_ASM(const s32, "xtrumpet", func_00111A70);
+INCLUDE_ASM("asm/nonmatchings/xtrumpet", func_00111A70);
 
-INCLUDE_ASM(const s32, "xtrumpet", func_00111B70);
+INCLUDE_ASM("asm/nonmatchings/xtrumpet", func_00111B70);
 
 void func_00111BD8(void) {
     D_004D29AC = 1;
@@ -252,11 +252,11 @@ s32 func_00111C60(s32 param1) {
     return result;
 }
 
-INCLUDE_ASM(const s32, "xtrumpet", func_00111C98);
+INCLUDE_ASM("asm/nonmatchings/xtrumpet", func_00111C98);
 
-INCLUDE_ASM(const s32, "xtrumpet", func_00111D98);
+INCLUDE_ASM("asm/nonmatchings/xtrumpet", func_00111D98);
 
-INCLUDE_ASM(const s32, "xtrumpet", func_00111E20);
+INCLUDE_ASM("asm/nonmatchings/xtrumpet", func_00111E20);
 
 void func_00111F00(void) {
     D_004D29D0 = 1;

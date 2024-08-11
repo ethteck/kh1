@@ -102,7 +102,7 @@ void func_001C4FF0();
 void* func_001EE280(s32);
 void func_001ED878();
 
-INCLUDE_ASM(const s32, "xblade", func_00112168);
+INCLUDE_ASM("asm/nonmatchings/xblade", func_00112168);
 
 void func_00112190(void) {
     D_002B85F8 |= 0x20;
@@ -113,7 +113,7 @@ void func_001121A8(void) {
 }
 
 void func_001121C8(void);
-INCLUDE_ASM(const s32, "xblade", func_001121C8);
+INCLUDE_ASM("asm/nonmatchings/xblade", func_001121C8);
 
 void* func_001124E8(void) {
     return func_0011ED30(50000, func_001016E8);
@@ -200,7 +200,7 @@ void* func_001127E0(void) {
     return func_0011ED30(190000, func_001127A0);
 }
 
-INCLUDE_ASM(const s32, "xblade", func_00112810);
+INCLUDE_ASM("asm/nonmatchings/xblade", func_00112810);
 
 void* func_00112848(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     D_002B92F8 = arg3;
@@ -210,14 +210,14 @@ void* func_00112848(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     return func_001127E0();
 }
 
-INCLUDE_ASM(const s32, "xblade", func_00112880);
+INCLUDE_ASM("asm/nonmatchings/xblade", func_00112880);
 
 void func_001128D8(s32 arg0) {
     D_002A0510 = arg0;
     D_002B9310 = 1;
 }
 
-INCLUDE_ASM(const s32, "xblade", func_001128F0);
+INCLUDE_ASM("asm/nonmatchings/xblade", func_001128F0);
 // extern s32 D_002A050C;
 // extern s32 D_002B868C;
 // extern s32 D_002B92FC;
@@ -337,17 +337,17 @@ s32 func_00112CD0(void) {
     return func_00155ED8(0, 64);
 }
 
-INCLUDE_ASM(const s32, "xblade", func_00112CF0);
+INCLUDE_ASM("asm/nonmatchings/xblade", func_00112CF0);
 
-INCLUDE_ASM(const s32, "xblade", func_00112D48);
+INCLUDE_ASM("asm/nonmatchings/xblade", func_00112D48);
 
-INCLUDE_ASM(const s32, "xblade", func_00112D88);
+INCLUDE_ASM("asm/nonmatchings/xblade", func_00112D88);
 
-INCLUDE_ASM(const s32, "xblade", func_00112DE0);
+INCLUDE_ASM("asm/nonmatchings/xblade", func_00112DE0);
 
-INCLUDE_ASM(const s32, "xblade", func_00112EE8);
+INCLUDE_ASM("asm/nonmatchings/xblade", func_00112EE8);
 
-INCLUDE_ASM(const s32, "xblade", func_00112FE8);
+INCLUDE_ASM("asm/nonmatchings/xblade", func_00112FE8);
 extern s32 D_002B92F4;
 
 // void func_00104DC8(s32, sceVu0FVECTOR);
@@ -395,7 +395,7 @@ void func_00113130(void) {
     }
 }
 
-INCLUDE_ASM(const s32, "xblade", func_00113170);
+INCLUDE_ASM("asm/nonmatchings/xblade", func_00113170);
 s32 func_00113170();
 // s32 func_00113170(void) {
 //     if (D_002B2CC4 != 0) {
@@ -471,7 +471,7 @@ s32 func_001133E0(s32 arg0, s32 arg1) {
 }
 
 #ifndef NON_MATCHING
-INCLUDE_ASM(const s32, "xblade", func_00113410);
+INCLUDE_ASM("asm/nonmatchings/xblade", func_00113410);
 #else
 
 typedef struct Big300 {
@@ -556,17 +556,17 @@ void func_00113618(void) {
     D_004D2AA0 = 128;
 }
 
-INCLUDE_ASM(const s32, "xblade", func_00113660);
+INCLUDE_ASM("asm/nonmatchings/xblade", func_00113660);
 
 void func_001136C8(s32);
-INCLUDE_ASM(const s32, "xblade", func_001136C8);
+INCLUDE_ASM("asm/nonmatchings/xblade", func_001136C8);
 
 extern s32 D_004D2A80;
 extern s32 D_004D2A84;
 extern s32 D_004D2A88;
 extern s32 D_004D2AA4;
 
-INCLUDE_ASM(const s32, "xblade", func_00113710);
+INCLUDE_ASM("asm/nonmatchings/xblade", func_00113710);
 // void func_00113710(void) {
 //     switch (D_004D2A80) {
 //         default:
@@ -729,7 +729,7 @@ void func_00113CA8(void) {
     D_002B9668 = 1;
 }
 
-INCLUDE_ASM(const s32, "xblade", func_00113CB8);
+INCLUDE_ASM("asm/nonmatchings/xblade", func_00113CB8);
 
 void func_00113E18(void) {
     D_002C1EBC = 1;
@@ -745,11 +745,11 @@ void func_00113E38(void) {
     D_004D2A60 = 1;
 }
 
-INCLUDE_ASM(const s32, "xblade", func_00113E68);
+INCLUDE_ASM("asm/nonmatchings/xblade", func_00113E68);
 
 static const char padding[] = "\0\0"; // TODO likely file split
 
-INCLUDE_ASM(const s32, "xblade", func_00113E98);
+INCLUDE_ASM("asm/nonmatchings/xblade", func_00113E98);
 // s32 func_00113E98(void) {
 //     s32 init1;
 //     f32 temp_f20;
@@ -938,17 +938,17 @@ void func_00114430(void) {
     D_004D2A74 = 0;
 }
 
-INCLUDE_ASM(const s32, "xblade", func_00114440);
+INCLUDE_ASM("asm/nonmatchings/xblade", func_00114440);
 
-INCLUDE_ASM(const s32, "xblade", func_00114480);
+INCLUDE_ASM("asm/nonmatchings/xblade", func_00114480);
 
-INCLUDE_ASM(const s32, "xblade", func_001144C8);
+INCLUDE_ASM("asm/nonmatchings/xblade", func_001144C8);
 
-INCLUDE_ASM(const s32, "xblade", func_001145B0);
+INCLUDE_ASM("asm/nonmatchings/xblade", func_001145B0);
 
-INCLUDE_ASM(const s32, "xblade", func_001145E8);
+INCLUDE_ASM("asm/nonmatchings/xblade", func_001145E8);
 
-INCLUDE_ASM(const s32, "xblade", func_00114638);
+INCLUDE_ASM("asm/nonmatchings/xblade", func_00114638);
 // s32 func_00114638(sceVu0FMATRIX arg0, f32 arg1, s32 arg2, s32 arg3) {
 //     f32* temp_16;
 //     sceVu0FVECTOR* temp_2;
@@ -990,11 +990,11 @@ void func_00114800(void) {
     D_004D2AB0 = 0;
 }
 
-INCLUDE_ASM(const s32, "xblade", func_00114818);
+INCLUDE_ASM("asm/nonmatchings/xblade", func_00114818);
 
-INCLUDE_ASM(const s32, "xblade", func_001149B0);
+INCLUDE_ASM("asm/nonmatchings/xblade", func_001149B0);
 
-INCLUDE_ASM(const s32, "xblade", func_00114A50);
+INCLUDE_ASM("asm/nonmatchings/xblade", func_00114A50);
 
 void func_00114B18(f32* arg0, s32 arg1) {
     if (arg1 == -1) {
@@ -1004,7 +1004,7 @@ void func_00114B18(f32* arg0, s32 arg1) {
     func_0011AED0(arg1, arg0);
 }
 
-INCLUDE_ASM(const s32, "xblade", func_00114B50);
+INCLUDE_ASM("asm/nonmatchings/xblade", func_00114B50);
 
 s32 func_00114C18(s32 arg0, s32 arg1, s32 arg2) {
     if (arg0 == -1) {

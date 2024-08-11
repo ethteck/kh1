@@ -1,3 +1,3 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "ppp/eiProg/pppEiWfacc", pppEiWfaccCalc);
+INCLUDE_ASM("asm/nonmatchings/ppp/eiProg/pppEiWfacc", pppEiWfaccCalc);

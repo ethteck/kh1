@@ -7,9 +7,9 @@ typedef struct {
     /* 0xC */ pppFVECTOR* lpvt;
 } VVtMime;
 
-INCLUDE_ASM(const s32, "ppp/eiProg/pppVtMime", pppVtMimeCalc);
+INCLUDE_ASM("asm/nonmatchings/ppp/eiProg/pppVtMime", pppVtMimeCalc);
 
-INCLUDE_ASM(const s32, "ppp/eiProg/pppVtMime", pppVtMimeDraw);
+INCLUDE_ASM("asm/nonmatchings/ppp/eiProg/pppVtMime", pppVtMimeDraw);
 
 void pppVtMimeCon(pppPObject* pobj, pppCtrlTable* ctbl) {
     VVtMime* v = (VVtMime*)&pobj->val[ctbl->useVal[0]];

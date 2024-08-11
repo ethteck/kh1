@@ -28,7 +28,7 @@ void func_001ED878(s32 arg0) {
     D_003DE5B8 = arg0;
 }
 
-INCLUDE_ASM(const s32, "xquack", func_001ED888);
+INCLUDE_ASM("asm/nonmatchings/xquack", func_001ED888);
 
 void* func_001EDA60(void) {
     sceSifCallRpc(&D_003DE5C0, 31, 0, &D_0062D980, 0x2000, &D_0062D980, 0x2000, NULL, NULL);
@@ -50,11 +50,11 @@ void* func_001EDB68(void) {
     return D_0062D980;
 }
 
-INCLUDE_ASM(const s32, "xquack", func_001EDBC0);
+INCLUDE_ASM("asm/nonmatchings/xquack", func_001EDBC0);
 
-INCLUDE_ASM(const s32, "xquack", func_001EDD20);
+INCLUDE_ASM("asm/nonmatchings/xquack", func_001EDD20);
 
-INCLUDE_ASM(const s32, "xquack", func_001EDDC0);
+INCLUDE_ASM("asm/nonmatchings/xquack", func_001EDDC0);
 
 void* func_001EDF28(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     if (!(D_003DE5B8 & 8)) {
@@ -79,7 +79,7 @@ s32 func_001EDF88(s32 arg0) {
     return 0;
 }
 
-INCLUDE_ASM(const s32, "xquack", func_001EDFF8);
+INCLUDE_ASM("asm/nonmatchings/xquack", func_001EDFF8);
 
 s32 func_001EE068(void) {
     FlushCache(WRITEBACK_DCACHE);
@@ -91,7 +91,7 @@ s32 func_001EE090(void) {
     return D_00639880;
 }
 
-INCLUDE_ASM(const s32, "xquack", func_001EE0B8);
+INCLUDE_ASM("asm/nonmatchings/xquack", func_001EE0B8);
 
 void* func_001EE188(void* arg0) {
     D_0062D980 = arg0;
@@ -246,7 +246,7 @@ void* func_001EE9D8(void) {
     return D_0062D980;
 }
 
-INCLUDE_ASM(const s32, "xquack", func_001EEA30);
+INCLUDE_ASM("asm/nonmatchings/xquack", func_001EEA30);
 
 void* func_001EEA98(void) {
     sceSifCallRpc(&D_003DE5C0, 27, 0, &D_0062D980, 0x2000, &D_0062D980, 0x2000, NULL, NULL);
@@ -259,7 +259,7 @@ void* func_001EEAF0(void* arg0) {
     return D_0062D980;
 }
 
-INCLUDE_ASM(const s32, "xquack", func_001EEB48);
+INCLUDE_ASM("asm/nonmatchings/xquack", func_001EEB48);
 
 void* func_001EEBA8(void* arg0) {
     D_0062D980 = arg0;
@@ -273,4 +273,4 @@ void* func_001EEC00(void* arg0) {
     return D_0062D980;
 }
 
-INCLUDE_ASM(const s32, "xquack", func_001EEC58);
+INCLUDE_ASM("asm/nonmatchings/xquack", func_001EEC58);

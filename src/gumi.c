@@ -62,7 +62,7 @@ s32 func_001BBD70(void) {
     return 4;
 }
 
-INCLUDE_ASM(const s32, "gumi", func_001BBDD0);
+INCLUDE_ASM("asm/nonmatchings/gumi", func_001BBDD0);
 
 void func_001BBE38(void) {
     XGumi* pvVar1 = func_0022F768(4);
@@ -139,11 +139,11 @@ void func_001BC048(void) {
     func_001BC290(func_001BCB88(0), 0);
 }
 
-INCLUDE_ASM(const s32, "gumi", func_001BC100);
+INCLUDE_ASM("asm/nonmatchings/gumi", func_001BC100);
 
-INCLUDE_ASM(const s32, "gumi", func_001BC1E8);
+INCLUDE_ASM("asm/nonmatchings/gumi", func_001BC1E8);
 
-INCLUDE_ASM(const s32, "gumi", func_001BC290);
+INCLUDE_ASM("asm/nonmatchings/gumi", func_001BC290);
 
 s32 func_001BC368(void) {
     return sizeof(XGumi);
@@ -177,9 +177,9 @@ s32 func_001BC3F0(s32 arg0) {
     return iVar1;
 }
 
-INCLUDE_ASM(const s32, "gumi", func_001BC430);
+INCLUDE_ASM("asm/nonmatchings/gumi", func_001BC430);
 
-INCLUDE_ASM(const s32, "gumi", func_001BC480);
+INCLUDE_ASM("asm/nonmatchings/gumi", func_001BC480);
 // s32 func_001BC480(s32 arg0) {
 //     u8 bVar1;
 //     XGumiBlock* pXVar2;
@@ -197,7 +197,7 @@ INCLUDE_ASM(const s32, "gumi", func_001BC480);
 //     return lVar3 > bVar1;
 // }
 
-INCLUDE_ASM(const s32, "gumi", func_001BC4F8);
+INCLUDE_ASM("asm/nonmatchings/gumi", func_001BC4F8);
 
 s32 func_001BC578(void) {
     return func_001BD360();
@@ -217,11 +217,11 @@ u8 func_001BC5F8(s32 arg0) {
     return *(u8*)(func_001BD288(arg0) + 0xB); // todo: struct
 }
 
-INCLUDE_ASM(const s32, "gumi", func_001BC618);
+INCLUDE_ASM("asm/nonmatchings/gumi", func_001BC618);
 
-INCLUDE_ASM(const s32, "gumi", func_001BC638);
+INCLUDE_ASM("asm/nonmatchings/gumi", func_001BC638);
 
-INCLUDE_ASM(const s32, "gumi", func_001BC6B0);
+INCLUDE_ASM("asm/nonmatchings/gumi", func_001BC6B0);
 
 void func_001BC888(void) {
     D_00373790 = 0;
@@ -286,7 +286,7 @@ f32 func_001BC9F0(void) {
     return 0.0f;
 }
 
-INCLUDE_ASM(const s32, "gumi", func_001BCA00);
+INCLUDE_ASM("asm/nonmatchings/gumi", func_001BCA00);
 // void func_001BCA00(void) {
 //     D_003738A8 = 1;
 //     D_00373898 = func_001BC9D8;
@@ -309,7 +309,7 @@ void* func_001BCAB0(void) {
     return D_0061BA58;
 }
 
-INCLUDE_ASM(const s32, "gumi", func_001BCAC0);
+INCLUDE_ASM("asm/nonmatchings/gumi", func_001BCAC0);
 
 void func_001BCAE8(void) {
     XGumi* piVar1 = func_0022F768(4);
@@ -335,15 +335,15 @@ XGumiBlock* func_001BCB58(void) {
     return &piVar1->unk_9A78;
 }
 
-INCLUDE_ASM(const s32, "gumi", func_001BCB88);
+INCLUDE_ASM("asm/nonmatchings/gumi", func_001BCB88);
 
-INCLUDE_ASM(const s32, "gumi", func_001BCBD0);
+INCLUDE_ASM("asm/nonmatchings/gumi", func_001BCBD0);
 
-INCLUDE_ASM(const s32, "gumi", func_001BCC08);
+INCLUDE_ASM("asm/nonmatchings/gumi", func_001BCC08);
 
-INCLUDE_ASM(const s32, "gumi", func_001BCC58);
+INCLUDE_ASM("asm/nonmatchings/gumi", func_001BCC58);
 
-INCLUDE_ASM(const s32, "gumi", func_001BCC80);
+INCLUDE_ASM("asm/nonmatchings/gumi", func_001BCC80);
 
 void func_001BCCA0(XGumi* arg0) {
     arg0->unk_9B00 = 0x4000;
@@ -358,7 +358,7 @@ void func_001BCCA0(XGumi* arg0) {
     arg0->unk_9B24 = 0;
 }
 
-INCLUDE_ASM(const s32, "gumi", func_001BCD30);
+INCLUDE_ASM("asm/nonmatchings/gumi", func_001BCD30);
 
 void func_001BCD98(void) {
     XGumiBlock* iVar1 = func_001BCB58();
@@ -409,4 +409,4 @@ s32 func_001BCF28(s32 arg0) {
     }
 }
 
-INCLUDE_ASM(const s32, "gumi", func_001BCF98);
+INCLUDE_ASM("asm/nonmatchings/gumi", func_001BCF98);

@@ -15,6 +15,6 @@ void set_invisible(void) {
     sceDmaSend(oa_dmagif, &D_0036F4F0);
 }
 
-INCLUDE_ASM(const s32, "ppp/draw/md", unset_test);
+INCLUDE_ASM("asm/nonmatchings/ppp/draw/md", unset_test);
 
-INCLUDE_ASM(const s32, "ppp/draw/md", op1_md_draw);
+INCLUDE_ASM("asm/nonmatchings/ppp/draw/md", op1_md_draw);

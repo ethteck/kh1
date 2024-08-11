@@ -101,7 +101,7 @@ s32 func_001000E8(void) {
     return 0;
 }
 
-INCLUDE_ASM(const s32, "xbeginning", func_00100118);
+INCLUDE_ASM("asm/nonmatchings/xbeginning", func_00100118);
 void func_00100118(void);
 
 void func_00100168(void) {
@@ -160,7 +160,7 @@ void func_00100240(void) {
     D_002A274C = 0.050000001f;
 }
 #else
-INCLUDE_ASM(const s32, "xbeginning", func_00100240);
+INCLUDE_ASM("asm/nonmatchings/xbeginning", func_00100240);
 #endif
 
 s32 func_00100328(void) {
@@ -227,7 +227,7 @@ void func_001004F0(void) {
     func_00100460(7, &D_0048DD50);
 }
 
-INCLUDE_ASM(const s32, "xbeginning", func_00100550);
+INCLUDE_ASM("asm/nonmatchings/xbeginning", func_00100550);
 
 void func_00100648(void) {
     func_001043A0(-1, &D_00297850);
@@ -246,7 +246,7 @@ void func_001006C8(void) {
 }
 
 void func_001006F8(void);
-INCLUDE_ASM(const s32, "xbeginning", func_001006F8);
+INCLUDE_ASM("asm/nonmatchings/xbeginning", func_001006F8);
 
 void func_001007D0(f32 arg0) {
     D_0048DDA0[1].unk_44 = arg0;
@@ -307,9 +307,9 @@ void func_001009D8(void) {
     func_00177748();
 }
 
-INCLUDE_ASM(const s32, "xbeginning", func_00100A10);
+INCLUDE_ASM("asm/nonmatchings/xbeginning", func_00100A10);
 
-INCLUDE_ASM(const s32, "xbeginning", func_00100B30);
+INCLUDE_ASM("asm/nonmatchings/xbeginning", func_00100B30);
 
 void func_00100C18(u_long128* srcaddr, s16 dbp) {
     sceGsSetDefLoadImage(&D_002B8700, dbp, 1, 0, 0, 0, 8, 2);
@@ -346,9 +346,9 @@ void func_00100DF8(u_long128* srcaddr, s16 dbp) {
     sceGsSyncPath(0, 0);
 }
 
-INCLUDE_ASM(const s32, "xbeginning", func_00100E70);
+INCLUDE_ASM("asm/nonmatchings/xbeginning", func_00100E70);
 
-INCLUDE_ASM(const s32, "xbeginning", func_00100F48);
+INCLUDE_ASM("asm/nonmatchings/xbeginning", func_00100F48);
 s32 func_00100F48();
 
 void func_001011B8(void) {

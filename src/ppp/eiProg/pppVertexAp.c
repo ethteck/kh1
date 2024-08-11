@@ -12,6 +12,6 @@ void pppVertexApCon(pppPObject* pobj, pppCtrlTable* ctbl) {
     v->aptct = 0;
 }
 
-INCLUDE_ASM(const s32, "ppp/eiProg/pppVertexAp", func_00185F30);
+INCLUDE_ASM("asm/nonmatchings/ppp/eiProg/pppVertexAp", func_00185F30);
 
-INCLUDE_ASM(const s32, "ppp/eiProg/pppVertexAp", pppVertexApCalc);
+INCLUDE_ASM("asm/nonmatchings/ppp/eiProg/pppVertexAp", pppVertexApCalc);

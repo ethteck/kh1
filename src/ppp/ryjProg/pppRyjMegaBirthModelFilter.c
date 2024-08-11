@@ -11,14 +11,14 @@ typedef struct {
 
 sceVu0FVECTOR g_vecCamDirM;
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjMegaBirthModelFilter", pppRyjMegaBirthModelFilterCalc);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjMegaBirthModelFilter", pppRyjMegaBirthModelFilterCalc);
 
 void func_001A69A8(void) {
 }
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjMegaBirthModelFilter", func_001A69B0);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjMegaBirthModelFilter", func_001A69B0);
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjMegaBirthModelFilter", pppRyjMegaBirthModelFilterDraw);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjMegaBirthModelFilter", pppRyjMegaBirthModelFilterDraw);
 
 void pppRyjMegaBirthModelFilterSta(void) {
     sceVu0SubVector(g_vecCamDirM, ppvAt, ppvEye);

@@ -111,7 +111,7 @@ s32 sceMcEnd(void) {
     return 1;
 }
 
-INCLUDE_ASM(const s32, "lib/libmc", _lmcGetClientPtr);
+INCLUDE_ASM("asm/nonmatchings/lib/libmc", _lmcGetClientPtr);
 
 /**
  * @brief Change `mcserv.irx` IOP module thread priority
@@ -284,7 +284,7 @@ s32 sceMcSeek(s32 fd, s32 offset, s32 mode) {
     }
 }
 
-INCLUDE_ASM(const s32, "lib/libmc", mceIntrReadFixAlign);
+INCLUDE_ASM("asm/nonmatchings/lib/libmc", mceIntrReadFixAlign);
 void mceIntrReadFixAlign();
 
 /**
@@ -323,7 +323,7 @@ s32 sceMcRead(s32 fd, void* buff, s32 size) {
     }
 }
 
-INCLUDE_ASM(const s32, "lib/libmc", sceMcWrite);
+INCLUDE_ASM("asm/nonmatchings/lib/libmc", sceMcWrite);
 
 void mcHearAlarm(s32 arg0, u16 arg1, void* thread) {
     iWakeupThread((s32)thread);
@@ -335,12 +335,12 @@ void mcDelayThread(u16 arg0) {
     SleepThread();
 }
 
-INCLUDE_ASM(const s32, "lib/libmc", sceMcSync);
+INCLUDE_ASM("asm/nonmatchings/lib/libmc", sceMcSync);
 
-INCLUDE_ASM(const s32, "lib/libmc", mceGetInfoApdx);
+INCLUDE_ASM("asm/nonmatchings/lib/libmc", mceGetInfoApdx);
 void mceGetInfoApdx();
 
-INCLUDE_ASM(const s32, "lib/libmc", sceMcGetInfo);
+INCLUDE_ASM("asm/nonmatchings/lib/libmc", sceMcGetInfo);
 
 s32 sceMcUdCheckNewCard(void) {
     if (sceSifCallRpc(&mcClientID, 0x35, 0, &mcSifParams, sizeof(mcSifParams), &mcRetVal, 4, NULL, NULL) != 0) {
@@ -394,7 +394,7 @@ s32 sceMcGetDir(s32 port, s32 slot, const char* name, u32 mode, s32 maxent, sceM
     return sifServerStat;
 }
 
-INCLUDE_ASM(const s32, "lib/libmc", mceStorePwd);
+INCLUDE_ASM("asm/nonmatchings/lib/libmc", mceStorePwd);
 void mceStorePwd();
 
 /**
@@ -529,7 +529,7 @@ s32 sceMcFlush(s32 fd) {
     }
 }
 
-INCLUDE_ASM(const s32, "lib/libmc", sceMcSetFileInfo);
+INCLUDE_ASM("asm/nonmatchings/lib/libmc", sceMcSetFileInfo);
 
 /**
  * @brief Change the file or directory name

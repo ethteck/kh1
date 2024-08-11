@@ -1,8 +1,8 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "ppp/keProg/pppKeLnsFlsT", pppKeLnsFlsTDraw);
+INCLUDE_ASM("asm/nonmatchings/ppp/keProg/pppKeLnsFlsT", pppKeLnsFlsTDraw);
 
-INCLUDE_ASM(const s32, "ppp/keProg/pppKeLnsFlsT", pppKeLnsFlsTCon);
+INCLUDE_ASM("asm/nonmatchings/ppp/keProg/pppKeLnsFlsT", pppKeLnsFlsTCon);
 
 void pppKeLnsFlsTDes(void) {
 }

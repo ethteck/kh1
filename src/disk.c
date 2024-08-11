@@ -50,7 +50,7 @@ s32 func_0024A010(void) {
     return D_004642EC;
 }
 
-INCLUDE_ASM(const s32, "disk", func_0024A020);
+INCLUDE_ASM("asm/nonmatchings/disk", func_0024A020);
 
 void disk_Timeout(s32 time) {
     if (0 < time) {

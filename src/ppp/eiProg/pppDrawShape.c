@@ -13,6 +13,6 @@ void pppDrawShapeCon(pppPObject* pobj, pppCtrlTable* ctbl) {
     vds->wait = 0;
 }
 
-INCLUDE_ASM(const s32, "ppp/eiProg/pppDrawShape", pppDrawShapeCalc);
+INCLUDE_ASM("asm/nonmatchings/ppp/eiProg/pppDrawShape", pppDrawShapeCalc);
 
-INCLUDE_ASM(const s32, "ppp/eiProg/pppDrawShape", pppDrawShapeDraw);
+INCLUDE_ASM("asm/nonmatchings/ppp/eiProg/pppDrawShape", pppDrawShapeDraw);

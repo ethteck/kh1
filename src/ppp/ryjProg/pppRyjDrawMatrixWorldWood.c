@@ -1,5 +1,5 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjDrawMatrixWorldWood", pppRyjDrawMatrixWorldWoodCon);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjDrawMatrixWorldWood", pppRyjDrawMatrixWorldWoodCon);
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjDrawMatrixWorldWood", pppRyjDrawMatrixWorldWoodCalc);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjDrawMatrixWorldWood", pppRyjDrawMatrixWorldWoodCalc);

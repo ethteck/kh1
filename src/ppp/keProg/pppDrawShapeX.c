@@ -13,6 +13,6 @@ void pppDrawShapeXCon(pppPObject* pobj, pppCtrlTable* ctbl) {
     vds->wait = 0;
 }
 
-INCLUDE_ASM(const s32, "ppp/keProg/pppDrawShapeX", pppDrawShapeXCalc);
+INCLUDE_ASM("asm/nonmatchings/ppp/keProg/pppDrawShapeX", pppDrawShapeXCalc);
 
-INCLUDE_ASM(const s32, "ppp/keProg/pppDrawShapeX", pppDrawShapeXDraw);
+INCLUDE_ASM("asm/nonmatchings/ppp/keProg/pppDrawShapeX", pppDrawShapeXDraw);

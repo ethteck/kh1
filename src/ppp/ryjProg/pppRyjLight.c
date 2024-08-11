@@ -6,7 +6,7 @@ typedef struct {
     void* unk_00;
 } VRyjLight;
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjLight", pppRyjLightCalc);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjLight", pppRyjLightCalc);
 
 void pppRyjLightCon(pppPObject* pobj, pppCtrlTable* ctbl) {
     ((VRyjLight*)&pobj->val[ctbl->useVal[2]])->unk_00 = NULL;

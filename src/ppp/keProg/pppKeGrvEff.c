@@ -1,6 +1,6 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "ppp/keProg/pppKeGrvEff", pppKeGrvEffCalc);
+INCLUDE_ASM("asm/nonmatchings/ppp/keProg/pppKeGrvEff", pppKeGrvEffCalc);
 
 void pppKeGrvEffCon(void) {
 }

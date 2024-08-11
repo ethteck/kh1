@@ -11,13 +11,13 @@ typedef struct {
     /* 0x62 */ u16 ushIct;
 } VRyjMegaBirth;
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjMegaBirth", pppRyjMegaBirthCalc);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjMegaBirth", pppRyjMegaBirthCalc);
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjMegaBirth", func_0019ECE8);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjMegaBirth", func_0019ECE8);
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjMegaBirth", func_0019ED48);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjMegaBirth", func_0019ED48);
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjMegaBirth", pppRyjMegaBirthDraw);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjMegaBirth", pppRyjMegaBirthDraw);
 
 void pppRyjMegaBirthCon(pppPObject* pobj, pppCtrlTable* ctbl) {
     VRyjMegaBirth* v = (VRyjMegaBirth*)&pobj->val[ctbl->useVal[2]];

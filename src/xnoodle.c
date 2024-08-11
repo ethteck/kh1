@@ -30,15 +30,15 @@ s32 D_0048ECDC;
 s32 D_0048ECE0;
 u_long128* D_0048ED00;
 
-INCLUDE_ASM(const s32, "xnoodle", func_0010A1F8);
+INCLUDE_ASM("asm/nonmatchings/xnoodle", func_0010A1F8);
 
-INCLUDE_ASM(const s32, "xnoodle", func_0010A270);
+INCLUDE_ASM("asm/nonmatchings/xnoodle", func_0010A270);
 
-INCLUDE_ASM(const s32, "xnoodle", func_0010A2F0);
+INCLUDE_ASM("asm/nonmatchings/xnoodle", func_0010A2F0);
 
-INCLUDE_ASM(const s32, "xnoodle", func_0010A4A0);
+INCLUDE_ASM("asm/nonmatchings/xnoodle", func_0010A4A0);
 
-INCLUDE_ASM(const s32, "xnoodle", func_0010AD58);
+INCLUDE_ASM("asm/nonmatchings/xnoodle", func_0010AD58);
 
 void func_0010AE98(XNoodle* arg0) {
     arg0->unk_38 = 0.0f;
@@ -47,7 +47,7 @@ void func_0010AE98(XNoodle* arg0) {
     arg0->unk_58 = 1.0f;
 }
 
-INCLUDE_ASM(const s32, "xnoodle", func_0010AEB8);
+INCLUDE_ASM("asm/nonmatchings/xnoodle", func_0010AEB8);
 
 void func_0010AF38(sceVu0FMATRIX arg0, sceVu0FMATRIX arg1, sceVu0FVECTOR arg2) {
     sceVu0FMATRIX m;
@@ -83,11 +83,11 @@ void func_0010B000(sceVu0FMATRIX arg0, XNoodle* arg1, sceVu0FVECTOR arg2) {
     sceVu0MulMatrix(arg0, D_0048EC90, m);
 }
 
-INCLUDE_ASM(const s32, "xnoodle", func_0010B0D0);
+INCLUDE_ASM("asm/nonmatchings/xnoodle", func_0010B0D0);
 
-INCLUDE_ASM(const s32, "xnoodle", func_0010B428);
+INCLUDE_ASM("asm/nonmatchings/xnoodle", func_0010B428);
 
-INCLUDE_ASM(const s32, "xnoodle", func_0010B810);
+INCLUDE_ASM("asm/nonmatchings/xnoodle", func_0010B810);
 
 void func_0010BB10(XNoodle* arg0, s32 arg1) {
     if (arg0->unk_18 != 0) {
@@ -97,7 +97,7 @@ void func_0010BB10(XNoodle* arg0, s32 arg1) {
     }
 }
 
-INCLUDE_ASM(const s32, "xnoodle", func_0010BB50);
+INCLUDE_ASM("asm/nonmatchings/xnoodle", func_0010BB50);
 
 s32 func_0010BDA8(void) {
     func_0011EF58(&D_002B3AE0, 0);
@@ -116,21 +116,21 @@ void* func_0010BE10(void) {
     return func_0011ED30(180200, func_0010BDA8);
 }
 
-INCLUDE_ASM(const s32, "xnoodle", func_0010BE60);
+INCLUDE_ASM("asm/nonmatchings/xnoodle", func_0010BE60);
 
-INCLUDE_ASM(const s32, "xnoodle", func_0010BF08);
+INCLUDE_ASM("asm/nonmatchings/xnoodle", func_0010BF08);
 
-INCLUDE_ASM(const s32, "xnoodle", func_0010BF50);
+INCLUDE_ASM("asm/nonmatchings/xnoodle", func_0010BF50);
 
-INCLUDE_ASM(const s32, "xnoodle", func_0010BF98);
+INCLUDE_ASM("asm/nonmatchings/xnoodle", func_0010BF98);
 
-INCLUDE_ASM(const s32, "xnoodle", func_0010BFD8);
+INCLUDE_ASM("asm/nonmatchings/xnoodle", func_0010BFD8);
 
-INCLUDE_ASM(const s32, "xnoodle", func_0010C010);
+INCLUDE_ASM("asm/nonmatchings/xnoodle", func_0010C010);
 
-INCLUDE_ASM(const s32, "xnoodle", func_0010C0E0);
+INCLUDE_ASM("asm/nonmatchings/xnoodle", func_0010C0E0);
 
-INCLUDE_ASM(const s32, "xnoodle", func_0010C110);
+INCLUDE_ASM("asm/nonmatchings/xnoodle", func_0010C110);
 
 void func_0010C158(void) {
     void* p0 = func_00155ED8(0x34, 0xC);
@@ -138,7 +138,7 @@ void func_0010C158(void) {
     memcpy(&D_0048ED00, p0, val);
 }
 
-INCLUDE_ASM(const s32, "xnoodle", func_0010C1A8);
+INCLUDE_ASM("asm/nonmatchings/xnoodle", func_0010C1A8);
 
 s32 func_0010C1D0(s16 arg0, u_long128* arg1) {
     sceGsSetDefLoadImage(&D_002B8700, arg0, 1, 0, 0, 0, 8, 2);
@@ -147,4 +147,4 @@ s32 func_0010C1D0(s16 arg0, u_long128* arg1) {
     return sceGsExecLoadImage(&D_002B8700, arg1);
 }
 
-INCLUDE_ASM(const s32, "xnoodle", func_0010C248);
+INCLUDE_ASM("asm/nonmatchings/xnoodle", func_0010C248);
