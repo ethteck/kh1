@@ -4,7 +4,7 @@ options:
   basename: SLPS_251.05
   target_path: SLPS_251.05
   base_path: .
-  compiler: GCC
+  compiler: EEGCC
   find_file_boundaries: False
   platform: ps2
   create_undefined_funcs_auto: True
