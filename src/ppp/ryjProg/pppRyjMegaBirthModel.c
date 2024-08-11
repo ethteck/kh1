@@ -11,15 +11,15 @@ typedef struct {
     /* 0x26 */ u16 ushIct;
 } VRyjMegaBirthModel;
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjMegaBirthModel", pppRyjMegaBirthModelCalc);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjMegaBirthModel", pppRyjMegaBirthModelCalc);
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjMegaBirthModel", func_001A26D0);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjMegaBirthModel", func_001A26D0);
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjMegaBirthModel", func_001A2798);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjMegaBirthModel", func_001A2798);
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjMegaBirthModel", pppRyjMegaBirthModelDraw);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjMegaBirthModel", pppRyjMegaBirthModelDraw);
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjMegaBirthModel", pppRyjMegaBirthModelCon);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjMegaBirthModel", pppRyjMegaBirthModelCon);
 
 void pppRyjMegaBirthModelDes(pppPObject* pobj, pppCtrlTable* ctbl) {
     VRyjMegaBirthModel* v = (VRyjMegaBirthModel*)&pobj->val[ctbl->useVal[2]];
@@ -38,4 +38,4 @@ void pppRyjMegaBirthModelDes(pppPObject* pobj, pppCtrlTable* ctbl) {
     }
 }
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjMegaBirthModel", func_001A2F20);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjMegaBirthModel", func_001A2F20);

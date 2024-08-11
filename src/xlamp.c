@@ -20,9 +20,9 @@ void* func_00121DE0(s32 arg0, s32 arg1) {
     return func_0011EEB8(D_004FA560, arg0, arg1);
 }
 
-INCLUDE_ASM(const s32, "xlamp", func_00121E08);
+INCLUDE_ASM("asm/nonmatchings/xlamp", func_00121E08);
 
-INCLUDE_ASM(const s32, "xlamp", func_00121EC8);
+INCLUDE_ASM("asm/nonmatchings/xlamp", func_00121EC8);
 
 s32 func_00121FB8(s32 unused) {
     iDisableDmac(DMAC_VIF1);
@@ -39,15 +39,15 @@ s32 func_00121FB8(s32 unused) {
     return 0;
 }
 
-INCLUDE_ASM(const s32, "xlamp", func_00122030);
+INCLUDE_ASM("asm/nonmatchings/xlamp", func_00122030);
 
-INCLUDE_ASM(const s32, "xlamp", func_00122110);
+INCLUDE_ASM("asm/nonmatchings/xlamp", func_00122110);
 
 void* func_00122228(s32 arg0, s32 arg1) {
     return func_0011EEB8(D_004F8530, arg0, arg1);
 }
 
-INCLUDE_ASM(const s32, "xlamp", func_00122250);
+INCLUDE_ASM("asm/nonmatchings/xlamp", func_00122250);
 
 void func_001222B0(void) {
     DisableDmac(DMAC_VIF1);
@@ -63,13 +63,13 @@ void func_00122318(void) {
     RemoveDmacHandler(DMAC_GIF, D_004F050C);
 }
 
-INCLUDE_ASM(const s32, "xlamp", func_00122358);
+INCLUDE_ASM("asm/nonmatchings/xlamp", func_00122358);
 
-INCLUDE_ASM(const s32, "xlamp", func_001223B0);
+INCLUDE_ASM("asm/nonmatchings/xlamp", func_001223B0);
 
-INCLUDE_ASM(const s32, "xlamp", func_00122410);
+INCLUDE_ASM("asm/nonmatchings/xlamp", func_00122410);
 
-INCLUDE_ASM(const s32, "xlamp", func_00122430);
+INCLUDE_ASM("asm/nonmatchings/xlamp", func_00122430);
 
 void func_001224A0(void) {
     D_004FA668 -= 8;
@@ -105,7 +105,7 @@ void func_00122518(void) {
     func_0012FE80();
 }
 
-INCLUDE_ASM(const s32, "xlamp", func_00122588);
+INCLUDE_ASM("asm/nonmatchings/xlamp", func_00122588);
 
 void func_00122720(void) {
     func_00235EE0();

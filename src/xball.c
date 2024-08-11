@@ -21,17 +21,17 @@ s32 func_00120A78(sceVu0FMATRIX arg0, sceVu0FMATRIX arg1, sceVu0FVECTOR arg2) {
     sceVu0RotMatrixY(arg0, arg0, arg2[1]);
 }
 
-INCLUDE_ASM(const s32, "xball", func_00120AC8);
+INCLUDE_ASM("asm/nonmatchings/xball", func_00120AC8);
 f32 func_00120AC8(f32);
 
-INCLUDE_ASM(const s32, "xball", func_00120B40);
+INCLUDE_ASM("asm/nonmatchings/xball", func_00120B40);
 
-INCLUDE_ASM(const s32, "xball", func_00120D38);
+INCLUDE_ASM("asm/nonmatchings/xball", func_00120D38);
 
-INCLUDE_ASM(const s32, "xball", func_00120DB8);
+INCLUDE_ASM("asm/nonmatchings/xball", func_00120DB8);
 
 // nonmatch: extra nops
-INCLUDE_ASM(const s32, "xball", func_00120E48);
+INCLUDE_ASM("asm/nonmatchings/xball", func_00120E48);
 // s32 func_00120E48(sceVu0FMATRIX arg0, sceVu0FVECTOR* arg1) {
 //     sceVu0FVECTOR local_40;
 //     s32 i;
@@ -105,11 +105,11 @@ s32 func_00120FC8(f32 arg0, sceVu0FMATRIX arg1, sceVu0FMATRIX arg2, sceVu0FMATRI
     return 1;
 }
 
-INCLUDE_ASM(const s32, "xball", func_00121200);
+INCLUDE_ASM("asm/nonmatchings/xball", func_00121200);
 
-INCLUDE_ASM(const s32, "xball", func_00121340);
+INCLUDE_ASM("asm/nonmatchings/xball", func_00121340);
 
-INCLUDE_ASM(const s32, "xball", func_001213B0);
+INCLUDE_ASM("asm/nonmatchings/xball", func_001213B0);
 
 void func_00121480(f32 arg0, f32 arg1, f32 arg2, f32 arg3, sceVu0FMATRIX arg4, sceVu0FVECTOR arg5) {
     sceVu0DropShadowMatrix(arg4, arg5, arg0, arg1, arg2, 0);
@@ -135,19 +135,19 @@ void func_001214C8(sceVu0FMATRIX arg0, sceVu0FMATRIX arg1) {
     arg0[3][3] = 1.0f;
 }
 
-INCLUDE_ASM(const s32, "xball", func_00121538);
+INCLUDE_ASM("asm/nonmatchings/xball", func_00121538);
 
-INCLUDE_ASM(const s32, "xball", func_001215A8);
+INCLUDE_ASM("asm/nonmatchings/xball", func_001215A8);
 
 f32 func_001216A8(sceVu0FVECTOR arg0, sceVu0FVECTOR arg1) {
     return acosf(func_001215A8(arg0, arg1));
 }
 
-INCLUDE_ASM(const s32, "xball", func_001216C8);
+INCLUDE_ASM("asm/nonmatchings/xball", func_001216C8);
 
-INCLUDE_ASM(const s32, "xball", func_001217C0);
+INCLUDE_ASM("asm/nonmatchings/xball", func_001217C0);
 
-INCLUDE_ASM(const s32, "xball", func_00121830);
+INCLUDE_ASM("asm/nonmatchings/xball", func_00121830);
 
 void func_00121878(sceVu0FVECTOR arg0, sceVu0FVECTOR arg1, sceVu0FVECTOR arg2) {
     arg1[0] = atan2f(-arg0[1], func_00120A58(arg0));
@@ -156,7 +156,7 @@ void func_00121878(sceVu0FVECTOR arg0, sceVu0FVECTOR arg1, sceVu0FVECTOR arg2) {
     arg1[3] = 1.0f;
 }
 
-INCLUDE_ASM(const s32, "xball", func_001218E0);
+INCLUDE_ASM("asm/nonmatchings/xball", func_001218E0);
 
 f32 func_00121970(f32 arg0) {
     if (arg0 > 0.0f) {

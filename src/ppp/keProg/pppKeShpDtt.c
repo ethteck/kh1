@@ -3,6 +3,6 @@
 void pppKeShpDttCalc(void) {
 }
 
-INCLUDE_ASM(const s32, "ppp/keProg/pppKeShpDtt", pppKeShpDttDraw);
+INCLUDE_ASM("asm/nonmatchings/ppp/keProg/pppKeShpDtt", pppKeShpDttDraw);
 
-INCLUDE_ASM(const s32, "ppp/keProg/pppKeShpDtt", pppKeShpDttCon);
+INCLUDE_ASM("asm/nonmatchings/ppp/keProg/pppKeShpDtt", pppKeShpDttCon);

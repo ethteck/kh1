@@ -135,9 +135,9 @@ void memcard_SetDefaults(void) {
     }
 }
 
-INCLUDE_ASM(const s32, "memcard", func_00230760);
+INCLUDE_ASM("asm/nonmatchings/memcard", func_00230760);
 
-INCLUDE_ASM(const s32, "memcard", func_00230810);
+INCLUDE_ASM("asm/nonmatchings/memcard", func_00230810);
 
 s32 func_00230948(void) {
     return D_006417B8;
@@ -188,31 +188,31 @@ void func_00230A58(s32 port, s32 slot) {
     D_0041F980[port][slot] = 0;
 }
 
-INCLUDE_ASM(const s32, "memcard", func_00230A78);
+INCLUDE_ASM("asm/nonmatchings/memcard", func_00230A78);
 
-INCLUDE_ASM(const s32, "memcard", func_00230AF8);
+INCLUDE_ASM("asm/nonmatchings/memcard", func_00230AF8);
 
-INCLUDE_ASM(const s32, "memcard", func_00230BA8);
+INCLUDE_ASM("asm/nonmatchings/memcard", func_00230BA8);
 
-INCLUDE_ASM(const s32, "memcard", func_00230C70);
+INCLUDE_ASM("asm/nonmatchings/memcard", func_00230C70);
 
-INCLUDE_ASM(const s32, "memcard", func_00230CF0);
+INCLUDE_ASM("asm/nonmatchings/memcard", func_00230CF0);
 
-INCLUDE_ASM(const s32, "memcard", func_00230D70);
+INCLUDE_ASM("asm/nonmatchings/memcard", func_00230D70);
 
-INCLUDE_ASM(const s32, "memcard", func_00230E08);
+INCLUDE_ASM("asm/nonmatchings/memcard", func_00230E08);
 
-INCLUDE_ASM(const s32, "memcard", func_00230EA0);
+INCLUDE_ASM("asm/nonmatchings/memcard", func_00230EA0);
 
-INCLUDE_ASM(const s32, "memcard", func_00230F68);
+INCLUDE_ASM("asm/nonmatchings/memcard", func_00230F68);
 
-INCLUDE_ASM(const s32, "memcard", func_00231000);
+INCLUDE_ASM("asm/nonmatchings/memcard", func_00231000);
 
-INCLUDE_ASM(const s32, "memcard", func_002310C8);
+INCLUDE_ASM("asm/nonmatchings/memcard", func_002310C8);
 
-INCLUDE_ASM(const s32, "memcard", func_00231190);
+INCLUDE_ASM("asm/nonmatchings/memcard", func_00231190);
 
-INCLUDE_ASM(const s32, "memcard", func_00231240);
+INCLUDE_ASM("asm/nonmatchings/memcard", func_00231240);
 
 s32 func_002312A0(void) {
     return memcardStatus[1];
@@ -267,7 +267,7 @@ s32 func_00231360(void) {
 }
 
 // todo: confusing struct?
-INCLUDE_ASM(const s32, "memcard", func_00231370);
+INCLUDE_ASM("asm/nonmatchings/memcard", func_00231370);
 // void func_00231370(void) {
 //     if (D_00641FC8 != D_00641FCC) {
 //         switch (*(s32*)(D_006417C0 + D_00641FCC * 4)) {

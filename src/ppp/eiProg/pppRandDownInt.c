@@ -1,5 +1,5 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "ppp/eiProg/pppRandDownInt", pppRandDownIntCalc);
+INCLUDE_ASM("asm/nonmatchings/ppp/eiProg/pppRandDownInt", pppRandDownIntCalc);
 
-INCLUDE_ASM(const s32, "ppp/eiProg/pppRandDownInt", func_00189500);
+INCLUDE_ASM("asm/nonmatchings/ppp/eiProg/pppRandDownInt", func_00189500);

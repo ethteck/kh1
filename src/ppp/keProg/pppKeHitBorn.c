@@ -12,7 +12,7 @@ typedef struct {
     /* 0x0 */ TKeHitBorn_Stt stt;
 } VKeHitBorn;
 
-INCLUDE_ASM(const s32, "ppp/keProg/pppKeHitBorn", pppKeHitBornCalc);
+INCLUDE_ASM("asm/nonmatchings/ppp/keProg/pppKeHitBorn", pppKeHitBornCalc);
 
 void pppKeHitBornCon(pppPObject* pobj, pppCtrlTable* ctbl) {
     ((VKeHitBorn*)&pobj->val[ctbl->useVal[2]])->stt = 0;

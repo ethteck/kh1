@@ -1,5 +1,5 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "ppp/keProg/pppKeMatSN", pppKeMatSNCalc);
+INCLUDE_ASM("asm/nonmatchings/ppp/keProg/pppKeMatSN", pppKeMatSNCalc);
 
-INCLUDE_ASM(const s32, "ppp/keProg/pppKeMatSN", pppKeMatSNCon);
+INCLUDE_ASM("asm/nonmatchings/ppp/keProg/pppKeMatSN", pppKeMatSNCon);

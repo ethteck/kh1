@@ -26,6 +26,6 @@ void pppDrawMdlTsCon(pppPObject* pobj, pppCtrlTable* ctbl) {
     v->tu = v->dtu = v->ddtu = 0;
 }
 
-INCLUDE_ASM(const s32, "ppp/eiProg/pppDrawMdlTs", pppDrawMdlTsCalc);
+INCLUDE_ASM("asm/nonmatchings/ppp/eiProg/pppDrawMdlTs", pppDrawMdlTsCalc);
 
-INCLUDE_ASM(const s32, "ppp/eiProg/pppDrawMdlTs", pppDrawMdlTsDraw);
+INCLUDE_ASM("asm/nonmatchings/ppp/eiProg/pppDrawMdlTs", pppDrawMdlTsDraw);

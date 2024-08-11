@@ -8,7 +8,7 @@ typedef struct {
     /* 0xD */ u8 md;
 } PKeLnsLp;
 
-INCLUDE_ASM(const s32, "ppp/keProg/pppKeLnsLp", pppKeLnsLpDraw);
+INCLUDE_ASM("asm/nonmatchings/ppp/keProg/pppKeLnsLp", pppKeLnsLpDraw);
 
 void pppKeLnsLpCon(pppPObject* pobj, pppCtrlTable* ctbl) {
     KeLnsLp* lp = (KeLnsLp*)&pobj->val[ctbl->useVal[0]];
@@ -25,4 +25,4 @@ void pppKeLnsLpCon2(pppPObject* pobj, pppCtrlTable* ctbl) {
     lp->pow = 0;
 }
 
-INCLUDE_ASM(const s32, "ppp/keProg/pppKeLnsLp", func_00193978);
+INCLUDE_ASM("asm/nonmatchings/ppp/keProg/pppKeLnsLp", func_00193978);

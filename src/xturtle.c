@@ -152,9 +152,9 @@ void func_0011C7F0(void) {
     func_00101528();
 }
 
-INCLUDE_ASM(const s32, "xturtle", func_0011C898);
+INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011C898);
 
-INCLUDE_ASM(const s32, "xturtle", func_0011C938);
+INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011C938);
 
 s32 func_0011C9B0(void* arg0) {
     return func_00120438(D_00486E70, arg0); // in xkingdom.c
@@ -172,11 +172,11 @@ s32 func_0011C9D0(void) {
     return 4;
 }
 
-INCLUDE_ASM(const s32, "xturtle", func_0011CA10);
+INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011CA10);
 
-INCLUDE_ASM(const s32, "xturtle", func_0011CB50);
+INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011CB50);
 
-INCLUDE_ASM(const s32, "xturtle", func_0011CC20);
+INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011CC20);
 
 void func_0011CDB8(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, XTurtle* arg5, s32 arg6) {
     arg5->unk_0C = arg6;
@@ -205,7 +205,7 @@ XTurtle* func_0011CDD8(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 }
 
 
-INCLUDE_ASM(const s32, "xturtle", func_0011CE58);
+INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011CE58);
 
 void func_0011CEB0(s32 arg0, s32 arg1) {
     s32 val = arg0 < 1000 ? 2 : -8;
@@ -284,23 +284,23 @@ void func_0011D0D0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     }
 }
 
-INCLUDE_ASM(const s32, "xturtle", func_0011D100);
+INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011D100);
 
-INCLUDE_ASM(const s32, "xturtle", func_0011D180);
+INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011D180);
 
-INCLUDE_ASM(const s32, "xturtle", func_0011D1F8);
+INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011D1F8);
 
-INCLUDE_ASM(const s32, "xturtle", func_0011D278);
+INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011D278);
 
-INCLUDE_ASM(const s32, "xturtle", func_0011D310);
+INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011D310);
 
-INCLUDE_ASM(const s32, "xturtle", func_0011D3B8);
+INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011D3B8);
 
-INCLUDE_ASM(const s32, "xturtle", func_0011D420);
+INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011D420);
 
-INCLUDE_ASM(const s32, "xturtle", func_0011D4B8);
+INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011D4B8);
 
-INCLUDE_ASM(const s32, "xturtle", func_0011D520);
+INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011D520);
 
 void* func_0011D598(s32 arg0) {
     return func_0011C668(2, arg0, 0, 0x3FFF, 0x3FFF);
@@ -319,7 +319,7 @@ s32 func_0011D5F0(s32 arg0) {
     return func_0011C680(2, arg0, 0);
 }
 
-INCLUDE_ASM(const s32, "xturtle", func_0011D610);
+INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011D610);
 
 void func_0011D978(s32* arg0, s32* arg1) {
     s32 val;
@@ -355,31 +355,31 @@ void func_0011D9C8(s32* arg0, s32* arg1, s32 arg2, s32 arg3) {
     }
 }
 
-INCLUDE_ASM(const s32, "xturtle", func_0011DA50);
+INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011DA50);
 
-INCLUDE_ASM(const s32, "xturtle", func_0011DAC0);
+INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011DAC0);
 
-INCLUDE_ASM(const s32, "xturtle", func_0011DB18);
+INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011DB18);
 
-INCLUDE_ASM(const s32, "xturtle", func_0011DBF8);
+INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011DBF8);
 
-INCLUDE_ASM(const s32, "xturtle", func_0011DCB8);
+INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011DCB8);
 
-INCLUDE_ASM(const s32, "xturtle", func_0011DFF0);
+INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011DFF0);
 
 void func_0011E048(s32 arg0) {
     func_001EDD20(arg0);
     func_0011DFF0(arg0);
 }
 
-INCLUDE_ASM(const s32, "xturtle", func_0011E070);
+INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011E070);
 
 s32 func_0011E168(s32 arg0) {
     D_002BD8E4 = func_0011E070(arg0);
     return D_002BD8E4;
 }
 
-INCLUDE_ASM(const s32, "xturtle", func_0011E190);
+INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011E190);
 
 void func_0011E2A8(void) {
     func_0011C5F0(0, 0, 960);
@@ -401,31 +401,31 @@ void func_0011E350(void) {
     D_002BD8E0 = 0;
 }
 
-INCLUDE_ASM(const s32, "xturtle", func_0011E360);
+INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011E360);
 
 void func_0011E418(void) {
     func_00101528();
 }
 
-INCLUDE_ASM(const s32, "xturtle", func_0011E430);
+INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011E430);
 
-INCLUDE_ASM(const s32, "xturtle", func_0011E520);
+INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011E520);
 void func_0011E520();
 
-INCLUDE_ASM(const s32, "xturtle", func_0011E578);
+INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011E578);
 
 s32 func_0011E5E8(UNK_TYPE arg0, UNK_TYPE arg1, s32 arg2) {
     return func_0011CA10(0, arg2, D_002BD8C8, func_0011E520);
 }
 
-INCLUDE_ASM(const s32, "xturtle", func_0011E618);
+INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011E618);
 void func_0011E618();
 
 s32 func_0011E6C0(UNK_TYPE arg0, UNK_TYPE arg1, s32 arg2) {
     return func_0011CA10(1, arg2, D_002BD8CC, func_0011E618);
 }
 
-INCLUDE_ASM(const s32, "xturtle", func_0011E6F0);
+INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011E6F0);
 
 void func_0011E7C8(s32 arg0, void* arg1) {
     func_0011E6F0(0, 0x3000, 0, arg0, 0, arg1);
@@ -439,9 +439,9 @@ void func_0011E830(s32 arg0, void* arg1) {
     func_0011E6F0(0, 0x3000, 0, arg0, 1, arg1);
 }
 
-INCLUDE_ASM(const s32, "xturtle", func_0011E860);
+INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011E860);
 
-INCLUDE_ASM(const s32, "xturtle", func_0011E900);
+INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011E900);
 
 void* func_0011E9A8(s32 arg0, s32 arg1, s32 arg2, void* arg3) {
     D_002BD8B8[arg0] = -1;
@@ -451,4 +451,4 @@ void* func_0011E9A8(s32 arg0, s32 arg1, s32 arg2, void* arg3) {
     return func_0011ED30(10000, func_0011C9D0);
 }
 
-INCLUDE_ASM(const s32, "xturtle", func_0011EA28);
+INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011EA28);

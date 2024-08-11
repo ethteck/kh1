@@ -14,7 +14,7 @@ extern XKitten* D_0063B050;
 extern s32 func_00233138(s32, s32);
 
 // Nonmatch: Assignment instructions out of order
-INCLUDE_ASM(const s32, "xmeowp", func_001F3990);
+INCLUDE_ASM("asm/nonmatchings/xmeowp", func_001F3990);
 // void func_001F3990(void) {
 //     XKitten* pXVar1;
 //     int iVar2;
@@ -40,7 +40,7 @@ XKitten* func_001F3A08(void* arg0) {
     return func_001F3A20(arg0, 6);
 }
 
-INCLUDE_ASM(XKitten*, "xmeowp", func_001F3A20);
+INCLUDE_ASM("asm/nonmatchings/xmeowp", func_001F3A20);
 
 XKitten* func_001F3D50(XKitten* arg0) {
     return func_001F3A20(arg0, func_00233138(4, 54) + 1);
@@ -50,7 +50,7 @@ void func_001F3D88(void* arg0) {
     func_001F3DA0(arg0, 6);
 }
 
-INCLUDE_ASM(const s32, "xmeowp", func_001F3DA0);
+INCLUDE_ASM("asm/nonmatchings/xmeowp", func_001F3DA0);
 
 void func_001F3DF0(void* arg0) {
     func_001F3DA0(arg0, func_00233138(4, 54) + 1);
@@ -93,31 +93,31 @@ void func_001F3F18(XKitten* arg0, s32 arg1) {
     arg0->unk_38 |= 0x100000000;
 }
 
-INCLUDE_ASM(const s32, "xmeowp", func_001F3F38);
+INCLUDE_ASM("asm/nonmatchings/xmeowp", func_001F3F38);
 
-INCLUDE_ASM(const s32, "xmeowp", func_001F3F88);
+INCLUDE_ASM("asm/nonmatchings/xmeowp", func_001F3F88);
 
-INCLUDE_ASM(const s32, "xmeowp", func_001F3FD8);
+INCLUDE_ASM("asm/nonmatchings/xmeowp", func_001F3FD8);
 
-INCLUDE_ASM(const s32, "xmeowp", func_001F4040);
+INCLUDE_ASM("asm/nonmatchings/xmeowp", func_001F4040);
 
-INCLUDE_ASM(const s32, "xmeowp", func_001F40C0);
+INCLUDE_ASM("asm/nonmatchings/xmeowp", func_001F40C0);
 
-INCLUDE_ASM(const s32, "xmeowp", func_001F4150);
+INCLUDE_ASM("asm/nonmatchings/xmeowp", func_001F4150);
 
-INCLUDE_ASM(const s32, "xmeowp", func_001F41F8);
+INCLUDE_ASM("asm/nonmatchings/xmeowp", func_001F41F8);
 
-INCLUDE_ASM(const s32, "xmeowp", func_001F42B0);
+INCLUDE_ASM("asm/nonmatchings/xmeowp", func_001F42B0);
 
-INCLUDE_ASM(const s32, "xmeowp", func_001F4380);
+INCLUDE_ASM("asm/nonmatchings/xmeowp", func_001F4380);
 
-INCLUDE_ASM(const s32, "xmeowp", func_001F4408);
+INCLUDE_ASM("asm/nonmatchings/xmeowp", func_001F4408);
 
-INCLUDE_ASM(const s32, "xmeowp", func_001F44A0);
+INCLUDE_ASM("asm/nonmatchings/xmeowp", func_001F44A0);
 
-INCLUDE_ASM(const s32, "xmeowp", func_001F4510);
+INCLUDE_ASM("asm/nonmatchings/xmeowp", func_001F4510);
 
-INCLUDE_ASM(const s32, "xmeowp", func_001F4590);
+INCLUDE_ASM("asm/nonmatchings/xmeowp", func_001F4590);
 
 void func_001F45D8(XKitten* arg0, s32 arg1) {
     arg0->unk_7C = arg1;
@@ -213,9 +213,9 @@ void func_001F4700(XKitten* arg0, XKitten* arg1) {
     }
 }
 
-INCLUDE_ASM(const s32, "xmeowp", func_001F4748);
+INCLUDE_ASM("asm/nonmatchings/xmeowp", func_001F4748);
 
-INCLUDE_ASM(const s32, "xmeowp", func_001F4790);
+INCLUDE_ASM("asm/nonmatchings/xmeowp", func_001F4790);
 
 void func_001F47F0(XKitten* arg0) {
     XKitten* prev = arg0->prev;

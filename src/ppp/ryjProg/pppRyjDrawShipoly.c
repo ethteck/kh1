@@ -8,9 +8,9 @@ typedef struct {
     /* 0x8 */ pppFVECTOR* pvecSmp;
 } VRyjDrawShipoly;
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjDrawShipoly", pppRyjDrawShipolyCalc);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjDrawShipoly", pppRyjDrawShipolyCalc);
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjDrawShipoly", pppRyjDrawShipolyDraw);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjDrawShipoly", pppRyjDrawShipolyDraw);
 
 void pppRyjDrawShipolyCon(pppPObject* pobj, pppCtrlTable* ctbl) {
     VRyjDrawShipoly* p = (VRyjDrawShipoly*)&pobj->val[ctbl->useVal[2]];
@@ -29,10 +29,10 @@ void pppRyjDrawShipolyDes(pppPObject* pobj, pppCtrlTable* ctbl) {
     }
 }
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjDrawShipoly", func_0019C460);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjDrawShipoly", func_0019C460);
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjDrawShipoly", func_0019C618);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjDrawShipoly", func_0019C618);
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjDrawShipoly", func_0019C698);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjDrawShipoly", func_0019C698);
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjDrawShipoly", func_0019C770);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjDrawShipoly", func_0019C770);

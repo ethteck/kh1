@@ -9,4 +9,4 @@ void pppPointApCon(pppPObject* pobj, pppCtrlTable* ctbl) {
     ((VPointAp*)&pobj->val[ctbl->useVal[1]])->aptct = 0;
 }
 
-INCLUDE_ASM(const s32, "ppp/eiProg/pppPointAp", pppPointApCalc);
+INCLUDE_ASM("asm/nonmatchings/ppp/eiProg/pppPointAp", pppPointApCalc);

@@ -15,6 +15,6 @@ void pppRyjMngFlagCalc(pppPObject* pobj, PRyjMngFlag* p, pppCtrlTable* ctbl) {
     }
 }
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjMngFlag", func_0019F698);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjMngFlag", func_0019F698);
 
-INCLUDE_ASM(const s32, "ppp/ryjProg/pppRyjMngFlag", func_0019F810);
+INCLUDE_ASM("asm/nonmatchings/ppp/ryjProg/pppRyjMngFlag", func_0019F810);

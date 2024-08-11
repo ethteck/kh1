@@ -30,7 +30,7 @@ typedef struct {
     /* 0x1C */ f32 m_uv;
 } VDrawMdlLoopZ;
 
-INCLUDE_ASM(const s32, "ppp/eiProg/pppDrawMdlLoopZ", func_0018CC58);
+INCLUDE_ASM("asm/nonmatchings/ppp/eiProg/pppDrawMdlLoopZ", func_0018CC58);
 
 void pppDrawMdlLoopZCon(pppPObject* pobj, pppCtrlTable* ctbl) {
     ((VDrawMdlLoopZ*)&pobj->val[ctbl->useVal[2]])->m_pp = NULL;
@@ -74,4 +74,4 @@ void pppDrawMdlLoopZCalc(pppPObject* pobj, PDrawMdlLoopZ* p, pppCtrlTable* ctbl)
     }
 }
 
-INCLUDE_ASM(const s32, "ppp/eiProg/pppDrawMdlLoopZ", pppDrawMdlLoopZDraw);
+INCLUDE_ASM("asm/nonmatchings/ppp/eiProg/pppDrawMdlLoopZ", pppDrawMdlLoopZDraw);

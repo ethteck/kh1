@@ -1,5 +1,5 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "ppp/eiProg/pppSclAccele", pppSclAcceleCalc);
+INCLUDE_ASM("asm/nonmatchings/ppp/eiProg/pppSclAccele", pppSclAcceleCalc);
 
-INCLUDE_ASM(const s32, "ppp/eiProg/pppSclAccele", pppSclAcceleCon);
+INCLUDE_ASM("asm/nonmatchings/ppp/eiProg/pppSclAccele", pppSclAcceleCon);

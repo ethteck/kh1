@@ -1,7 +1,7 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "ppp/keProg/pppKeShpTail2X", pppKeShpTail2XCalc);
+INCLUDE_ASM("asm/nonmatchings/ppp/keProg/pppKeShpTail2X", pppKeShpTail2XCalc);
 
-INCLUDE_ASM(const s32, "ppp/keProg/pppKeShpTail2X", pppKeShpTail2XDraw);
+INCLUDE_ASM("asm/nonmatchings/ppp/keProg/pppKeShpTail2X", pppKeShpTail2XDraw);
 
-INCLUDE_ASM(const s32, "ppp/keProg/pppKeShpTail2X", pppKeShpTail2XCon);
+INCLUDE_ASM("asm/nonmatchings/ppp/keProg/pppKeShpTail2X", pppKeShpTail2XCon);

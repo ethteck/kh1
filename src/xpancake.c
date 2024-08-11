@@ -29,13 +29,13 @@ s32 func_001061D8(void) {
     return 0;
 }
 
-INCLUDE_ASM(const s32, "xpancake", func_00106208);
+INCLUDE_ASM("asm/nonmatchings/xpancake", func_00106208);
 
-INCLUDE_ASM(const s32, "xpancake", func_00106230);
+INCLUDE_ASM("asm/nonmatchings/xpancake", func_00106230);
 
-INCLUDE_ASM(const s32, "xpancake", func_00106380);
+INCLUDE_ASM("asm/nonmatchings/xpancake", func_00106380);
 
-INCLUDE_ASM(const s32, "xpancake", func_00106428);
+INCLUDE_ASM("asm/nonmatchings/xpancake", func_00106428);
 
 void func_001064E8(void) {
     D_0048E508 = 0;

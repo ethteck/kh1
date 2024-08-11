@@ -1,7 +1,7 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "ppp/eiProg/pppSclMoveLoop", pppSclMoveLoopCon);
+INCLUDE_ASM("asm/nonmatchings/ppp/eiProg/pppSclMoveLoop", pppSclMoveLoopCon);
 
-INCLUDE_ASM(const s32, "ppp/eiProg/pppSclMoveLoop", pppSclMoveLoopCon2);
+INCLUDE_ASM("asm/nonmatchings/ppp/eiProg/pppSclMoveLoop", pppSclMoveLoopCon2);
 
-INCLUDE_ASM(const s32, "ppp/eiProg/pppSclMoveLoop", pppSclMoveLoopCalc);
+INCLUDE_ASM("asm/nonmatchings/ppp/eiProg/pppSclMoveLoop", pppSclMoveLoopCalc);

@@ -78,7 +78,7 @@ s32 func_001091B0(void) {
     return 0;
 }
 
-INCLUDE_ASM(const s32, "xarcade", func_001091D8);
+INCLUDE_ASM("asm/nonmatchings/xarcade", func_001091D8);
 void func_001091D8();
 
 void* func_00109340(void) {
@@ -90,7 +90,7 @@ void* func_00109340(void) {
     return func_0011ED30(190050, func_001091B0);
 }
 
-INCLUDE_ASM(const s32, "xarcade", func_001093A8);
+INCLUDE_ASM("asm/nonmatchings/xarcade", func_001093A8);
 
 void func_001093D8(void) {
     func_00122518();
@@ -108,9 +108,9 @@ void func_00109440(void) {
     func_F20000(0, 0);
 }
 
-INCLUDE_ASM(const s32, "xarcade", func_00109468);
+INCLUDE_ASM("asm/nonmatchings/xarcade", func_00109468);
 
-INCLUDE_ASM(const s32, "xarcade", func_00109580);
+INCLUDE_ASM("asm/nonmatchings/xarcade", func_00109580);
 
 void func_001099D8(void) {
     sceGsSetDefLoadImage(&D_002B8700, 0xE00, 8, 1, 0, 0, 0x200, 0xC0);
@@ -137,7 +137,7 @@ void* func_00109B00(void) {
     return func_0011ED30(190000, func_00109AA0);
 }
 
-INCLUDE_ASM(const s32, "xarcade", func_00109B28);
+INCLUDE_ASM("asm/nonmatchings/xarcade", func_00109B28);
 s32 func_00109B28();
 
 void* func_00109C50(s32 arg0) {
@@ -146,7 +146,7 @@ void* func_00109C50(s32 arg0) {
     return func_0011ED30(190000, func_00109B28);
 }
 
-INCLUDE_ASM(const s32, "xarcade", func_00109C98);
+INCLUDE_ASM("asm/nonmatchings/xarcade", func_00109C98);
 
 s32 func_00109D68(void) {
     sceGsStoreImage img;
@@ -167,10 +167,10 @@ void* func_00109DE8(void) {
     return func_0011ED30(190000, func_00109D68);
 }
 
-INCLUDE_ASM(const s32, "xarcade", func_00109E30);
+INCLUDE_ASM("asm/nonmatchings/xarcade", func_00109E30);
 s32 func_00109E30();
 
-INCLUDE_ASM(const s32, "xarcade", func_00109F60);
+INCLUDE_ASM("asm/nonmatchings/xarcade", func_00109F60);
 s32 func_00109F60();
 
 void* func_0010A040(void) {

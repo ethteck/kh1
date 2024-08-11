@@ -1,3 +1,3 @@
 #include "ppp.h"
 
-INCLUDE_ASM(const s32, "ppp/keProg/pppKeParMatR", pppKeParMatRCalc);
+INCLUDE_ASM("asm/nonmatchings/ppp/keProg/pppKeParMatR", pppKeParMatRCalc);
