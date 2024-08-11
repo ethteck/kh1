@@ -74,10 +74,10 @@ def get_file_offset(data: BytesIO, filename: str) -> Optional[int]:
 
     for i in range(0x500):
         something = data.read(1)
-        if int.from_bytes(something) != 1:
+        if int.from_bytes(something, 'big') != 1:
             continue
 
-        string_length = int.from_bytes(data.read(1))
+        string_length = int.from_bytes(data.read(1), 'big')
         if string_length != len(filename_bytes):
             continue
 
@@ -86,7 +86,7 @@ def get_file_offset(data: BytesIO, filename: str) -> Optional[int]:
         if read_filename == filename_bytes:
             data.seek(cur_pos - 0x1B)
 
-            pos = int.from_bytes(data.read(4))
+            pos = int.from_bytes(data.read(4), 'big')
             return pos
 
         data.seek(cur_pos + 1)
