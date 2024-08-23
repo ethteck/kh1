@@ -11,7 +11,7 @@ extern s32 D_003E30AC;
 extern s32 D_003E38C0;
 extern s32 D_003EB8C0;
 
-char D_0048A590[32]; // "menu/sysfont.bin"
+const char D_0048A590[32] = "menu/sysfont.bin";
 
 extern s32 D_00639A80;
 extern s32* D_00639A84;

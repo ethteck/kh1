@@ -163,41 +163,39 @@ void func_001116F8(void) {
     }
 }
 
-// Injecting .rodata calls, unsure how to handle this
-INCLUDE_ASM("asm/nonmatchings/xtrumpet", func_001117D8);
-// void func_001117D8(void) {
-//   switch (D_002B8678) {
-//   case 5:
-//     if (D_002B90B0->unk158 & 8) {
-//       func_0013C768(3);
-//     }
-//     break;
-//   case 8:
-//     if (D_002B90B0->unk158 & 0x20) {
-//       func_0013C768(5);
-//     }
-//     break;
-//   case 9:
-//     if (D_002B90B0->unk158 & 0x40) {
-//       func_0013C768(6);
-//     }
-//     break;
-//   case 10:
-//     if (D_002B90B0->unk158 & 0x80) {
-//       func_0013C768(7);
-//     }
-//     break;
-//   case 0xd:
-//     if (D_002B90B0->unk158 & 0x100) {
-//       func_0013C768(8);
-//     }
-//     break;
-//   case 0xf:
-//     if (D_002B90B0->unk158 & 0x200) {
-//       func_0013C768(9);
-//     }
-//   }
-// }
+void func_001117D8(void) {
+  switch (D_002B8678) {
+  case 5:
+    if (D_002B90B0->unk_158 & 8) {
+      func_0013C768(3);
+    }
+    break;
+  case 8:
+    if (D_002B90B0->unk_158 & 0x20) {
+      func_0013C768(5);
+    }
+    break;
+  case 9:
+    if (D_002B90B0->unk_158 & 0x40) {
+      func_0013C768(6);
+    }
+    break;
+  case 10:
+    if (D_002B90B0->unk_158 & 0x80) {
+      func_0013C768(7);
+    }
+    break;
+  case 0xd:
+    if (D_002B90B0->unk_158 & 0x100) {
+      func_0013C768(8);
+    }
+    break;
+  case 0xf:
+    if (D_002B90B0->unk_158 & 0x200) {
+      func_0013C768(9);
+    }
+  }
+}
 
 void func_00111910(void) {
     D_002B9174 = 0;
