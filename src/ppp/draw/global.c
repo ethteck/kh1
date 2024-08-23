@@ -68,3 +68,7 @@ INCLUDE_ASM("asm/nonmatchings/ppp/draw/global", op_oef2_a_get);
 INCLUDE_ASM("asm/nonmatchings/ppp/draw/global", op_random);
 
 INCLUDE_ASM("asm/nonmatchings/ppp/draw/global", op_random_p);
+
+INCLUDE_RODATA("asm/nonmatchings/ppp/draw/global", D_00489AD8);
+
+INCLUDE_RODATA("asm/nonmatchings/ppp/draw/global", D_00489AF0);

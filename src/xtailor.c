@@ -153,21 +153,18 @@ INCLUDE_ASM("asm/nonmatchings/xtailor", func_0010FA30);
 
 void func_0010FA88(void) {
     void* src = func_00155ED8(0x34, 0xC);
-    // s32 size = func_00120438("allset.set", src);
-    s32 size = func_00120438(D_00486C40, src);
+    s32 size = func_00120438("allset.set", src);
     memcpy(&D_004CF590, src, size);
     func_0010FA30(&D_004CF590);
 }
 
 void func_0010FAE8(void) {
     void* src = func_00155ED8(0x34, 0xC);
-    // s32 size = func_00120438("allarea.nam", src);
-    s32 size = func_00120438(D_00486C50, src);
+    s32 size = func_00120438("allarea.nam", src);
     memcpy(&D_004D0590, src, size);
 }
 
 INCLUDE_ASM("asm/nonmatchings/xtailor", func_0010FB38);
-void* func_0010FB38(s32, s32);
 
 void* func_0010FB68(void) {
     return func_0010FB38(D_002B8678, D_002B8680);
@@ -290,7 +287,7 @@ void func_00110E18(void) {
 s32 func_00110E38(s32 arg0) {
     D_002B9030 = 0;
     D_004D2994 = arg0;
-    return func_00120590(D_00486C60, &func_F20000, func_00110DE0, NULL);
+    return func_00120590("dkmovie.x", &func_F20000, func_00110DE0, NULL);
 }
 
 INCLUDE_ASM("asm/nonmatchings/xtailor", func_00110E78);

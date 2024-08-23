@@ -36,8 +36,6 @@ extern s32* D_002DECA0;
 
 extern s32 D_00358BE0;
 
-extern char D_004869E0[]; // "host:./kingdom.log"
-extern char D_004869F8[]; // "kingdom.img"
 extern XArcade D_0048EC00;
 extern s32 D_0048EC08;
 
@@ -58,9 +56,9 @@ void func_001090D8(void) {
     func_0010C010();
     func_001EF810();
     func_0022F578(-1);
-    func_0011EAF8(D_002B29B0, D_004869E0);
+    func_0011EAF8(D_002B29B0, "host:./kingdom.log");
 
-    file = cdvd_FindFile(D_004869F8);
+    file = cdvd_FindFile("kingdom.img");
     if (file != NULL) {
         disk_Mgr.unk_18(file->length);
     } else {

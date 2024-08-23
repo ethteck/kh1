@@ -45,6 +45,7 @@ typedef struct XGumi {
     /* 0x9BC0 */ u8 unk_9BC0[0x20];
 } XGumi; // size: 0x9BE0
 
+void func_001BCAA0(void*);
 XGumiBlock* func_001BCB58(void);
 
 // u8 func_001BC590(s32); // todo: used in a few other splits, but breaks match in defining TU if even declared beforehand

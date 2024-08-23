@@ -14,14 +14,6 @@ s32 D_003738A8;
 s32 D_00373B00[];
 s32 D_00373BC0[];
 
-char D_00489CB0[];
-char D_00489CC8[];
-char D_00489CE0[];
-char D_00489CF8[];
-char D_00489D08[];
-char D_00489D10[];
-char D_00489D20[];
-
 s32 D_0061BA40;
 s32 D_0061BA48[2][2];
 s32 D_0061B950;
@@ -31,8 +23,6 @@ XGumiThing D_0061B960;
 
 extern void func_F20000();
 extern void func_001C0370(void*, s32);
-
-void func_001BCAA0(void*);
 
 s32 func_001BBCD8(s32 arg0) {
     XGumi* pvVar1 = func_0022F768(4);
@@ -55,7 +45,7 @@ s32 func_001BBD70(void) {
         return 0;
     }
 
-    puts(D_00489CB0);
+    puts("overlay read run");
     FlushCache(0);
     FlushCache(2);
     func_F20000();
@@ -268,8 +258,8 @@ void func_001BC970(void) {
     D_003738A8 = 1;
     D_0037379C = 1;
     func_001BC888();
-    puts(D_00489CF8);
-    func_001BBDD0(D_00489D08);
+    puts("Run Gumi Edit");
+    func_001BBDD0("gb.x");
     func_001BCAA0(func_001BC948);
     D_00373794++;
 }
@@ -408,5 +398,7 @@ s32 func_001BCF28(s32 arg0) {
             return 0;
     }
 }
+
+INCLUDE_RODATA("asm/nonmatchings/gumi", D_00489D28);
 
 INCLUDE_ASM("asm/nonmatchings/gumi", func_001BCF98);

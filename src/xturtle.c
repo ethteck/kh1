@@ -38,7 +38,6 @@ const char D_00486E40[] = "%3d";
 const char D_00486E48[] = "amusic/music";
 const char D_00486E58[] = ".dat";
 const char D_00486E60[] = "amusic/se";
-const char D_00486E70[] = "amusic/se000.dat\0\0\0\0";
 
 void (*D_004DCB70)(void);
 extern s32 D_004DCB8C;
@@ -157,7 +156,7 @@ INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011C898);
 INCLUDE_ASM("asm/nonmatchings/xturtle", func_0011C938);
 
 s32 func_0011C9B0(void* arg0) {
-    return func_00120438(D_00486E70, arg0); // in xkingdom.c
+    return func_00120438("amusic/se000.dat", arg0); // in xkingdom.c
 }
 
 s32 func_0011C9D0(void) {

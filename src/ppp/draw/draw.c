@@ -134,3 +134,5 @@ INCLUDE_ASM("asm/nonmatchings/ppp/draw/draw", func_001AC848);
 INCLUDE_ASM("asm/nonmatchings/ppp/draw/draw", op_init_fog_work);
 
 INCLUDE_ASM("asm/nonmatchings/ppp/draw/draw", func_001AC978);
+
+INCLUDE_RODATA("asm/nonmatchings/ppp/draw/draw", D_00489A60);
