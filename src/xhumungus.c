@@ -5,6 +5,7 @@
 #include "xtailor.h"
 #include "xarcade.h"
 #include "xflamingo.h"
+#include "xpeanut.h"
 
 extern u32 D_002A2740;
 extern s32 D_002A2744;
@@ -27,7 +28,6 @@ extern s32 D_002C2104;
 extern s32 D_002C2108;
 extern s32 D_002C2024;
 extern u16 D_002C1EAA;
-extern u32 D_002DED08;
 extern u32 D_00375BC0;
 extern XGiantMountain D_003854E0;
 extern u32 D_00388860;

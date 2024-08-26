@@ -1,6 +1,7 @@
 #include "common.h"
 #include "xtailor.h"
 #include "xblade.h"
+#include "xpeanut.h"
 
 #include "libgraph.h"
 #include "libvu0.h"
@@ -28,8 +29,6 @@ extern s32 D_002B9030;
 extern s32 D_002B9084;
 extern f32 D_002B9090[4];
 extern s32 D_002B90A0[3];
-
-extern sceVu0FMATRIX D_002DEC60;
 
 extern char D_00486C40[];
 extern char D_00486C50[];

@@ -2,6 +2,7 @@
 #include "common_funcs.h"
 
 #include "xlamp.h"
+#include "xpeanut.h"
 
 #include "gcc/stdio.h"
 #include "eekernel.h"
@@ -121,8 +122,6 @@ extern sceVu0FMATRIX D_002C1E20;
 extern u32 D_002C1EA8;
 extern u32 D_002C1EC8;
 extern XAppleStem* D_002DEC00;
-extern sceVu0FVECTOR D_002DECE0;
-extern sceVu0FVECTOR D_002DECF0;
 extern u32 D_002DED20;
 
 char* D_00301010[8] = {
