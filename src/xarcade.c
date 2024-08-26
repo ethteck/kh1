@@ -4,6 +4,7 @@
 #include "xblade.h"
 #include "xnoodle.h"
 #include "xtailor.h"
+#include "xpeanut.h"
 #include "disk.h"
 #include "io.h"
 
@@ -31,8 +32,6 @@ extern sceGsLoadImage D_002B8760;
 extern s32 D_002B8870;
 extern s32 D_002B8C70;
 extern s32 D_002B8C8C;
-extern s32* D_002DEC60;
-extern s32* D_002DECA0;
 
 extern s32 D_00358BE0;
 
@@ -97,8 +96,8 @@ void func_001093D8(void) {
     func_001C20B8();
     func_00233968();
     func_00248530();
-    D_002B8690 = &D_002DEC60;
-    D_002B8694 = &D_002DECA0;
+    D_002B8690 = D_002DEC60;
+    D_002B8694 = D_002DECA0;
 }
 
 void func_00109440(void) {
