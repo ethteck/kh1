@@ -3,21 +3,21 @@ sha1: 9dabbf867a7ec2a030df99ba1ed969f2deef0488
 options:
   basename: SLPS_251.05
   target_path: SLPS_251.05
-  base_path: .
+  base_path: ..
   compiler: EEGCC
   find_file_boundaries: False
   platform: ps2
   create_undefined_funcs_auto: True
-  undefined_funcs_auto_path: undefined_funcs_auto.txt
+  undefined_funcs_auto_path: config/jp/undefined_funcs_auto.txt
   create_undefined_syms_auto: True
-  undefined_syms_auto_path: undefined_syms_auto.txt
-  symbol_addrs_path: symbol_addrs.txt
+  undefined_syms_auto_path: config/jp/undefined_syms_auto.txt
+  symbol_addrs_path: config/jp/symbol_addrs.txt
   asm_path: asm
   src_path: src
-  build_path: build
+  build_path: build/jp
   extensions_path: tools/splat_ext
   section_order: [".text", ".data", ".rodata", ".bss"]
-  auto_all_sections: [".data", ".rodata", ".bss"]
+  auto_link_sections: [".data", ".rodata", ".bss"]
   subalign: 8
   disasm_unknown: True
   named_regs_for_c_funcs: False
@@ -689,7 +689,8 @@ segments:
     - [0x38DA70, rodata, libm/sf_atan]
     # - [0x38DAC4, rodata, libm/sf_floor]
     - [0x38DAC8, rodata, libm/sf_scalbn]
-    - [0x38DAD8, rodata, lib/libmc]
+    - [0x38DAD8, .rodata, lib/libmc]
+    - [0x38DB60, rodata]
   - [0x38DB80, databin] # .reginfo / segment_1.2
   - [0x38DB98, databin]
   - [0x39A680]

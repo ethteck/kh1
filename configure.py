@@ -15,12 +15,14 @@ from splat.segtypes.linker_entry import LinkerEntry
 ROOT = Path(__file__).parent.resolve()
 TOOLS_DIR = ROOT / "tools"
 
-YAML_FILE = "kh.jp.yaml"
+REGION = "jp"
 BASENAME = "SLPS_251.05"
+YAML_FILE = f"config/kh.{REGION}.yaml"
+
 LD_PATH = f"{BASENAME}.ld"
-ELF_PATH = f"build/{BASENAME}"
-MAP_PATH = f"build/{BASENAME}.map"
-PRE_ELF_PATH = f"build/{BASENAME}.elf"
+ELF_PATH = f"build/{REGION}/{BASENAME}"
+MAP_PATH = f"build/{REGION}/{BASENAME}.map"
+PRE_ELF_PATH = f"build/{REGION}/{BASENAME}.elf"
 
 COMMON_INCLUDES = "-Iinclude -isystem include/sdk/ee -isystem include/gcc"
 
@@ -94,7 +96,9 @@ def build_stuff(linker_entries: List[LinkerEntry]):
     # Rules
     cross = "mips-linux-gnu-"
 
-    ld_args = f"-EL -T undefined_syms.txt -T undefined_syms_auto.txt -T undefined_funcs_auto.txt -Map $mapfile -T $in -o $out"
+    config = f"config/{REGION}"
+
+    ld_args = f"-EL -T {config}/undefined_syms.txt -T {config}/undefined_syms_auto.txt -T {config}/undefined_funcs_auto.txt -Map $mapfile -T $in -o $out"
 
     ninja.rule(
         "as",
@@ -179,13 +183,19 @@ def build_stuff(linker_entries: List[LinkerEntry]):
     ninja.build(
         ELF_PATH + ".ok",
         "sha1sum",
-        "checksum.sha1",
+        f"config/{REGION}/checksum.sha1",
         implicit=[ELF_PATH],
     )
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Configure the project")
+    parser.add_argument(
+        "-r",
+        "--region",
+        help="Region/version to configure for",
+        choices=["jp", "fm"],
+    )
     parser.add_argument(
         "-c",
         "--clean",
@@ -194,8 +204,27 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
+    if args.region:
+        REGION = args.region
+    else:
+        REGION = "jp"
+
+    BASENAME = {
+        "jp": "SLPS_251.05",
+        "fm": "SLPS_251.98",
+    }[REGION]
+
+    LD_PATH = f"{BASENAME}.ld"
+    ELF_PATH = f"build/{REGION}/{BASENAME}"
+    MAP_PATH = f"build/{REGION}/{BASENAME}.map"
+    PRE_ELF_PATH = f"build/{REGION}/{BASENAME}.elf"
+
     if args.clean:
         clean()
+
+    print(f"Configuring for {REGION}...")
+
+    YAML_FILE = f"config/kh.{REGION}.yaml"
 
     split.main([YAML_FILE], modes="all", verbose=False)
 

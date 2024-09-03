@@ -141,11 +141,11 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     parser.add_argument("iso_path", help="Path to ISO file", type=Path)
-    parser.add_argument("out_dir", help="Path to output directory", type=Path)
     args = parser.parse_args()
 
     kingdom_files: List[KingdomFile] = []
     filenames = get_filenames()
+    out_dir: str = "kingdom"
 
     print("Reading ISO...\r", end="")
     with open(args.iso_path, "rb") as f:
@@ -167,7 +167,7 @@ if __name__ == "__main__":
         for entry in kingdom_files:
             if entry.filename is None:
                 entry.filename = f"unknown/{entry.hash:08X}.bin"
-            path: Path = args.out_dir / entry.filename
+            path: Path = out_dir / Path(entry.filename)
             pbar.set_description("Extracting " + path.name.ljust(14))
             iso_bytes.seek(cnf_start + entry.iso_block * BLOCK_LENGTH)
             contents = iso_bytes.read(entry.length)

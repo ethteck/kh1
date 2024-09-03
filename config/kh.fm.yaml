@@ -1,0 +1,48 @@
+name: Kingdom Hearts (Final Mix)
+sha1: e70bda789916142aafb53d85cef2e806b35ad8d8
+options:
+  basename: SLPS_251.98
+  target_path: SLPS_251.98
+  base_path: ..
+  compiler: EEGCC
+  find_file_boundaries: False
+  platform: ps2
+  create_undefined_funcs_auto: True
+  undefined_funcs_auto_path: config/fm/undefined_funcs_auto.txt
+  create_undefined_syms_auto: True
+  undefined_syms_auto_path: config/fm/undefined_syms_auto.txt
+  symbol_addrs_path: config/fm/symbol_addrs.txt
+  asm_path: asm
+  src_path: src
+  build_path: build/fm
+  extensions_path: tools/splat_ext
+  section_order: [".text", ".data", ".rodata", ".bss"]
+  auto_link_sections: [".data", ".rodata", ".bss"]
+  subalign: 8
+  disasm_unknown: True
+  named_regs_for_c_funcs: False
+segments:
+  - [0, databin, elf_header]
+  - name: main
+    type: code
+    start: 0x80
+    vram: 0x100000
+    bss_size: 0x1E0F80
+    subsegments:
+    - [0x80, asm, crt0]
+    - [0x258, asm]
+    - [0x122F0, c, worldfile]
+    - [0x12518, asm]
+
+
+    - [0x172CF0, data]
+    - [0x1BCCA8, .data, worldfile]
+    - [0x1BCE20, data]
+
+    - [0x38CC90, rodata]
+    - [0x38CFF0, .rodata, worldfile]
+    - [0x38D088, rodata]
+
+  - [0x394100, databin] # .reginfo / segment_1.2
+  - [0x394118, databin]
+  - [0x3A0CC8]

@@ -11,7 +11,9 @@ undefined_funcs_auto.txt
 .ninja_log
 .splache
 build.ninja
+
 SLPS_251.05*
+SLPS_251.98*
 
 *.iso
 *.bin

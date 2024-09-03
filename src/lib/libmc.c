@@ -29,12 +29,6 @@ typedef struct {
 s32 semaidRegFunc;
 s32 mcRunCmdNo;
 
-// todo: rodata split, blocked by libc constants (0x38DB60 to rodata end)
-char D_0048DA58[24]; // "bind error libmc \n";
-char D_0048DA70[40]; // "libmc: too old release of mcserv.irx\n";
-char D_0048DA98[40]; // "libmc: too old release of mcman.irx\n";
-char D_0048DAC0[32]; // "sceMcUdCheckNewCard RPC faild\n";
-
 sceSifClientData mcClientID;
 SifParams mcSifParams;
 McStatus mcStatus;
@@ -66,7 +60,7 @@ s32 sceMcInit(void) {
 
     while (TRUE) {
         if (sceSifBindRpc(&mcClientID, 0x80000400, 0) < 0) {
-            printf(D_0048DA58);
+            printf("bind error libmc \n");
             do {
                 /* infinite loop */
             } while (TRUE);
@@ -87,12 +81,12 @@ s32 sceMcInit(void) {
         mcClientID.serve = NULL;
         return sifServerStat - 100;
     } else if (mcRetVal[1] < 0x20A) {
-        printf(D_0048DA70);
+        printf("libmc: too old release of mcserv.irx\n");
         mcClientID.serve = NULL;
         return sceMcIniOldMcserv;
     } else {
         if (mcRetVal[2] < 0x20E) {
-            printf(D_0048DA98);
+            printf("libmc: too old release of mcman.irx\n");
             mcClientID.serve = NULL;
             return sceMcIniOldMcman;
         }
@@ -344,7 +338,7 @@ INCLUDE_ASM("asm/nonmatchings/lib/libmc", sceMcGetInfo);
 
 s32 sceMcUdCheckNewCard(void) {
     if (sceSifCallRpc(&mcClientID, 0x35, 0, &mcSifParams, sizeof(mcSifParams), &mcRetVal, 4, NULL, NULL) != 0) {
-        printf(D_0048DAC0);
+        printf("sceMcUdCheckNewCard RPC faild\n");
         return -1;
     }
     return mcRetVal[0];
