@@ -1,0 +1,33 @@
+//=============================
+// worldfile.c
+//=============================
+worldfile_getAbbr            = 0x00112270; // type:func
+worldfile_getNameNoSet       = 0x00112298; // type:func
+worldfile_getNames           = 0x00112320; // type:func
+worldfile_getBinImgName      = 0x00112400; // type:func
+
+//=============================
+// worldfile.c
+//=============================
+worldAbbrs                   = 0x002BCC28; // size:0x58
+worldDataExt                 = 0x002BCC80; // size:0x8
+roomArchiveExt               = 0x002BCC88; // size:0x8
+
+D_002B91E0                   = 0x002BCC90; // size:0x4
+D_002B91E4                   = 0x002BCC94; // size:0x4
+D_002B91E8                   = 0x002BCC98; // size:0x4
+D_002B91EC                   = 0x002BCC9C; // size:0x4
+
+D_002B8678                   = 0x002BC128; // size:0x4
+D_002B8680                   = 0x002BC130; // size:0x4
+
+worldDataFile                = 0x002BCCA0; // size:0x40
+worldBinImgFile              = 0x002BCCE0; // size:0x40
+roomArchiveRaw               = 0x002BCD20; // size:0x40
+roomArchiveFile              = 0x002BCD60; // size:0x40
+
+
+sprintf                      = 0x00250EB0; // type:func
+strcat                       = 0x00250F40; // type:func
+strcpy                       = 0x002511B0; // type:func
+
