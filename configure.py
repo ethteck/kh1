@@ -15,14 +15,14 @@ from splat.segtypes.linker_entry import LinkerEntry
 ROOT = Path(__file__).parent.resolve()
 TOOLS_DIR = ROOT / "tools"
 
-REGION = "jp"
+VERSION = "jp"
 BASENAME = "SLPS_251.05"
-YAML_FILE = f"config/kh.{REGION}.yaml"
+YAML_FILE = f"config/kh.{VERSION}.yaml"
 
 LD_PATH = f"{BASENAME}.ld"
-ELF_PATH = f"build/{REGION}/{BASENAME}"
-MAP_PATH = f"build/{REGION}/{BASENAME}.map"
-PRE_ELF_PATH = f"build/{REGION}/{BASENAME}.elf"
+ELF_PATH = f"build/{VERSION}/{BASENAME}"
+MAP_PATH = f"build/{VERSION}/{BASENAME}.map"
+PRE_ELF_PATH = f"build/{VERSION}/{BASENAME}.elf"
 
 COMMON_INCLUDES = "-Iinclude -isystem include/sdk/ee -isystem include/gcc"
 
@@ -96,7 +96,7 @@ def build_stuff(linker_entries: List[LinkerEntry]):
     # Rules
     cross = "mips-linux-gnu-"
 
-    config = f"config/{REGION}"
+    config = f"config/{VERSION}"
 
     ld_args = f"-EL -T {config}/undefined_syms.txt -T {config}/undefined_syms_auto.txt -T {config}/undefined_funcs_auto.txt -Map $mapfile -T $in -o $out"
 
@@ -183,7 +183,7 @@ def build_stuff(linker_entries: List[LinkerEntry]):
     ninja.build(
         ELF_PATH + ".ok",
         "sha1sum",
-        f"config/{REGION}/checksum.sha1",
+        f"config/{VERSION}/checksum.sha1",
         implicit=[ELF_PATH],
     )
 
@@ -191,9 +191,9 @@ def build_stuff(linker_entries: List[LinkerEntry]):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Configure the project")
     parser.add_argument(
-        "-r",
-        "--region",
-        help="Region/version to configure for",
+        "-v",
+        "--version",
+        help="Game version to configure for",
         choices=["jp", "fm"],
     )
     parser.add_argument(
@@ -204,27 +204,27 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    if args.region:
-        REGION = args.region
+    if args.version:
+        VERSION = args.version
     else:
-        REGION = "jp"
+        VERSION = "jp"
 
     BASENAME = {
         "jp": "SLPS_251.05",
         "fm": "SLPS_251.98",
-    }[REGION]
+    }[VERSION]
 
     LD_PATH = f"{BASENAME}.ld"
-    ELF_PATH = f"build/{REGION}/{BASENAME}"
-    MAP_PATH = f"build/{REGION}/{BASENAME}.map"
-    PRE_ELF_PATH = f"build/{REGION}/{BASENAME}.elf"
+    ELF_PATH = f"build/{VERSION}/{BASENAME}"
+    MAP_PATH = f"build/{VERSION}/{BASENAME}.map"
+    PRE_ELF_PATH = f"build/{VERSION}/{BASENAME}.elf"
 
     if args.clean:
         clean()
 
-    print(f"Configuring for {REGION}...")
+    print(f"Kingdom Hearts De:Compiled ~ Generating build configuration for {VERSION}")
 
-    YAML_FILE = f"config/kh.{REGION}.yaml"
+    YAML_FILE = f"config/kh.{VERSION}.yaml"
 
     split.main([YAML_FILE], modes="all", verbose=False)
 
