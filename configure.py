@@ -222,7 +222,14 @@ if __name__ == "__main__":
     if args.clean:
         clean()
 
-    print(f"Kingdom Hearts De:Compiled ~ Generating build configuration for {VERSION}")
+    EXTENDEDNAME = {
+        "jp": "Original Japanese",
+        "fm": "Final Mix",
+    }[VERSION]
+
+    print(
+        f"Kingdom Hearts De:Compiled ~ Generating build configuration for {EXTENDEDNAME} edition ({BASENAME})"
+    )
 
     YAML_FILE = f"config/kh.{VERSION}.yaml"
 
