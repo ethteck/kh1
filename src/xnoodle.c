@@ -118,6 +118,10 @@ void* func_0010BE10(void) {
 
 INCLUDE_ASM("asm/nonmatchings/xnoodle", func_0010BE60);
 
+void func_0010BEE8(void) {
+    WaitSema(D_0048ECE0);
+}
+
 INCLUDE_ASM("asm/nonmatchings/xnoodle", func_0010BF08);
 
 INCLUDE_ASM("asm/nonmatchings/xnoodle", func_0010BF50);
@@ -140,11 +144,23 @@ void func_0010C158(void) {
 
 INCLUDE_ASM("asm/nonmatchings/xnoodle", func_0010C1A8);
 
-s32 func_0010C1D0(s16 arg0, u_long128* arg1) {
-    sceGsSetDefLoadImage(&D_002B8700, arg0, 1, 0, 0, 0, 8, 2);
+s32 func_0010C1D0(s16 dest, u_long128* src) {
+    sceGsSetDefLoadImage(&D_002B8700, dest, 1, SCE_GS_PSMCT32, 0, 0, 8, 2);
     sceGsSyncPath(0, 0);
     FlushCache(WRITEBACK_DCACHE);
-    return sceGsExecLoadImage(&D_002B8700, arg1);
+    return sceGsExecLoadImage(&D_002B8700, src);
 }
 
-INCLUDE_ASM("asm/nonmatchings/xnoodle", func_0010C248);
+s32 func_0010C248(void) {
+    if (D_002B9668 < 7) {
+        if (D_002B9668 >= 5) {
+            return 0;
+        }
+    }
+
+    sceGsSetDefLoadImage(&D_002B8700, 0x3600, 4, SCE_GS_PSMCT32, 0, 0, 256, 256);
+    sceGsSyncPath(0, 0);
+    FlushCache(WRITEBACK_DCACHE);
+    sceGsExecLoadImage(&D_002B8700, &D_0048ED00);
+    return 0;
+}

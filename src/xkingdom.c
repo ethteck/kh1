@@ -11,7 +11,6 @@
 #include "gcc/stdlib.h"
 #include "gcc/string.h"
 
-void func_0010BEE8(void);
 XOtherCrown* func_0011EEB8(s32*, s32, s32(*)(XOtherCrown*));
 void func_0011FB78(void);
 s32 cdvd_Decompress(u8* data, s32 compressedLength);
