@@ -25,6 +25,7 @@ void func_0010AD58(u32);
 void func_0010BB10(XNoodle*, s32);
 void func_0010BB50();
 void* func_0010BE10();
+void func_0010BEE8();
 void func_0010BF08(void (*)(IOReadTask*), IOReadTask*);
 void func_0010BF50(void (*)(IOReadTask*));
 void func_0010BF98();
@@ -33,3 +34,11 @@ void func_0010C010();
 void func_0010C0E0();
 void func_0010C110();
 void func_0010C158();
+
+/// @brief 
+/// @param dest Base address of the destination buffer. Actual address is destbuf * 0x40
+/// @param src Data transfer source address
+/// @return 
+s32 func_0010C1D0(s16 dest, u_long128* src);
+
+s32 func_0010C248(void);

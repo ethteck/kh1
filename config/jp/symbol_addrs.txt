@@ -17,6 +17,9 @@ _exit                        = 0x001000b8; // type:func
 // game
 main                         = 0x00100438; // type:func
 
+// xnoodle
+func_0010BEE8                = 0x0010BEE8; // type:func
+
 // xtailor?
 func_00110ED8                = 0x00110ED8; // type:func  
 
