@@ -453,7 +453,7 @@ segments:
     - [0x163020, asm, lib/libgraph/graph019]
 
     - [0x1630C0, asm, lib/libdma]
-    - [0x163B90, asm, lib/libuv0]
+    - [0x163B90, c, lib/libvu0]
     - [0x1648D8, asm, lib/libdbc]
     - [0x165338, asm, lib/libpad2]
     - [0x165B90, asm, lib/libvib]
@@ -562,7 +562,7 @@ segments:
     - [0x366250, data, lib/libgraph/graph002]
     - [0x366270, data, lib/libgraph/graph018]
     - [0x366280, data, lib/libdma]
-    - [0x366330, data, lib/libvu0]
+    - [0x366330, .data, lib/libvu0]
     - [0x366360, data, lib/libdbc]
     - [0x366370, data, lib/libdpad2]
     - [0x3663A0, data, lib/libdvib]
