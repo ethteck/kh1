@@ -9,11 +9,6 @@
 // _heap_size                   = 0x0000a000; // type:label
 
 
-// crt0
-// ENTRYPOINT                = 0x00100008; // type:func
-_start                       = 0x00100008; // type:func
-_exit                        = 0x001000b8; // type:func
-
 // game
 main                         = 0x00100438; // type:func
 

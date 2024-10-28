@@ -95,14 +95,21 @@ void func_00177748(void);
 void func_00177768(void);
 void func_001777A8(void);
 
+s32 func_001000C8(void) {
+    func_00106A40();
+    return 0;
+}
+
 s32 func_001000E8(void) {
     sceGsSyncPath(0, 0);
     func_00106AA8();
     return 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/xbeginning", func_00100118);
-void func_00100118(void);
+void func_00100118(void) {
+    *(u16*)(func_0011ED30(159998, func_001000C8) + 2) = -1;
+    *(u16*)(func_0011ED30(184990, func_001000E8) + 2) = -1;
+}
 
 void func_00100168(void) {
     s32 new_var;
