@@ -1,0 +1,37 @@
+name: Kingdom Hearts
+github: https://github.com/ethteck/kh1
+platform: ps2
+versions:
+- name: jp
+  fullname: Kingdom Hearts (Japan)
+  sha1: 9dabbf867a7ec2a030df99ba1ed969f2deef0488
+  paths:
+    baserom: "SLPS_251.05"
+    build: "build/SLPS_251.05"
+    asm: "asm"
+    nonmatchings: "asm/nonmatchings"
+    map: "build/SLPS_251.05.map"
+    elf: "build/SLPS_251.05.elf"
+- name: fm
+  fullname: Kingdom Hearts (Final Mix)
+  sha1: e70bda789916142aafb53d85cef2e806b35ad8d8
+  paths:
+    baserom: "SLPS_251.98"
+    build: "build/SLPS_251.98"
+    asm: "asm"
+    nonmatchings: "asm/nonmatchings"
+    map: "build/SLPS_251.98.map"
+    elf: "build/SLPS_251.98.elf"
+tools:
+  decompme:
+    preset: 108
+  permuter:
+    decompme_compilers:
+      tools/cc/ee-gcc2.96/bin: ee-gcc2.96
+  frogress:
+    project: kh1
+    versions:
+      jp:
+        version: jp
+      fm:
+        version: fm
