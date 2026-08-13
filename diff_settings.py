@@ -3,9 +3,9 @@ import argparse
 
 def apply(config, args):
     config["arch"] = "mipsee"
-    config["baseimg"] = f"SLPS_251.05"
-    config["myimg"] = f"build/SLPS_251.05"
-    config["mapfile"] = f"build/SLPS_251.05.map"
+    config["baseimg"] = f"SLPS_251.05.rom"
+    config["myimg"] = f"build/jp/SLPS_251.05.rom"
+    config["mapfile"] = f"build/jp/SLPS_251.05.map"
     config["source_directories"] = [
         "src",
         "asm",

@@ -15,6 +15,8 @@ A decompilation of the Playstation 2 releases of Kingdom Hearts.
 
 Some python dependencies are required, which you can obtain by running `pip install -U -r requirements.txt`.
 
+A `mips-linux-gnu` binutils toolchain (`objcopy`, `as`, `ld`) and `ninja` are also required.
+
 ---
 
 ### Setup

@@ -65,14 +65,14 @@ bssloop:
     j           Exit
     daddu       $a0, $v0, $zero
     nop
-.size _start, . - _start
+endlabel _start
 
 glabel _exit
     j           Exit
     daddu       $a0, $zero, $zero
-.size _exit, . - _exit
+endlabel _exit
 
 glabel _root
     addiu       $v1, $zero, 35
     syscall     # ExitThread()
-.size _root, . - _root
+endlabel _root

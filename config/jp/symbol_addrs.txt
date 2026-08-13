@@ -1120,3 +1120,8 @@ memcardFileHandle            = 0x00642040;
 // disk.c
 //=============================
 disk_ThreadStack             = 0x00663A90; //size:0x1000
+
+//=============================
+// xturtle.c
+//=============================
+D_00486E60                   = 0x00486E60; // type:asciz force_not_migration:True
