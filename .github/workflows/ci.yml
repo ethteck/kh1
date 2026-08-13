@@ -1,0 +1,77 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build_repo:
+    container: ghcr.io/ethteck/kh1-build:main
+    name: Build repo (${{ matrix.version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - version: jp
+            executable: SLPS_251.05
+          - version: fm
+            executable: SLPS_251.98
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: git config safe.directory
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Install system dependencies
+        run: |
+          apt-get update
+          apt-get install -y binutils-mips-linux-gnu build-essential git ninja-build python3 python3-pip
+
+      - name: Provide game executable
+        run: ln -s "/orig/kh1/${{ matrix.version }}/${{ matrix.executable }}" "${{ matrix.executable }}"
+
+      - name: Install Python dependencies
+        run: python3 -m pip install -U -r requirements.txt --break-system-packages
+
+      - name: Log toolchain versions
+        run: |
+          mips-linux-gnu-as --version | head -1
+          mips-linux-gnu-ld --version | head -1
+          cpp --version | head -1
+
+      - name: Configure ${{ matrix.version }}
+        run: ./configure.py -v "${{ matrix.version }}"
+
+      - name: Build ${{ matrix.version }}
+        id: build
+        run: ninja
+
+      - name: Report ROM differences
+        if: failure() && steps.build.outcome == 'failure'
+        run: ./tools/romdiff.py -v "${{ matrix.version }}"
+
+      - name: Upload linker map
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: kh1-${{ matrix.version }}.map
+          path: build/${{ matrix.version }}/${{ matrix.executable }}.map
+          if-no-files-found: ignore
+
+  all_versions_built:
+    name: All versions built
+    needs: [build_repo]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Check build result
+        run: |
+          if [ "${{ needs.build_repo.result }}" != "success" ]; then
+            exit 1
+          fi
