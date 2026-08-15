@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   build_repo:
-    container: ghcr.io/ethteck/kh1-build:main
+    container: ghcr.io/ethteck/kh-build:main
     name: Build repo (${{ matrix.version }})
     runs-on: ubuntu-latest
     strategy:
