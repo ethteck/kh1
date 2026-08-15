@@ -25,7 +25,7 @@ jobs:
 
       - name: Install system dependencies
         run: |
-          apt-get install -y binutils-mips-linux-gnu gcc-mips-linux-gnu build-essential git ninja-build python3 python3-pip
+          apt-get install -y binutils-mips-linux-gnu build-essential git ninja-build python3 python3-pip
           curl -LsSf https://astral.sh/uv/install.sh | sh
 
       - name: Setup Rust toolchain
