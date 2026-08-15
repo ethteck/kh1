@@ -4,9 +4,6 @@ on:
   push:
   pull_request:
 
-permissions:
-  contents: read
-  packages: read
 
 jobs:
   build_repo:
@@ -26,20 +23,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      - name: git config safe.directory
-        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      - name: Install system dependencies
+        run: |
+          apt-get install -y binutils-mips-linux-gnu gcc-mips-linux-gnu build-essential git ninja-build python3 python3-pip
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+
+      - name: Setup Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
 
       - name: Provide game executable
         run: ln -s "/orig/kh1/${{ matrix.version }}/${{ matrix.executable }}" "${{ matrix.executable }}"
 
       - name: Install Python dependencies
         run: python3 -m pip install -U -r requirements.txt --break-system-packages
-
-      - name: Log toolchain versions
-        run: |
-          mips-linux-gnu-as --version | head -1
-          mips-linux-gnu-ld --version | head -1
-          cpp --version | head -1
 
       - name: Configure ${{ matrix.version }}
         run: ./configure.py -v "${{ matrix.version }}"
