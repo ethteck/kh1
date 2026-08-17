@@ -849,91 +849,92 @@ void memcard_Delete(void) {
 }
 
 // todo: match without goto
-void memcard_Read(void) {
-    switch (memcardLoopStep) {
-        case 0: // Open the file
-            sceMcOpen(memcardPort, memcardSlot, memcardFileName, SCE_RDONLY);
-            memcardLoopStep++;
-            return;
+INCLUDE_ASM("asm/nonmatchings/memcard", memcard_Read);
+// void memcard_Read(void) {
+//     switch (memcardLoopStep) {
+//         case 0: // Open the file
+//             sceMcOpen(memcardPort, memcardSlot, memcardFileName, SCE_RDONLY);
+//             memcardLoopStep++;
+//             return;
 
-        case 1: // Wait for sceMcOpen to finish
-            if (sceMcSync(1, NULL, &memcardResult) != sceMcExecRun) {
-                memcardLoopStep++;
-            }
-            return;
+//         case 1: // Wait for sceMcOpen to finish
+//             if (sceMcSync(1, NULL, &memcardResult) != sceMcExecRun) {
+//                 memcardLoopStep++;
+//             }
+//             return;
 
-        case 2: // Store the file handle
-            if (memcardResult > -1) {
-                memcardLoopStep++;
-                memcardFileHandle = memcardResult;
-                return;
-            }
-            if (memcardResult == sceMcResNoFormat) {
-                memcardStatus[10] = 1;
-            } else if (memcardResult == sceMcResFullDevice) {
-                memcardStatus[10] = 2;
-            } else if (memcardResult == sceMcResNoEntry) {
-                memcardStatus[10] = 3;
-            } else if (memcardResult == sceMcResDeniedPermit) {
-                memcardStatus[10] = 4;
-            } else if (memcardResult == sceMcResUpLimitHandle) {
-                memcardStatus[10] = 5;
-            } else {
-                memcardStatus[10] = 7;
-            }
-            goto LAB_00232bac;
+//         case 2: // Store the file handle
+//             if (memcardResult > -1) {
+//                 memcardLoopStep++;
+//                 memcardFileHandle = memcardResult;
+//                 return;
+//             }
+//             if (memcardResult == sceMcResNoFormat) {
+//                 memcardStatus[10] = 1;
+//             } else if (memcardResult == sceMcResFullDevice) {
+//                 memcardStatus[10] = 2;
+//             } else if (memcardResult == sceMcResNoEntry) {
+//                 memcardStatus[10] = 3;
+//             } else if (memcardResult == sceMcResDeniedPermit) {
+//                 memcardStatus[10] = 4;
+//             } else if (memcardResult == sceMcResUpLimitHandle) {
+//                 memcardStatus[10] = 5;
+//             } else {
+//                 memcardStatus[10] = 7;
+//             }
+//             goto LAB_00232bac;
 
-        case 3: // Read from the file
-            sceMcRead(memcardFileHandle, memcardFileBuffer, memcardFileSize);
-            memcardLoopStep++;
-            return;
+//         case 3: // Read from the file
+//             sceMcRead(memcardFileHandle, memcardFileBuffer, memcardFileSize);
+//             memcardLoopStep++;
+//             return;
 
-        case 4: // Wait for sceMcRead to finish
-            if (sceMcSync(1, NULL, &memcardResult) != sceMcExecRun) {
-                memcardLoopStep++;
-            }
-            return;
+//         case 4: // Wait for sceMcRead to finish
+//             if (sceMcSync(1, NULL, &memcardResult) != sceMcExecRun) {
+//                 memcardLoopStep++;
+//             }
+//             return;
 
-        case 5: // Check the result of the read
-            if (memcardResult >= sceMcResSucceed) {
-                if (memcardResult == memcardFileSize) {
-                    memcardStatus[10] = 0;
-                } else {
-                    memcardStatus[10] = 6;
-                }
-            } else {
-                if (memcardResult == sceMcResNoFormat) {
-                    memcardStatus[10] = 1;
-                } else if (memcardResult == sceMcResFullDevice) {
-                    memcardStatus[10] = 6;
-                } else if (memcardResult == sceMcResNoEntry) {
-                    memcardStatus[10] = 5;
-                } else if (memcardResult == sceMcResDeniedPermit) {
-                    memcardStatus[10] = 4;
-                } else {
-                    memcardStatus[10] = 7;
-                }
-            }
-            memcardLoopStep++;
-            return;
+//         case 5: // Check the result of the read
+//             if (memcardResult >= sceMcResSucceed) {
+//                 if (memcardResult == memcardFileSize) {
+//                     memcardStatus[10] = 0;
+//                 } else {
+//                     memcardStatus[10] = 6;
+//                 }
+//             } else {
+//                 if (memcardResult == sceMcResNoFormat) {
+//                     memcardStatus[10] = 1;
+//                 } else if (memcardResult == sceMcResFullDevice) {
+//                     memcardStatus[10] = 6;
+//                 } else if (memcardResult == sceMcResNoEntry) {
+//                     memcardStatus[10] = 5;
+//                 } else if (memcardResult == sceMcResDeniedPermit) {
+//                     memcardStatus[10] = 4;
+//                 } else {
+//                     memcardStatus[10] = 7;
+//                 }
+//             }
+//             memcardLoopStep++;
+//             return;
 
-        case 6: // Close the file
-            sceMcClose(memcardFileHandle);
-            memcardLoopStep++;
-            return;
+//         case 6: // Close the file
+//             sceMcClose(memcardFileHandle);
+//             memcardLoopStep++;
+//             return;
 
-        case 7: // Block until sceMcClose is finished
-            if (sceMcSync(1, NULL, &memcardResult) == sceMcExecRun) {
-                return;
-            }
-        LAB_00232bac:
-            memcardCurCmdIdx = 0;
-            D_00641FE8 = D_00641FE4;
-            if (D_00642044 != NULL) {
-                D_00642044(D_00641FD4);
-            }
-    }
-}
+//         case 7: // Block until sceMcClose is finished
+//             if (sceMcSync(1, NULL, &memcardResult) == sceMcExecRun) {
+//                 return;
+//             }
+//         LAB_00232bac:
+//             memcardCurCmdIdx = 0;
+//             D_00641FE8 = D_00641FE4;
+//             if (D_00642044 != NULL) {
+//                 D_00642044(D_00641FD4);
+//             }
+//     }
+// }
 
 // todo: match without goto
 void memcard_Write(void) {
