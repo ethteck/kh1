@@ -11,6 +11,8 @@ from typing import Dict, List, Set, Union
 import ninja_syntax
 import splat
 import splat.scripts.split as split
+from rabbitizer import TrinaryValue
+from splat.segtypes.common.asm import CommonSegAsm
 from splat.segtypes.linker_entry import LinkerEntry
 
 ROOT = Path(__file__).parent.resolve()
@@ -42,6 +44,18 @@ NO_G_FILES = [
     "xblade.c",
     "gumi.c",
 ]
+
+
+def use_game_assembler_syntax():
+    """Make Splat emit full asm files for the bundled PS2 assembler."""
+    process_insns = CommonSegAsm.process_insns
+
+    def process_game_asm_insns(self, func_spim):
+        process_insns(self, func_spim)
+        for insn in func_spim.instructions:
+            insn.flag_r5900UseDollar = TrinaryValue.FALSE
+
+    CommonSegAsm.process_insns = process_game_asm_insns
 
 
 class Paths:
@@ -171,9 +185,7 @@ def build_stuff(paths: Paths, linker_entries: List[LinkerEntry]):
         "as",
         description="as $in",
         command=(
-            "sed -e 's/\\x24ACC/ACC/g' -e 's/\\x24Q/Q/g' -e 's/\\x24R/R/g' "
-            "-e 's/^jlabel func_/glabel func_/' $in | "
-            f"{GAME_AS_CMD} -Iinclude/ee-as -Iinclude -o $out && "
+            f"{GAME_AS_CMD} -Iinclude/ee-as -Iinclude -o $out $in && "
             f"{CROSS}strip $out -N dummy-symbol-name"
         ),
     )
@@ -313,6 +325,7 @@ if __name__ == "__main__":
 
     extract_rom(paths)
 
+    use_game_assembler_syntax()
     split.main([Path(paths.yaml)], modes="all", verbose=False)
 
     build_stuff(paths, split.linker_writer.entries)
